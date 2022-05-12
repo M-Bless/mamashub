@@ -1,8 +1,10 @@
 package com.intellisoft.kabarakmhis.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.helperclass.UserLogin
@@ -17,6 +19,19 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        tvCreate.setOnClickListener {
+
+            Toast.makeText(this, "Please contact system admin to add you.", Toast.LENGTH_SHORT).show()
+
+        }
+        tvForgetPassword.setOnClickListener {
+
+            val intent = Intent(this, ForgotPassword::class.java)
+            startActivity(intent)
+        }
+
+
 
         btnLogin.setOnClickListener {
 

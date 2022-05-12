@@ -12,3 +12,7 @@ data class UserLogin(
     val emailAddress: String,
     val password: String
 )
+data class UserResetPassword(
+    val emailAddress: String,
+
+    )
