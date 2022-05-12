@@ -7,4 +7,23 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="main_bgColor">#F4F2FF</color>
+    <color name="main_color">#8A5EB5</color>
+    <color name="main_color_dark">#5C3681</color>
+    <color name="text_color">#151EEE</color>
+
+
+    <color name="indigo_500">#3f51b5</color>
+    <color name="indigo_700">#303f9f</color>
+    <color name="pink_A200">#ff4081</color>
+
+
+
+
+    <color name="primary">@color/main_color</color>
+    <color name="primary_dark">@color/main_color_dark</color>
+    <color name="accent">@color/pink_A200</color>
+
+
 </resources>

@@ -1,11 +1,12 @@
-package com.intellisoft.kabarakmhis
+package com.intellisoft.kabarakmhis.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.intellisoft.kabarakmhis.R
 
-class Login : AppCompatActivity() {
+class PasswordReset : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_password_reset)
     }
 }
