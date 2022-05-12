@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KabarakMHIS</string>
+    <string name="base_url">https://devmhis.intellisoftkenya.com/api/</string>
+
 </resources>
