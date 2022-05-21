@@ -112,6 +112,40 @@
                   }
                 ]
               }
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.given",
+                    "name": "childName"
+                  }
+                }
+              ],
+              "linkId": "PR-name-text",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.given",
+              "type": "string",
+              "required": true,
+              "text": "Name of Child",
+              "_text": {
+                "extension": [
+                  {
+                    "extension": [
+                      {
+                        "url": "lang",
+                        "valueCode": "sw"
+                      },
+                      {
+                        "url": "content",
+                        "valueString": "Jina la kwanza"
+                      }
+                    ],
+                    "url": "http://hl7.org/fhir/StructureDefinition/translation"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -148,80 +182,6 @@
               }
             ]
           }
-        },
-        {
-          "linkId": "patient-0-gender",
-          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.gender",
-          "type": "choice",
-          "text": "Gender",
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-              "valueExpression": {
-                "system": "http://hl7.org/fhir/administrative-gender",
-                "language": "text/fhirpath",
-                "expression": "Patient.gender",
-                "name": "patientGender"
-              }
-            },
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "system": "http://hl7.org/fhir/questionnaire-item-control",
-                    "code": "radio-button",
-                    "display": "Radio Button"
-                  }
-                ]
-              }
-            },
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
-              "valueCode": "horizontal"
-            },
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
-              "valueBoolean": true
-            }
-          ],
-          "initial": [
-            {
-              "valueCoding": {
-                "system": "http://hl7.org/fhir/administrative-gender",
-                "code": "female",
-                "display": "Female"
-              }
-            }
-          ],
-          "answerOption": [
-            {
-              "valueCoding": {
-                "system": "http://hl7.org/fhir/administrative-gender",
-                "code": "female",
-                "display": "Female",
-                "designation": [
-                  {
-                    "language": "sw",
-                    "value": "Mwanamke"
-                  }
-                ]
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://hl7.org/fhir/administrative-gender",
-                "code": "male",
-                "display": "Male",
-                "designation": [
-                  {
-                    "language": "sw",
-                    "value": "Mwanaume"
-                  }
-                ]
-              }
-            }
-          ]
         },
         {
           "linkId": "PR-telecom",
@@ -300,7 +260,7 @@
               "linkId": "PR-address-region",
               "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.line",
               "type": "string",
-              "text": "Region",
+              "text": "County",
               "required": true
             },
             {
@@ -334,7 +294,7 @@
               "linkId": "PR-address-district",
               "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.district",
               "type": "string",
-              "text": "District/County",
+              "text": "Sub-county",
               "required": true
             },
             {
@@ -351,7 +311,7 @@
               "linkId": "PR-address-city",
               "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.city",
               "type": "string",
-              "text": "City",
+              "text": "Town",
               "required": true,
               "_text": {
                 "extension": [
@@ -364,40 +324,6 @@
                       {
                         "url": "content",
                         "valueString": "Mji"
-                      }
-                    ],
-                    "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                  }
-                ]
-              }
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-                  "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "Patient.address.country",
-                    "name": "patientCity"
-                  }
-                }
-              ],
-              "linkId": "PR-address-country",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.country",
-              "type": "string",
-              "text": "Country",
-              "required": true,
-              "_text": {
-                "extension": [
-                  {
-                    "extension": [
-                      {
-                        "url": "lang",
-                        "valueCode": "sw"
-                      },
-                      {
-                        "url": "content",
-                        "valueString": "Nchi"
                       }
                     ],
                     "url": "http://hl7.org/fhir/StructureDefinition/translation"

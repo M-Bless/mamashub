@@ -1,0 +1,168 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "ANCA",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+      "valueExpression": {
+        "language": "application/x-fhir-query",
+        "expression": "Patient",
+        "name": "patient"
+      }
+    }
+  ],
+  "url": "http://hl7.org/fhir//Questionnaire/ANCA",
+  "version": "0.3.0",
+  "name": "ANCA",
+  "title": "ANC.A. Registration",
+  "status": "active",
+  "date": "2022-05-19T17:49:24+00:00",
+  "publisher": "Intellisoft Kenya",
+  "item": [
+    {
+      "linkId": "PR-name",
+      "type": "group",
+      "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name",
+      "item": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "Patient.name.given",
+                "name": "patientName"
+              }
+            }
+          ],
+          "linkId": "PR-name-text",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.given",
+          "type": "string",
+          "text": "First Name"
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "Patient.name.family",
+                "name": "patientFamily"
+              }
+            }
+          ],
+          "linkId": "PR-name-family",
+          "definition": "http://hl7.org/fhir/StructureDefinition/datatypes#HumanName.family",
+          "type": "string",
+          "text": "Family Name"
+        }
+      ]
+    },
+    {
+      "linkId": "3",
+      "definition": "http://hl7.org/fhir//StructureDefinition/anc-patient#Patient.name.family",
+      "text": "Name of Child",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "linkId": "1.1.0",
+      "type": "group",
+      "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+      "item": [
+        {
+          "text": "Weight (kg) ",
+          "type": "decimal",
+          "linkId": "1.1.1",
+          "required": true,
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+              "valueDecimal": 0
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueDecimal": 10000
+            }
+          ]
+        },
+        {
+          "text": "Height (cm) ",
+          "type": "decimal",
+          "linkId": "1.1.1",
+          "required": true,
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+              "valueDecimal": 0
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueDecimal": 10000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "1.1.0",
+      "type": "group",
+      "item": [
+        {
+          "text": "Last Menstrual Period",
+          "type": "date",
+          "linkId": "Last-Menstrual-Period",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
+              "valueString": "yyyy-mm-dd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "7",
+      "definition": "http://hl7.org/fhir//StructureDefinition/anc-patient#Patient.telecom.value",
+      "text": "Mobile phone number",
+      "type": "string"
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+          "valueExpression": {
+            "language": "text/fhirpath",
+            "expression": "Patient.birthDate",
+            "name": "patientBirthDate"
+          }
+        }
+      ],
+      "linkId": "patient-0-birth-date",
+      "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.birthDate",
+      "type": "date",
+      "required": true,
+      "text": "Mother Date of birth",
+      "_text": {
+        "extension": [
+          {
+            "extension": [
+              {
+                "url": "lang",
+                "valueCode": "sw"
+              },
+              {
+                "url": "content",
+                "valueString": "Tarehe ya kuzaliwa"
+              }
+            ],
+            "url": "http://hl7.org/fhir/StructureDefinition/translation"
+          }
+        ]
+      }
+    }
+  ]
+}

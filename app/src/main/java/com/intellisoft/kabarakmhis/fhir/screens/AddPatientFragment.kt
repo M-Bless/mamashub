@@ -145,6 +145,7 @@ class AddPatientFragment : Fragment(R.layout.add_patient_fragment) {
 
     private fun updateArguments() {
         requireArguments()
+//            .putString(QUESTIONNAIRE_FILE_PATH_KEY, "patient-registration.json")
             .putString(QUESTIONNAIRE_FILE_PATH_KEY, "new-patient-registration.json")
     }
 
