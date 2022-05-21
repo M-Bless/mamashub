@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reference_nav_graph"
+    app:startDestination="@id/dashboard">
+
+    <fragment
+        android:id="@+id/dashboard"
+        android:name="com.intellisoft.kabarakmhis.fhir.screens.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_patient_list"
+            app:destination="@id/addPatientFragment" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/addPatientFragment"
+        android:name="com.intellisoft.kabarakmhis.fhir.screens.AddPatientFragment"
+        android:label="@string/add_patient"
+        tools:layout="@layout/add_patient_fragment" >
+        <argument
+            android:name="code"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

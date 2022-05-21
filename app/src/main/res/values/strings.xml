@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">KabarakMHIS</string>
     <string name="base_url">https://devmhis.intellisoftkenya.com/api/</string>
+    <string name="action_submit">Submit</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="submit">Submit</string>
+    <string name="add_patient">Add Patient</string>
+    <string name="view"><u>View</u></string>
 
 </resources>

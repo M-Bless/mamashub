@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+
 }
 
 android {
@@ -31,6 +33,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding = true
+    }
+    packagingOptions {
+        resources {
+            pickFirsts += ['META-INF/ASL-2.0.txt', 'META-INF/LGPL-3.0.txt' ]
+        }
+    }
 }
 
 dependencies {
@@ -57,4 +67,18 @@ dependencies {
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+
+    /*FHIR */
+    implementation("com.google.android.fhir:engine:0.1.0-beta01")
+    implementation("com.google.android.fhir:data-capture:0.1.0-beta02")
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
+
 }
