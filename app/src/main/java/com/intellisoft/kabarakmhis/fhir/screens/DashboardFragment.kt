@@ -57,7 +57,7 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
             title = resources.getString(R.string.app_name)
-            setDisplayHomeAsUpEnabled(true)
+//            setDisplayHomeAsUpEnabled(true)
         }
 
         setHasOptionsMenu(true)

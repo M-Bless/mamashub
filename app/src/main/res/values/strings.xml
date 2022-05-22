@@ -6,5 +6,14 @@
     <string name="submit">Submit</string>
     <string name="add_patient">Add Patient</string>
     <string name="view"><u>View</u></string>
+    <string name="title_patient_list">Registered Patients</string>
+    <string-array name="birds">
+        <item>Filter By:</item>
+        <item>Patient Name</item>
+        <item>National Id</item>
+        <item>Phone Number</item>
+        <item>Mother DoB</item>
+    </string-array>
+    <string name="query_hint_patient_search">Find by Patient Name</string>
 
 </resources>

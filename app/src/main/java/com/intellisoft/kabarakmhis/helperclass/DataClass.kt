@@ -27,3 +27,37 @@ data class AuthResponse(
     @SerializedName("_reset_url") val _reset_url: String?,
 
     )
+data class PatientItem(
+    val id: String,
+    val resourceId: String,
+    val name: String,
+    val gender: String,
+    val dob: String,
+    val phone: String,
+    val city: String,
+    val country: String,
+    val isActive: Boolean,
+    val html: String,
+    var risk: String? = "",
+    var riskItem: RiskAssessmentItem? = null,
+    var state: String,
+    var district: String,
+    var region: String
+) {
+    override fun toString(): String = name
+}
+data class RiskAssessmentItem(
+    var riskStatusColor: Int,
+    var riskStatus: String,
+    var lastContacted: String,
+    var patientCardColor: Int
+)
+data class RelatedPersonItem(
+    val id: String,
+    val name: String,
+    val gender: String,
+    val dob: String,
+    var riskItem: RiskAssessmentItem? = null,
+) {
+    override fun toString(): String = name
+}
