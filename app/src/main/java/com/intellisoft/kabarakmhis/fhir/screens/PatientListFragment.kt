@@ -200,6 +200,15 @@ class PatientListFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun onPatientItemClicked(patientItem: PatientItem) {
         if (args.step.isNotEmpty()) {
+
+            Log.e("----- ", args.step)
+
+            findNavController().navigate(
+                PatientListFragmentDirections.navigateToProductDetail(
+                    patientItem.resourceId, "0"
+                )
+            )
+
             when (args.step) {
 //                "0" -> {
 //                    findNavController().navigate(

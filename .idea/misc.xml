@@ -14,8 +14,11 @@
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_patient_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/patient_detail.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/patient_details_card_view.xml" value="0.25769927536231885" />
+        <entry key="app/src/main/res/layout/patient_details_header.xml" value="0.25769927536231885" />
         <entry key="app/src/main/res/layout/patient_list_item_view.xml" value="0.30117753623188404" />
         <entry key="app/src/main/res/layout/patient_list_view.xml" value="0.30117753623188404" />
+        <entry key="app/src/main/res/menu/details_options_menu.xml" value="0.4036458333333333" />
       </map>
     </option>
   </component>

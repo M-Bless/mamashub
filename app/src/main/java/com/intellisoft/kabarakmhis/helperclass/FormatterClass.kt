@@ -1,7 +1,13 @@
 package com.intellisoft.kabarakmhis.helperclass
 
+import android.content.res.Resources
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.intellisoft.kabarakmhis.R
 import java.lang.Double
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
 import java.util.*
 
 class FormatterClass {
@@ -45,6 +51,22 @@ class FormatterClass {
         }
         return true
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getFormattedAge(
+        dob: String,
+        resources: Resources
+    ): String {
+        if (dob.isEmpty()) return ""
+
+        return Period.between(LocalDate.parse(dob), LocalDate.now()).let {
+            when {
+                it.years > 0 -> resources.getQuantityString(R.plurals.ageYear, it.years, it.years)
+                it.months > 0 -> resources.getQuantityString(R.plurals.ageMonth, it.months, it.months)
+                else -> resources.getQuantityString(R.plurals.ageDay, it.days, it.days)
+            }
+        }
     }
 
 }
