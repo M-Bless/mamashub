@@ -21,7 +21,8 @@
     <string name="none">none</string>
     <string name="message_no_datetime">No effective DateTime</string>
     <string name="action_new_born">New Born</string>
-    <string name="action_maternity">Record Maternity</string>
+    <string name="pregnancy_confirmation">Pregnancy Confirmation</string>
+    <string name="action_maternity">Maternity Profile</string>
     <string name="patient_property_mobile">Mobile Number</string>
     <string name="patient_property_id">ID Number</string>
     <string name="patient_property_address">Address</string>
@@ -29,5 +30,8 @@
     <string name="patient_property_gender">Gender</string>
     <string name="header_observation">Observations</string>
     <string name="header_conditions">Conditions</string>
+    <string name="cancel_questionnaire_message">Are you sure you want to discard the answers?</string>
+    <string name="inputs_missing">Inputs are missing.</string>
+    <string name="resources_saved">Record added successfully.</string>
 
 </resources>

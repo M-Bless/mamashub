@@ -43,7 +43,9 @@
         android:name="com.intellisoft.kabarakmhis.fhir.screens.PatientDetailsFragment"
         android:label="Patient Details"
         tools:layout="@layout/patient_detail">
-
+        <action
+            android:id="@+id/action_patient_details_to_screenEncounterFragment"
+            app:destination="@id/screenerEncounterFragment" />
         <argument
             android:name="patient_id"
             app:argType="string" />
@@ -53,6 +55,23 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/screenerEncounterFragment"
+        android:name="com.intellisoft.kabarakmhis.fhir.screens.ScreenerFragment"
+        android:label="Screen Encounter"
+        tools:layout="@layout/screener_encounter_fragment">
+        <argument
+            android:name="patient_id"
+            app:argType="string" />
+        <argument
+            android:name="question"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true" />
+
+    </fragment>
 
 
 

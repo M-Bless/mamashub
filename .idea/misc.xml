@@ -18,7 +18,9 @@
         <entry key="app/src/main/res/layout/patient_details_header.xml" value="0.25769927536231885" />
         <entry key="app/src/main/res/layout/patient_list_item_view.xml" value="0.30117753623188404" />
         <entry key="app/src/main/res/layout/patient_list_view.xml" value="0.30117753623188404" />
+        <entry key="app/src/main/res/layout/screener_encounter_fragment.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/menu/details_options_menu.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/menu/screen_encounter_fragment_menu.xml" value="0.4036458333333333" />
       </map>
     </option>
   </component>

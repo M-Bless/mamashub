@@ -63,32 +63,26 @@
             android:id="@+id/app_registration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/maternity"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:drawableStart="@drawable/ic_baseline_add_24"
-                android:drawablePadding="2dp"
-                android:paddingStart="2dp"
                 android:text="@string/action_maternity"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/screener"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:layout_marginStart="10dp"
                 android:drawableStart="@drawable/ic_baseline_add_24"
-                android:drawablePadding="2dp"
-                android:paddingStart="2dp"
-                android:text="@string/action_new_born"
+                android:text="@string/pregnancy_confirmation"
                 android:textAppearance="?attr/textAppearanceBody2" />
 
         </LinearLayout>

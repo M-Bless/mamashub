@@ -73,21 +73,21 @@ class PatientDetailsFragment : Fragment() {
     }
 
     private fun onAddScreenerClick() {
-//        findNavController()
-//            .navigate(
-//                PatientDetailsFragmentDirections.actionPatientDetailsToScreenEncounterFragment(
-//                    args.patientId,"screener-questionnaire.json","Patient"
-//                )
-//            )
+        findNavController()
+            .navigate(
+                PatientDetailsFragmentDirections.actionPatientDetailsToScreenEncounterFragment(
+                    args.patientId,"pregnancy-confirmation.json","Pregnancy Confirmation"
+                )
+            )
     }
 
     private fun onMaternityClick() {
-//        findNavController()
-//            .navigate(
-//                PatientDetailsFragmentDirections.actionPatientDetailsToScreenEncounterFragment(
-//                    args.patientId,"maternity.json","Maternity Registration"
-//                )
-//            )
+        findNavController()
+            .navigate(
+                PatientDetailsFragmentDirections.actionPatientDetailsToScreenEncounterFragment(
+                    args.patientId,"maternal-information.json","Maternity Registration"
+                )
+            )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
