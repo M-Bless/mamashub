@@ -1,24 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="@color/main_bgColor"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="@dimen/_50dp"
+            android:layout_height="@dimen/_50dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="0dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:text="Hello, "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:text="John Doe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <LinearLayout
-        android:layout_margin="10dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/bac_outline_trans"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:textAllCaps="false"
-            android:id="@+id/btnAddPatient"
-            android:text="Add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/findPatientsCardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="22dp"
+                app:layout_constraintEnd_toStartOf="@+id/cardViewPastPreg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:id="@+id/btnAddPatient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/maternityButton"
+                        android:layout_width="@dimen/dashboard_icon_height_width"
+                        android:layout_height="@dimen/dashboard_icon_height_width"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="@dimen/dashboard_icon_margin"
+                        android:layout_marginTop="@dimen/dashboard_icon_margin"
+                        android:layout_marginEnd="@dimen/dashboard_icon_margin"
+                        android:layout_marginBottom="@dimen/dashboard_icon_margin"
+                        android:contentDescription="@string/dashboard_maternity_icon_label"
+                        android:src="@drawable/ic_action_patients"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:id="@+id/findPatientLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/maternityButton"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dashboard_text_top_margin"
+                        android:layout_marginBottom="@dimen/dashboard_text_bottom_margin"
+                        android:text="@string/dashboard_maternity_icon_label" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewPastPreg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/findPatientsCardView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside">
+
+
+                <RelativeLayout
+                    android:id="@+id/rlt_all_patients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/allPatientsButton"
+                        android:layout_width="@dimen/dashboard_icon_height_width"
+                        android:layout_height="@dimen/dashboard_icon_height_width"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="@dimen/dashboard_icon_margin"
+                        android:layout_marginTop="@dimen/dashboard_icon_margin"
+                        android:layout_marginEnd="@dimen/dashboard_icon_margin"
+                        android:layout_marginBottom="@dimen/dashboard_icon_margin"
+                        android:contentDescription="@string/action_patient_list"
+                        android:src="@drawable/ic_action_history"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/allPatientsButton"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dashboard_text_top_margin"
+                        android:layout_marginBottom="@dimen/dashboard_text_bottom_margin"
+                        android:text="@string/action_patient_list" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
 
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>

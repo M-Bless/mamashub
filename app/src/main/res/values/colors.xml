@@ -18,7 +18,8 @@
     <color name="indigo_700">#303f9f</color>
     <color name="pink_A200">#ff4081</color>
 
-
+    <color name="accent1">#E0E7F6</color>
+    <color name="accent2">#F8F8FA</color>
 
 
     <color name="primary">@color/main_color</color>

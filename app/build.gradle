@@ -81,4 +81,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
 
+    //Circular ImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 }

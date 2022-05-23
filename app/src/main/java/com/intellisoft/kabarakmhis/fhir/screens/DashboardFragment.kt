@@ -4,11 +4,14 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.util.SparseArray
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.databinding.FragmentDashboardBinding
@@ -60,7 +63,7 @@ class DashboardFragment : Fragment() {
 //            setDisplayHomeAsUpEnabled(true)
         }
 
-        setHasOptionsMenu(true)
+//        setHasOptionsMenu(true)
 //        (activity as MainActivity).setDrawerEnabled(true)
 
         binding.btnAddPatient.setOnClickListener {
@@ -111,6 +114,16 @@ class DashboardFragment : Fragment() {
                 )
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

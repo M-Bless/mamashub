@@ -326,7 +326,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                         val child1 = parent.getJSONObject(j)
                         val childChild = child1.getString("linkId")
 
-                        Log.e("----1 ", childChild.toString())
 
                         if (childChild == "kinPhone") {
 

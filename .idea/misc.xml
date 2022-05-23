@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bac_outline_trans.xml" value="0.22" />
         <entry key="app/src/main/res/drawable/bottom_round.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/button_round.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/edit_outline1.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/round_edittext.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/search_round.xml" value="0.3545" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
@@ -12,6 +14,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.22327898550724637" />
         <entry key="app/src/main/res/layout/fragment_patient_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/patient_detail.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/patient_details_card_view.xml" value="0.25769927536231885" />

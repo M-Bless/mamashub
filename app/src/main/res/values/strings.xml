@@ -33,5 +33,7 @@
     <string name="cancel_questionnaire_message">Are you sure you want to discard the answers?</string>
     <string name="inputs_missing">Inputs are missing.</string>
     <string name="resources_saved">Record added successfully.</string>
+    <string name="dashboard_maternity_icon_label">Patients.</string>
+    <string name="action_patient_list">Previous Pregnancy.</string>
 
 </resources>
