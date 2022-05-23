@@ -85,7 +85,8 @@ class PatientDetailsFragment : Fragment() {
         findNavController()
             .navigate(
                 PatientDetailsFragmentDirections.actionPatientDetailsToScreenEncounterFragment(
-                    args.patientId,"maternal-information.json","Maternity Registration"
+                    args.patientId,"human-milk.json","Maternal Profile"
+//                    args.patientId,"maternal-information.json","Maternal Profile"
                 )
             )
     }

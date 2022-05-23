@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.fhir.viewmodels
 
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -311,17 +312,67 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
 
             try {
 
-                Log.e("---- ", questionnaire)
+                val json = JSONObject(questionnaire)
+                val common = json.getJSONArray("item")
+                for (i in 0 until common.length()) {
+
+                    val item = common.getJSONObject(i)
+
+                    val parent = item.getJSONArray("item")
+
+
+                    for (j in 0 until parent.length()) {
+
+                        val child1 = parent.getJSONObject(j)
+                        val childChild = child1.getString("linkId")
+
+                        Log.e("----1 ", childChild.toString())
+
+                        if (childChild == "kinPhone") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Next of Kin Phone Number",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+                        if (childChild == "kinName") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Next of Kin Name",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                    }
+                }
 
                 val subjectReference = Reference("Patient/$patientId")
                 val encounterId = generateUuid()
                 saveResources(bundle, subjectReference, encounterId)
 
+
+
                 isResourcesSaved.value = true
 
             } catch (e: Exception) {
 
-                Log.e("+++++ ", e.toString())
+
 
                 isResourcesSaved.value = false
                 return@launch
@@ -387,6 +438,7 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
 
     private suspend fun saveResourceToDatabase(resource: Resource) {
         fhirEngine.create(resource)
+
     }
 
     private fun getQuestionnaireJson(): String {

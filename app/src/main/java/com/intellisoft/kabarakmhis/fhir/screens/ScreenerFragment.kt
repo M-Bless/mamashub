@@ -35,7 +35,7 @@ class ScreenerFragment : Fragment(R.layout.screener_encounter_fragment) {
         setHasOptionsMenu(true)
         updateArguments()
         onBackPressed()
-//        observeResourcesSaveAction()
+        observeResourcesSaveAction()
         if (savedInstanceState == null) {
             addQuestionnaireFragment()
         }
@@ -64,6 +64,32 @@ class ScreenerFragment : Fragment(R.layout.screener_encounter_fragment) {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun observeResourcesSaveAction() {
+        viewModel.isResourcesSaved.observe(viewLifecycleOwner) {
+            if (!it) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.inputs_missing),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                return@observe
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.resources_saved),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                NavHostFragment.findNavController(this).navigateUp()
+            }
+
+
+        }
+
+    }
+
 
     private fun setUpActionBar() {
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {

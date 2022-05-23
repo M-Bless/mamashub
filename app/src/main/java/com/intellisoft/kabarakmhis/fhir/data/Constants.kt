@@ -7,7 +7,8 @@ object Constants {
 
     const val DEMO_API_SERVER="https://devnndak.intellisoftkenya.com/api/"
     //    const val DEMO_SERVER="https://devnndak.intellisoftkenya.com/fhir/"
-    const val DEMO_SERVER="https://hapi.fhir.org/baseR4/"
+//    const val DEMO_SERVER="https://hapi.fhir.org/baseR4/"
+    const val DEMO_SERVER="https://devhmis.intellisoftkenya.com/fhir/"
     const val WELCOME = "welcome"
     const val LOGIN = "login"
     const val SERVER_URL_DEMO = "server_url_demo"

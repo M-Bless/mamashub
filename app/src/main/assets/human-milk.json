@@ -1,8 +1,8 @@
 {
   "title": "Screener",
   "status": "active",
-  "version": "0.0.1",
-  "publisher": "David Njau (dnjau@intellisoftkenya.com)",
+  "version": "0.0.2",
+  "publisher": "Fred Hersch (fredhersch@google.com)",
   "resourceType": "Questionnaire",
   "subjectType": [
     "Encounter"
@@ -20,8 +20,23 @@
   "item": [
     {
       "text": "Maternal Profile",
-      "linkId": "2.0.0",
+      "linkId": "maternalProfile",
       "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ],
+            "text": "Page"
+          }
+        }
+      ],
       "item": [
         {
           "linkId": "2.1.0",
@@ -210,117 +225,24 @@
           ]
         },
         {
-          "linkId": "2.1.2",
+          "linkId": "1.0.0",
           "type": "group",
-          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
               "valueExpression": {
                 "language": "application/x-fhir-query",
                 "expression": "Observation",
-                "name": "lmpFactors"
+                "name": "scoreTime"
               }
             }
           ],
           "item": [
-            {
-              "linkId": "1.1.0",
-              "type": "group",
-              "item": [
-                {
-                  "text": "Last Menstrual Period",
-                  "type": "date",
-                  "linkId": "Last-Menstrual-Period",
-                  "required": true,
-                  "extension": [
-                    {
-                      "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
-                      "valueString": "yyyy-mm-dd"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "linkId": "2.2.0",
-          "type": "group",
-          "required": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
-              "valueExpression": {
-                "language": "application/x-fhir-query",
-                "expression": "Observation",
-                "name": "travel"
-              }
-            }
-          ],
-          "item": [
-            {
-              "linkId": "maritalStatus",
-              "text": "What is mother's marital status?",
-              "type": "choice",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
-                  "valueCodeableConcept": {
-                    "coding": [
-                      {
-                        "system": "http://hl7.org/fhir/questionnaire-item-control",
-                        "code": "drop-down",
-                        "display": "Drop down"
-                      }
-                    ],
-                    "text": "Drop down"
-                  }
-                }
-              ],
-              "answerOption": [
-                {
-                  "valueCoding": {
-                    "code": "Marital Status",
-                    "display": "Married",
-                    "system": "http://snomed.info/sct"
-                  }
-                },
-                {
-                  "valueCoding": {
-                    "code": "Marital Status",
-                    "display": "Widowed",
-                    "system": "http://snomed.info/sct"
-                  }
-                },
-                {
-                  "valueCoding": {
-                    "code": "Marital Status",
-                    "display": "Separated",
-                    "system": "http://snomed.info/sct"
-                  }
-                },
-                {
-                  "valueCoding": {
-                    "code": "Marital Status",
-                    "display": "Divorced",
-                    "system": "http://snomed.info/sct"
-                  }
-                },
-                {
-                  "valueCoding": {
-                    "code": "Marital Status",
-                    "display": "Single",
-                    "system": "http://snomed.info/sct"
-                  }
-                }
-              ]
-            },
             {
               "linkId": "educationLevel",
-              "text": "What is mother's Education level?",
               "type": "choice",
+              "text": "What is mother's Education level?",
+              "required": true,
               "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
               "extension": [
                 {
@@ -378,91 +300,347 @@
           ]
         },
         {
-          "linkId": "kinName",
+          "linkId": "2.1.2",
           "type": "group",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
               "valueExpression": {
                 "language": "application/x-fhir-query",
                 "expression": "Observation",
-                "name": "nextKin"
+                "name": "lmpFactors"
               }
             }
           ],
           "item": [
             {
-              "linkId": "2.2.0",
+              "linkId": "1.1.0",
               "type": "group",
-              "required": true,
+              "item": [
+                {
+                  "text": "Last Menstrual Period",
+                  "type": "date",
+                  "linkId": "Last-Menstrual-Period",
+                  "required": true,
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
+                      "valueString": "yyyy-mm-dd"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "height",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "riskFactors"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+              "item": [
+                {
+                  "text": "Height",
+                  "type": "decimal",
+                  "linkId": "1.1.1",
+                  "required": true,
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                      "valueDecimal": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                      "valueDecimal": 300
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.2",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "cm"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.3",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "http://unitsofmeasure.org"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
               "extension": [
                 {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
-                  "valueExpression": {
-                    "language": "application/x-fhir-query",
-                    "expression": "Observation",
-                    "name": "nextKin"
-                  }
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
                 }
               ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "Height",
+                    "display": "Height",
+                    "system": "http://loinc.org"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "weight",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "riskFactors"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+              "item": [
+                {
+                  "text": "Weight (kgs)",
+                  "type": "decimal",
+                  "linkId": "1.1.1",
+                  "required": true,
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                      "valueDecimal": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                      "valueDecimal": 300
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.2",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "kgs"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.3",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "http://unitsofmeasure.org"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "Weight",
+                    "display": "Weight",
+                    "system": "http://loinc.org"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Next of Kin Information",
+      "linkId": "kinInformation",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ],
+            "text": "Page"
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "scoreTime"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "kinPhone",
+          "type": "string",
+          "text": "Next of Kin Phone",
+          "required": true
+        },
+        {
+          "linkId": "kinName",
+          "type": "string",
+          "text": "Next of Kin Name",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "Observation",
+                "name": "recipientLocation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "kinRelationship",
+          "type": "group",
+          "item": [
+            {
+              "linkId": "kinRelationship",
+              "type": "group",
               "item": [
                 {
                   "linkId": "kinRelationship",
-                  "text": "Next of Kin relationship",
                   "type": "choice",
+                  "text": "Next of Kin relationship?",
+                  "required": true,
                   "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
                   "extension": [
                     {
-                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
-                      "valueCodeableConcept": {
-                        "coding": [
-                          {
-                            "system": "http://hl7.org/fhir/questionnaire-item-control",
-                            "code": "drop-down",
-                            "display": "Drop down"
-                          }
-                        ],
-                        "text": "Drop down"
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "adjustFeeds"
                       }
                     }
                   ],
                   "answerOption": [
                     {
                       "valueCoding": {
-                        "code": "Kin Relationship",
+                        "code": "Next of Kin Relationship",
                         "display": "Spouse",
                         "system": "http://snomed.info/sct"
                       }
                     },
                     {
                       "valueCoding": {
-                        "code": "Kin Relationship",
-                        "display": "Child(B)",
+                        "code": "Next of Kin Relationship",
+                        "display": "Child (B)",
                         "system": "http://snomed.info/sct"
                       }
                     },
                     {
                       "valueCoding": {
-                        "code": "Kin Relationship",
-                        "display": "Child(R)",
+                        "code": "Next of Kin Relationship",
+                        "display": "Child (R)",
                         "system": "http://snomed.info/sct"
                       }
                     },
                     {
                       "valueCoding": {
-                        "code": "Kin Relationship",
+                        "code": "Next of Kin Relationship",
                         "display": "Parent",
                         "system": "http://snomed.info/sct"
                       }
                     },
                     {
                       "valueCoding": {
-                        "code": "Kin Relationship",
+                        "code": "Next of Kin Relationship",
                         "display": "Relatives",
+                        "system": "http://snomed.info/sct"
+                      }
+                    },
+                    {
+                      "valueCoding": {
+                        "code": "Next of Kin Relationship",
+                        "display": "Next of Kin's Phone",
                         "system": "http://snomed.info/sct"
                       }
                     }
                   ]
+
                 }
               ]
             }
