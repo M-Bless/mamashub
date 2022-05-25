@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">KabarakMHIS</string>
-    <string name="base_url">https://devmhis.intellisoftkenya.com/api/</string>
+    <string name="base_url">https://devmhis.netlify.app/</string>
     <string name="action_submit">Submit</string>
     <string name="action_cancel">Cancel</string>
     <string name="submit">Submit</string>
@@ -35,5 +35,6 @@
     <string name="resources_saved">Record added successfully.</string>
     <string name="dashboard_maternity_icon_label">Patients.</string>
     <string name="action_patient_list">Previous Pregnancy.</string>
+    <string name="physical_exam">Physical Examination.</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.helperclass
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -168,6 +169,29 @@ class FormatterClass {
                 else -> resources.getQuantityString(R.plurals.ageDay, it.days, it.days)
             }
         }
+    }
+
+    fun saveSharedPreference(
+        context: Context,
+        sharedKey: String,
+        sharedValue: String){
+
+        val appName = context.getString(R.string.app_name)
+        val sharedPreferences = context.getSharedPreferences(appName, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(sharedKey, sharedValue)
+        editor.apply()
+    }
+
+    fun retrieveSharedPreference(
+        context: Context,
+        sharedKey: String): String? {
+
+        val appName = context.getString(R.string.app_name)
+
+        val sharedPreferences = context.getSharedPreferences(appName, Context.MODE_PRIVATE)
+        return sharedPreferences.getString(sharedKey, null)
+
     }
 
 }

@@ -69,9 +69,9 @@ class DashboardFragment : Fragment() {
         binding.btnAddPatient.setOnClickListener {
             proceedNext("0")
         }
-//        binding.rltAssessment.setOnClickListener {
-//            proceedNext("1")
-//        }
+        binding.previousPregnancy.setOnClickListener {
+            proceedNext("1")
+        }
 //        binding.rltNewBorn.setOnClickListener {
 //            proceedNext("2")
 //        }

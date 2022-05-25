@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 interface Interface {
 
-    @POST("api/v1/auth/login")
-    fun loginUser(@Body user: UserLogin): Call<SuccessLogin>
+    @POST("auth/login/")
+    fun loginUser(@Body user: UserLogin): Call<AuthResponse>
 
 }

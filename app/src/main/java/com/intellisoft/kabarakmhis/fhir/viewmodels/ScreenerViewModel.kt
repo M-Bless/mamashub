@@ -314,12 +314,12 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
 
                 val json = JSONObject(questionnaire)
                 val common = json.getJSONArray("item")
+
                 for (i in 0 until common.length()) {
 
                     val item = common.getJSONObject(i)
 
                     val parent = item.getJSONArray("item")
-
 
                     for (j in 0 until parent.length()) {
 
@@ -357,6 +357,168 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
+
+                        if (childChild == "urine") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Urine",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "muac") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "MUAC (cm)",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "bp") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Bp",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "hb") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Hb",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "pallor") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Pallor",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "gestation") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Gestation in Weeks",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "fundalHeight") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Fundal Height",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "presentation") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Presentation",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        if (childChild == "lie") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Lie",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+                        if (childChild == "foetalHeartRate") {
+
+                            val childAnswer = child1.getJSONArray("answer")
+                            val value = childAnswer.getJSONObject(0).getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Foetal Heart Rate",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+                        Log.e("------2 ", parent.toString())
+
 
                     }
                 }

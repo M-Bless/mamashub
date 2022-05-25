@@ -10,7 +10,7 @@ data class SuccessLogin(
     val details: String
 )
 data class UserLogin(
-    val emailAddress: String,
+    val email: String,
     val password: String
 )
 data class UserResetPassword(
@@ -18,14 +18,11 @@ data class UserResetPassword(
 
     )
 data class AuthResponse(
-    @SerializedName("status") val status: String?,
-    @SerializedName("token") val token: String?,
-    @SerializedName("issued") val issued: String?,
-    @SerializedName("expires") val expires: String?,
-    @SerializedName("message") val message: String?,
-    @SerializedName("newUser") val newUser: Boolean?,
-    @SerializedName("_reset_url") val _reset_url: String?,
-
+    @SerializedName("status") val status: String,
+    @SerializedName("token") val token: String,
+    @SerializedName("issued") val issued: String,
+    @SerializedName("expires") val expires: String,
+    @SerializedName("newUser") val newUser: Boolean
     )
 data class PatientItem(
     val id: String,

@@ -13,7 +13,9 @@ import com.intellisoft.kabarakmhis.network_request.interfaces.Interface
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.intellisoft.kabarakmhis.MainActivity
-import com.intellisoft.kabarakmhis.helperclass.SuccessLogin
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.helperclass.AuthResponse
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.helperclass.UrlData
 import com.intellisoft.kabarakmhis.helperclass.UserLogin
 import kotlinx.coroutines.CoroutineScope
@@ -58,31 +60,37 @@ class RetrofitCallsAuthentication {
             val job = Job()
             CoroutineScope(Dispatchers.IO + job).launch {
 
+                var formatter = FormatterClass()
 
                 val baseUrl = context.getString(UrlData.BASE_URL.message)
 
                 val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
                 val apiInterface = apiService.loginUser(userLogin)
-                apiInterface.enqueue(object : Callback<SuccessLogin> {
+                apiInterface.enqueue(object : Callback<AuthResponse> {
                     override fun onResponse(
-                        call: Call<SuccessLogin>,
-                        response: Response<SuccessLogin>
+                        call: Call<AuthResponse>,
+                        response: Response<AuthResponse>
                     ) {
 
                         CoroutineScope(Dispatchers.Main).launch { progressDialog.dismiss() }
 
                         if (response.isSuccessful) {
                             messageToast = "User details verified successfully."
-//                            val details = response.body()?.details
-//                            val otpcode = response.body()?.otpcode
-//                            val expiry_time = response.body()?.expiry_time
+
+                            val responseData = response.body()
+
+                            if (responseData != null){
+
+                                val token = responseData.token
+                                val expires = responseData.expires
+
+                                formatter.saveSharedPreference(context, "token", token)
+                                formatter.saveSharedPreference(context, "expires", expires)
 
 
-//                            if (expiry_time != null) {
-//                                Formatter().addToSharedPreference(userLogin.username,
-//                                    userLogin.password, otpcode, expiry_time, context)
-//                            }
+                            }
 
+                            FhirApplication.setLoggedIn(context, true)
 
                             val intent = Intent(context, MainActivity::class.java)
                             context.startActivity(intent)
@@ -133,7 +141,7 @@ class RetrofitCallsAuthentication {
 
                     }
 
-                    override fun onFailure(call: Call<SuccessLogin>, t: Throwable) {
+                    override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
                         Log.e("-*-*error ", t.localizedMessage)
                         messageToast = "There is something wrong. Please try again"
                         CoroutineScope(Dispatchers.Main).launch {

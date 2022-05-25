@@ -25,11 +25,9 @@
             android:id="@+id/navigate_to_product_detail"
             app:destination="@id/patient_details" />
 
-
         <action
             android:id="@+id/action_patient_list_to_addPatientFragment"
             app:destination="@id/addPatientFragment" />
-
 
         <argument
             android:name="step"
@@ -37,6 +35,8 @@
 
 
     </fragment>
+
+
 
     <fragment
         android:id="@+id/patient_details"

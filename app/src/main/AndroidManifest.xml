@@ -15,31 +15,34 @@
         android:theme="@style/Theme.KabarakMHIS">
         <activity
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:name=".auth.MyProfile"
+            android:name=".Splash"
             android:exported="true" >
-
-        </activity>
-        <activity
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:name=".auth.PasswordReset"
-            android:exported="false" />
-        <activity
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:name=".auth.ForgotPassword"
-            android:exported="false" />
-        <activity
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:name=".auth.Login"
-            android:exported="true" >
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".auth.MyProfile"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".auth.PasswordReset"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".auth.ForgotPassword"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".auth.Login"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false">
+
         </activity>
     </application>
 
