@@ -88,3 +88,25 @@ enum class ViewTypes {
     }
 
 }
+data class Steps(
+    val fistIn: String?,
+    val lastIn: String?,
+    val secondButton: Boolean?
+)
+enum class ViewType {
+    HEADER,
+    PATIENT,
+    CHILD,
+    PATIENT_PROPERTY,
+    RELATION,
+    OBSERVATION,
+    ENCOUNTER,
+    CONDITION;
+
+    companion object {
+        fun from(ordinal: Int): ViewType {
+            return values()[ordinal]
+        }
+    }
+
+}

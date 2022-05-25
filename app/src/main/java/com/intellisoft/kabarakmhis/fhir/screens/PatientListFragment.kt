@@ -203,20 +203,20 @@ class PatientListFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
             Log.e("----- ", args.step)
 
-            findNavController().navigate(
-                PatientListFragmentDirections.navigateToProductDetail(
-                    patientItem.resourceId, "0"
-                )
-            )
+//            findNavController().navigate(
+//                PatientListFragmentDirections.navigateToProductDetail(
+//                    patientItem.resourceId, "0"
+//                )
+//            )
 
             when (args.step) {
-//                "0" -> {
-//                    findNavController().navigate(
-//                        PatientListFragmentDirections.navigateToMaternity(
-//                            patientItem.resourceId, "0"
-//                        )
-//                    )
-//                }
+                "0" -> {
+                    findNavController().navigate(
+                        PatientListFragmentDirections.navigateToProductDetail(
+                            patientItem.resourceId, "0"
+                        )
+                    )
+                }
 //                "1" -> {
 //                    findNavController().navigate(
 //                        PatientListFragmentDirections.navigateToAssessment(
@@ -225,13 +225,15 @@ class PatientListFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //                    )
 //
 //                }
-//                "2" -> {
-//
-//                    findNavController().navigate(
-//                        PatientListFragmentDirections.navigateToNewborn(patientItem.resourceId, "1")
-//                    )
-//
-//                }
+                "2" -> {
+
+                    findNavController().navigate(
+                        PatientListFragmentDirections.navigateToDhm(
+                            patientItem.resourceId, "4"
+                        )
+                    )
+
+                }
 //                "3" -> {
 //
 //                    findNavController().navigate(
@@ -249,7 +251,7 @@ class PatientListFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //                        )
 //                    )
 //                }
-//                "5" -> {
+//                "2" -> {
 //
 //                    findNavController().navigate(
 //                        PatientListFragmentDirections.navigateToDhm(

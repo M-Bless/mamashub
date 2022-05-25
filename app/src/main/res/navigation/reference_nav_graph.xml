@@ -33,10 +33,11 @@
             android:name="step"
             app:argType="string" />
 
+        <action
+            android:id="@+id/navigate_to_dhm"
+            app:destination="@id/milkFragment" />
 
     </fragment>
-
-
 
     <fragment
         android:id="@+id/patient_details"
@@ -73,12 +74,27 @@
 
     </fragment>
 
-
-
     <fragment
         android:id="@+id/addPatientFragment"
         android:name="com.intellisoft.kabarakmhis.fhir.screens.AddPatientFragment"
         android:label="@string/add_patient"
         tools:layout="@layout/add_patient_fragment" />
+
+    <fragment
+        android:id="@+id/milkFragment"
+        android:name="com.intellisoft.kabarakmhis.fhir.screens.PhysicalExamFragment"
+        android:label="fragment_milk"
+        tools:layout="@layout/fragment_physical_examination">
+        <action
+            android:id="@+id/navigate_to_screening"
+            app:destination="@id/screenerEncounterFragment" />
+        <argument
+            android:name="patient_id"
+            app:argType="string" />
+        <argument
+            android:name="code"
+            app:argType="string" />
+
+    </fragment>
 
 </navigation>

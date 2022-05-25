@@ -726,11 +726,7 @@ data class PatientDetailHeader(
     override val lastInGroup: Boolean = false
 ) : PatientDetailData
 
-data class PatientDetailProperty(
-    val patientProperty: PatientProperty,
-    override val firstInGroup: Boolean = false,
-    override val lastInGroup: Boolean = false
-) : PatientDetailData
+
 
 data class PatientDetailOverview(
     val patient: PatientItem,
@@ -755,6 +751,12 @@ data class PatientDetailRelation(
 
 data class PatientDetailObservation(
     val observation: ObservationItem,
+    override val firstInGroup: Boolean = false,
+    override val lastInGroup: Boolean = false
+) : PatientDetailData
+
+data class PatientDetailProperty(
+    val patientProperty: PatientProperty,
     override val firstInGroup: Boolean = false,
     override val lastInGroup: Boolean = false
 ) : PatientDetailData

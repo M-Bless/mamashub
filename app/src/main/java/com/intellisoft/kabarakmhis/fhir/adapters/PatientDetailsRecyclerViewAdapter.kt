@@ -147,7 +147,6 @@ class PatientDetailsHeaderItemViewHolder(private val binding: PatientDetailsCard
     }
 }
 
-
 class PatientDetailsObservationItemViewHolder(private val binding: PatientListItemViewBinding) :
     PatientDetailItemViewHolder(binding.root) {
     override fun bind(data: PatientDetailData) {

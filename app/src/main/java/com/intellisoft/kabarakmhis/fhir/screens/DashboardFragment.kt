@@ -72,9 +72,9 @@ class DashboardFragment : Fragment() {
         binding.previousPregnancy.setOnClickListener {
             proceedNext("1")
         }
-//        binding.rltNewBorn.setOnClickListener {
-//            proceedNext("2")
-//        }
+        binding.relativeLyt.setOnClickListener {
+            proceedNext("2")
+        }
 //        binding.rltPostNatal.setOnClickListener {
 //            proceedNext("3")
 //        }

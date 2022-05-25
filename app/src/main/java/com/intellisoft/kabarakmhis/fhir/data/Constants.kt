@@ -18,6 +18,7 @@ object Constants {
     const val USER_ACCOUNT = "user_account"
     const val STROKE_WIDTH = 2f
     const val CORNER_RADIUS = 10f
+    const val MILK_CONSENT_FORM = "11"
 
 
     @ColorInt
