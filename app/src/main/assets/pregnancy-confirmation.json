@@ -65,14 +65,14 @@
               "answerOption": [
                 {
                   "valueCoding": {
-                    "code": "Pregnancy Confirmation,",
+                    "code": "169560008",
                     "display": "Yes",
                     "system": "http://snomed.info/sct"
                   }
                 },
                 {
                   "valueCoding": {
-                    "code": "Pregnancy Confirmation",
+                    "code": "167254001",
                     "display": "No",
                     "system": "http://snomed.info/sct"
                   }
