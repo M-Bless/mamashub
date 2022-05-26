@@ -57,7 +57,9 @@
         <argument
             android:name="code"
             app:argType="string" />
-
+        <action
+            android:id="@+id/navigate_to_observations"
+            app:destination="@id/observationsFragment" />
     </fragment>
 
     <fragment
@@ -116,6 +118,19 @@
             android:name="code"
             app:argType="string" />
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/observationsFragment"
+        android:name="com.intellisoft.kabarakmhis.fhir.screens.ObservationsFragment"
+        android:label="fragment_observations"
+        tools:layout="@layout/fragment_observations">
+        <argument
+            android:name="patient_id"
+            app:argType="string" />
+        <argument
+            android:name="encounter_id"
+            app:argType="string" />
     </fragment>
 
 </navigation>

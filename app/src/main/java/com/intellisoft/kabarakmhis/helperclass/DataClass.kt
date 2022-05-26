@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.helperclass
 
 import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailData
 
 enum class UrlData(var message: Int) {
     BASE_URL(R.string.base_url)
@@ -78,6 +79,7 @@ enum class ViewTypes {
     HEADER,
     PATIENT,
     PATIENT_PROPERTY,
+    ENCOUNTER,
     OBSERVATION,
     CONDITION;
 
@@ -87,6 +89,14 @@ enum class ViewTypes {
         }
     }
 
+}
+data class EncounterItem(
+    val id: String,
+    val code: String,
+    val effective: String,
+    val value: String
+) {
+    override fun toString(): String = code
 }
 data class Steps(
     val fistIn: String?,
@@ -105,6 +115,26 @@ enum class ViewType {
 
     companion object {
         fun from(ordinal: Int): ViewType {
+            return values()[ordinal]
+        }
+    }
+
+}
+/**
+ * Encounter
+ */
+data class PatientDetailEncounter(
+    val encounter: EncounterItem,
+    override val firstInGroup: Boolean = false,
+    override val lastInGroup: Boolean = false
+) : PatientDetailData
+
+enum class ObservationViewTypes {
+    OBSERVATION,
+    CONDITION;
+
+    companion object {
+        fun from(ordinal: Int): ObservationViewTypes {
             return values()[ordinal]
         }
     }

@@ -143,7 +143,7 @@ class MaternityDetails(
         val model = getItem(position)
         holder.bind(model)
         if (holder is PatientDetailsHeaderItemViewHolder) return
-//        if (holder is PatientDetailsEncounterItemViewHolder) return
+        if (holder is PatientDetailsEncounterItemViewHolder) return
 
         holder.itemView.background =
             if (model.firstInGroup && model.lastInGroup) {
@@ -170,7 +170,7 @@ class MaternityDetails(
             is PatientDetailRelation -> ViewType.RELATION
             is PatientDetailObservation -> ViewType.OBSERVATION
             is PatientDetailCondition -> ViewType.CONDITION
-//            is PatientDetailEncounter -> ViewType.ENCOUNTER
+            is PatientDetailEncounter -> ViewType.ENCOUNTER
             else -> {
                 throw IllegalArgumentException("Undefined Item type")
             }

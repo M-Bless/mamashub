@@ -82,7 +82,7 @@ class DashboardFragment : Fragment() {
             proceedNext("1")
         }
         binding.relativeLyt.setOnClickListener {
-            proceedNext("2")
+//            proceedNext("2")
         }
 //        binding.rltPostNatal.setOnClickListener {
 //            proceedNext("3")

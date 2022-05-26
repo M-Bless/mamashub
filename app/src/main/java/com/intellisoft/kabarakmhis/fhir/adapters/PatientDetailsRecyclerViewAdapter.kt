@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.intellisoft.kabarakmhis.databinding.EncounterListItemViewBinding
 import com.intellisoft.kabarakmhis.databinding.PatientDetailsCardViewBinding
 import com.intellisoft.kabarakmhis.databinding.PatientDetailsHeaderBinding
 import com.intellisoft.kabarakmhis.databinding.PatientListItemViewBinding
@@ -16,7 +17,8 @@ import com.intellisoft.kabarakmhis.helperclass.*
 
 class PatientDetailsRecyclerViewAdapter(
     private val onScreenerClick: () -> Unit,
-    private val onMaternityClick: () -> Unit
+    private val onMaternityClick: () -> Unit,
+    private val encounterClick: (EncounterItem) -> Unit
 ) :
 
     ListAdapter<PatientDetailData, PatientDetailItemViewHolder>(PatientDetailDiffUtil()) {
@@ -48,7 +50,14 @@ class PatientDetailsRecyclerViewAdapter(
                         false
                     )
                 )
-
+            ViewTypes.ENCOUNTER ->
+                PatientDetailsEncounterItemViewHolder(
+                    EncounterListItemViewBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    ), encounterClick
+                )
             ViewTypes.OBSERVATION ->
                 PatientDetailsObservationItemViewHolder(
                     PatientListItemViewBinding.inflate(
@@ -162,6 +171,22 @@ class PatientDetailsObservationItemViewHolder(private val binding: PatientListIt
 //        binding.status.visibility = View.GONE
         binding.id.visibility = View.GONE
         binding.tvView.visibility = View.INVISIBLE
+    }
+}
+
+class PatientDetailsEncounterItemViewHolder(
+    private val binding: EncounterListItemViewBinding,
+    private val encounterClick: (EncounterItem) -> Unit
+) :
+    PatientDetailItemViewHolder(binding.root) {
+    override fun bind(data: PatientDetailData) {
+        (data as PatientDetailEncounter).let {
+            binding.tvReference.text = it.encounter.id.substring(0, 8)
+            binding.tvName.text = it.encounter.code
+            // binding.tvDate.text = it.encounter.value
+
+            binding.root.setOnClickListener { encounterClick(data.encounter) }
+        }
     }
 }
 

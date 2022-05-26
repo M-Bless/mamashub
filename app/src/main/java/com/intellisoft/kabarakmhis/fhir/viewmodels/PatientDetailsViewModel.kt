@@ -46,8 +46,9 @@ class PatientDetailsViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getMaternityDetailData(code: String) {
-//        viewModelScope.launch { livePatientData.value = getMaternityDetailDataModel(context, code) }
+        viewModelScope.launch { livePatientData.value = getMaternityDetailDataModel(context, code) }
     }
 
     /***
@@ -243,6 +244,7 @@ class PatientDetailsViewModel(
     }
 
 
+
     /***
      * Load Child Details
      * ***/
@@ -293,6 +295,147 @@ class PatientDetailsViewModel(
 //
 //        return data
 //    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private suspend fun getMaternityDetailDataModel(
+        context: Application,
+        code: String
+    ): List<PatientDetailData> {
+        val data = mutableListOf<PatientDetailData>()
+        val patient = getPatient()
+//        patient.riskItem = getPatientRiskAssessment()
+
+        val encounters = getPatientEncounters()
+        val relation = getPatientRelatedPersons()
+        val observations = getPatientObservations(context, code)
+        val conditions = getPatientConditions()
+
+        patient.let {
+            data.add(PatientDetailOverview(it, firstInGroup = true))
+            data.add(
+                PatientDetailProperty(
+                    PatientProperty(getString(R.string.patient_property_mobile), it.phone)
+                )
+            )
+            data.add(
+                PatientDetailProperty(
+                    PatientProperty(getString(R.string.patient_property_id), it.resourceId)
+                )
+            )
+            data.add(
+                PatientDetailProperty(
+                    PatientProperty(
+                        getString(R.string.patient_property_address),
+                        "${it.region},${it.district},${it.city}, ${it.country} "
+                    )
+                )
+            )
+            data.add(
+                PatientDetailProperty(
+                    PatientProperty(
+                        getString(R.string.patient_property_dob),
+                        it.dob
+                    )
+                )
+            )
+            data.add(
+                PatientDetailProperty(
+                    PatientProperty(
+                        getString(R.string.patient_property_gender),
+                        it.gender.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+
+                    ), lastInGroup = true
+                )
+            )
+
+        }
+        if (relation.isNotEmpty()) {
+
+            data.add(PatientDetailHeader(getString(R.string.header_relation)))
+            val relationDataModel =
+                relation.mapIndexed { index, relationItem ->
+
+                    PatientDetailRelation(
+                        relationItem,
+                        firstInGroup = index == 0,
+                        lastInGroup = index == relation.size - 1
+                    )
+
+                }
+
+            data.addAll(relationDataModel)
+        }
+        if (encounters.isNotEmpty()) {
+            data.add(PatientDetailHeader(getString(R.string.header_encounters)))
+
+            val observationDataModel =
+                encounters.mapIndexed { index, encounterItem ->
+
+                    PatientDetailEncounter(
+                        encounterItem,
+                        firstInGroup = index == 0,
+                        lastInGroup = index == encounters.size - 1
+                    )
+
+                }
+
+            data.addAll(observationDataModel)
+        }
+        /*      if (observations.isNotEmpty()) {
+
+                  data.add(PatientDetailHeader(getString(R.string.header_encounters)))
+
+
+                  val observationDataModel =
+                      observations.mapIndexed { index, observationItem ->
+
+                          PatientDetailObservation(
+                              observationItem,
+                              firstInGroup = index == 0,
+                              lastInGroup = index == observations.size - 1
+                          )
+
+                      }
+
+                  data.addAll(observationDataModel)
+
+              }
+
+              if (conditions.isNotEmpty()) {
+                  data.add(PatientDetailHeader(getString(R.string.header_conditions)))
+                  val conditionDataModel =
+                      conditions.mapIndexed { index, conditionItem ->
+                          PatientDetailCondition(
+                              conditionItem,
+                              firstInGroup = index == 0,
+                              lastInGroup = index == conditions.size - 1
+                          )
+                      }
+                  data.addAll(conditionDataModel)
+              }
+      */
+        return data
+    }
+
+    private suspend fun getPatientEncounters(): List<EncounterItem> {
+        val relations: MutableList<EncounterItem> = mutableListOf()
+
+        fhirEngine
+            .search<Encounter> {
+                filter(
+                    Encounter.SUBJECT, { value = "Patient/$patientId" }
+
+                )
+
+                sort(Encounter.DATE, Order.DESCENDING)
+            }
+            .take(MAX_RESOURCE_COUNT)
+            .map { createEncounterItem(it, getApplication<Application>().resources) }
+            .let { relations.addAll(it) }
+
+
+        return relations
+    }
 
 //    private suspend fun getMaternityDetailDataModel(
 //        context: Application,
@@ -635,7 +778,7 @@ class PatientDetailsViewModel(
         /**
          * Creates ObservationItem objects with displayable values from the Fhir Observation objects.
          */
-        private fun createObservationItem(
+        fun createObservationItem(
             observation: Observation,
             resources: Resources
         ): ObservationItem {
@@ -683,7 +826,7 @@ class PatientDetailsViewModel(
         }
 
         /** Creates ConditionItem objects with displayable values from the Fhir Condition objects. */
-        private fun createConditionItem(
+        fun createConditionItem(
             condition: Condition,
             resources: Resources
         ): ConditionItem {
@@ -710,6 +853,27 @@ class PatientDetailsViewModel(
                 value
             )
         }
+
+        private fun createEncounterItem(
+            encounter: Encounter,
+            resources: Resources
+        ): EncounterItem {
+
+            val encounterCode = encounter.reasonCodeFirstRep.text ?: ""
+            val value = if (encounter.meta.hasLastUpdated()) {
+                encounter.meta.lastUpdatedElement.value.toString()
+            } else {
+                ""
+            }
+            return EncounterItem(
+                encounter.logicalId,
+                encounterCode,
+                encounter.logicalId,
+                value
+
+            )
+        }
+
 
 
     }
@@ -784,6 +948,7 @@ class PatientDetailsViewModelFactory(
 
 
 }
+
 
 
 /***

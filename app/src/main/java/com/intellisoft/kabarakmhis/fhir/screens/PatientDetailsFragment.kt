@@ -22,6 +22,7 @@ import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.adapters.PatientDetailsRecyclerViewAdapter
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModelFactory
+import com.intellisoft.kabarakmhis.helperclass.EncounterItem
 
 
 class PatientDetailsFragment : Fragment() {
@@ -61,7 +62,7 @@ class PatientDetailsFragment : Fragment() {
                 )
             )
                 .get(PatientDetailsViewModel::class.java)
-        val adapter = PatientDetailsRecyclerViewAdapter(::onAddScreenerClick, ::onMaternityClick)
+        val adapter = PatientDetailsRecyclerViewAdapter(::onAddScreenerClick, ::onMaternityClick, ::encounterClick)
         binding.recycler.adapter = adapter
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
             title = "Patient Card"
@@ -70,6 +71,14 @@ class PatientDetailsFragment : Fragment() {
         patientDetailsViewModel.livePatientData.observe(viewLifecycleOwner) { adapter.submitList(it) }
         patientDetailsViewModel.getPatientDetailData(true, args.code)
 
+    }
+    private fun encounterClick(encounter: EncounterItem) {
+        findNavController().navigate(
+            PatientDetailsFragmentDirections.navigateToObservations(
+                args.patientId,
+                encounter.id
+            )
+        )
     }
 
     private fun onAddScreenerClick() {
