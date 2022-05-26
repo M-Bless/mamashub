@@ -418,7 +418,7 @@
               "initial": [
                 {
                   "valueCoding": {
-                    "code": "Height",
+                    "code": "8302-2",
                     "display": "Height",
                     "system": "http://loinc.org"
                   }
@@ -511,7 +511,7 @@
               "initial": [
                 {
                   "valueCoding": {
-                    "code": "Weight",
+                    "code": "29463-7",
                     "display": "Weight",
                     "system": "http://loinc.org"
                   }
