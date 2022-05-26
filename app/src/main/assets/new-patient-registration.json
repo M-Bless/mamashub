@@ -112,40 +112,6 @@
                   }
                 ]
               }
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-                  "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "Patient.name.given",
-                    "name": "childName"
-                  }
-                }
-              ],
-              "linkId": "PR-name-text",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.given",
-              "type": "string",
-              "required": true,
-              "text": "Name of Child",
-              "_text": {
-                "extension": [
-                  {
-                    "extension": [
-                      {
-                        "url": "lang",
-                        "valueCode": "sw"
-                      },
-                      {
-                        "url": "content",
-                        "valueString": "Jina la kwanza"
-                      }
-                    ],
-                    "url": "http://hl7.org/fhir/StructureDefinition/translation"
-                  }
-                ]
-              }
             }
           ]
         },
@@ -269,23 +235,6 @@
                   "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
                   "valueExpression": {
                     "language": "text/fhirpath",
-                    "expression": "Patient.address.text",
-                    "name": "patientStreet"
-                  }
-                }
-              ],
-              "linkId": "PR-address-district",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.text",
-              "type": "string",
-              "text": "Street",
-              "required": true
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-                  "valueExpression": {
-                    "language": "text/fhirpath",
                     "expression": "Patient.address.district",
                     "name": "patientDistrict"
                   }
@@ -297,6 +246,24 @@
               "text": "Sub-county",
               "required": true
             },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.address.text",
+                    "name": "patientWard"
+                  }
+                }
+              ],
+              "linkId": "PR-address-district",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.text",
+              "type": "string",
+              "text": "Ward",
+              "required": true
+            },
+
             {
               "extension": [
                 {
@@ -353,7 +320,7 @@
               "required": true,
               "initial": [
                 {
-                  "valueString": "Kabarak Maternity Hospital"
+                  "valueString": "Kabarak Hospital"
                 }
               ]
             }

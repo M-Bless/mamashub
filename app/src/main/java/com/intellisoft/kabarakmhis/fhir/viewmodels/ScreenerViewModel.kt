@@ -357,7 +357,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "urine") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -373,7 +372,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "muac") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -389,7 +387,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "bp") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -405,7 +402,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "hb") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -421,7 +417,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "pallor") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -437,7 +432,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "gestation") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -453,7 +447,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "fundalHeight") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -469,7 +462,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "presentation") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -485,7 +477,6 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 )
                                 .request.url = "Observation"
                         }
-
                         if (childChild == "lie") {
 
                             val childAnswer = child1.getJSONArray("answer")
@@ -517,7 +508,101 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
                                 .request.url = "Observation"
                         }
 
-                        Log.e("------2 ", parent.toString())
+                        if (childChild == "yesDrugAllergy") {
+
+                            val childAnswer = child1.getJSONArray("item")
+                            val value = childAnswer.getJSONObject(0)
+                                .getJSONArray("item").getJSONObject(0)
+                                .getJSONArray("answer").getJSONObject(0)
+                                .getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Drug Allergy",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+                        if (childChild == "otherAllergy") {
+
+                            val childAnswer = child1.getJSONArray("item")
+                            val value = childAnswer.getJSONObject(0)
+                                .getJSONArray("item").getJSONObject(0)
+                                .getJSONArray("answer").getJSONObject(0)
+                                .getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Allergy Details",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+                        if (childChild == "bloodTransfusion") {
+
+                            val childAnswer = child1.getJSONArray("item")
+                            val value = childAnswer.getJSONObject(0)
+                                .getJSONArray("item").getJSONObject(0)
+                                .getJSONArray("answer").getJSONObject(0)
+                                .getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Blood Transfusion",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+                        if (childChild == "twins") {
+
+                            val childAnswer = child1.getJSONArray("item")
+                            val value = childAnswer.getJSONObject(0)
+                                .getJSONArray("item").getJSONObject(0)
+                                .getJSONArray("answer").getJSONObject(0)
+                                .getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Twins History",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+                        if (childChild == "tb") {
+
+                            val childAnswer = child1.getJSONArray("item")
+                            val value = childAnswer.getJSONObject(0)
+                                .getJSONArray("item").getJSONObject(0)
+                                .getJSONArray("answer").getJSONObject(0)
+                                .getString("valueString")
+
+                            bundle.addEntry()
+                                .setResource(
+                                    qh.codingQuestionnaire(
+                                        "Tuberculosis History",
+                                        value,
+                                        value
+                                    )
+                                )
+                                .request.url = "Observation"
+                        }
+
+
+
+                        Log.e("****** ", childChild.toString())
+                        Log.e("++++++ ", parent.toString())
 
 
                     }
@@ -533,7 +618,7 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
 
             } catch (e: Exception) {
 
-
+                Log.e("----- ", e.toString())
 
                 isResourcesSaved.value = false
                 return@launch

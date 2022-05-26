@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.fhir.screens
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.databinding.FragmentDashboardBinding
 import com.intellisoft.kabarakmhis.helperclass.ImageUtils
 
@@ -66,8 +68,15 @@ class DashboardFragment : Fragment() {
 //        setHasOptionsMenu(true)
 //        (activity as MainActivity).setDrawerEnabled(true)
 
+        binding.imageViewProfile.setOnClickListener {
+            val intent = Intent(requireActivity(), Login::class.java)
+            startActivity(intent)
+        }
         binding.btnAddPatient.setOnClickListener {
             proceedNext("0")
+        }
+        binding.rltMedicalHistory.setOnClickListener {
+            proceedNext("3")
         }
         binding.previousPregnancy.setOnClickListener {
             proceedNext("1")

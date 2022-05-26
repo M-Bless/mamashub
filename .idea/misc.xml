@@ -15,8 +15,10 @@
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.22327898550724637" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_medical_history.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_patient_list.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/fragment_physical_examination.xml" value="0.26268115942028986" />
         <entry key="app/src/main/res/layout/fragment_previous_pregnancy.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/patient_detail.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/patient_details_card_view.xml" value="0.25769927536231885" />

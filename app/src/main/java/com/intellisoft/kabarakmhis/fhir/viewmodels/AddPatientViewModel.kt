@@ -56,8 +56,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 patient.hasBirthDate() &&
                 patient.hasTelecom() &&
                 patient.telecom[0].value != null &&
-                patient.hasBirthDate()
-            ) {
+                patient.hasBirthDate()) {
                 val isPhoneNo = FormatterClass().checkPhoneNo(patient.telecom[0].value)
 
                 val birthDate = patient.birthDate.toString()

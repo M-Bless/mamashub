@@ -14,8 +14,8 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="@dimen/_50dp"
-            android:layout_height="@dimen/_50dp">
+            android:layout_width="70dp"
+            android:layout_height="70dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageViewProfile"
@@ -125,9 +125,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="spread_inside">
 
-
                 <RelativeLayout
-                    android:id="@+id/previousPregnancy"
+                    android:id="@+id/rltMedicalHistory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
@@ -135,7 +134,7 @@
                     android:focusable="true">
 
                     <ImageView
-                        android:id="@+id/allPatientsButton"
+                        android:id="@+id/imageViewHistory"
                         android:layout_width="@dimen/dashboard_icon_height_width"
                         android:layout_height="@dimen/dashboard_icon_height_width"
                         android:layout_alignParentTop="true"
@@ -151,23 +150,25 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/allPatientsButton"
+                        android:layout_below="@id/imageViewHistory"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/dashboard_text_top_margin"
                         android:layout_marginBottom="@dimen/dashboard_text_bottom_margin"
-                        android:text="@string/action_patient_list" />
+                        android:text="@string/action_medical" />
                 </RelativeLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewPhysicalExam"
+                android:layout_width="0dp"
+                app:layout_constraintEnd_toStartOf="@+id/cardViewHistory"
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@+id/findPatientsCardView"
-                android:id="@+id/cardViewPhysicalExam"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="22dp"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <RelativeLayout
@@ -202,6 +203,52 @@
                         android:layout_marginTop="@dimen/dashboard_text_top_margin"
                         android:layout_marginBottom="@dimen/dashboard_text_bottom_margin"
                         android:text="@string/physical_exam" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewHistory"
+                android:layout_width="0dp"
+                android:layout_marginEnd="@dimen/_5dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cardViewPhysicalExam"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewPastPreg"
+                app:layout_constraintVertical_chainStyle="spread_inside">
+
+                <RelativeLayout
+                    android:id="@+id/previousPregnancy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/allPatientsButton"
+                        android:layout_width="@dimen/dashboard_icon_height_width"
+                        android:layout_height="@dimen/dashboard_icon_height_width"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="@dimen/dashboard_icon_margin"
+                        android:layout_marginTop="@dimen/dashboard_icon_margin"
+                        android:layout_marginEnd="@dimen/dashboard_icon_margin"
+                        android:layout_marginBottom="@dimen/dashboard_icon_margin"
+                        android:contentDescription="@string/action_patient_list"
+                        android:src="@drawable/ic_action_medical_history"
+                        app:tint="@color/primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/allPatientsButton"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dashboard_text_top_margin"
+                        android:layout_marginBottom="@dimen/dashboard_text_bottom_margin"
+                        android:text="@string/action_patient_list" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>

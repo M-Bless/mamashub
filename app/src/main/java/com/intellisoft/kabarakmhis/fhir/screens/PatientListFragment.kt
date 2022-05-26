@@ -234,15 +234,15 @@ class PatientListFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     )
 
                 }
-//                "3" -> {
-//
-//                    findNavController().navigate(
-//                        PatientListFragmentDirections.navigateToPostNatal(
-//                            patientItem.resourceId,
-//                            "2"
-//                        )
-//                    )
-//                }
+                "3" -> {
+
+                    findNavController().navigate(
+                        PatientListFragmentDirections.navigateMedicalHistory(
+                            patientItem.resourceId,
+                            "2"
+                        )
+                    )
+                }
 //                "4" -> {
 //
 //                    findNavController().navigate(

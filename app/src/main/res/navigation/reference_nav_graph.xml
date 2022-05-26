@@ -37,6 +37,10 @@
             android:id="@+id/navigate_to_dhm"
             app:destination="@id/milkFragment" />
 
+        <action
+            android:id="@+id/navigate_medical_history"
+            app:destination="@id/medicalHistory" />
+
     </fragment>
 
     <fragment
@@ -85,6 +89,23 @@
         android:name="com.intellisoft.kabarakmhis.fhir.screens.PhysicalExamFragment"
         android:label="fragment_milk"
         tools:layout="@layout/fragment_physical_examination">
+        <action
+            android:id="@+id/navigate_to_screening"
+            app:destination="@id/screenerEncounterFragment" />
+        <argument
+            android:name="patient_id"
+            app:argType="string" />
+        <argument
+            android:name="code"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/medicalHistory"
+        android:name="com.intellisoft.kabarakmhis.fhir.screens.MedicalHistoryFragment"
+        android:label="fragment_milk"
+        tools:layout="@layout/fragment_medical_history">
         <action
             android:id="@+id/navigate_to_screening"
             app:destination="@id/screenerEncounterFragment" />
