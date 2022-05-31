@@ -22,6 +22,8 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -38,6 +40,7 @@
 
 
             <EditText
+                android:id="@+id/etEmailAddress"
                 android:inputType="textEmailAddress"
                 android:background="@drawable/round_edittext"
                 android:hint="Email Address"
@@ -45,6 +48,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/etPassword"
                 android:inputType="textPassword"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_edittext"
@@ -53,6 +57,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:id="@+id/tvForgetPassword"
                 android:layout_marginTop="10dp"
                 android:gravity="end"
                 android:layout_gravity="center"
@@ -62,6 +67,7 @@
                 android:layout_height="wrap_content"/>
 
             <Button
+                android:id="@+id/btnLogin"
                 android:textColor="@color/white"
                 android:background="@drawable/button_round"
                 android:layout_gravity="center"
@@ -79,30 +85,32 @@
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:text="Don't have an account?. "
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <TextView
-            android:textColor="@color/text_color"
-            android:gravity="end"
-            android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:text="Create One"
+            android:id="@+id/tvCreate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="end"
+            android:text="Create One"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/text_color" />
 
     </LinearLayout>
 
