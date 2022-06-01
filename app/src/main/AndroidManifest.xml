@@ -14,9 +14,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
         <activity
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name=".new_designs.screens.PhysicalExamination"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.screens.PreviousPregnancy"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.screens.MedicalHistory"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.screens.RegisterNewPatient"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.NewMainActivity"
+            android:name=".new_designs.screens.PatientProfile"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.NewMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".Splash"
-            android:exported="true" >
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,9 +60,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

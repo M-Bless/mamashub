@@ -7,13 +7,20 @@
         <entry key="app/src/main/res/drawable/bottom_round.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/button_round.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/edit_outline1.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/edit_outline_trans.xml" value="0.1915" />
         <entry key="app/src/main/res/drawable/round_edittext.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/search_round.xml" value="0.3545" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3049119555143652" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25796178343949044" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_medical_history.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_new_main.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_patient_profile.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_physical_examination.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_previous_pregnancy.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_register_new_patient.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />

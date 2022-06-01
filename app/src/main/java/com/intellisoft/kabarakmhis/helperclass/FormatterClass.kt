@@ -194,4 +194,18 @@ class FormatterClass {
 
     }
 
+    fun getHeaders(context: Context):HashMap<String, String>{
+
+        val stringStringMap = HashMap<String, String>()
+
+        val accessToken = retrieveSharedPreference(context, "token")
+
+        stringStringMap["Authorization"] = " Bearer $accessToken"
+
+        return stringStringMap
+    }
+    fun generateUuid(): String {
+        return UUID.randomUUID().toString()
+    }
+
 }

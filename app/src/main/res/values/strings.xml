@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">KabarakMHIS</string>
-    <string name="base_url">https://devmhis.netlify.app/</string>
+    <string name="base_url">https://devhmis.intellisoftkenya.com/api/</string>
+    <string name="fhir_url">https://devhmis.intellisoftkenya.com/fhir/</string>
     <string name="action_submit">Submit</string>
     <string name="action_cancel">Cancel</string>
     <string name="submit">Submit</string>
@@ -39,5 +40,13 @@
     <string name="physical_exam">Physical Examination.</string>
     <string name="header_relation">Child/Children</string>
     <string name="header_encounters">Encounters</string>
+
+    <string-array name="array_marital">
+        <item>Married</item>
+        <item>Widowed</item>
+        <item>Single</item>
+        <item>Divorced</item>
+        <item>Separated</item>
+    </string-array>
 
 </resources>

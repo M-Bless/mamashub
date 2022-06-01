@@ -5,7 +5,8 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailData
 
 enum class UrlData(var message: Int) {
-    BASE_URL(R.string.base_url)
+    BASE_URL(R.string.base_url),
+    FHIR_URL(R.string.fhir_url)
 }
 data class SuccessLogin(
     val details: String
@@ -140,3 +141,13 @@ enum class ObservationViewTypes {
     }
 
 }
+data class DbUserData(
+    val data: DbData,
+    val status: String
+)
+data class DbData(
+    val id: String,
+    val names: String,
+    val email: String,
+    val role: String
+)

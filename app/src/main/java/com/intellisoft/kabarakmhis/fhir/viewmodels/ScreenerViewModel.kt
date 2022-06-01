@@ -35,7 +35,7 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
     val questionnaire: String
         get() = getQuestionnaireJson()
     val isResourcesSaved = MutableLiveData<Boolean>()
-//    val apgarScore = MutableLiveData<ApGar>() 
+//    val apgarScore = MutableLiveData<ApGar>()
     var isSafe = false
 
     private val questionnaireResource: Questionnaire
@@ -51,30 +51,30 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
 
     fun saveScreenerEncounter(questionnaireResponse: QuestionnaireResponse, patientId: String) {
         viewModelScope.launch {
-            val bundle =
-                ResourceMapper.extract(
-                    getApplication(),
-                    questionnaireResource,
-                    questionnaireResponse
-                )
-            val context = FhirContext.forR4()
-
-            Log.e(
-                "Questionnaire Res::: " , context.newJsonParser()
-                    .encodeResourceToString(questionnaireResponse)
-            )
-
-
-            val subjectReference = Reference("Patient/$patientId")
-            val encounterId = generateUuid()
-            if (isRequiredFieldMissing(bundle)) {
-                isResourcesSaved.value = false
-                return@launch
-            }
-
-            saveResources(bundle, subjectReference, encounterId)
-//            generateRiskAssessmentResource(bundle, subjectReference, encounterId)
-            isResourcesSaved.value = true
+//            val bundle =
+//                ResourceMapper.extract(
+//                    getApplication(),
+//                    questionnaireResource,
+//                    questionnaireResponse
+//                )
+//            val context = FhirContext.forR4()
+//
+//            Log.e(
+//                "Questionnaire Res::: " , context.newJsonParser()
+//                    .encodeResourceToString(questionnaireResponse)
+//            )
+//
+//
+//            val subjectReference = Reference("Patient/$patientId")
+//            val encounterId = generateUuid()
+//            if (isRequiredFieldMissing(bundle)) {
+//                isResourcesSaved.value = false
+//                return@launch
+//            }
+//
+//            saveResources(bundle, subjectReference, encounterId)
+////            generateRiskAssessmentResource(bundle, subjectReference, encounterId)
+//            isResourcesSaved.value = true
         }
     }
 
@@ -297,333 +297,333 @@ class ScreenerViewModel(application: Application, private val state: SavedStateH
 
     fun saveAssessment(questionnaireResponse: QuestionnaireResponse, patientId: String) {
 
-        viewModelScope.launch {
-            val bundle =
-                ResourceMapper.extract(
-                    getApplication(),
-                    questionnaireResource,
-                    questionnaireResponse
-                )
-            val context = FhirContext.forR4()
-            val qh = QuestionnaireHelper()
-
-            val questionnaire =
-                context.newJsonParser().encodeResourceToString(questionnaireResponse)
-
-            try {
-
-                val json = JSONObject(questionnaire)
-                val common = json.getJSONArray("item")
-
-                for (i in 0 until common.length()) {
-
-                    val item = common.getJSONObject(i)
-
-                    val parent = item.getJSONArray("item")
-
-                    for (j in 0 until parent.length()) {
-
-                        val child1 = parent.getJSONObject(j)
-                        val childChild = child1.getString("linkId")
-
-
-                        if (childChild == "kinPhone") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Next of Kin Phone Number",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "kinName") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Next of Kin Name",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "urine") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Urine",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "muac") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "MUAC (cm)",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "bp") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Bp",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "hb") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Hb",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "pallor") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Pallor",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "gestation") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Gestation in Weeks",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "fundalHeight") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Fundal Height",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "presentation") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Presentation",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "lie") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Lie",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "foetalHeartRate") {
-
-                            val childAnswer = child1.getJSONArray("answer")
-                            val value = childAnswer.getJSONObject(0).getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Foetal Heart Rate",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-
-                        if (childChild == "yesDrugAllergy") {
-
-                            val childAnswer = child1.getJSONArray("item")
-                            val value = childAnswer.getJSONObject(0)
-                                .getJSONArray("item").getJSONObject(0)
-                                .getJSONArray("answer").getJSONObject(0)
-                                .getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Drug Allergy",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "otherAllergy") {
-
-                            val childAnswer = child1.getJSONArray("item")
-                            val value = childAnswer.getJSONObject(0)
-                                .getJSONArray("item").getJSONObject(0)
-                                .getJSONArray("answer").getJSONObject(0)
-                                .getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Allergy Details",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "bloodTransfusion") {
-
-                            val childAnswer = child1.getJSONArray("item")
-                            val value = childAnswer.getJSONObject(0)
-                                .getJSONArray("item").getJSONObject(0)
-                                .getJSONArray("answer").getJSONObject(0)
-                                .getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Blood Transfusion",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "twins") {
-
-                            val childAnswer = child1.getJSONArray("item")
-                            val value = childAnswer.getJSONObject(0)
-                                .getJSONArray("item").getJSONObject(0)
-                                .getJSONArray("answer").getJSONObject(0)
-                                .getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Twins History",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-                        if (childChild == "tb") {
-
-                            val childAnswer = child1.getJSONArray("item")
-                            val value = childAnswer.getJSONObject(0)
-                                .getJSONArray("item").getJSONObject(0)
-                                .getJSONArray("answer").getJSONObject(0)
-                                .getString("valueString")
-
-                            bundle.addEntry()
-                                .setResource(
-                                    qh.codingQuestionnaire(
-                                        "Tuberculosis History",
-                                        value,
-                                        value
-                                    )
-                                )
-                                .request.url = "Observation"
-                        }
-
-
-
-                        Log.e("****** ", childChild.toString())
-                        Log.e("++++++ ", parent.toString())
-
-
-                    }
-                }
-
-                val subjectReference = Reference("Patient/$patientId")
-                val encounterId = generateUuid()
-                saveResources(bundle, subjectReference, encounterId)
-
-
-
-                isResourcesSaved.value = true
-
-            } catch (e: Exception) {
-
-                Log.e("----- ", e.toString())
-
-                isResourcesSaved.value = false
-                return@launch
-            }
-        }
+//        viewModelScope.launch {
+//            val bundle =
+//                ResourceMapper.extract(
+//                    getApplication(),
+//                    questionnaireResource,
+//                    questionnaireResponse
+//                )
+//            val context = FhirContext.forR4()
+//            val qh = QuestionnaireHelper()
+//
+//            val questionnaire =
+//                context.newJsonParser().encodeResourceToString(questionnaireResponse)
+//
+//            try {
+//
+//                val json = JSONObject(questionnaire)
+//                val common = json.getJSONArray("item")
+//
+//                for (i in 0 until common.length()) {
+//
+//                    val item = common.getJSONObject(i)
+//
+//                    val parent = item.getJSONArray("item")
+//
+//                    for (j in 0 until parent.length()) {
+//
+//                        val child1 = parent.getJSONObject(j)
+//                        val childChild = child1.getString("linkId")
+//
+//
+//                        if (childChild == "kinPhone") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Next of Kin Phone Number",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "kinName") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Next of Kin Name",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "urine") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Urine",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "muac") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "MUAC (cm)",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "bp") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Bp",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "hb") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Hb",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "pallor") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Pallor",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "gestation") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Gestation in Weeks",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "fundalHeight") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Fundal Height",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "presentation") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Presentation",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "lie") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Lie",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "foetalHeartRate") {
+//
+//                            val childAnswer = child1.getJSONArray("answer")
+//                            val value = childAnswer.getJSONObject(0).getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Foetal Heart Rate",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//
+//                        if (childChild == "yesDrugAllergy") {
+//
+//                            val childAnswer = child1.getJSONArray("item")
+//                            val value = childAnswer.getJSONObject(0)
+//                                .getJSONArray("item").getJSONObject(0)
+//                                .getJSONArray("answer").getJSONObject(0)
+//                                .getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Drug Allergy",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "otherAllergy") {
+//
+//                            val childAnswer = child1.getJSONArray("item")
+//                            val value = childAnswer.getJSONObject(0)
+//                                .getJSONArray("item").getJSONObject(0)
+//                                .getJSONArray("answer").getJSONObject(0)
+//                                .getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Allergy Details",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "bloodTransfusion") {
+//
+//                            val childAnswer = child1.getJSONArray("item")
+//                            val value = childAnswer.getJSONObject(0)
+//                                .getJSONArray("item").getJSONObject(0)
+//                                .getJSONArray("answer").getJSONObject(0)
+//                                .getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Blood Transfusion",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "twins") {
+//
+//                            val childAnswer = child1.getJSONArray("item")
+//                            val value = childAnswer.getJSONObject(0)
+//                                .getJSONArray("item").getJSONObject(0)
+//                                .getJSONArray("answer").getJSONObject(0)
+//                                .getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Twins History",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//                        if (childChild == "tb") {
+//
+//                            val childAnswer = child1.getJSONArray("item")
+//                            val value = childAnswer.getJSONObject(0)
+//                                .getJSONArray("item").getJSONObject(0)
+//                                .getJSONArray("answer").getJSONObject(0)
+//                                .getString("valueString")
+//
+//                            bundle.addEntry()
+//                                .setResource(
+//                                    qh.codingQuestionnaire(
+//                                        "Tuberculosis History",
+//                                        value,
+//                                        value
+//                                    )
+//                                )
+//                                .request.url = "Observation"
+//                        }
+//
+//
+//
+//                        Log.e("****** ", childChild.toString())
+//                        Log.e("++++++ ", parent.toString())
+//
+//
+//                    }
+//                }
+//
+//                val subjectReference = Reference("Patient/$patientId")
+//                val encounterId = generateUuid()
+//                saveResources(bundle, subjectReference, encounterId)
+//
+//
+//
+//                isResourcesSaved.value = true
+//
+//            } catch (e: Exception) {
+//
+//                Log.e("----- ", e.toString())
+//
+//                isResourcesSaved.value = false
+//                return@launch
+//            }
+//        }
     }
 
 

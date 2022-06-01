@@ -38,79 +38,79 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
     fun savePatient(questionnaireResponse: QuestionnaireResponse) {
         viewModelScope.launch {
 
-            val entry =
-                ResourceMapper.extract(
-                    getApplication(),
-                    questionnaireResource,
-                    questionnaireResponse
-                )
-                    .entryFirstRep
-            if (entry.resource !is Patient) return@launch
-            val patient = entry.resource as Patient
-
-            val context = getApplication<Application?>().applicationContext
-
-            if (patient.hasName() &&
-                patient.name[0].hasGiven() &&
-                patient.name[0].hasFamily() &&
-                patient.hasBirthDate() &&
-                patient.hasTelecom() &&
-                patient.telecom[0].value != null &&
-                patient.hasBirthDate()) {
-                val isPhoneNo = FormatterClass().checkPhoneNo(patient.telecom[0].value)
-
-                val birthDate = patient.birthDate.toString()
-                val todayDate = FormatterClass().getTodayDate()
-                val isDateValid = FormatterClass().checkDate(birthDate, todayDate)
-
-                if (isDateValid && isPhoneNo){
-
-                    val fhirId = generateUuid()
-                    val phoneNumber = patient.telecom[0].value
-
-                    var familyName = ""
-                    var firstName = ""
-
-                    val nameList = patient.name
-                    for (name in nameList){
-                        familyName = name.family
-                        firstName = name.given[0].toString()
-                    }
-
-//                    val motherDOB = patient.birthDate.toString()
-//                    val natID = DbMotherKey.NATIONALID.name
+//            val entry =
+//                ResourceMapper.extract(
+//                    getApplication(),
+//                    questionnaireResource,
+//                    questionnaireResponse
+//                )
+//                    .entryFirstRep
+//            if (entry.resource !is Patient) return@launch
+//            val patient = entry.resource as Patient
 //
-//                    val nationalId = FormatHelper().retrieveSharedPreference(context, natID).toString()
+//            val context = getApplication<Application?>().applicationContext
 //
-//                    val motherInfo = DbMotherInfo(nationalId, motherDOB, firstName, familyName, phoneNumber, fhirId)
+//            if (patient.hasName() &&
+//                patient.name[0].hasGiven() &&
+//                patient.name[0].hasFamily() &&
+//                patient.hasBirthDate() &&
+//                patient.hasTelecom() &&
+//                patient.telecom[0].value != null &&
+//                patient.hasBirthDate()) {
+//                val isPhoneNo = FormatterClass().checkPhoneNo(patient.telecom[0].value)
 //
-//                    val healthViewModel = HealthViewModel(getApplication())
-//                    healthViewModel.updateMotherInfo(context, motherInfo)
+//                val birthDate = patient.birthDate.toString()
+//                val todayDate = FormatterClass().getTodayDate()
+//                val isDateValid = FormatterClass().checkDate(birthDate, todayDate)
+//
+//                if (isDateValid && isPhoneNo){
+//
+//                    val fhirId = generateUuid()
+//                    val phoneNumber = patient.telecom[0].value
+//
+//                    var familyName = ""
+//                    var firstName = ""
+//
+//                    val nameList = patient.name
+//                    for (name in nameList){
+//                        familyName = name.family
+//                        firstName = name.given[0].toString()
+//                    }
+//
+////                    val motherDOB = patient.birthDate.toString()
+////                    val natID = DbMotherKey.NATIONALID.name
+////
+////                    val nationalId = FormatHelper().retrieveSharedPreference(context, natID).toString()
+////
+////                    val motherInfo = DbMotherInfo(nationalId, motherDOB, firstName, familyName, phoneNumber, fhirId)
+////
+////                    val healthViewModel = HealthViewModel(getApplication())
+////                    healthViewModel.updateMotherInfo(context, motherInfo)
+//
+//                    patient.active = true
+//                    patient.id = fhirId
+//                    fhirEngine.create(patient)
+//                    isPatientSaved.value = true
+//                    return@launch
+//
+//                }else{
+//
+//                    if (!isDateValid)
+//                        customMessage("The provided date is incorrect.", context)
+//
+//                    if (!isPhoneNo)
+//                        customMessage("The provided phone number is incorrect.", context)
 
-                    patient.active = true
-                    patient.id = fhirId
-                    fhirEngine.create(patient)
-                    isPatientSaved.value = true
-                    return@launch
+//                    isPatientSaved.value = false
+//
+//                }
 
-                }else{
-
-                    if (!isDateValid)
-                        customMessage("The provided date is incorrect.", context)
-
-                    if (!isPhoneNo)
-                        customMessage("The provided phone number is incorrect.", context)
-
-                    isPatientSaved.value = false
-
-                }
-
-            }else{
-
-                customMessage("There some missing fields. Please check on them before proceeding.", context)
-                isPatientSaved.value = false
-
-            }
+//            }else{
+//
+//                customMessage("There some missing fields. Please check on them before proceeding.", context)
+//                isPatientSaved.value = false
+//
+//            }
 
         }
     }

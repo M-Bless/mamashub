@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.databinding.FragmentDashboardBinding
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.helperclass.ImageUtils
 
 
@@ -35,6 +36,7 @@ class DashboardFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var mBitmapCache: SparseArray<Bitmap?>? = null
+    private val formatterClass = FormatterClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +99,11 @@ class DashboardFragment : Fragment() {
 //            proceedNext("6")
 //        }
 
+        var names = formatterClass.retrieveSharedPreference(requireContext(), "names")
+
+        if (names != null){
+            binding.tvUsername.text = names
+        }
 
     }
 

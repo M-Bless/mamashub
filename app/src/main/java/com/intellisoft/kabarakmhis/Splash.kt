@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 
 class Splash : AppCompatActivity() {
 
@@ -20,7 +21,7 @@ class Splash : AppCompatActivity() {
 
         Handler().postDelayed({
             if (isLoggedIn) {
-                startActivity(Intent(this@Splash, MainActivity::class.java))
+                startActivity(Intent(this@Splash, NewMainActivity::class.java))
             } else {
                 startActivity(Intent(this@Splash, Login::class.java))
             }
