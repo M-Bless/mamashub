@@ -24,11 +24,11 @@
         <activity
             android:name=".new_designs.screens.PreviousPregnancy"
             android:exported="false"
-            android:parentActivityName=".new_designs.screens.MedicalSurgicalHistoryView" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.screens.MedicalHistory"
             android:exported="false"
-            android:parentActivityName=".new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.MedicalSurgicalHistoryView" />
         <activity
             android:name=".new_designs.screens.RegisterNewPatient"
             android:exported="false" />

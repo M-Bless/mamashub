@@ -436,6 +436,7 @@
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/btnSave"
             android:backgroundTint="@color/save"
             android:layout_marginStart="@dimen/_15dp"
             android:layout_weight="1"

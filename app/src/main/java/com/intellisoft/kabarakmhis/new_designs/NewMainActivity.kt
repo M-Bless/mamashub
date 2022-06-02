@@ -42,12 +42,11 @@ class NewMainActivity : AppCompatActivity() {
 
         val patientData = retrofitCallsFhir.getPatients(this)
         val patientList = patientData.entry
+        if (patientList != null){
+            val configurationListingAdapter = PatientsAdapter(
+                patientList,this@NewMainActivity)
+            recyclerView.adapter = configurationListingAdapter
+        }
 
-        val configurationListingAdapter = PatientsAdapter(
-            patientList,this@NewMainActivity)
-        recyclerView.adapter = configurationListingAdapter
-
-
-        Log.e("******** ", patientList.toString())
     }
 }

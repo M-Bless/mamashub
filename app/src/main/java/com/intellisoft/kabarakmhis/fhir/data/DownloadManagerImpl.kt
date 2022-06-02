@@ -10,7 +10,7 @@ import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.r4.model.*
 
 const val MAX_RESOURCE_COUNT = 40
-const val SYNC_VALUE = "KabarakHOS"
+const val SYNC_VALUE = "KabarakHOSP"
 const val USER_ADDRESS = "NAIROBI"
 const val USER_COUNTRY = "KE"
 const val SYNC_PARAM = "address-state"

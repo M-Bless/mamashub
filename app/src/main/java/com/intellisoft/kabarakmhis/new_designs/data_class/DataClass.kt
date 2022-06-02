@@ -36,7 +36,12 @@ data class DbAddress(
     val country:String
 )
 enum class DbResourceType {
-    Patient
+    Patient,
+    Encounter,
+    Observation
+}
+enum class DbResourceViews {
+    MEDICAL_HISTORY
 }
 
 data class DbPatientSuccess(
@@ -45,7 +50,7 @@ data class DbPatientSuccess(
 )
 data class DbPatientResult(
     val total: Int,
-    val entry: List<DBEntry>
+    val entry: List<DBEntry>?
 )
 data class DBEntry(
     val resource: DbResourceData
@@ -92,7 +97,7 @@ data class DbObservation(
     val resourceType: String,
     val id: String,
     val subject: DbSubject,
-    val entry: DbEncounterData,
+    val encounter: DbEncounterData,
     val code: DbCode
 )
 data class DbCode(
@@ -103,4 +108,11 @@ data class DbCodingData(
     val system: String,
     val code: String,
     val display:String
+)
+data class DbObservationValue(
+    val valueList: HashSet<DbObservationData>
+)
+data class DbObservationData(
+    val code: String,
+    val valueList: HashSet<String>
 )
