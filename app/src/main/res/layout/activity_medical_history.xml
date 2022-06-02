@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -157,6 +158,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15dp"
@@ -375,6 +377,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_15dp"

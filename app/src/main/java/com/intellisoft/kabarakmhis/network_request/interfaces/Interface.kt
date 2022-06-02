@@ -7,7 +7,10 @@ import retrofit2.Call
 import retrofit2.http.*
 
 
+val param = "$ everything"
+
 interface Interface {
+
 
     @POST("auth/login/")
     fun loginUser(@Body user: UserLogin): Call<AuthResponse>
@@ -27,6 +30,10 @@ interface Interface {
 
     @GET("Encounter")
     fun getEncounterList(@Query("patient") patient:String): Call<DbEncounterList>
+
+    @GET("Encounter/{encounterId}/"+"$"+"everything")
+    fun getEncounterDetails(
+        @Path("encounterId") encounterId:String): Call<DbEncounterDetailsList>
 
     @POST("Observation")
     fun createFhirObservation(@Body dbObservation: DbObservation): Call<DbObservation>

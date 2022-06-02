@@ -19,6 +19,14 @@ class PatientProfile : AppCompatActivity() {
             val intent = Intent(this, MedicalSurgicalHistoryView::class.java)
             startActivity(intent)
         }
+        previousPregnancy.setOnClickListener {
+            val intent = Intent(this, PreviousPregnancy::class.java)
+            startActivity(intent)
+        }
+        relativeLyt.setOnClickListener {
+            val intent = Intent(this, PhysicalExamination::class.java)
+            startActivity(intent)
+        }
 
     }
 

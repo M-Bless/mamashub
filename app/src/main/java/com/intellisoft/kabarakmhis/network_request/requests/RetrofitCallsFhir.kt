@@ -251,8 +251,7 @@ class RetrofitCallsFhir {
 
                             }
 
-                            val intent = Intent(context, NewMainActivity::class.java)
-                            context.startActivity(intent)
+
 
                             CoroutineScope(Dispatchers.Main).launch {
 
@@ -436,6 +435,103 @@ class RetrofitCallsFhir {
 
     }
 
+    fun getPatientEncounters(context: Context, encounterType: String)= runBlocking{
+        getPatientEncountersBac(context, encounterType)
+    }
+    private suspend fun getPatientEncountersBac(context: Context, encounterType: String):HashMap<String, MutableList<String>>{
+
+        val observationList = hashMapOf<String, MutableList<String>>()
+        val job = Job()
+        CoroutineScope(Dispatchers.IO + job).launch {
+
+            val formatter = FormatterClass()
+            val patientId = formatter.retrieveSharedPreference(context, "patientId")
+
+            val baseUrl = context.getString(UrlData.FHIR_URL.message)
+
+            val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
+
+            if (patientId != null){
+
+                val callSync: Call<DbEncounterList> = apiService.getEncounterList(patientId)
+
+                try {
+                    val response: Response<DbEncounterList> = callSync.execute()
+                    if (response.isSuccessful){
+
+                        val list = response.body()
+                        if (list != null){
+
+                            val encounterList = list.entry
+                            if (!encounterList.isNullOrEmpty()){
+
+                                for (items in encounterList){
+
+                                    val encounterId = items.resource.id
+                                    val reasonCode = items.resource.reasonCode[0].text
+                                    if (reasonCode == encounterType){
+
+                                        //Get Observations
+                                        val callEncounterSync: Call<DbEncounterDetailsList> = apiService.getEncounterDetails(encounterId)
+                                        val responseEncounter: Response<DbEncounterDetailsList> = callEncounterSync.execute()
+                                        if (responseEncounter.isSuccessful){
+
+                                            val reasonBody = responseEncounter.body()
+                                            if (reasonBody != null){
+
+                                                val entryList = reasonBody.entry
+                                                if (!entryList.isNullOrEmpty()){
+
+
+                                                    for (observations in entryList){
+
+                                                        val code = observations.resource.code
+                                                        if (code != null){
+
+                                                            val codeValue = code.coding[0].code
+                                                            val value = code.coding[0].display
+
+                                                            observationList[codeValue] = ArrayList()
+                                                            observationList[codeValue]?.add(value)
+
+
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                            }
+
+                                        }
+
+                                        break
+                                    }
+
+                                }
+
+                            }
+
+
+
+                        }
+
+                    }
+
+
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+
+            }
+
+
+
+        }.join()
+
+        return observationList
+
+    }
 
 }
 

@@ -6,8 +6,10 @@
         <entry key="app/src/main/res/drawable/bac_outline_trans.xml" value="0.22" />
         <entry key="app/src/main/res/drawable/bottom_round.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/button_round.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/dotted.xml" value="0.364" />
         <entry key="app/src/main/res/drawable/edit_outline1.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/edit_outline_trans.xml" value="0.1915" />
+        <entry key="app/src/main/res/drawable/layout_dotted.xml" value="0.364" />
         <entry key="app/src/main/res/drawable/round_edittext.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/search_round.xml" value="0.3545" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
@@ -23,13 +25,14 @@
         <entry key="app/src/main/res/layout/activity_previous_pregnancy.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_register_new_patient.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_medical_history.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_observations.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_patient_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_physical_examination.xml" value="0.26268115942028986" />
         <entry key="app/src/main/res/layout/fragment_previous_pregnancy.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/observation_view.xml" value="0.223731884057971" />
         <entry key="app/src/main/res/layout/patient_detail.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/patient_details_card_view.xml" value="0.25769927536231885" />
         <entry key="app/src/main/res/layout/patient_details_header.xml" value="0.25769927536231885" />

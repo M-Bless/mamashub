@@ -12,7 +12,7 @@ data class DbPatient(
     val contact: List<DbContact>
 )
 data class DbContact(
-    val relationship: ArrayList<DbRshp>,
+    val relationship: ArrayList<DbRshp>?,
     val name: DbName,
     val telecom: List<DbTelecom>
 )
@@ -41,7 +41,8 @@ enum class DbResourceType {
     Observation
 }
 enum class DbResourceViews {
-    MEDICAL_HISTORY
+    MEDICAL_HISTORY,
+    PREGNANCY_DETAILS
 }
 
 data class DbPatientSuccess(
@@ -50,7 +51,7 @@ data class DbPatientSuccess(
 )
 data class DbPatientResult(
     val total: Int,
-    val entry: List<DBEntry>?
+    val entry: ArrayList<DBEntry>?
 )
 data class DBEntry(
     val resource: DbResourceData
@@ -83,7 +84,14 @@ data class DbReasonCode(
 )
 data class DbEncounterList(
     val total: Int,
-    val entry: List<DbEncounterEntry>
+    val entry: List<DbEncounterEntry>?
+)
+data class DbEncounterDetailsList(
+    val total: Int,
+    val entry: List<DbEncounterDataEntry>?
+)
+data class DbEncounterDataEntry(
+    val resource: DbEncounterDataResourceData
 )
 data class DbEncounterEntry(
     val resource: DbEncounterResourceData
@@ -92,6 +100,11 @@ data class DbEncounterResourceData(
     val resourceType: String,
     val id: String,
     val reasonCode: List<DbReasonCode>
+)
+data class DbEncounterDataResourceData(
+    val resourceType: String,
+    val id: String,
+    val code: DbCode?
 )
 data class DbObservation(
     val resourceType: String,
@@ -109,10 +122,16 @@ data class DbCodingData(
     val code: String,
     val display:String
 )
+
 data class DbObservationValue(
     val valueList: HashSet<DbObservationData>
 )
 data class DbObservationData(
     val code: String,
     val valueList: HashSet<String>
+)
+
+data class DbObserveValue(
+    val title: String,
+    val value : String
 )

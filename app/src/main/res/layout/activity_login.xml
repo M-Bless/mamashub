@@ -4,82 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bgColor"
     tools:context=".auth.Login">
 
     <LinearLayout
-        android:gravity="center"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
-            android:gravity="center"
+            android:layout_marginBottom="@dimen/_35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:text="MHIS"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:layout_marginBottom="@dimen/_35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="Welcome Back!"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-        <TextView
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:text="Login to your existing Kabarak MHIS Account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:paddingBottom="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingBottom="3dp">
 
 
             <EditText
                 android:id="@+id/etEmailAddress"
-                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/round_edittext"
                 android:hint="Email Address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/etPassword"
-                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/round_edittext"
                 android:hint="Password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:inputType="textPassword" />
 
             <TextView
                 android:id="@+id/tvForgetPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:gravity="end"
-                android:layout_gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:text="Forgot Password ?"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
             <Button
                 android:id="@+id/btnLogin"
-                android:textColor="@color/white"
-                android:background="@drawable/button_round"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:textAllCaps="false"
-                android:text="Login"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@color/save"
+                android:gravity="center"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/black" />
 
         </LinearLayout>
-
 
 
     </LinearLayout>

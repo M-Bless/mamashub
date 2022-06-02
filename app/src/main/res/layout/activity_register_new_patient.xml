@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -123,6 +124,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -173,7 +175,10 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
-                        <EditText
+
+
+                        <TextView
+                            android:textColor="@color/black"
                             android:id="@+id/etDoB"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -191,6 +196,7 @@
                             android:textStyle="bold" />
 
                         <EditText
+                            android:enabled="false"
                             android:id="@+id/etAge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -284,7 +290,8 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
-                        <EditText
+                        <TextView
+                            android:textColor="@color/black"
                             android:id="@+id/etLmp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -302,6 +309,7 @@
                             android:textStyle="bold" />
 
                         <EditText
+                            android:enabled="false"
                             android:id="@+id/etEdd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -312,24 +320,27 @@
 
                     </TableRow>
 
+                    <TableRow android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Telephone"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etTelePhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
                 </TableLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Residence"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -345,15 +356,30 @@
                         android:textStyle="bold" />
 
                     <Spinner
-                        android:entries="@array/array_marital"
                         android:id="@+id/spinnerMarital"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
-                        android:background="@drawable/edit_outline_trans"
                         android:spinnerMode="dialog" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/layout_dotted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Residence"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -368,7 +394,17 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
+                        <EditText
+                            android:id="@+id/etCounty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
                         <Spinner
+                            android:visibility="gone"
                             android:id="@+id/spinnerCounty"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -385,7 +421,17 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
+                        <EditText
+                            android:id="@+id/etSubCounty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
                         <Spinner
+                            android:visibility="gone"
                             android:id="@+id/spinnerSubCounty"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -470,25 +516,6 @@
 
                     </TableRow>
 
-                    <TableRow android:layout_marginTop="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Telephone"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:textStyle="bold" />
-
-                        <EditText
-                            android:id="@+id/etTelePhone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
-
-                    </TableRow>
 
                 </TableLayout>
 
@@ -496,6 +523,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -523,12 +551,10 @@
                         android:textStyle="bold" />
 
                     <Spinner
-                        android:entries="@array/array_marital"
                         android:id="@+id/spinnerEducation"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
-                        android:background="@drawable/edit_outline_trans"
                         android:spinnerMode="dialog" />
 
                 </LinearLayout>
@@ -538,6 +564,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -585,13 +612,11 @@
                             android:textStyle="bold" />
 
                         <Spinner
-                            android:entries="@array/array_marital"
                             android:id="@+id/spinnerRshp"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginStart="10dp"
                             android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
                             android:spinnerMode="dialog" />
 
 

@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -49,7 +50,6 @@
                             android:id="@+id/spinnerPregnancyOrder"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/edit_outline_trans"
                             android:spinnerMode="dialog" />
 
                     </TableRow>
@@ -181,6 +181,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:background="@drawable/layout_dotted"
                 android:layout_marginTop="@dimen/_15dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -235,12 +236,13 @@
                             android:id="@+id/spinnerBabySex"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/edit_outline_trans"
                             android:spinnerMode="dialog" />
 
                     </TableRow>
 
-                    <TableRow>
+                    <TableRow
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -255,7 +257,6 @@
                             android:id="@+id/spinnerOutCome"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/edit_outline_trans"
                             android:spinnerMode="dialog" />
 
                     </TableRow>
@@ -308,6 +309,7 @@
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/btnSave"
             android:backgroundTint="@color/save"
             android:layout_marginStart="@dimen/_15dp"
             android:layout_weight="1"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     tools:context=".new_designs.screens.PhysicalExamination">
 
     <ScrollView
@@ -11,6 +12,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:background="@drawable/layout_dotted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -46,7 +48,7 @@
 
                         <EditText
                             android:layout_weight="1"
-                            android:id="@+id/etYear"
+                            android:id="@+id/etExam"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5dp"
@@ -144,7 +146,17 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etRespiratory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
                         <Spinner
+                            android:visibility="gone"
                             android:layout_marginTop="@dimen/_5dp"
                             android:layout_weight="1"
                             android:id="@+id/spinnerRespiratory"
@@ -184,7 +196,17 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etBreasts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
                         <Spinner
+                            android:visibility="gone"
                             android:layout_marginTop="@dimen/_5dp"
                             android:layout_weight="1"
                             android:id="@+id/spinnerBreasts"
@@ -204,7 +226,17 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etAbdomen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
                         <Spinner
+                            android:visibility="gone"
                             android:layout_marginTop="@dimen/_5dp"
                             android:layout_weight="1"
                             android:id="@+id/spinnerAbdomen"
@@ -220,7 +252,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Examination of the external genitalia "
+                            android:text="External genitalia "
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="bold" />
 
@@ -282,6 +314,7 @@
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/btnSave"
             android:backgroundTint="@color/save"
             android:layout_marginStart="@dimen/_15dp"
             android:layout_weight="1"

@@ -30,6 +30,7 @@
             android:exported="false"
             android:parentActivityName=".new_designs.screens.MedicalSurgicalHistoryView" />
         <activity
+            android:parentActivityName=".new_designs.NewMainActivity"
             android:name=".new_designs.screens.RegisterNewPatient"
             android:exported="false" />
         <activity

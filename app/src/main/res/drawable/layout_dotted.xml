@@ -4,12 +4,6 @@
     android:shape="rectangle"
     android:padding="10dp">
 
-    <solid android:color="#EFE8E8" />
-    <corners
-        android:bottomRightRadius="5dp"
-        android:bottomLeftRadius="5dp"
-        android:topLeftRadius="5dp"
-        android:topRightRadius="5dp" />
 
     <padding
         android:right="15dp"
@@ -20,7 +14,8 @@
 
     <stroke
         android:color="@android:color/darker_gray"
-        android:width="0.2dp"
-        />
+        android:dashWidth="10px"
+        android:dashGap="10px"
+        android:width="1dp"/>
 
 </shape>
