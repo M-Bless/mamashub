@@ -22,4 +22,18 @@ interface Interface {
     @GET("Patient")
     fun getPatientList(@Query("address-state") address_state:String): Call<DbPatientResult>
 
+    @POST("Encounter")
+    fun createFhirEncounter(@Body dbEncounter: DbEncounter): Call<DbEncounter>
+
+    @GET("Encounter")
+    fun getEncounterList(@Query("patient") patient:String): Call<DbEncounterList>
+
+    @POST("Observation")
+    fun createFhirObservation(@Body dbObservation: DbObservation): Call<DbObservation>
+
+    //This should be looked at
+    @GET("Observation")
+    fun getObservationList(): Call<DbEncounterList>
+
+
 }

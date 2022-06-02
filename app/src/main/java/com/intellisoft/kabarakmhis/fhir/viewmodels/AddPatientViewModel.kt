@@ -38,6 +38,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
     fun savePatient(questionnaireResponse: QuestionnaireResponse) {
         viewModelScope.launch {
 
+
 //            val entry =
 //                ResourceMapper.extract(
 //                    getApplication(),

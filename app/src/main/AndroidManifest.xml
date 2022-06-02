@@ -14,21 +14,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
         <activity
-            android:name=".new_designs.screens.PhysicalExamination"
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.screens.MedicalSurgicalHistoryView"
             android:exported="false" />
+        <activity
+            android:name=".new_designs.screens.PhysicalExamination"
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.screens.PreviousPregnancy"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.MedicalSurgicalHistoryView" />
         <activity
             android:name=".new_designs.screens.MedicalHistory"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.screens.RegisterNewPatient"
             android:exported="false" />
         <activity
-            android:parentActivityName=".new_designs.NewMainActivity"
             android:name=".new_designs.screens.PatientProfile"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.NewMainActivity" />
         <activity
             android:name=".new_designs.NewMainActivity"
             android:exported="false" />

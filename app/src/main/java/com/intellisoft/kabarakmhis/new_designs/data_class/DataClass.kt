@@ -8,7 +8,16 @@ data class DbPatient(
     val telecom: List<DbTelecom>,
     val gender: String,
     val birthDate: String,
-    val address: List<DbAddress>
+    val address: List<DbAddress>,
+    val contact: List<DbContact>
+)
+data class DbContact(
+    val relationship: ArrayList<DbRshp>,
+    val name: DbName,
+    val telecom: List<DbTelecom>
+)
+data class DbRshp(
+    val text: String
 )
 data class DbName(
     val family: String,
@@ -49,5 +58,49 @@ data class DbResourceData(
     val telecom: List<DbTelecom>,
     val gender: String,
     val birthDate: String,
-    val address: List<DbAddress>
+    val address: List<DbAddress>,
+    val contact: List<DbContact>?
+)
+data class DbEncounter(
+    val resourceType: String,
+    val id : String,
+    val subject : DbSubject,
+    val reasonCode: List<DbReasonCode>
+)
+data class DbSubject(
+    val reference: String
+)
+data class DbEncounterData(
+    val reference: String
+)
+data class DbReasonCode(
+    val text: String
+)
+data class DbEncounterList(
+    val total: Int,
+    val entry: List<DbEncounterEntry>
+)
+data class DbEncounterEntry(
+    val resource: DbEncounterResourceData
+)
+data class DbEncounterResourceData(
+    val resourceType: String,
+    val id: String,
+    val reasonCode: List<DbReasonCode>
+)
+data class DbObservation(
+    val resourceType: String,
+    val id: String,
+    val subject: DbSubject,
+    val entry: DbEncounterData,
+    val code: DbCode
+)
+data class DbCode(
+    val coding: List<DbCodingData>,
+    val text: String
+)
+data class DbCodingData(
+    val system: String,
+    val code: String,
+    val display:String
 )

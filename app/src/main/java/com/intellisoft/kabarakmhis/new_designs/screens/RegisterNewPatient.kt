@@ -98,11 +98,29 @@ class RegisterNewPatient : AppCompatActivity() {
             val addressData = DbAddress(town, ArrayList(), address, estate, SYNC_VALUE, "Ke")
             addressList.add(addressData)
 
+            val contactList = ArrayList<DbContact>()
+            val relationship = ArrayList<DbRshp>()
+            val dbRshp = DbRshp(spinnerRshp)
+            relationship.add(dbRshp)
+
+            val givenKinNameList = ArrayList<String>()
+            givenKinNameList.add(clientName)
+            val dbKinName = DbName(clientName, givenKinNameList)
+
+            val kinTelecomList = ArrayList<DbTelecom>()
+            val kinDbTelecom = DbTelecom("phone", telephoneKin)
+            kinTelecomList.add(kinDbTelecom)
+
+            val dbContact = DbContact(relationship, dbKinName, kinTelecomList)
+            contactList.add(dbContact)
+
             val dbPatient = DbPatient(
                 DbResourceType.Patient.name, FormatterClass().generateUuid(), true,
-                nameList, telecomList, "female", dob, addressList)
+                nameList, telecomList, "female", dob, addressList, contactList)
 
             retrofitCallsFhir.createPatient(this, dbPatient)
+
+
 
         }
 

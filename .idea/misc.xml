@@ -13,7 +13,8 @@
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25796178343949044" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_medical_history.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_medical_history.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_medical_surgical_history_view.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_new_main.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />

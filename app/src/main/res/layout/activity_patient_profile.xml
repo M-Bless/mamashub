@@ -148,13 +148,14 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:drawablePadding="10dp"
-                    android:padding="@dimen/_15dp"
-                    android:textColor="@color/black"
-                    android:text="Patient Number"
+                    android:id="@+id/tvKinDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:padding="@dimen/_15dp"
+                    android:text="Patient Number"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
                     app:drawableStartCompat="@drawable/ic_action_call" />
 
             </LinearLayout>

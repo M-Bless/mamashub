@@ -37,12 +37,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxNoPast"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="No past surgeries" />
 
                         <CheckBox
+                            android:id="@+id/checkboxNoKnowledge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -53,12 +55,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxDilation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Dilation and curettage" />
 
                         <CheckBox
+                            android:id="@+id/checkboxMyomectomy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -69,12 +73,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxRemoval"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Removal of ovarian cysts" />
 
                         <CheckBox
+                            android:id="@+id/checkboxOophorectomy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -85,12 +91,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxSalpi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Salpingectomy" />
 
                         <CheckBox
+                            android:id="@+id/checkboxCervical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -170,12 +178,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxDiabetes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Diabetes" />
 
                         <CheckBox
+                            android:id="@+id/checkboxHypertension"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -186,12 +196,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxBlood"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Blood Transfusion" />
 
                         <CheckBox
+                            android:id="@+id/checkboxTb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -214,6 +226,7 @@
                             android:textStyle="bold" />
 
                         <RadioGroup
+                            android:id="@+id/radioGroup"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -237,34 +250,40 @@
                 </TableLayout>
 
                 <TableLayout
+                    android:visibility="gone"
+                    android:id="@+id/tableOtherAllergy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxAlbendazole"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Albendazole" />
 
                         <CheckBox
+                            android:id="@+id/checkboxAluminium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Hypertension" />
+                            android:text="Aluminium hydroxide" />
 
                     </TableRow>
 
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxCalcium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Calcium" />
 
                         <CheckBox
+                            android:id="@+id/checkboxFolic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -275,12 +294,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxIron"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Iron" />
 
                         <CheckBox
+                            android:id="@+id/checkboxMagnesium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -288,31 +309,18 @@
 
                     </TableRow>
 
-                    <TableRow>
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Blood Transfusion" />
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Tuberculosis" />
-
-                    </TableRow>
 
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxSulfa"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Sulfadoxine-pyrimethamine" />
 
                         <CheckBox
+                            android:id="@+id/checkboxMebendazole"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -323,12 +331,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxPenicilin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Penicillin" />
 
                         <CheckBox
+                            android:id="@+id/checkboxTDF"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -386,12 +396,14 @@
                     <TableRow>
 
                         <CheckBox
+                            android:id="@+id/checkboxTwins"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Twins" />
 
                         <CheckBox
+                            android:id="@+id/checkboxHistTb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

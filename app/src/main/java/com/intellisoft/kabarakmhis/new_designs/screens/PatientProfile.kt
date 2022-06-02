@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.intellisoft.kabarakmhis.R
@@ -13,6 +14,12 @@ class PatientProfile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
+
+        rltMedicalHistory.setOnClickListener {
+            val intent = Intent(this, MedicalSurgicalHistoryView::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onStart() {
@@ -25,6 +32,17 @@ class PatientProfile : AppCompatActivity() {
 
         val patientName = formatter.retrieveSharedPreference(this, "name")
         val dob = formatter.retrieveSharedPreference(this, "dob")
+
+        val kinRelationShip = formatter.retrieveSharedPreference(this, "kinRelationShip")
+        val kinName = formatter.retrieveSharedPreference(this, "kinName")
+        val kinPhoneNumber = formatter.retrieveSharedPreference(this, "kinPhoneNumber")
+
+        if (kinRelationShip != null && kinName != null && kinPhoneNumber != null){
+
+            val kinDetails = "$kinName \n$kinPhoneNumber"
+            tvKinDetails.text = kinDetails
+
+        }
 
         tvName.text = patientName
         tvAge.text = dob
