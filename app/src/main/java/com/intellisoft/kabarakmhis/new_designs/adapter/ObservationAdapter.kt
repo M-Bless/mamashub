@@ -60,9 +60,10 @@ class ObservationAdapter(private var entryList: ArrayList<DbObserveValue>,
         val title = entryList[position].title
         val name = entryList[position].value
 
+        val value = name.substring(1, name.length - 1)
 
         holder.tvTitle.text = title
-        holder.tvValue.text = name
+        holder.tvValue.text = value
 
 
     }

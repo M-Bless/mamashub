@@ -482,24 +482,36 @@ class RetrofitCallsFhir {
                                                 val entryList = reasonBody.entry
                                                 if (!entryList.isNullOrEmpty()){
 
+                                                    val observationDataList = ArrayList<DbObservationData>()
 
                                                     for (observations in entryList){
 
                                                         val code = observations.resource.code
                                                         if (code != null){
 
+                                                            val valueList = HashSet<String>()
+
                                                             val codeValue = code.coding[0].code
                                                             val value = code.coding[0].display
+
+                                                            Log.e("---- ", codeValue)
+                                                            Log.e("++++ ", value)
 
                                                             observationList[codeValue] = ArrayList()
                                                             observationList[codeValue]?.add(value)
 
+                                                            valueList.add(value)
 
+                                                            val dbObservationData = DbObservationData(codeValue, valueList)
+                                                            observationDataList.add(dbObservationData)
                                                         }
 
                                                     }
+                                                    Log.e("****** ", observationDataList.toString())
 
                                                 }
+
+
 
                                             }
 

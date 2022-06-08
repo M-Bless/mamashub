@@ -169,7 +169,6 @@
                             android:id="@+id/spinnerDeliveryMode"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@drawable/edit_outline_trans"
                             android:spinnerMode="dialog" />
 
                     </TableRow>

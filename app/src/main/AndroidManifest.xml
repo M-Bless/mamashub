@@ -13,10 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
+
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.screens.PhysicalExaminationView"
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
+        <activity
+            android:name=".new_designs.screens.PreviousPregnancyView"
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
+        <activity
             android:name=".new_designs.screens.MedicalSurgicalHistoryView"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.screens.PhysicalExamination"
             android:exported="false"
@@ -30,9 +39,9 @@
             android:exported="false"
             android:parentActivityName=".new_designs.screens.MedicalSurgicalHistoryView" />
         <activity
-            android:parentActivityName=".new_designs.NewMainActivity"
             android:name=".new_designs.screens.RegisterNewPatient"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.NewMainActivity" />
         <activity
             android:name=".new_designs.screens.PatientProfile"
             android:exported="false"

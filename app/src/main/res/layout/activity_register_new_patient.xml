@@ -188,6 +188,7 @@
                             android:hint="" />
 
                         <TextView
+                            android:id="@+id/tvAge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"

@@ -12,6 +12,15 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.Boolean
+import kotlin.Exception
+import kotlin.Int
+import kotlin.Long
+import kotlin.NumberFormatException
+import kotlin.String
+import kotlin.Triple
+import kotlin.let
+import kotlin.toString
 
 class FormatterClass {
 
@@ -27,7 +36,7 @@ class FormatterClass {
         var year = tripleData.third.toString().toInt()
 
         val cal = Calendar.getInstance()
-        val sdf = SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         val date = sdf.parse(dateStr)
         cal.time = date
 
@@ -49,6 +58,18 @@ class FormatterClass {
         return sdf1.format(newDate)
 
 
+    }
+
+    fun getAge(year: Int, month: Int, day: Int): String? {
+        val dob = Calendar.getInstance()
+        val today = Calendar.getInstance()
+        dob[year, month] = day
+        var age = today[Calendar.YEAR] - dob[Calendar.YEAR]
+        if (today[Calendar.DAY_OF_YEAR] < dob[Calendar.DAY_OF_YEAR]) {
+            age--
+        }
+        val ageInt = age
+        return ageInt.toString()
     }
 
     fun calculateGestation(lmpDate: String): String {
@@ -106,7 +127,7 @@ class FormatterClass {
     private fun getDateDetails(dateStr: String): Triple<Int?, Int?, Int?> {
 
         val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            DateTimeFormatter.ofPattern("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+            DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
         } else {
             return Triple(null, null, null)
         }

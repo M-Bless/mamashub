@@ -1,8 +1,10 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import kotlinx.android.synthetic.main.activity_patient_profile.*
@@ -20,14 +22,28 @@ class PatientProfile : AppCompatActivity() {
             startActivity(intent)
         }
         previousPregnancy.setOnClickListener {
-            val intent = Intent(this, PreviousPregnancy::class.java)
+            val intent = Intent(this, PreviousPregnancyView::class.java)
             startActivity(intent)
         }
         relativeLyt.setOnClickListener {
-            val intent = Intent(this, PhysicalExamination::class.java)
+            val intent = Intent(this, PhysicalExaminationView::class.java)
             startActivity(intent)
         }
+        linearLayoutCall.setOnClickListener {
 
+            val txtPhone = tvKinDetails.text.toString()
+            if (!TextUtils.isEmpty(txtPhone)){
+                calluser(txtPhone)
+            }
+
+        }
+
+    }
+
+    fun calluser(value: String){
+        val dialIntent = Intent(Intent.ACTION_DIAL)
+        dialIntent.data = Uri.parse("tel:" + value)
+        startActivity(dialIntent)
     }
 
     override fun onStart() {
@@ -48,7 +64,7 @@ class PatientProfile : AppCompatActivity() {
         if (kinRelationShip != null && kinName != null && kinPhoneNumber != null){
 
             val kinDetails = "$kinName \n$kinPhoneNumber"
-            tvKinDetails.text = kinDetails
+            tvKinDetails.text = kinPhoneNumber
 
         }
 

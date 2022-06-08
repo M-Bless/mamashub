@@ -24,10 +24,12 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
     var pregnancyList = arrayOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th","Other")
     var babySexList = arrayOf("Male", "Female")
     var outcomeList = arrayOf("Alive", "Dead")
+    var deliveryModeList = arrayOf("Vaginal delivery", "Assisted vaginal delivery", "Caesarean Section","Birth weight(grams)")
 
     private var spinnerPregnancyOrderData  = pregnancyList[0]
     private var spinnerBabySexData = babySexList[0]
     private var spinnerOutComeData  = outcomeList[0]
+    private var spinnerDeliveryModeData  = deliveryModeList[0]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +58,14 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
         outCome.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerOutCome!!.adapter = outCome
 
+        val deliveryMethod = ArrayAdapter(this, android.R.layout.simple_spinner_item, deliveryModeList)
+        deliveryMethod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerDeliveryMode!!.adapter = deliveryMethod
+
         spinnerPregnancyOrder.onItemSelectedListener = this
         spinnerBabySex.onItemSelectedListener = this
         spinnerOutCome.onItemSelectedListener = this
+        spinnerDeliveryMode.onItemSelectedListener = this
 
     }
 
@@ -90,6 +97,7 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
             val pregnancyData = getList(spinnerPregnancyOrderData,"Pregnancy Order")
             val babySex = getList(spinnerBabySexData,"Baby Sex")
             val outcome = getList(spinnerOutComeData,"Outcome")
+            val deliveryMode = getList(spinnerDeliveryModeData,"Delivery Mode")
 
             hashSet.add(yearData)
             hashSet.add(ancVisitsData)
@@ -101,10 +109,12 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
             hashSet.add(pregnancyData)
             hashSet.add(babySex)
             hashSet.add(outcome)
+            hashSet.add(deliveryMode)
 
             val dbObservationValue = DbObservationValue(hashSet)
 
-            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue, DbResourceViews.PREGNANCY_DETAILS.name)
+            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+                DbResourceViews.PREVIOUS_PREGNANCY.name)
 
 
         }else{
@@ -128,6 +138,7 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
             R.id.spinnerPregnancyOrder -> {spinnerPregnancyOrderData = spinnerPregnancyOrder.selectedItem.toString()}
             R.id.spinnerBabySex -> {spinnerBabySexData = spinnerBabySex.selectedItem.toString()}
             R.id.spinnerOutCome -> { spinnerOutComeData = spinnerOutCome.selectedItem.toString() }
+            R.id.spinnerDeliveryMode -> { spinnerDeliveryModeData = spinnerDeliveryMode.selectedItem.toString() }
             else -> {}
         }
 

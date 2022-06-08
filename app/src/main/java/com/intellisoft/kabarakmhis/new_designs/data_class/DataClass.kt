@@ -42,7 +42,8 @@ enum class DbResourceType {
 }
 enum class DbResourceViews {
     MEDICAL_HISTORY,
-    PREGNANCY_DETAILS
+    PREVIOUS_PREGNANCY,
+    PHYSICAL_EXAMINATION
 }
 
 data class DbPatientSuccess(

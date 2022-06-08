@@ -39,6 +39,8 @@ class RegisterNewPatient : AppCompatActivity(), AdapterView.OnItemSelectedListen
     private  var month = 0
     private  var day = 0
 
+    private var formatter = FormatterClass()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,6 +108,8 @@ class RegisterNewPatient : AppCompatActivity(), AdapterView.OnItemSelectedListen
             // arg3 = day
             val date = showDate(arg1, arg2 + 1, arg3)
             etDoB.text = date
+            val age = "${formatter.getAge(arg1, arg2 + 1, arg3)} years"
+            etAge.setText(age)
         }
 
     private val myDateLMPListener =
@@ -115,6 +119,9 @@ class RegisterNewPatient : AppCompatActivity(), AdapterView.OnItemSelectedListen
             // arg3 = day
             val date = showDate(arg1, arg2 + 1, arg3)
             etLmp.text = date
+            val edd = formatter.getCalculations(date)
+            etEdd.setText(edd)
+
         }
 
     private fun showDate(year: Int, month: Int, day: Int) :String{

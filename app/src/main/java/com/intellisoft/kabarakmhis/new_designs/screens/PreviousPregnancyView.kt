@@ -3,21 +3,20 @@ package com.intellisoft.kabarakmhis.new_designs.screens
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
-import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import kotlinx.android.synthetic.main.activity_medical_surgical_history_view.*
+import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MedicalSurgicalHistoryView : AppCompatActivity() {
+class PreviousPregnancyView : AppCompatActivity() {
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var recyclerView: RecyclerView
@@ -25,10 +24,10 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_medical_surgical_history_view)
+        setContentView(R.layout.activity_previous_pregnancy_view)
 
-        btnAddHistory.setOnClickListener {
-            val intent = Intent(this, MedicalHistory::class.java)
+        btnPreviousPregnancy.setOnClickListener {
+            val intent = Intent(this, PreviousPregnancy::class.java)
             startActivity(intent)
         }
 
@@ -40,7 +39,6 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-
     }
 
     override fun onStart() {
@@ -49,7 +47,8 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
 
             val observations = ArrayList<DbObserveValue>()
-            val observationList = retrofitCallsFhir.getPatientEncounters(this@MedicalSurgicalHistoryView, DbResourceViews.MEDICAL_HISTORY.name)
+            val observationList = retrofitCallsFhir.getPatientEncounters(this@PreviousPregnancyView,
+                DbResourceViews.PREVIOUS_PREGNANCY.name)
             for (keys in observationList){
 
                 val key = keys.key
@@ -57,16 +56,20 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
 
                 val dbObserveValue = DbObserveValue(key, value.toString())
                 observations.add(dbObserveValue)
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    val configurationListingAdapter = ObservationAdapter(
+                        observations,this@PreviousPregnancyView)
+                    recyclerView.adapter = configurationListingAdapter
+                }
             }
 
-            CoroutineScope(Dispatchers.Main).launch {
-                val configurationListingAdapter = ObservationAdapter(
-                    observations,this@MedicalSurgicalHistoryView)
-                recyclerView.adapter = configurationListingAdapter
-            }
+
 
         }
 
 
     }
+
+
 }

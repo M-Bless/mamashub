@@ -22,7 +22,9 @@
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_patient_profile.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_physical_examination.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_physical_examination_view.xml" value="0.2767210144927536" />
         <entry key="app/src/main/res/layout/activity_previous_pregnancy.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_previous_pregnancy_view.xml" value="0.2767210144927536" />
         <entry key="app/src/main/res/layout/activity_register_new_patient.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />

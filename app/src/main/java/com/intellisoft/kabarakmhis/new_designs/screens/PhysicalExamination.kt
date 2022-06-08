@@ -74,7 +74,8 @@ class PhysicalExamination : AppCompatActivity() {
 
             val dbObservationValue = DbObservationValue(hashSet)
 
-            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue, DbResourceViews.PREGNANCY_DETAILS.name)
+            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+                DbResourceViews.PHYSICAL_EXAMINATION.name)
 
 
         }else{
