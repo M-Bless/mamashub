@@ -101,14 +101,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="R" />
+                                android:text="Reactive" />
 
                             <RadioButton
                                 android:id="@+id/radioNRHIVStatus"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="NR" />
+                                android:text="Non Reactive" />
 
 
                         </RadioGroup>
@@ -153,6 +153,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearReferral"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"

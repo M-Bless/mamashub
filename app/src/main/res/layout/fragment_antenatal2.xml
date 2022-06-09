@@ -198,14 +198,14 @@
 
 
                         <TextView
-                            app:drawableEndCompat="@drawable/ic_action_date"
                             android:id="@+id/tvIPTNextVisit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/edit_outline_trans"
                             android:hint=""
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            app:drawableEndCompat="@drawable/ic_action_date" />
 
                     </LinearLayout>
 

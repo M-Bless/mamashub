@@ -18,9 +18,11 @@
             android:name=".new_designs.new_patient.PatientDetailsView"
             android:exported="false" />
         <activity
+            android:parentActivityName=".new_designs.NewMainActivity"
             android:name=".new_designs.antenatal_profile.AntenatalProfileView"
             android:exported="false" />
         <activity
+            android:parentActivityName=".new_designs.NewMainActivity"
             android:name=".new_designs.antenatal_profile.AntenatalProfile"
             android:exported="false" />
         <activity
