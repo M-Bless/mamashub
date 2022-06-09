@@ -1,15 +1,13 @@
-package com.intellisoft.kabarakmhis.new_designs.screens
+package com.intellisoft.kabarakmhis.new_designs.medical_history
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
-import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import kotlinx.android.synthetic.main.activity_medical_surgical_history_view.*

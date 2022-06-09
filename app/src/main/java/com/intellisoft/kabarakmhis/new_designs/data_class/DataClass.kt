@@ -1,5 +1,7 @@
 package com.intellisoft.kabarakmhis.new_designs.data_class
 
+import android.service.carrier.CarrierIdentifier
+
 data class DbPatient(
     val resourceType: String,
     val id: String,
@@ -43,7 +45,23 @@ enum class DbResourceType {
 enum class DbResourceViews {
     MEDICAL_HISTORY,
     PREVIOUS_PREGNANCY,
-    PHYSICAL_EXAMINATION
+    PHYSICAL_EXAMINATION,
+    NEW_PATIENT_1,
+    NEW_PATIENT_2,
+
+    SURGICAL_HISTORY,
+    MEDICAL_DRUG_HISTORY,
+    FAMILY_HISTORY,
+
+    ANTENATAL_1,
+    ANTENATAL_2,
+    ANTENATAL_3,
+    ANTENATAL_4,
+
+    PHYSICAL_EXAMINATION_1,
+    PHYSICAL_EXAMINATION_2,
+
+
 }
 
 data class DbPatientSuccess(
@@ -135,4 +153,15 @@ data class DbObservationData(
 data class DbObserveValue(
     val title: String,
     val value : String
+)
+
+data class DbPatientData(
+    val title: String,
+    val type: String,
+    val dataList: List<DbDataList>
+)
+data class DbDataList(
+    val code: String,
+    val value: String,
+    val identifier: String
 )

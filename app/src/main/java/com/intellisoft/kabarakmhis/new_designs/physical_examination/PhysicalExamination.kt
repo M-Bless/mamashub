@@ -1,11 +1,16 @@
-package com.intellisoft.kabarakmhis.new_designs.screens
+package com.intellisoft.kabarakmhis.new_designs.physical_examination
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal1
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal3
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal4
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
@@ -15,10 +20,41 @@ class PhysicalExamination : AppCompatActivity() {
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
 
+    private val formatter = FormatterClass()
+
+    private val physicalExam1 = DbResourceViews.PHYSICAL_EXAMINATION_1.name
+    private val physicalExam2 = DbResourceViews.PHYSICAL_EXAMINATION_2.name
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_physical_examination)
+
+        formatter.saveSharedPreference(this, "totalPages", "2")
+
+        if (savedInstanceState == null){
+            val ft = supportFragmentManager.beginTransaction()
+
+            when (formatter.retrieveSharedPreference(this, "FRAGMENT")) {
+                physicalExam1 -> {
+                    ft.replace(R.id.fragmentHolder, FragmentPhysicalExam1())
+                    formatter.saveCurrentPage("1", this)
+                }
+                physicalExam2 -> {
+                    ft.replace(R.id.fragmentHolder, FragmentPhysicalExam2())
+                    formatter.saveCurrentPage("2", this)
+                }
+                else -> {
+                    ft.replace(R.id.fragmentHolder, FragmentPhysicalExam1())
+                    formatter.saveCurrentPage("1", this)
+                }
+            }
+
+            ft.commit()
+
+
+        }
+
+
 
         btnSave.setOnClickListener {
 
@@ -27,6 +63,8 @@ class PhysicalExamination : AppCompatActivity() {
         }
 
     }
+
+
 
     private fun saveData() {
 

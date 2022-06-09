@@ -87,10 +87,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-//    implementation 'net.sourceforge.htmlunit:htmlunit:2.15'
-
-
-//    implementation 'com.github.JoelKanyi:KenyanCounties:1.0.0'
+//    implementation 'com.martinmbae.kenyan.47counties:library:1.0.3'
 
 
 }

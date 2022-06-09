@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.text.TextUtils
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
+import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 
 class PatientProfile : AppCompatActivity() {
@@ -26,6 +29,10 @@ class PatientProfile : AppCompatActivity() {
             startActivity(intent)
         }
         relativeLyt.setOnClickListener {
+            val intent = Intent(this, PhysicalExaminationView::class.java)
+            startActivity(intent)
+        }
+        antenatalProfile.setOnClickListener {
             val intent = Intent(this, PhysicalExaminationView::class.java)
             startActivity(intent)
         }

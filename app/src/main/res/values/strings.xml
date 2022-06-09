@@ -17,7 +17,7 @@
     </string-array>
     <string name="query_hint_patient_search">Find by Patient Name</string>
     <string name="menu_patient_edit">@string/edit_patient</string>
-    <string name="edit_patient">Edit Patient</string>
+    <string name="edit_patient">Edit Patient Details</string>
     <string name="unknown">UNKNOWN</string>
     <string name="none">none</string>
     <string name="message_no_datetime">No effective DateTime</string>
@@ -36,10 +36,11 @@
     <string name="resources_saved">Record added successfully.</string>
     <string name="dashboard_maternity_icon_label">Patients.</string>
     <string name="action_patient_list">Previous Pregnancy.</string>
-    <string name="action_medical">Medical History.</string>
+    <string name="action_medical">Medical History</string>
     <string name="physical_exam">Physical Examination.</string>
     <string name="header_relation">Child/Children</string>
     <string name="header_encounters">Encounters</string>
+    <string name="antenatal">Antenatal Profile</string>
 
     <string-array name="array_marital">
         <item>Married</item>

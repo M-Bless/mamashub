@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.screens
+package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,6 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
-import kotlinx.android.synthetic.main.activity_medical_surgical_history_view.*
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.screens
+package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,7 +9,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal1
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal3
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal4
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
@@ -31,9 +36,36 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
     private var spinnerOutComeData  = outcomeList[0]
     private var spinnerDeliveryModeData  = deliveryModeList[0]
 
+    private val formatter = FormatterClass()
+    private val previousPregnancy = DbResourceViews.PREVIOUS_PREGNANCY.name
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_pregnancy)
+
+        formatter.saveSharedPreference(this, "totalPages", "1")
+
+        if (savedInstanceState == null){
+            val ft = supportFragmentManager.beginTransaction()
+
+            when (formatter.retrieveSharedPreference(this, "FRAGMENT")) {
+                previousPregnancy -> {
+                    ft.replace(R.id.fragmentHolder, FragmentPreviousPregnancy())
+                    formatter.saveCurrentPage("1", this)
+                }
+                else -> {
+                    ft.replace(R.id.fragmentHolder, FragmentPreviousPregnancy())
+                    formatter.saveCurrentPage("1", this)
+                }
+            }
+
+            ft.commit()
+
+
+        }
+
 
         initSwitch()
 
@@ -43,6 +75,8 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
         }
     }
+
+
 
     private fun initSwitch() {
 

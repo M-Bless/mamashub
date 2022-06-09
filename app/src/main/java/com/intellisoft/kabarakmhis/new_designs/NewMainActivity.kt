@@ -3,13 +3,12 @@ package com.intellisoft.kabarakmhis.new_designs
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsAdapter
-import com.intellisoft.kabarakmhis.new_designs.screens.RegisterNewPatient
+import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
 
 class NewMainActivity : AppCompatActivity() {

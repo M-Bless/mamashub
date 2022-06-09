@@ -24,7 +24,7 @@
 
     <color name="primary">@color/main_color</color>
     <color name="primary_dark">@color/main_color_dark</color>
-    <color name="accent">@color/pink_A200</color>
+    <color name="accent">#80BFA6EE</color>
 
     <color name="low_risk">#388e3c</color>
     <color name="low_risk_background">#e8f5e9</color>
@@ -35,7 +35,7 @@
     <color name="unknown_risk_background">#10156125</color>
     <color name="unknown_risk">#ffffff</color>
 
-    <color name="inactive1">#4FC4C4C4</color>
+    <color name="inactive1">#34C4C4C4</color>
     <color name="display">#FFB1A2</color>
 
     <color name="save">#BF3ACC6C</color>

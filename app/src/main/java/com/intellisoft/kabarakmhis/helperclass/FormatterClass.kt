@@ -1,9 +1,15 @@
 package com.intellisoft.kabarakmhis.helperclass
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
+import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.intellisoft.kabarakmhis.R
 import java.lang.Double
 import java.text.SimpleDateFormat
@@ -229,4 +235,27 @@ class FormatterClass {
         return UUID.randomUUID().toString()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun progressBarFun(context: Context, currentPos: Int, finaPos: Int, rootView: View){
+
+        val progress = rootView.findViewById<View>(R.id.progress_bar)
+
+        val progressBar : ProgressBar = progress.findViewById(R.id.progressBar)
+        val tvProgress : TextView = progress.findViewById(R.id.tvProgress)
+
+        val progressStatusStr = "Page $currentPos / $finaPos"
+        tvProgress.text = progressStatusStr
+
+        val progressStatus = ( currentPos.toDouble() / finaPos.toDouble() ) * 100
+        progressBar.setProgress(progressStatus.toInt(), true)
+
+        Log.e("-------current ", currentPos.toString())
+        Log.e("-------final ", finaPos.toString())
+
+
+    }
+
+    fun saveCurrentPage(currentPage: String,context: Context) {
+        saveSharedPreference(context, "currentPage", currentPage)
+    }
 }

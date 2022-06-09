@@ -13,33 +13,41 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
-
         <activity
-            android:name=".new_designs.screens.PhysicalExaminationView"
+            android:name=".new_designs.new_patient.PatientDetailsView"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.antenatal_profile.AntenatalProfileView"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.antenatal_profile.AntenatalProfile"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.physical_examination.PhysicalExaminationView"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.screens.PreviousPregnancyView"
+            android:name=".new_designs.previous_pregnancy.PreviousPregnancyView"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.screens.MedicalSurgicalHistoryView"
+            android:name=".new_designs.medical_history.MedicalSurgicalHistoryView"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.screens.PhysicalExamination"
+            android:name=".new_designs.physical_examination.PhysicalExamination"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.screens.PreviousPregnancy"
+            android:name=".new_designs.previous_pregnancy.PreviousPregnancy"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.screens.MedicalHistory"
+            android:name=".new_designs.medical_history.MedicalHistory"
             android:exported="false"
-            android:parentActivityName=".new_designs.screens.MedicalSurgicalHistoryView" />
+            android:parentActivityName=".new_designs.medical_history.MedicalSurgicalHistoryView" />
         <activity
-            android:name=".new_designs.screens.RegisterNewPatient"
+            android:name=".new_designs.new_patient.RegisterNewPatient"
             android:exported="false"
             android:parentActivityName=".new_designs.NewMainActivity" />
         <activity

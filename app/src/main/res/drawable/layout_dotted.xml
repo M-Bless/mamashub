@@ -4,6 +4,10 @@
     android:shape="rectangle"
     android:padding="10dp">
 
+    <solid
+        android:color="@color/accent2"
+        />
+
 
     <padding
         android:right="15dp"
