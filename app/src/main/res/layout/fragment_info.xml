@@ -114,7 +114,18 @@
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
+                            <EditText
+                                android:id="@+id/etWard"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+
                             <Spinner
+                                android:visibility="gone"
                                 android:id="@+id/spinnerWard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"

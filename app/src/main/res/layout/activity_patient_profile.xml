@@ -196,6 +196,7 @@
 
 
             <androidx.cardview.widget.CardView
+                android:onClick="navigatePatientDetails"
                 app:cardCornerRadius="20dp"
                 android:id="@+id/findPatientsCardView"
                 android:layout_width="0dp"
@@ -207,6 +208,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <RelativeLayout
+                    android:onClick="navigatePatientDetails"
                     android:background="@color/accent"
                     android:id="@+id/rtlEditPatient"
                     android:layout_width="match_parent"
@@ -215,6 +217,7 @@
                     android:focusable="true">
 
                     <ImageView
+                        android:onClick="navigatePatientDetails"
                         android:id="@+id/imageViewEditPatient"
                         android:layout_width="@dimen/_150dp"
                         android:layout_height="@dimen/_150dp"
@@ -224,6 +227,7 @@
                         android:src="@drawable/register" />
 
                     <TextView
+                        android:onClick="navigatePatientDetails"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -240,6 +244,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:onClick="navigatePreviousPreg"
                 app:cardCornerRadius="20dp"
                 android:id="@+id/cardViewPastPreg"
                 android:layout_width="0dp"
@@ -250,40 +255,45 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="spread_inside">
 
+
                 <RelativeLayout
-                    android:background="@color/accent"
-                    android:id="@+id/rltMedicalHistory"
+                    android:onClick="navigatePreviousPreg"
+                    android:id="@+id/previousPregnancy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/accent"
                     android:clickable="true"
                     android:focusable="true">
 
                     <ImageView
-                        android:id="@+id/imageViewHistory"
+                        android:id="@+id/allPatientsButton"
                         android:layout_width="@dimen/_150dp"
                         android:layout_height="@dimen/_150dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerInParent="true"
                         android:contentDescription="@string/action_patient_list"
-                        android:src="@drawable/surgery" />
+                        android:onClick="navigatePreviousPreg"
+                        android:src="@drawable/pregnant"
+                        tools:ignore="UsingOnClickInXml" />
 
                     <TextView
+                        android:onClick="navigatePreviousPreg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/imageViewHistory"
+                        android:layout_below="@id/allPatientsButton"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
+                        android:textColor="@color/black"
                         android:layout_marginTop="@dimen/dashboard_text_top_margin"
                         android:layout_marginBottom="@dimen/dashboard_text_bottom_margin"
-                        android:gravity="center"
-                        android:text="@string/action_medical"
-                        android:textColor="@color/black" />
+                        android:text="@string/action_patient_list" />
                 </RelativeLayout>
 
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:onClick="navigatePhysical"
                 app:cardCornerRadius="20dp"
                 android:id="@+id/cardViewPhysicalExam"
                 android:layout_width="0dp"
@@ -296,6 +306,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <RelativeLayout
+                    android:onClick="navigatePhysical"
                     android:id="@+id/relativeLyt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -304,6 +315,7 @@
                     android:focusable="true">
 
                     <ImageView
+                        android:onClick="navigatePhysical"
                         android:id="@+id/imageViewPhysical"
                         android:layout_width="@dimen/_150dp"
                         android:layout_height="@dimen/_150dp"
@@ -313,6 +325,7 @@
                         android:src="@drawable/check" />
 
                     <TextView
+                        android:onClick="navigatePhysical"
                         android:id="@+id/tvPhysicalExam"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -329,6 +342,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:onClick="medicalHistory"
                 app:cardCornerRadius="20dp"
                 android:id="@+id/cardViewHistory"
                 android:layout_width="0dp"
@@ -340,40 +354,46 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardViewPastPreg"
                 app:layout_constraintVertical_chainStyle="spread_inside">
 
+
+
                 <RelativeLayout
-                    android:id="@+id/previousPregnancy"
+                    android:onClick="medicalHistory"
+                    android:background="@color/accent"
+                    android:id="@+id/rltMedicalHistory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/accent"
                     android:clickable="true"
                     android:focusable="true">
 
                     <ImageView
-                        android:id="@+id/allPatientsButton"
+                        android:onClick="medicalHistory"
+                        android:id="@+id/imageViewHistory"
                         android:layout_width="@dimen/_150dp"
                         android:layout_height="@dimen/_150dp"
                         android:layout_alignParentTop="true"
                         android:layout_centerInParent="true"
                         android:contentDescription="@string/action_patient_list"
-                        android:src="@drawable/pregnant" />
+                        android:src="@drawable/surgery" />
 
                     <TextView
+                        android:onClick="medicalHistory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/allPatientsButton"
+                        android:layout_below="@id/imageViewHistory"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
-                        android:textColor="@color/black"
                         android:layout_marginTop="@dimen/dashboard_text_top_margin"
                         android:layout_marginBottom="@dimen/dashboard_text_bottom_margin"
-                        android:text="@string/action_patient_list" />
+                        android:gravity="center"
+                        android:text="@string/action_medical"
+                        android:textColor="@color/black" />
                 </RelativeLayout>
-
 
 
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
+                android:onClick="navigateAntenatalProfile"
                 android:paddingBottom="10dp"
                 android:id="@+id/linearAntenatal"
                 android:layout_marginTop="10dp"
@@ -387,13 +407,15 @@
                 android:layout_height="wrap_content">
 
                 <androidx.cardview.widget.CardView
+                    android:onClick="navigateAntenatalProfile"
+                    android:id="@+id/cardViewAntenatal"
                     android:paddingBottom="@dimen/_5dp"
                     app:cardCornerRadius="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-
+                        android:onClick="navigateAntenatalProfile"
                         android:paddingEnd="@dimen/_35dp"
                         android:paddingStart="@dimen/_35dp"
                         android:id="@+id/antenatalProfile"
@@ -404,6 +426,7 @@
                         android:focusable="true">
 
                         <ImageView
+                            android:onClick="navigateAntenatalProfile"
                             android:id="@+id/imageViewAntenatal"
                             android:layout_width="@dimen/_150dp"
                             android:layout_height="@dimen/_150dp"
@@ -413,6 +436,7 @@
                             android:src="@drawable/antenatalprofile" />
 
                         <TextView
+                            android:onClick="navigateAntenatalProfile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/imageViewAntenatal"

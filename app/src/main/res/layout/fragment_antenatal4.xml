@@ -115,6 +115,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/linearReactive"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -138,20 +139,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="R" />
+                                android:text="Yes" />
 
                             <RadioButton
                                 android:id="@+id/radioNoReactive"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="NR" />
+                                android:text="No" />
 
 
                         </RadioGroup>
 
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/linearReferral"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"

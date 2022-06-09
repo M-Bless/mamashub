@@ -77,7 +77,13 @@
                         </RadioGroup>
 
                     </LinearLayout>
+
+
+
+
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearTB"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -100,19 +106,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Yes" />
+                                android:text="Positive" />
 
                             <RadioButton
                                 android:id="@+id/radioNegativeTbResults"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="No" />
+                                android:text="Negative" />
 
                         </RadioGroup>
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearPositive"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -133,6 +141,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearNegative"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -257,6 +267,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearDate"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -281,6 +293,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -318,6 +331,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linear2ndUltra"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

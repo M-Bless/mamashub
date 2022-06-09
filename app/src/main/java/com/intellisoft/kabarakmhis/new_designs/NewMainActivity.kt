@@ -10,6 +10,9 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsAdapter
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NewMainActivity : AppCompatActivity() {
 
@@ -39,15 +42,26 @@ class NewMainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        val patientData = retrofitCallsFhir.getPatients(this)
-        val patientList = patientData.entry
-        if (patientList != null){
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val patientData = retrofitCallsFhir.getPatients(this@NewMainActivity)
+            val patientList = patientData.entry
+            if (patientList != null){
+
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    val configurationListingAdapter = PatientsAdapter(
+                        patientList,this@NewMainActivity)
+                    recyclerView.adapter = configurationListingAdapter
+
+                }
 
 
-            val configurationListingAdapter = PatientsAdapter(
-                patientList,this@NewMainActivity)
-            recyclerView.adapter = configurationListingAdapter
+            }
+
         }
+
+
 
     }
 }

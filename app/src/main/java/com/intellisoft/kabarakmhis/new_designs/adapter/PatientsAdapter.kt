@@ -56,6 +56,7 @@ class PatientsAdapter(private var entryList: List<DBEntry>,
             }
 
             FormatterClass().saveSharedPreference(context, "patientId", id)
+            FormatterClass().saveSharedPreference(context, "FHIRID", id)
             FormatterClass().saveSharedPreference(context, "dob", dob)
             FormatterClass().saveSharedPreference(context, "name", name)
 

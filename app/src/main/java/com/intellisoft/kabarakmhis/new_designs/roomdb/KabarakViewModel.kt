@@ -24,8 +24,8 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
      */
 
 
-    fun insertInfo(context: Context, list: List<DbPatientData>) {
-        repository.insertPatientDataInfo(context, list)
+    fun insertInfo(context: Context, dbPatientData: DbPatientData) {
+        repository.insertPatientDataInfo(context, dbPatientData)
     }
 
     fun getTittlePatientData(title: String, context: Context) = runBlocking {

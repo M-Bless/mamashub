@@ -181,6 +181,7 @@ class RetrofitCallsAuthentication {
                         val email = data.email
 
                         formatter.saveSharedPreference(context, "id", id)
+                        formatter.saveSharedPreference(context, "USERID", id)
                         formatter.saveSharedPreference(context, "names", names)
                         formatter.saveSharedPreference(context, "email", email)
 

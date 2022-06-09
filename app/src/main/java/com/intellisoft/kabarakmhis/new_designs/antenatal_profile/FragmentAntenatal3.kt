@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import android.widget.RadioButton
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import kotlinx.android.synthetic.main.fragment_antenatal3.view.*
+
 import java.util.*
 
 
@@ -40,8 +43,73 @@ class FragmentAntenatal3 : Fragment() {
             ft.commit()
         }
 
+        rootView.radioGrpHiv.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearTestDate, true)
+                    changeVisibility(rootView.linearNo, false)
+                } else {
+                    changeVisibility(rootView.linearTestDate, false)
+                    changeVisibility(rootView.linearNo, true)
+                }
+            }
+        }
+        rootView.radioGrpHIVStatus.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "NR") {
+                    changeVisibility(rootView.linearNR, true)
+                } else {
+                    changeVisibility(rootView.linearNR, false)
+                }
+            }
+        }
+        rootView.radioGrpSyphilis.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearSyphTestDate, true)
+                    changeVisibility(rootView.linearSyphNo, false)
+                } else {
+                    changeVisibility(rootView.linearSyphTestDate, false)
+                    changeVisibility(rootView.linearSyphNo, true)
+                }
+            }
+        }
+        rootView.radioGrpHepatitis.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearHepatitis, true)
+                    changeVisibility(rootView.linearHepaNo, false)
+                } else {
+                    changeVisibility(rootView.linearHepatitis, false)
+                    changeVisibility(rootView.linearHepaNo, true)
+                }
+            }
+        }
+
+
 
         return rootView
+    }
+
+    private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
+        if (showLinear){
+            linearLayout.visibility = View.VISIBLE
+        }else{
+            linearLayout.visibility = View.GONE
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

@@ -37,32 +37,7 @@ data class DbAddress(
     val state:String,
     val country:String
 )
-enum class DbResourceType {
-    Patient,
-    Encounter,
-    Observation
-}
-enum class DbResourceViews {
-    MEDICAL_HISTORY,
-    PREVIOUS_PREGNANCY,
-    PHYSICAL_EXAMINATION,
-    NEW_PATIENT_1,
-    NEW_PATIENT_2,
 
-    SURGICAL_HISTORY,
-    MEDICAL_DRUG_HISTORY,
-    FAMILY_HISTORY,
-
-    ANTENATAL_1,
-    ANTENATAL_2,
-    ANTENATAL_3,
-    ANTENATAL_4,
-
-    PHYSICAL_EXAMINATION_1,
-    PHYSICAL_EXAMINATION_2,
-
-
-}
 
 data class DbPatientSuccess(
     val resourceType: String,
@@ -155,13 +130,48 @@ data class DbObserveValue(
     val value : String
 )
 
+
 data class DbPatientData(
     val title: String,
-    val type: String,
-    val dataList: List<DbDataList>
+    val data : List<DbDataDetails>
+)
+data class DbDataDetails(
+    val data_value: List<DbDataList>
 )
 data class DbDataList(
     val code: String,
     val value: String,
-    val identifier: String
+    val type: String,
+    val identifier: String,
+
+    )
+
+enum class DbResourceType {
+    Patient,
+    Encounter,
+    Observation
+}
+enum class DbResourceViews {
+    MEDICAL_HISTORY,
+    PREVIOUS_PREGNANCY,
+    PHYSICAL_EXAMINATION,
+    NEW_PATIENT_1,
+    NEW_PATIENT_2,
+
+    PATIENT_INFO,
+    SURGICAL_HISTORY,
+    MEDICAL_DRUG_HISTORY,
+    FAMILY_HISTORY,
+
+    ANTENATAL_1,
+    ANTENATAL_2,
+    ANTENATAL_3,
+    ANTENATAL_4,
+
+    PHYSICAL_EXAMINATION_1,
+    PHYSICAL_EXAMINATION_2,
+}
+data class DbTypeDataValue(
+    val type: String,
+    val dbObserveValue: DbObserveValue
 )

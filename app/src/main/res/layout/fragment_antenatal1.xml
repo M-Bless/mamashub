@@ -77,6 +77,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearHb"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -135,6 +137,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearBG"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -221,6 +225,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearRhesus"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -293,6 +299,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearRBS"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -370,6 +378,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearUrine"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -405,6 +415,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearAbnormal"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

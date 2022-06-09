@@ -19,10 +19,13 @@ interface RoomDao {
     suspend fun deletePatientDataInfo(id: Int)
 
     @Query("SELECT * from patient_data WHERE id =:id")
-    suspend fun getPatientDataInfo(id: String): PatientData?
+    suspend fun getPatientDataInfo(id: Int): PatientData?
 
     @Query("SELECT * from patient_data WHERE fhirId =:fhirId AND type =:type")
     suspend fun getPatientInfoType(type: String, fhirId: String): PatientData?
+
+    @Query("SELECT * from patient_data WHERE id =:id AND type =:type")
+    suspend fun getPatientInfoTypeId(id: Int, type: String): PatientData?
 
 
     @Query("SELECT * from patient_data WHERE fhirId =:fhirId AND title =:title")

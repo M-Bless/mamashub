@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
         <activity
+            android:parentActivityName=".new_designs.NewMainActivity"
             android:name=".new_designs.new_patient.PatientDetailsView"
             android:exported="false" />
         <activity

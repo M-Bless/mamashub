@@ -5,10 +5,16 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile
+import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalHistory
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
+import com.intellisoft.kabarakmhis.new_designs.new_patient.PatientDetailsView
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
+import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 
@@ -20,20 +26,20 @@ class PatientProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
 
-        rltMedicalHistory.setOnClickListener {
-            val intent = Intent(this, MedicalSurgicalHistoryView::class.java)
+        cardViewHistory.setOnClickListener {
+            val intent = Intent(this, MedicalHistory::class.java)
             startActivity(intent)
         }
-        previousPregnancy.setOnClickListener {
-            val intent = Intent(this, PreviousPregnancyView::class.java)
+        cardViewPastPreg.setOnClickListener {
+            val intent = Intent(this, PreviousPregnancy::class.java)
             startActivity(intent)
         }
-        relativeLyt.setOnClickListener {
-            val intent = Intent(this, PhysicalExaminationView::class.java)
+        cardViewPhysicalExam.setOnClickListener {
+            val intent = Intent(this, PhysicalExamination::class.java)
             startActivity(intent)
         }
-        antenatalProfile.setOnClickListener {
-            val intent = Intent(this, PhysicalExaminationView::class.java)
+        cardViewAntenatal.setOnClickListener {
+            val intent = Intent(this, AntenatalProfile::class.java)
             startActivity(intent)
         }
         linearLayoutCall.setOnClickListener {
@@ -47,9 +53,9 @@ class PatientProfile : AppCompatActivity() {
 
     }
 
-    fun calluser(value: String){
+    private fun calluser(value: String){
         val dialIntent = Intent(Intent.ACTION_DIAL)
-        dialIntent.data = Uri.parse("tel:" + value)
+        dialIntent.data = Uri.parse("tel:$value")
         startActivity(dialIntent)
     }
 
@@ -78,5 +84,28 @@ class PatientProfile : AppCompatActivity() {
         tvName.text = patientName
         tvAge.text = dob
 
+    }
+
+    fun navigatePreviousPreg(view: View) {
+        val intent = Intent(this, PreviousPregnancy::class.java)
+        startActivity(intent)
+    }
+
+    fun navigateAntenatalProfile(view: View) {
+        val intent = Intent(this, AntenatalProfile::class.java)
+        startActivity(intent)
+    }
+    fun medicalHistory(view: View) {
+        val intent = Intent(this, MedicalHistory::class.java)
+        startActivity(intent)
+    }
+    fun navigatePhysical(view: View) {
+        val intent = Intent(this, PhysicalExamination::class.java)
+        startActivity(intent)
+    }
+
+    fun navigatePatientDetails(view: View) {
+        val intent = Intent(this, PatientDetailsView::class.java)
+        startActivity(intent)
     }
 }

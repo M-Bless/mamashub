@@ -78,6 +78,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearTestDate"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -101,6 +103,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearNo"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -164,6 +168,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearNR"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -246,6 +252,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearSyphTestDate"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -269,6 +277,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearSyphNo"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -390,6 +400,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearHepatitis"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -413,6 +425,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearHepaNo"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -443,7 +457,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Hepatitis B Status"/>
+                            android:text="Hepatitis B Mother Status"/>
 
                         <RadioGroup
                             android:id="@+id/radioGrpHepatitisStatus"

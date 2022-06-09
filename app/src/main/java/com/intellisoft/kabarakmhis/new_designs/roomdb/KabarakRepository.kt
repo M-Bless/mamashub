@@ -1,8 +1,11 @@
 package com.intellisoft.kabarakmhis.new_designs.roomdb
 
 import android.content.Context
+import android.util.Log
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientData
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbTypeDataValue
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.PatientData
 
 import kotlinx.coroutines.*
@@ -18,23 +21,27 @@ class KabarakRepository(private val roomDao: RoomDao) {
     }
 
 
-    fun insertPatientDataInfo(context: Context, list: List<DbPatientData>){
+    fun insertPatientDataInfo(context: Context, dbPatientData: DbPatientData){
 
         CoroutineScope(Dispatchers.IO).launch {
 
             val loggedInUser = getSharedPref(context, "USERID").toString()
             val fhirId = getSharedPref(context, "FHIRID").toString()
 
-            for (items in list){
+            val title = dbPatientData.title
+            val dbDataDetailsList = dbPatientData.data
 
-                val title = items.title
-                val type = items.type
-                val dataList = items.dataList
-                for (data in dataList){
+            for (dbDataDetails in dbDataDetailsList){
 
-                    val code = data.code
-                    val value = data.value
-                    val identifier = data.identifier
+                val dbDataList = dbDataDetails.data_value
+
+                for (dbData in dbDataList){
+
+                    val code = dbData.code
+                    val value = dbData.value
+                    val type = dbData.type
+                    val identifier = dbData.identifier
+
 
                     val isData = roomDao.checkPatientDataInfo(loggedInUser, type, code, fhirId)
                     if (!isData){
@@ -43,9 +50,7 @@ class KabarakRepository(private val roomDao: RoomDao) {
                         roomDao.addPatientDataInfo(patientData)
                     }
 
-
                 }
-
 
             }
 
@@ -57,10 +62,54 @@ class KabarakRepository(private val roomDao: RoomDao) {
         return roomDao.nukePatientDataTable()
     }
 
-    suspend fun getTittlePatientData(title:String, context: Context):List<PatientData>{
+    suspend fun getTittlePatientData(title:String, context: Context):ArrayList<DbTypeDataValue>{
 
         val fhirId = getSharedPref(context, "FHIRID").toString()
-        return roomDao.getPatientInfoTitle(title, fhirId)
+        val dataList = roomDao.getPatientInfoTitle(title, fhirId)
+
+        val dbObservationDataList = ArrayList<DbTypeDataValue>()
+
+        for (items in dataList){
+
+
+            val id = items.id
+            val type = items.type
+
+
+            if (id != null){
+
+                val patientData = roomDao.getPatientInfoTypeId(id, type)
+
+                if (patientData != null){
+
+                    val typeData = patientData.type
+
+                    if (type == typeData){
+
+                        val code = patientData.code
+                        val value = patientData.value
+
+                        val dbObserveValue = DbObserveValue(code, value)
+                        val dbTypeDataValue = DbTypeDataValue(type, dbObserveValue)
+
+                        dbObservationDataList.add(dbTypeDataValue)
+
+                    }
+
+                }
+
+            }
+
+
+        }
+
+
+
+
+
+        Log.e("-0-0-0-0 ", dbObservationDataList.toString())
+
+        return dbObservationDataList
     }
 
 
