@@ -138,6 +138,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             dbDataDetailsList.add(dbDataDetails)
             val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
 
+            formatter.saveSharedPreference(requireContext(), "dob", dob)
+            formatter.saveSharedPreference(requireContext(), "clientName", clientName)
+
             val ft = requireActivity().supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
             ft.addToBackStack(null)

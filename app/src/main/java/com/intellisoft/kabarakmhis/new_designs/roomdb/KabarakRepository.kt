@@ -48,6 +48,7 @@ class KabarakRepository(private val roomDao: RoomDao) {
 
                         val patientData = PatientData(code, value, type, identifier, title, fhirId, loggedInUser)
                         roomDao.addPatientDataInfo(patientData)
+
                     }
 
                 }
