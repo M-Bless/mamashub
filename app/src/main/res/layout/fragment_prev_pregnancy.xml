@@ -387,6 +387,8 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearPurperium"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"

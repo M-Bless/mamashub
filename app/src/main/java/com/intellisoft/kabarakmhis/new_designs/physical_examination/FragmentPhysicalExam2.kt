@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.physical_examination
 
+import android.app.Application
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,10 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import android.widget.RadioButton
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.*
 
 
@@ -20,6 +24,8 @@ class FragmentPhysicalExam2 : Fragment() {
 
     private val formatter = FormatterClass()
 
+    private var observationList = mutableMapOf<String, String>()
+    private lateinit var kabarakViewModel: KabarakViewModel
 
 
     private lateinit var rootView: View
@@ -31,16 +37,164 @@ class FragmentPhysicalExam2 : Fragment() {
     ): View {
 
         rootView = inflater.inflate(R.layout.fragment_physical_exam_2, container, false)
+        kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         rootView.btnSave.setOnClickListener {
-            startActivity(Intent(requireContext(), PhysicalExaminationView::class.java))
+            saveData()
         }
 
         formatter.saveCurrentPage("2", requireContext())
         getPageDetails()
 
+        rootView.radioGrpAbdominalExam.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearInspection, true)
+                } else {
+                    changeVisibility(rootView.linearInspection, false)
+                }
+
+            }
+        }
+        rootView.radioGrpPalpation.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearPalp, true)
+                } else {
+                    changeVisibility(rootView.linearPalp, false)
+                }
+
+            }
+        }
+        rootView.radioGrpAuscalation.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearAusc, true)
+                } else {
+                    changeVisibility(rootView.linearAusc, false)
+                }
+
+            }
+        }
+        rootView.radioGrpExternalExam.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearExternalInspection, true)
+                } else {
+                    changeVisibility(rootView.linearExternalInspection, false)
+                }
+
+            }
+        }
+        rootView.radioGrpExternalPalpation.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearExternalPalp, true)
+                } else {
+                    changeVisibility(rootView.linearExternalPalp, false)
+                }
+
+            }
+        }
+        rootView.radioGrpDischarge.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearDischarge, true)
+                } else {
+                    changeVisibility(rootView.linearDischarge, false)
+                }
+
+            }
+        }
+        rootView.radioGrpGenital.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearGenital, true)
+                } else {
+                    changeVisibility(rootView.linearGenital, false)
+                }
+
+            }
+        }
+
+
+
 
         return rootView
+    }
+
+    private fun saveData() {
+
+        if(rootView.linearInspection.visibility == View.VISIBLE){
+            val text = rootView.etAbnomality.text.toString()
+            addData("Abdominal Examination",text)
+        }
+        if(rootView.linearPalp.visibility == View.VISIBLE){
+            val text = rootView.etPalpation.text.toString()
+            addData("Palpation Done",text)
+        }
+        if(rootView.linearAusc.visibility == View.VISIBLE){
+            val text = rootView.etAuscalation.text.toString()
+            addData("Auscultation Done",text)
+        }
+
+
+        if(rootView.linearExternalInspection.visibility == View.VISIBLE){
+            val text = rootView.etExternalAbnomality.text.toString()
+            addData("Inspection Done",text)
+        }
+
+        if(rootView.linearExternalPalp.visibility == View.VISIBLE){
+            val text = rootView.etExternalPalpation.text.toString()
+            addData("Palpation Done",text)
+        }
+        if(rootView.linearDischarge.visibility == View.VISIBLE){
+            val text = rootView.etDischarge.text.toString()
+            addData("Discharge Present",text)
+        }
+        if(rootView.linearGenital.visibility == View.VISIBLE){
+            val text = rootView.etGenital.text.toString()
+            addData("Genital Ulcer Present",text)
+        }
+
+
+        startActivity(Intent(requireContext(), PhysicalExaminationView::class.java))
+
+    }
+
+    private fun addData(key: String, value: String) {
+        observationList[key] = value
+    }
+
+
+    private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
+        if (showLinear){
+            linearLayout.visibility = View.VISIBLE
+        }else{
+            linearLayout.visibility = View.GONE
+        }
+
     }
     @RequiresApi(Build.VERSION_CODES.N)
     private fun getPageDetails() {
