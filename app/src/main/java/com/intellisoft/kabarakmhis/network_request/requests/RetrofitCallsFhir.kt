@@ -76,8 +76,8 @@ class RetrofitCallsFhir {
 
                             }
 
-                            val intent = Intent(context, NewMainActivity::class.java)
-                            context.startActivity(intent)
+//                            val intent = Intent(context, NewMainActivity::class.java)
+//                            context.startActivity(intent)
 
                             CoroutineScope(Dispatchers.Main).launch {
 

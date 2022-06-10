@@ -294,6 +294,7 @@
                             />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etGravida"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -303,6 +304,7 @@
                             android:hint="" />
 
                         <TextView
+                            android:inputType="number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
@@ -311,6 +313,7 @@
                             />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etParity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -331,6 +334,7 @@
                             />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etHeight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -348,6 +352,7 @@
                             />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etWeight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

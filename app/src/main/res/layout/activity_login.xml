@@ -6,29 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".auth.Login">
 
+    <ImageView
+        android:id="@+id/top"
+        android:background="@drawable/top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100dp"/>
+
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/top"
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_marginBottom="@dimen/_35dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="MHIS"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
-            android:layout_marginBottom="@dimen/_35dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_35dp"
+            android:gravity="center"
+            android:text="MHIS"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_35dp"
             android:gravity="center"
             android:text="Welcome Back!"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
 
 
         <LinearLayout
@@ -38,23 +49,53 @@
             android:orientation="vertical"
             android:paddingBottom="3dp">
 
-
-            <EditText
-                android:id="@+id/etEmailAddress"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_edittext"
-                android:hint="Email Address"
-                android:inputType="textEmailAddress" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/etPassword"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_5dp"
+                    android:text="Username"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/etEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_edittext"
+                    android:hint="Email Address"
+                    android:inputType="textEmailAddress" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round_edittext"
-                android:hint="Password"
-                android:inputType="textPassword" />
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_5dp"
+                    android:text="Password"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/round_edittext"
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvForgetPassword"
@@ -112,6 +153,14 @@
             android:textColor="@color/text_color" />
 
     </LinearLayout>
+
+
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/below"
+        android:background="@drawable/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100dp"/>
 
 
 

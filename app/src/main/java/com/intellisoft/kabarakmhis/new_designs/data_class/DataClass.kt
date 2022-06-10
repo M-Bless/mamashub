@@ -171,6 +171,9 @@ enum class DbResourceViews {
 
     PHYSICAL_EXAMINATION_1,
     PHYSICAL_EXAMINATION_2,
+
+    CHW_1,
+    CHW_2,
 }
 data class DbTypeDataValue(
     val type: String,

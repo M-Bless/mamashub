@@ -105,7 +105,7 @@ class PatientProfile : AppCompatActivity() {
     }
 
     fun navigatePatientDetails(view: View) {
-        val intent = Intent(this, PatientDetailsView::class.java)
-        startActivity(intent)
+//        val intent = Intent(this, PatientDetailsView::class.java)
+//        startActivity(intent)
     }
 }

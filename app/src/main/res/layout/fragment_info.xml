@@ -231,6 +231,7 @@
                             />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etTelePhone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -316,6 +317,7 @@
                                  />
 
                             <EditText
+                                android:inputType="number"
                                 android:id="@+id/etTelePhonKin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
