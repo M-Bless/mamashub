@@ -12,8 +12,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.DBEntry
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class PatientsAdapter(private var entryList: List<DBEntry>,
                       private val context: Context
@@ -38,27 +44,39 @@ class PatientsAdapter(private var entryList: List<DBEntry>,
             val dob = entryList[pos].resource.birthDate
             val name = entryList[pos].resource.name[0].family
 
-            val contactList = entryList[position].resource.contact
-            if (contactList != null) {
-                for (items in contactList){
+            CoroutineScope(Dispatchers.IO).launch {
+                coroutineScope {
+                    launch(Dispatchers.IO) {
 
-                    val relationShip = items.relationship?.get(0)?.text
-                    val kinName = items.name.family
-                    val phoneNumber = items.telecom[0].value
+                        val contactList = entryList[position].resource.contact
+                        if (contactList != null) {
+                            for (items in contactList){
 
-                    if (relationShip != null) {
-                        FormatterClass().saveSharedPreference(context, "kinRelationShip", relationShip)
+                                val relationShip = items.relationship?.get(0)?.text
+                                val kinName = items.name.family
+                                val phoneNumber = items.telecom[0].value
+
+                                if (relationShip != null) {
+                                    FormatterClass().saveSharedPreference(context, "kinRelationShip", relationShip)
+                                }
+                                FormatterClass().saveSharedPreference(context, "kinName", kinName)
+                                FormatterClass().saveSharedPreference(context, "kinPhoneNumber", phoneNumber)
+
+                            }
+                        }
+
+                        FormatterClass().saveSharedPreference(context, "patientId", id)
+                        FormatterClass().saveSharedPreference(context, "FHIRID", id)
+
+                        FormatterClass().saveSharedPreference(context, "dob", dob)
+                        FormatterClass().saveSharedPreference(context, "name", name)
+
+                        RetrofitCallsFhir().getPatientEncounters(context)
+
                     }
-                    FormatterClass().saveSharedPreference(context, "kinName", kinName)
-                    FormatterClass().saveSharedPreference(context, "kinPhoneNumber", phoneNumber)
-
                 }
             }
 
-            FormatterClass().saveSharedPreference(context, "patientId", id)
-            FormatterClass().saveSharedPreference(context, "FHIRID", id)
-            FormatterClass().saveSharedPreference(context, "dob", dob)
-            FormatterClass().saveSharedPreference(context, "name", name)
 
             context.startActivity(Intent(context, PatientProfile::class.java))
 

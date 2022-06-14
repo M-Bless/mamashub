@@ -5,13 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationData
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationValue
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import kotlinx.android.synthetic.main.activity_clinical_notes_add.*
 import java.util.*
-import kotlin.collections.HashSet
+import kotlin.collections.ArrayList
 
 class ClinicalNotesAdd : AppCompatActivity() {
 
@@ -20,6 +19,7 @@ class ClinicalNotesAdd : AppCompatActivity() {
     private  var month = 0
     private  var day = 0
     private val retrofitCallsFhir = RetrofitCallsFhir()
+    private val formatter = FormatterClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +38,26 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
             if (!TextUtils.isEmpty(clinicalNotes)){
 
-                val dbObservationValue = createObservation(clinicalNotes, appointmentDate)
-                retrofitCallsFhir.createFhirEncounter(this, dbObservationValue, DbResourceViews.CLINICAL_NOTES.name)
+                val todayDate = formatter.getTodayDateNoTime()
+                val dbObserveValueList = ArrayList<DbObserveValue>()
+                val dbClinicalValue = DbObserveValue("Clinical Note", clinicalNotes)
+                val dbNextValue = DbObserveValue("Next Appointment", appointmentDate)
+                val dbTodayValue = DbObserveValue("Date Collected", todayDate)
+
+                dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
+
+                val dbCode = createObservation(dbObserveValueList)
+
+
+                val encounterId = formatter.retrieveSharedPreference(this, DbResourceViews.CLINICAL_NOTES.name)
+                if (encounterId != null){
+                    retrofitCallsFhir.createObservation(encounterId,this, dbCode)
+
+                }else{
+                    retrofitCallsFhir.createFhirEncounter(this, dbCode, DbResourceViews.CLINICAL_NOTES.name)
+                }
+
+
 
             }else
                 etClinicalNotes.error = "Field cannot be empty"
@@ -49,6 +67,7 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
         tvNextVisit.setOnClickListener { createDialog(999) }
     }
+
 
     private fun createDialog(id: Int) {
         // TODO Auto-generated method stub
@@ -95,25 +114,21 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
     }
 
-    private fun createObservation(
-        clinicalNotes: String,
-        nextAppointment: String
-    ): DbObservationValue {
+    private fun createObservation(dbObserveList: ArrayList<DbObserveValue>): DbCode {
 
-        val dbObservationDataList = HashSet<DbObservationData>()
+        val codingList = ArrayList<DbCodingData>()
 
-        val clinicalList = HashSet<String>()
-        clinicalList.add(clinicalNotes)
+        for(items in dbObserveList){
 
-        val appointmentList = HashSet<String>()
-        appointmentList.add(nextAppointment)
+            val code = items.title
+            val value = items.value
 
-        val dbClinicalData = DbObservationData("Clinical Notes", clinicalList)
-        val dbAppointmentData = DbObservationData("Next Appointment", appointmentList)
+            val dbData = DbCodingData("http://snomed.info/sct", code, value)
+            codingList.add(dbData)
 
-        dbObservationDataList.addAll(listOf(dbClinicalData, dbAppointmentData))
+        }
 
-        return DbObservationValue(dbObservationDataList)
+        return DbCode(codingList, "Clinical Notes")
 
     }
 

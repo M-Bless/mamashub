@@ -111,9 +111,9 @@ class PhysicalExamination : AppCompatActivity() {
             hashSet.add(genitalUlcerData)
 
             val dbObservationValue = DbObservationValue(hashSet)
-
-            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-                DbResourceViews.PHYSICAL_EXAMINATION.name)
+//
+//            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+//                DbResourceViews.PHYSICAL_EXAMINATION.name)
 
 
         }else{

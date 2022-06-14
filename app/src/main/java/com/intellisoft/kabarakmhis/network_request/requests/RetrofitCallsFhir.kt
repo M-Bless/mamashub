@@ -2,15 +2,16 @@ package com.intellisoft.kabarakmhis.network_request.requests
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
+import com.intellisoft.kabarakmhis.fhir.data.SYNC_VALUE
+import com.intellisoft.kabarakmhis.helperclass.*
 import com.intellisoft.kabarakmhis.network_request.builder.RetrofitBuilder
 import com.intellisoft.kabarakmhis.network_request.interfaces.Interface
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
-import com.intellisoft.kabarakmhis.fhir.FhirApplication
-import com.intellisoft.kabarakmhis.fhir.data.SYNC_VALUE
-import com.intellisoft.kabarakmhis.helperclass.*
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import kotlinx.coroutines.*
 import org.json.JSONObject
@@ -21,7 +22,7 @@ import retrofit2.Response
 
 class RetrofitCallsFhir {
 
-    fun createPatient(context: Context, dbPatient: DbPatient){
+    fun createPatient(context: Context, dbPatient: DbPatient) {
 
         CoroutineScope(Dispatchers.Main).launch {
 
@@ -34,6 +35,7 @@ class RetrofitCallsFhir {
         }
 
     }
+
     private suspend fun createPatientBac(context: Context, dbPatient: DbPatient) {
 
 
@@ -70,7 +72,7 @@ class RetrofitCallsFhir {
 
                             val responseData = response.body()
 
-                            if (responseData != null){
+                            if (responseData != null) {
 
                                 Log.e("*** ", responseData.toString())
 
@@ -105,7 +107,8 @@ class RetrofitCallsFhir {
 //                                    ).toString()
 
                                     CoroutineScope(Dispatchers.Main).launch {
-                                        Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, messageToast, Toast.LENGTH_SHORT)
+                                            .show()
                                     }
 
                                 }
@@ -137,18 +140,18 @@ class RetrofitCallsFhir {
                 })
 
 
-
             }.join()
 
         }
 
     }
 
-    fun getPatients(context: Context) = runBlocking{
+    fun getPatients(context: Context) = runBlocking {
 
         getPatientsBac(context)
 
     }
+
     private suspend fun getPatientsBac(context: Context): DbPatientResult {
 
         var confList = DbPatientResult(0, ArrayList())
@@ -163,10 +166,10 @@ class RetrofitCallsFhir {
 
             try {
                 val response: Response<DbPatientResult> = callSync.execute()
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
 
                     val list = response.body()
-                    if (list != null){
+                    if (list != null) {
                         confList = list
                     }
 
@@ -183,20 +186,29 @@ class RetrofitCallsFhir {
 
     }
 
-    fun createFhirEncounter(context: Context, dbObservationValue: DbObservationValue, encounterType: String){
+    fun createFhirEncounter(
+        context: Context,
+        dbCode: DbCode,
+        encounterType: String
+    ) {
 
         CoroutineScope(Dispatchers.Main).launch {
 
             val job = Job()
             CoroutineScope(Dispatchers.IO + job).launch {
 
-                createFhirEncounterBac(context, dbObservationValue, encounterType)
+                createFhirEncounterBac(context, dbCode, encounterType)
 
             }.join()
         }
 
     }
-    private suspend fun createFhirEncounterBac(context: Context, dbObservationValue: DbObservationValue, encounterType: String) {
+
+    private suspend fun createFhirEncounterBac(
+        context: Context,
+        dbCode: DbCode,
+        encounterType: String
+    ) {
 
 
         val job1 = Job()
@@ -207,7 +219,6 @@ class RetrofitCallsFhir {
             progressDialog.setMessage("Saving in progress..")
             progressDialog.setCanceledOnTouchOutside(false)
             progressDialog.show()
-
 
 
             var messageToast = ""
@@ -223,7 +234,8 @@ class RetrofitCallsFhir {
                 val dbReasonCode = DbReasonCode(encounterType)
                 reasonCodeList.add(dbReasonCode)
 
-                val dbEncounter = DbEncounter(DbResourceType.Encounter.name, id, subject, reasonCodeList)
+                val dbEncounter =
+                    DbEncounter(DbResourceType.Encounter.name, id, subject, reasonCodeList)
 
                 val baseUrl = context.getString(UrlData.FHIR_URL.message)
 
@@ -242,10 +254,9 @@ class RetrofitCallsFhir {
 
                             val responseData = response.body()
 
-                            if (responseData != null){
-
+                            if (responseData != null) {
                                 val encounterId = responseData.id
-                                createObservation(encounterId,context, dbObservationValue)
+                                createObservation(encounterId,context, dbCode)
 
                                 Log.e("*** ", responseData.toString())
 
@@ -279,7 +290,8 @@ class RetrofitCallsFhir {
 //                                    ).toString()
 
                                     CoroutineScope(Dispatchers.Main).launch {
-                                        Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, messageToast, Toast.LENGTH_SHORT)
+                                            .show()
                                     }
 
                                 }
@@ -311,233 +323,310 @@ class RetrofitCallsFhir {
                 })
 
 
-
             }.join()
 
         }
 
     }
 
-    private fun createObservation(encounterId: String, context: Context,  dbObservationValue: DbObservationValue) {
+    fun createObservation(encounterId: String, context: Context, dbCode: DbCode) {
 
-        val formatter = FormatterClass()
+        CoroutineScope(Dispatchers.IO).launch {
 
-        val patientId = formatter.retrieveSharedPreference(context, "patientId")
-        val id = formatter.generateUuid()
-        val subject = DbSubject("Patient/$patientId")
-        val encounter = DbEncounterData("Encounter/$encounterId")
+            val formatter = FormatterClass()
 
-        val valueList = dbObservationValue.valueList
-        for (value in valueList){
+            val patientId = formatter.retrieveSharedPreference(context, "patientId")
+            val id = formatter.generateUuid()
+            val subject = DbSubject("Patient/$patientId")
+            val encounter = DbEncounterData("Encounter/$encounterId")
 
-            val observationCode = value.code
-            val observationValueList = value.valueList
+            val dbObservation =
+                DbObservation(DbResourceType.Observation.name, id, subject, encounter, dbCode)
 
-            for (display in observationValueList){
+            val baseUrl = context.getString(UrlData.FHIR_URL.message)
 
-                val codingList = ArrayList<DbCodingData>()
-                val dbCodingData = DbCodingData("http://snomed.info/sct", observationCode, display)
-                codingList.add(dbCodingData)
+            val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
+            val apiInterface = apiService.createFhirObservation(dbObservation)
 
-                val dbCode = DbCode(codingList, display)
-                val dbObservation = DbObservation(DbResourceType.Observation.name, id, subject, encounter, dbCode)
+            apiInterface.enqueue(object : Callback<DbObservation> {
+                override fun onResponse(
+                    call: Call<DbObservation>,
+                    response: Response<DbObservation>
+                ) {
 
-                val baseUrl = context.getString(UrlData.FHIR_URL.message)
+                    if (response.isSuccessful) {
 
-                val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
-                val apiInterface = apiService.createFhirObservation(dbObservation)
-                apiInterface.enqueue(object : Callback<DbObservation> {
-                    override fun onResponse(
-                        call: Call<DbObservation>,
-                        response: Response<DbObservation>
-                    ) {
+                        val responseData = response.body()
 
-                        if (response.isSuccessful) {
+                        if (responseData != null) {
 
-                            val responseData = response.body()
+                            Log.e("***1 ", responseData.toString())
 
-                            if (responseData != null){
+                        }
 
-                                Log.e("***1 ", responseData.toString())
 
-                            }
+
+                        CoroutineScope(Dispatchers.Main).launch {
+
+                            Toast.makeText(
+                                context,
+                                "User data has been saved successfully.",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             val intent = Intent(context, NewMainActivity::class.java)
                             context.startActivity(intent)
 
+                        }
+
+                    } else {
+
+                        val code = response.code()
+                        val message = response.errorBody().toString()
+                        Log.e("***2 ", response.toString())
+
+                        if (code != 500) {
+
+//                            val jObjError = JSONObject(response.errorBody()?.string())
+
                             CoroutineScope(Dispatchers.Main).launch {
 
+                                Toast.makeText(
+                                    context,
+                                    "There was an issue. Please try again after some time.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
                             }
 
                         } else {
+                            val messageToast =
+                                "We are experiencing some server issues. Please try again later"
 
-                            val code = response.code()
-                            val message = response.errorBody().toString()
-                            Log.e("***2 ", response.toString())
-
-                            if (code != 500) {
-
-                                val jObjError = JSONObject(response.errorBody()?.string())
-
-                                CoroutineScope(Dispatchers.IO).launch {
-
-//                                    messageToast = Formatter().getObjectiveKeys(
-//                                        jObjError
-//                                    ).toString()
-
-                                    CoroutineScope(Dispatchers.Main).launch {
-                                    }
-
-                                }
-
-                            } else {
-//                            messageToast =
-//                                "We are experiencing some server issues. Please try again later"
-//
-//                            CoroutineScope(Dispatchers.Main).launch {
-//                                Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
-//                            }
+                            CoroutineScope(Dispatchers.Main).launch {
+                                Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
                             }
-
-
                         }
 
 
                     }
 
-                    override fun onFailure(call: Call<DbObservation>, t: Throwable) {
-                        Log.e("-*-*error ", t.localizedMessage)
-//                    messageToast = "There is something wrong. Please try again"
-//                    CoroutineScope(Dispatchers.Main).launch {
-//                        Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
-//                    }
-//
-//                    progressDialog.dismiss()
-                    }
-                })
 
+                }
+
+                override fun onFailure(call: Call<DbObservation>, t: Throwable) {
+                    Log.e("-*-*error ", t.localizedMessage)
+                    val messageToast = "There is something wrong. Please try again"
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
+                    }
+
+//                    progressDialog.dismiss()
+                }
+            })
+
+        }
+
+    }
+
+
+    fun getPatientEncounters(context: Context) = runBlocking {
+        getPatientEncountersBac(context)
+    }
+
+    private suspend fun getPatientEncountersBac(context: Context) {
+
+        coroutineScope {
+
+            launch(Dispatchers.IO) {
+                val formatter = FormatterClass()
+                val patientId = formatter.retrieveSharedPreference(context, "patientId")
+
+                nukeEncounters(context)
+
+                val baseUrl = context.getString(UrlData.FHIR_URL.message)
+
+                val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
+
+                if (patientId != null) {
+
+                    val callSync: Call<DbEncounterList> = apiService.getEncounterList(patientId)
+
+                    try {
+                        val response: Response<DbEncounterList> = callSync.execute()
+                        if (response.isSuccessful) {
+
+                            val list = response.body()
+                            if (list != null) {
+
+                                val encounterList = list.entry
+                                if (!encounterList.isNullOrEmpty()) {
+
+                                    for (items in encounterList) {
+
+                                        val encounterId = items.resource.id
+                                        val reasonCode = items.resource.reasonCode[0].text
+
+                                        formatter.saveSharedPreference(
+                                            context,
+                                            reasonCode,
+                                            encounterId
+                                        )
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
+                    }
+
+                }
 
             }
-
 
         }
 
 
+    }
 
+    private fun nukeEncounters(context: Context) {
 
+        val formatter = FormatterClass()
 
+        val encounterList = ArrayList<String>()
+        encounterList.addAll(listOf(
+            DbResourceViews.MEDICAL_HISTORY.name,
+            DbResourceViews.PREVIOUS_PREGNANCY.name,
+            DbResourceViews.PHYSICAL_EXAMINATION.name,
+            DbResourceViews.CLINICAL_NOTES.name,
+            DbResourceViews.BIRTH_PLAN.name,
+            DbResourceViews.SURGICAL_HISTORY.name,
+            DbResourceViews.MEDICAL_DRUG_HISTORY.name,
+            DbResourceViews.FAMILY_HISTORY.name,
+            DbResourceViews.ANTENATAL_PROFILE.name))
 
-
-
-
-
+        for (items in encounterList){
+            formatter.deleteSharedPreference(context, items)
+        }
 
     }
 
-    fun getPatientEncounters(context: Context, encounterType: String)= runBlocking{
-        getPatientEncountersBac(context, encounterType)
+    fun getEncounterDetails(context: Context, encounterId: String) = runBlocking {
+        getEncounterDetailsBac(context, encounterId)
     }
-    private suspend fun getPatientEncountersBac(context: Context, encounterType: String):HashMap<String, MutableList<String>>{
 
-        val observationList = hashMapOf<String, MutableList<String>>()
+    private fun getEncounterDetailsBac(context: Context, encounterId: String) : ArrayList<DbObserveValue>{
+
+        val simpleEncounterList = ArrayList<DbObserveValue>()
+
+        val baseUrl = context.getString(UrlData.FHIR_URL.message)
+
+        val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
+
+        val callEncounterSync: Call<DbEncounterDetailsList> =
+            apiService.getEncounterDetails(encounterId)
+        val responseEncounter: Response<DbEncounterDetailsList> = callEncounterSync.execute()
+        if (responseEncounter.isSuccessful) {
+
+            val reasonBody = responseEncounter.body()
+            if (reasonBody != null) {
+
+                val entryList = reasonBody.entry
+                if (!entryList.isNullOrEmpty()) {
+
+                    for (observations in entryList) {
+
+                        val id = observations.resource.id
+                        val code = observations.resource.code
+                        if (code != null) {
+
+                            val codingList = code.coding
+                            for (items in codingList){
+
+                                val codeValue = items.code
+                                val display = items.display
+
+
+                                if (codeValue == "Next Appointment"){
+                                    val dbObserveValue = DbObserveValue(id, display)
+                                    simpleEncounterList.add(dbObserveValue)
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+        return simpleEncounterList
+    }
+
+    fun getObservationDetails(context: Context, observationId: String) = runBlocking {
+        getObservationDetailsBac(context, observationId)
+    }
+
+    private suspend fun getObservationDetailsBac(context: Context, observationId: String):ArrayList<DbCodingData>{
+
+        val observationList = ArrayList<DbCodingData>()
         val job = Job()
         CoroutineScope(Dispatchers.IO + job).launch {
-
-            val formatter = FormatterClass()
-            val patientId = formatter.retrieveSharedPreference(context, "patientId")
 
             val baseUrl = context.getString(UrlData.FHIR_URL.message)
 
             val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
 
-            if (patientId != null){
+            val callSync: Call<DbEncounterDataResourceData> = apiService.getObservationDetails(observationId)
 
-                val callSync: Call<DbEncounterList> = apiService.getEncounterList(patientId)
+            try {
+                val response: Response<DbEncounterDataResourceData> = callSync.execute()
+                if (response.isSuccessful){
 
-                try {
-                    val response: Response<DbEncounterList> = callSync.execute()
-                    if (response.isSuccessful){
+                    val responseBody = response.body()
 
-                        val list = response.body()
-                        if (list != null){
+                    if (responseBody != null){
 
-                            val encounterList = list.entry
+                        val codeData = responseBody.code
+                        if (codeData != null){
+
+                            val encounterList = codeData.coding
                             if (!encounterList.isNullOrEmpty()){
 
                                 for (items in encounterList){
 
-                                    val encounterId = items.resource.id
-                                    val reasonCode = items.resource.reasonCode[0].text
-                                    if (reasonCode == encounterType){
+                                    val code = items.code
+                                    val display = items.display
+                                    val system = items.system
 
-                                        //Get Observations
-                                        val callEncounterSync: Call<DbEncounterDetailsList> = apiService.getEncounterDetails(encounterId)
-                                        val responseEncounter: Response<DbEncounterDetailsList> = callEncounterSync.execute()
-                                        if (responseEncounter.isSuccessful){
+                                    val dbCodingData = DbCodingData(system, code, display)
+                                    observationList.add(dbCodingData)
 
-                                            val reasonBody = responseEncounter.body()
-                                            if (reasonBody != null){
-
-                                                val entryList = reasonBody.entry
-                                                if (!entryList.isNullOrEmpty()){
-
-                                                    val observationDataList = ArrayList<DbObservationData>()
-
-                                                    for (observations in entryList){
-
-                                                        val code = observations.resource.code
-                                                        if (code != null){
-
-                                                            val valueList = HashSet<String>()
-
-                                                            val codeValue = code.coding[0].code
-                                                            val value = code.coding[0].display
-
-                                                            Log.e("---- ", codeValue)
-                                                            Log.e("++++ ", value)
-
-                                                            observationList[codeValue] = ArrayList()
-                                                            observationList[codeValue]?.add(value)
-
-                                                            valueList.add(value)
-
-                                                            val dbObservationData = DbObservationData(codeValue, valueList)
-                                                            observationDataList.add(dbObservationData)
-                                                        }
-
-                                                    }
-                                                    Log.e("****** ", observationDataList.toString())
-
-                                                }
-
-
-
-                                            }
-
-                                        }
-
-                                        break
-                                    }
+                                    Log.e("+++++code ", code)
+                                    Log.e("+++++display ", display)
+                                    Log.e("+++++++++", "+++++")
 
                                 }
 
                             }
 
-
-
                         }
 
                     }
 
-
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
                 }
 
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
-
-
 
         }.join()
 
@@ -546,4 +635,3 @@ class RetrofitCallsFhir {
     }
 
 }
-

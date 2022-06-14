@@ -221,6 +221,19 @@ class FormatterClass {
 
     }
 
+    fun deleteSharedPreference(
+        context: Context,
+        sharedKey: String
+    ){
+        val appName = context.getString(R.string.app_name)
+        val sharedPreferences = context.getSharedPreferences(appName, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        editor.remove(sharedKey)
+        editor.apply()
+
+    }
+
     fun getHeaders(context: Context):HashMap<String, String>{
 
         val stringStringMap = HashMap<String, String>()

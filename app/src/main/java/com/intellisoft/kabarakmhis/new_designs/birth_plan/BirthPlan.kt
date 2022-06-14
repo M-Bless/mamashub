@@ -52,8 +52,8 @@ class BirthPlan : AppCompatActivity() {
 
                 val dbObservationValue = createObservation(birthPlanList)
 
-                retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-                    DbResourceViews.BIRTH_PLAN.name)
+//                retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+//                    DbResourceViews.BIRTH_PLAN.name)
 
 
             }else{

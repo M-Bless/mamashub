@@ -1,6 +1,7 @@
 package com.intellisoft.kabarakmhis.new_designs.data_class
 
 import android.service.carrier.CarrierIdentifier
+import org.hl7.fhir.r4.model.Appointment
 
 data class DbPatient(
     val resourceType: String,
@@ -76,6 +77,8 @@ data class DbEncounterData(
 data class DbReasonCode(
     val text: String
 )
+
+
 data class DbEncounterList(
     val total: Int,
     val entry: List<DbEncounterEntry>?
@@ -130,6 +133,12 @@ data class DbObserveValue(
     val value : String
 )
 
+data class DbSimpleEncounter(
+    var id: String = "",
+    var appointmentDate: String = "",
+    var notes : String = "",
+    var dateCollected : String = ""
+)
 
 data class DbPatientData(
     val title: String,

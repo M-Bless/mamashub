@@ -28,6 +28,9 @@ interface Interface {
     @POST("Encounter")
     fun createFhirEncounter(@Body dbEncounter: DbEncounter): Call<DbEncounter>
 
+    @PUT("Encounter/{encounterId}")
+    fun updateFhirEncounter(@Body dbEncounter: DbEncounter): Call<DbEncounter>
+
     @GET("Encounter")
     fun getEncounterList(@Query("patient") patient:String): Call<DbEncounterList>
 
@@ -39,8 +42,10 @@ interface Interface {
     fun createFhirObservation(@Body dbObservation: DbObservation): Call<DbObservation>
 
     //This should be looked at
-    @GET("Observation")
-    fun getObservationList(): Call<DbEncounterList>
+    @GET("Observation/{observationId}")
+    fun getObservationDetails(
+        @Path("observationId") observationId:String
+    ): Call<DbEncounterDataResourceData>
 
 
 }

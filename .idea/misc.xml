@@ -40,6 +40,7 @@
         <entry key="app/src/main/res/layout/clinical_notes.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/details_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/encounter_view.xml" value="0.16193063100710406" />
         <entry key="app/src/main/res/layout/fragment_antenatal1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_antenatal2.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_antenatal3.xml" value="0.25" />

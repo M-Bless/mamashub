@@ -150,8 +150,8 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
             val dbObservationValue = DbObservationValue(hashSet)
 
-            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-                DbResourceViews.PREVIOUS_PREGNANCY.name)
+//            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+//                DbResourceViews.PREVIOUS_PREGNANCY.name)
 
 
         }else{
