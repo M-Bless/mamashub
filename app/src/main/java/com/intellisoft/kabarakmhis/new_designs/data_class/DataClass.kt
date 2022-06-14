@@ -157,6 +157,9 @@ enum class DbResourceViews {
     PHYSICAL_EXAMINATION,
     NEW_PATIENT_1,
     NEW_PATIENT_2,
+    CLINICAL_NOTES,
+
+    BIRTH_PLAN,
 
     PATIENT_INFO,
     SURGICAL_HISTORY,

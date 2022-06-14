@@ -41,6 +41,11 @@
     <string name="header_relation">Child/Children</string>
     <string name="header_encounters">Encounters</string>
     <string name="antenatal">Antenatal Profile</string>
+    <string name="birth_plan">Birth Plan</string>
+    <string name="clinical_notes">Clinical Notes</string>
+    <string name="present_pregnancy">Present Pregnancy</string>
+    <string name="preventive_services">Preventive Services</string>
+    <string name="malaria_prophylaxis">Malaria Prophylaxis</string>
 
     <string-array name="array_marital">
         <item>Married</item>

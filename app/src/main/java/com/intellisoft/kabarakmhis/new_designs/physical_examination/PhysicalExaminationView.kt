@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 class PhysicalExaminationView : AppCompatActivity() {
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
@@ -43,6 +44,8 @@ class PhysicalExaminationView : AppCompatActivity() {
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+
+
     }
 
     override fun onStart() {
@@ -50,7 +53,7 @@ class PhysicalExaminationView : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val patientList = kabarakViewModel.getTittlePatientData(DbResourceViews.PREVIOUS_PREGNANCY.name, this@PhysicalExaminationView)
+            val patientList = kabarakViewModel.getTittlePatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, this@PhysicalExaminationView)
             CoroutineScope(Dispatchers.Main).launch {
 
                 val configurationListingAdapter = ViewDetailsAdapter(

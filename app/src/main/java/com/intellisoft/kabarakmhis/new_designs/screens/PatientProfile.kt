@@ -9,6 +9,8 @@ import android.view.View
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile
+import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
+import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalHistory
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
 import com.intellisoft.kabarakmhis.new_designs.new_patient.PatientDetailsView
@@ -26,22 +28,7 @@ class PatientProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
 
-        cardViewHistory.setOnClickListener {
-            val intent = Intent(this, MedicalHistory::class.java)
-            startActivity(intent)
-        }
-        cardViewPastPreg.setOnClickListener {
-            val intent = Intent(this, PreviousPregnancy::class.java)
-            startActivity(intent)
-        }
-        cardViewPhysicalExam.setOnClickListener {
-            val intent = Intent(this, PhysicalExamination::class.java)
-            startActivity(intent)
-        }
-        cardViewAntenatal.setOnClickListener {
-            val intent = Intent(this, AntenatalProfile::class.java)
-            startActivity(intent)
-        }
+
         linearLayoutCall.setOnClickListener {
 
             val txtPhone = tvKinDetails.text.toString()
@@ -50,6 +37,8 @@ class PatientProfile : AppCompatActivity() {
             }
 
         }
+
+        navigate()
 
     }
 
@@ -107,5 +96,11 @@ class PatientProfile : AppCompatActivity() {
     fun navigatePatientDetails(view: View) {
 //        val intent = Intent(this, PatientDetailsView::class.java)
 //        startActivity(intent)
+    }
+
+    private fun navigate() {
+        navigateClinicalNotes.setOnClickListener { startActivity(Intent(this, ClinicalNotesList::class.java))}
+        navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlan::class.java))}
+
     }
 }

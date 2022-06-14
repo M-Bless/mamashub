@@ -183,20 +183,20 @@ class RetrofitCallsFhir {
 
     }
 
-    fun createFhirEncounter(context: Context, dbObservationData: DbObservationValue, encounterType: String){
+    fun createFhirEncounter(context: Context, dbObservationValue: DbObservationValue, encounterType: String){
 
         CoroutineScope(Dispatchers.Main).launch {
 
             val job = Job()
             CoroutineScope(Dispatchers.IO + job).launch {
 
-                createFhirEncounterBac(context, dbObservationData, encounterType)
+                createFhirEncounterBac(context, dbObservationValue, encounterType)
 
             }.join()
         }
 
     }
-    private suspend fun createFhirEncounterBac(context: Context, dbObservationData: DbObservationValue, encounterType: String) {
+    private suspend fun createFhirEncounterBac(context: Context, dbObservationValue: DbObservationValue, encounterType: String) {
 
 
         val job1 = Job()
@@ -245,7 +245,7 @@ class RetrofitCallsFhir {
                             if (responseData != null){
 
                                 val encounterId = responseData.id
-                                createObservation(encounterId,context, dbObservationData)
+                                createObservation(encounterId,context, dbObservationValue)
 
                                 Log.e("*** ", responseData.toString())
 
@@ -318,7 +318,7 @@ class RetrofitCallsFhir {
 
     }
 
-    private fun createObservation(encounterId: String, context: Context,  dbObservationData: DbObservationValue) {
+    private fun createObservation(encounterId: String, context: Context,  dbObservationValue: DbObservationValue) {
 
         val formatter = FormatterClass()
 
@@ -327,7 +327,7 @@ class RetrofitCallsFhir {
         val subject = DbSubject("Patient/$patientId")
         val encounter = DbEncounterData("Encounter/$encounterId")
 
-        val valueList = dbObservationData.valueList
+        val valueList = dbObservationValue.valueList
         for (value in valueList){
 
             val observationCode = value.code

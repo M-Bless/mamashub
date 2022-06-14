@@ -14,6 +14,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
         <activity
+            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList"
+            android:name=".new_designs.clinical_notes.ClinicalNotesView"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList"
+            android:name=".new_designs.clinical_notes.ClinicalNotesAdd"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.antenatal_profile.AntenatalProfile"
+            android:name=".new_designs.clinical_notes.ClinicalNotesList"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.birth_plan.BirthPlanView"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.birth_plan.BirthPlan"
+            android:exported="false" />
+        <activity
             android:name=".new_designs.chw.CommunityHealthWorkerForm"
             android:exported="false" />
         <activity

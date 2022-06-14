@@ -109,6 +109,9 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             !TextUtils.isEmpty(year) && !TextUtils.isEmpty(ancTime) && !TextUtils.isEmpty(birthPlace) &&
             !TextUtils.isEmpty(gestation) && !TextUtils.isEmpty(duration) && !TextUtils.isEmpty(babyWeight)
         ){
+
+            addData("Pregnancy Order",spinnerPregnancyValue)
+
             addData("Year",year)
             addData("ANC Time",ancTime)
             addData("Birth Place",birthPlace)
@@ -128,7 +131,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             val radioGrpPurperium = getRadioText(rootView.radioGrpPurperium)
             addData("Purperium",radioGrpPurperium)
 
-            addData("Pregnancy Order",spinnerPregnancyValue)
+
 
             val dbDataList = ArrayList<DbDataList>()
 
