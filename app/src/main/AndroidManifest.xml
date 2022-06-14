@@ -26,6 +26,7 @@
             android:name=".new_designs.clinical_notes.ClinicalNotesList"
             android:exported="false" />
         <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.birth_plan.BirthPlanView"
             android:exported="false" />
         <activity

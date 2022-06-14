@@ -46,8 +46,7 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
                 dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
 
-                val dbCode = createObservation(dbObserveValueList)
-
+                val dbCode = formatter.createObservation(dbObserveValueList, DbResourceViews.CLINICAL_NOTES.name)
 
                 val encounterId = formatter.retrieveSharedPreference(this, DbResourceViews.CLINICAL_NOTES.name)
                 if (encounterId != null){
@@ -114,22 +113,6 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
     }
 
-    private fun createObservation(dbObserveList: ArrayList<DbObserveValue>): DbCode {
 
-        val codingList = ArrayList<DbCodingData>()
-
-        for(items in dbObserveList){
-
-            val code = items.title
-            val value = items.value
-
-            val dbData = DbCodingData("http://snomed.info/sct", code, value)
-            codingList.add(dbData)
-
-        }
-
-        return DbCode(codingList, "Clinical Notes")
-
-    }
 
 }

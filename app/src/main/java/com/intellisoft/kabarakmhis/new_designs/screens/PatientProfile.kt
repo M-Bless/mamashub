@@ -10,6 +10,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
+import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalHistory
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
@@ -100,7 +101,7 @@ class PatientProfile : AppCompatActivity() {
 
     private fun navigate() {
         navigateClinicalNotes.setOnClickListener { startActivity(Intent(this, ClinicalNotesList::class.java))}
-        navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlan::class.java))}
+        navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlanView::class.java))}
 
     }
 }

@@ -3,7 +3,6 @@ package com.intellisoft.kabarakmhis.new_designs.clinical_notes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,9 +10,6 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
-import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
-import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import kotlinx.android.synthetic.main.activity_clinical_notes_list.*
 import kotlinx.coroutines.CoroutineScope
@@ -52,7 +48,7 @@ class ClinicalNotesList : AppCompatActivity() {
 
             val encounterId = formatter.retrieveSharedPreference(this@ClinicalNotesList, DbResourceViews.CLINICAL_NOTES.name)
             if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@ClinicalNotesList, encounterId)
+                val observationList = retrofitCallsFhir.getEncounterDetails(this@ClinicalNotesList, encounterId, DbResourceViews.CLINICAL_NOTES.name)
                 CoroutineScope(Dispatchers.Main).launch {
 
                     if (!observationList.isNullOrEmpty()){

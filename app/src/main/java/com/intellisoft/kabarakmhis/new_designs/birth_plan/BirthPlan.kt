@@ -6,16 +6,20 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import kotlinx.android.synthetic.main.activity_birth_plan.*
+import java.text.Normalizer
 
 class BirthPlan : AppCompatActivity() {
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
+    private val formatter = FormatterClass()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +54,11 @@ class BirthPlan : AppCompatActivity() {
                 birthPlanList.addAll(listOf(valueFacName, valueAttendant, valFacContact, valueSupportPerson,
                 valueTransport, valueBloodDonor, valueFinancial))
 
-                val dbObservationValue = createObservation(birthPlanList)
+                val dbObservationValue = formatter.createObservation(birthPlanList,
+                    DbResourceViews.BIRTH_PLAN.name)
 
-//                retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-//                    DbResourceViews.BIRTH_PLAN.name)
+                retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+                    DbResourceViews.BIRTH_PLAN.name)
 
 
             }else{
@@ -64,26 +69,4 @@ class BirthPlan : AppCompatActivity() {
         }
     }
 
-    private fun createObservation(birthPlanList: ArrayList<DbObserveValue>): DbObservationValue {
-
-        val dbObservationDataList = HashSet<DbObservationData>()
-
-        val birthPlanSet = HashSet<DbObserveValue>(birthPlanList)
-
-        for (dbObserveValue in birthPlanSet){
-
-            val hashSetList = HashSet<String>()
-
-            val title = dbObserveValue.title
-            val value = dbObserveValue.value
-
-            hashSetList.add(value)
-
-            val dbObservationData = DbObservationData(title, hashSetList)
-            dbObservationDataList.add(dbObservationData)
-        }
-
-        return DbObservationValue(dbObservationDataList)
-
-    }
 }

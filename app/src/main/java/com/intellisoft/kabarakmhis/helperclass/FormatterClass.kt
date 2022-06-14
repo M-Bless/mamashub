@@ -11,6 +11,9 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbCode
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbCodingData
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import java.lang.Double
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -270,5 +273,24 @@ class FormatterClass {
 
     fun saveCurrentPage(currentPage: String,context: Context) {
         saveSharedPreference(context, "currentPage", currentPage)
+    }
+
+
+    fun createObservation(dbObserveList: ArrayList<DbObserveValue>, text: String): DbCode {
+
+        val codingList = ArrayList<DbCodingData>()
+
+        for(items in dbObserveList){
+
+            val code = items.title
+            val value = items.value
+
+            val dbData = DbCodingData("http://snomed.info/sct", code, value)
+            codingList.add(dbData)
+
+        }
+
+        return DbCode(codingList, text)
+
     }
 }

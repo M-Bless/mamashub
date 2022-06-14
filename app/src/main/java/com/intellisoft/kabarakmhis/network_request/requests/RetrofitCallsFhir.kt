@@ -517,13 +517,13 @@ class RetrofitCallsFhir {
 
     }
 
-    fun getEncounterDetails(context: Context, encounterId: String) = runBlocking {
-        getEncounterDetailsBac(context, encounterId)
+    fun getEncounterDetails(context: Context, encounterId: String, encounterType: String) = runBlocking {
+        getEncounterDetailsBac(context, encounterId, encounterType)
     }
 
-    private fun getEncounterDetailsBac(context: Context, encounterId: String) : ArrayList<DbObserveValue>{
+    private fun getEncounterDetailsBac(context: Context, encounterId: String, encounterType: String) : ArrayList<DbObserveValue>{
 
-        val simpleEncounterList = ArrayList<DbObserveValue>()
+        var simpleEncounterList = ArrayList<DbObserveValue>()
 
         val baseUrl = context.getString(UrlData.FHIR_URL.message)
 
@@ -539,30 +539,7 @@ class RetrofitCallsFhir {
 
                 val entryList = reasonBody.entry
                 if (!entryList.isNullOrEmpty()) {
-
-                    for (observations in entryList) {
-
-                        val id = observations.resource.id
-                        val code = observations.resource.code
-                        if (code != null) {
-
-                            val codingList = code.coding
-                            for (items in codingList){
-
-                                val codeValue = items.code
-                                val display = items.display
-
-
-                                if (codeValue == "Next Appointment"){
-                                    val dbObserveValue = DbObserveValue(id, display)
-                                    simpleEncounterList.add(dbObserveValue)
-                                }
-
-                            }
-
-                        }
-
-                    }
+                    simpleEncounterList = encounterOperations(entryList, encounterType)
 
                 }
             }
@@ -570,6 +547,53 @@ class RetrofitCallsFhir {
         }
         return simpleEncounterList
     }
+
+    private fun encounterOperations(entryList: List<DbEncounterDataEntry>, encounterType: String) :ArrayList<DbObserveValue>{
+
+        val simpleEncounterList = ArrayList<DbObserveValue>()
+
+        for (observations in entryList) {
+
+            val id = observations.resource.id
+            val code = observations.resource.code
+            val resourceType = observations.resource.resourceType
+
+            if (code != null) {
+
+                val codingList = code.coding
+                val text = code.text
+
+                for (items in codingList){
+
+                    val codeValue = items.code
+                    val display = items.display
+
+                    if (encounterType == DbResourceViews.CLINICAL_NOTES.name){
+
+                        if (codeValue == "Next Appointment"){
+                            val dbObserveValue = DbObserveValue(id, display)
+                            simpleEncounterList.add(dbObserveValue)
+                        }
+
+                    }
+
+                    if (text == DbResourceViews.BIRTH_PLAN.name){
+
+                        val dbObserveValue = DbObserveValue(codeValue, display)
+                        simpleEncounterList.add(dbObserveValue)
+
+                    }
+                }
+
+
+            }
+
+        }
+
+        return simpleEncounterList
+
+    }
+
 
     fun getObservationDetails(context: Context, observationId: String) = runBlocking {
         getObservationDetailsBac(context, observationId)
