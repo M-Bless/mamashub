@@ -96,14 +96,14 @@ class FragmentMedical : Fragment(){
             val text = rootView.etClientName.text.toString()
             addData("Blood Transfusion Reaction",text)
         }else{
-            val text = getRadioText(rootView.radioGrpTransfusion)
+            val text = formatter.getRadioText(rootView.radioGrpTransfusion)
             addData("Blood Transfusion Reaction",text)
         }
         if (rootView.linearDrug.visibility == View.VISIBLE){
             val text = rootView.etDrugAllergies.text.toString()
             addData("Drug Allergy",text)
         }else{
-            val text = getRadioText(rootView.radioGrpDrugAllergies)
+            val text = formatter.getRadioText(rootView.radioGrpDrugAllergies)
             addData("Drug Allergy",text)
         }
         if (rootView.linearOtherNonDrugAllergy.visibility == View.VISIBLE){
@@ -140,19 +140,7 @@ class FragmentMedical : Fragment(){
         observationList[key] = value
     }
 
-    private fun getRadioText(radioGroup: RadioGroup?): String {
-
-        return if (radioGroup != null){
-            val checkedId = radioGroup.checkedRadioButtonId
-            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-            checkedRadioButton.text.toString()
-        }else{
-            ""
-        }
-
-
-
-    }
+    
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
         if (showLinear){

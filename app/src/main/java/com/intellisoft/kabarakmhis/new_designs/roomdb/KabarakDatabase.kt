@@ -10,6 +10,7 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.PatientData
 @Database(
         entities = [
             PatientData::class,
+
         ],
         version = 2,
         exportSchema = false)

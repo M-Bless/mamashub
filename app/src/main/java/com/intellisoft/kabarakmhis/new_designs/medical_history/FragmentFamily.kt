@@ -15,6 +15,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_family.view.*
 import kotlinx.android.synthetic.main.fragment_family.view.btnNext
 
@@ -94,10 +95,10 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
     private fun saveData() {
 
         if (rootView.linearTwins.visibility == View.VISIBLE){
-            val text = getRadioText(rootView.radioGrpTwinHistory)
+            val text = formatter.getRadioText(rootView.radioGrpTwinHistory)
             addData("Twins History",text)
         }else{
-            val text = getRadioText(rootView.radioGrpTwins)
+            val text = formatter.getRadioText(rootView.radioGrpTwins)
             addData("Twins History",text)
         }
 
@@ -107,7 +108,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
             addData("Family Member with TB ",text)
             addData("Family Member with TB Relationship",spinnerRshpValue)
         }else{
-            val text = getRadioText(rootView.radioGrpTb)
+            val text = formatter.getRadioText(rootView.radioGrpTb)
             addData("Tuberculosis History",text)
         }
 
@@ -116,7 +117,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
             val text = rootView.etTbScreening.text.toString()
             addData("Drug Allergy",text)
         }else{
-            val text = getRadioText(rootView.radioGrpSameHouse)
+            val text = formatter.getRadioText(rootView.radioGrpSameHouse)
             addData("Was the patient sharing residence with TB person? ",text)
         }
 
@@ -136,11 +137,9 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         val dbDataDetails = DbDataDetails(dbDataList)
         dbDataDetailsList.add(dbDataDetails)
         val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.MEDICAL_HISTORY.name)
 
-
-        startActivity(Intent(requireContext(), MedicalSurgicalHistoryView::class.java))
-
+        startActivity(Intent(requireContext(), PatientProfile::class.java))
 
     }
 
@@ -148,19 +147,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         observationList[key] = value
     }
 
-    private fun getRadioText(radioGroup: RadioGroup?): String {
-
-        return if (radioGroup != null){
-            val checkedId = radioGroup.checkedRadioButtonId
-            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-            checkedRadioButton.text.toString()
-        }else{
-            ""
-        }
-
-
-
-    }
+    
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
         if (showLinear){

@@ -2,9 +2,7 @@ package com.intellisoft.kabarakmhis.network_request.requests
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import com.intellisoft.kabarakmhis.fhir.data.SYNC_VALUE
@@ -374,8 +372,8 @@ class RetrofitCallsFhir {
                                 Toast.LENGTH_SHORT
                             ).show()
 
-                            val intent = Intent(context, NewMainActivity::class.java)
-                            context.startActivity(intent)
+//                            val intent = Intent(context, NewMainActivity::class.java)
+//                            context.startActivity(intent)
 
                         }
 
@@ -533,6 +531,9 @@ class RetrofitCallsFhir {
         val simpleEncounterList = ArrayList<DbObserveValue>()
         var count = 0
 
+        val weightList = ArrayList<String>()
+        val gestationList = ArrayList<String>()
+
         for (observations in entryList) {
 
             val id = observations.resource.id
@@ -567,8 +568,26 @@ class RetrofitCallsFhir {
                         }
 
                     }
+                    if (encounterType == DbResourceViews.WEIGHT_MONITORING.name){
+
+                        simpleEncounterList.clear()
+
+                        if (codeValue == "Mother Weight"){
+                            weightList.add(display)
+                        }
+                        if (codeValue == "Gestation"){
+                            gestationList.add(display)
+                        }
+
+                    }
 
                     if (text == DbResourceViews.BIRTH_PLAN.name){
+
+                        val dbObserveValue = DbObserveValue(codeValue, display)
+                        simpleEncounterList.add(dbObserveValue)
+
+                    }
+                    if (text == DbResourceViews.MEDICAL_HISTORY.name){
 
                         val dbObserveValue = DbObserveValue(codeValue, display)
                         simpleEncounterList.add(dbObserveValue)
@@ -588,6 +607,15 @@ class RetrofitCallsFhir {
 
             }
 
+        }
+
+
+        for ((index, value) in weightList.withIndex()) {
+
+            val gestation = gestationList[index]
+
+            val dbObserveValue = DbObserveValue(value, gestation)
+            simpleEncounterList.add(dbObserveValue)
         }
 
         return simpleEncounterList

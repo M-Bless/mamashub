@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/top"
-        android:background="@drawable/top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100dp"/>
+        android:layout_height="@dimen/_100dp"
+        android:background="@drawable/top" />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -20,16 +20,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_35dp"
-            android:gravity="center"
-            android:text="MHIS"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
+        <ImageView
+            android:scaleType="centerCrop"
+            android:background="@drawable/logo"
+            android:layout_width="@dimen/_100dp"
+            android:layout_height="130dp"/>
 
         <TextView
             android:layout_width="match_parent"

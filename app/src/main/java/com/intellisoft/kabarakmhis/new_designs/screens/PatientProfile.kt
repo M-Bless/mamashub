@@ -24,6 +24,7 @@ import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnanc
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
+import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -116,6 +117,8 @@ class PatientProfile : AppCompatActivity() {
         navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlanView::class.java))}
         navigatePresent.setOnClickListener { startActivity(Intent(this, PresentPregnancyList::class.java))}
         navigatePhysicalExam.setOnClickListener { startActivity(Intent(this, PhysicalExaminationList::class.java))}
+        navigateWeight.setOnClickListener { startActivity(Intent(this, WeightMonitoringChart::class.java))}
+        navigateMedicalHistory.setOnClickListener { startActivity(Intent(this, MedicalSurgicalHistoryView::class.java))}
 
     }
 }

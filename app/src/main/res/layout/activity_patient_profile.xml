@@ -251,6 +251,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/navigateMedicalHistory"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -744,6 +745,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/navigateWeight"
                             android:layout_marginEnd="10dp"
                             android:gravity="center"
                             android:layout_gravity="center"
