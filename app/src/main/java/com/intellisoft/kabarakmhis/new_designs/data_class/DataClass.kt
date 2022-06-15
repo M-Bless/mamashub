@@ -117,7 +117,7 @@ data class DbCode(
 data class DbCodingData(
     val system: String,
     val code: String,
-    val display:String
+    val display:String?
 )
 
 data class DbObservationValue(
@@ -167,6 +167,10 @@ enum class DbResourceViews {
     NEW_PATIENT_1,
     NEW_PATIENT_2,
     CLINICAL_NOTES,
+    PRESENT_PREGNANCY,
+
+    PRESENT_PREGNANCY_1,
+    PRESENT_PREGNANCY_2,
 
     BIRTH_PLAN,
 

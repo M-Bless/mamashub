@@ -442,7 +442,7 @@ class RetrofitCallsFhir {
                 val formatter = FormatterClass()
                 val patientId = formatter.retrieveSharedPreference(context, "patientId")
 
-                nukeEncounters(context)
+                FormatterClass().nukeEncounters(context)
 
                 val baseUrl = context.getString(UrlData.FHIR_URL.message)
 
@@ -461,8 +461,8 @@ class RetrofitCallsFhir {
 
                                 val encounterList = list.entry
                                 if (!encounterList.isNullOrEmpty()) {
-
                                     for (items in encounterList) {
+
 
                                         val encounterId = items.resource.id
                                         val reasonCode = items.resource.reasonCode[0].text
@@ -495,27 +495,7 @@ class RetrofitCallsFhir {
 
     }
 
-    private fun nukeEncounters(context: Context) {
 
-        val formatter = FormatterClass()
-
-        val encounterList = ArrayList<String>()
-        encounterList.addAll(listOf(
-            DbResourceViews.MEDICAL_HISTORY.name,
-            DbResourceViews.PREVIOUS_PREGNANCY.name,
-            DbResourceViews.PHYSICAL_EXAMINATION.name,
-            DbResourceViews.CLINICAL_NOTES.name,
-            DbResourceViews.BIRTH_PLAN.name,
-            DbResourceViews.SURGICAL_HISTORY.name,
-            DbResourceViews.MEDICAL_DRUG_HISTORY.name,
-            DbResourceViews.FAMILY_HISTORY.name,
-            DbResourceViews.ANTENATAL_PROFILE.name))
-
-        for (items in encounterList){
-            formatter.deleteSharedPreference(context, items)
-        }
-
-    }
 
     fun getEncounterDetails(context: Context, encounterId: String, encounterType: String) = runBlocking {
         getEncounterDetailsBac(context, encounterId, encounterType)
@@ -551,6 +531,7 @@ class RetrofitCallsFhir {
     private fun encounterOperations(entryList: List<DbEncounterDataEntry>, encounterType: String) :ArrayList<DbObserveValue>{
 
         val simpleEncounterList = ArrayList<DbObserveValue>()
+        var count = 0
 
         for (observations in entryList) {
 
@@ -563,10 +544,20 @@ class RetrofitCallsFhir {
                 val codingList = code.coding
                 val text = code.text
 
+                if (text == DbResourceViews.PHYSICAL_EXAMINATION.name){
+
+                    count += 1
+
+                    val dbObserveValue = DbObserveValue(id, "$count visit")
+                    simpleEncounterList.add(dbObserveValue)
+
+                }
+
                 for (items in codingList){
 
                     val codeValue = items.code
-                    val display = items.display
+                    val displayData = items.display
+                    val display = displayData ?: ""
 
                     if (encounterType == DbResourceViews.CLINICAL_NOTES.name){
 
@@ -581,6 +572,15 @@ class RetrofitCallsFhir {
 
                         val dbObserveValue = DbObserveValue(codeValue, display)
                         simpleEncounterList.add(dbObserveValue)
+
+                    }
+
+                    if (text == DbResourceViews.PRESENT_PREGNANCY.name){
+
+                        if (codeValue == "Pregnancy Contact"){
+                            val dbObserveValue = DbObserveValue(id, display)
+                            simpleEncounterList.add(dbObserveValue)
+                        }
 
                     }
                 }
@@ -627,15 +627,17 @@ class RetrofitCallsFhir {
 
                                 for (items in encounterList){
 
+                                    val system = items.system
                                     val code = items.code
                                     val display = items.display
-                                    val system = items.system
+                                    val displayData = display ?: ""
 
-                                    val dbCodingData = DbCodingData(system, code, display)
+
+                                    val dbCodingData = DbCodingData(system, code, displayData)
                                     observationList.add(dbCodingData)
 
                                     Log.e("+++++code ", code)
-                                    Log.e("+++++display ", display)
+                                    Log.e("+++++display ", displayData)
                                     Log.e("+++++++++", "+++++")
 
                                 }

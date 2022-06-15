@@ -16,7 +16,9 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.*
 
 
@@ -178,8 +180,27 @@ class FragmentPhysicalExam2 : Fragment() {
             addData("Genital Ulcer Present",text)
         }
 
+        val dbDataList = ArrayList<DbDataList>()
 
-        startActivity(Intent(requireContext(), PhysicalExaminationView::class.java))
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Physical Exam", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+
+        val dbDataDetailsList = ArrayList<DbDataDetails>()
+        val dbDataDetails = DbDataDetails(dbDataList)
+        dbDataDetailsList.add(dbDataDetails)
+        val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
+
+        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PHYSICAL_EXAMINATION.name)
+
+
+        startActivity(Intent(requireContext(), PatientProfile::class.java))
 
     }
 

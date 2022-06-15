@@ -31,7 +31,7 @@ interface Interface {
     @PUT("Encounter/{encounterId}")
     fun updateFhirEncounter(@Body dbEncounter: DbEncounter): Call<DbEncounter>
 
-    @GET("Encounter")
+    @GET("Encounter/")
     fun getEncounterList(@Query("patient") patient:String): Call<DbEncounterList>
 
     @GET("Encounter/{encounterId}/"+"$"+"everything")

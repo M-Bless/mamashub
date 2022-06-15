@@ -391,6 +391,82 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Weight Monitoring"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                             />
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Mother's weight (kg)"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                 />
+
+                            <EditText
+                                android:id="@+id/etMotherWeight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Gestation (weeks)"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                 />
+
+                            <EditText
+                                android:id="@+id/etGestation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+
+
+
+                </LinearLayout>
 
 
             </LinearLayout>

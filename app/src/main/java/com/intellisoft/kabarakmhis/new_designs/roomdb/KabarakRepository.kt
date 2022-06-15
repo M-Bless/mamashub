@@ -42,12 +42,21 @@ class KabarakRepository(private val roomDao: RoomDao) {
                     val type = dbData.type
                     val identifier = dbData.identifier
 
-
                     val isData = roomDao.checkPatientDataInfo(loggedInUser, type, code, fhirId)
                     if (!isData){
 
                         val patientData = PatientData(code, value, type, identifier, title, fhirId, loggedInUser)
                         roomDao.addPatientDataInfo(patientData)
+
+                    }else{
+
+                        val patientData = roomDao.getPatientData(loggedInUser, type, code, fhirId)
+                        if (patientData != null){
+                            val id = patientData.id
+                            if (id != null) {
+                                roomDao.updatePatientRecords(value, id)
+                            }
+                        }
 
                     }
 

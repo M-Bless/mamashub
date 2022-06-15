@@ -7,28 +7,44 @@
 
     <application
         android:name=".fhir.FhirApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_icon_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_icon_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
         <activity
-            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList"
-            android:name=".new_designs.clinical_notes.ClinicalNotesView"
-            android:exported="false" />
-        <activity
-            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList"
-            android:name=".new_designs.clinical_notes.ClinicalNotesAdd"
-            android:exported="false" />
-        <activity
-            android:parentActivityName=".new_designs.antenatal_profile.AntenatalProfile"
-            android:name=".new_designs.clinical_notes.ClinicalNotesList"
-            android:exported="false" />
-        <activity
             android:parentActivityName=".new_designs.screens.PatientProfile"
-            android:name=".new_designs.birth_plan.BirthPlanView"
+            android:name=".new_designs.physical_examination.PhysicalExaminationList"
             android:exported="false" />
+        <activity
+            android:name=".new_designs.present_pregnancy.PresentPregnancyView"
+            android:exported="false"
+            android:parentActivityName=".new_designs.present_pregnancy.PresentPregnancyList" />
+        <activity
+            android:name=".new_designs.present_pregnancy.PresentPregnancyAdd"
+            android:exported="false"
+            android:parentActivityName=".new_designs.present_pregnancy.PresentPregnancyList" />
+        <activity
+            android:name=".new_designs.present_pregnancy.PresentPregnancyList"
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
+        <activity
+            android:name=".new_designs.clinical_notes.ClinicalNotesView"
+            android:exported="false"
+            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList" />
+        <activity
+            android:name=".new_designs.clinical_notes.ClinicalNotesAdd"
+            android:exported="false"
+            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList" />
+        <activity
+            android:name=".new_designs.clinical_notes.ClinicalNotesList"
+            android:exported="false"
+            android:parentActivityName=".new_designs.antenatal_profile.AntenatalProfile" />
+        <activity
+            android:name=".new_designs.birth_plan.BirthPlanView"
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.birth_plan.BirthPlan"
             android:exported="false" />

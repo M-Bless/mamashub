@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".new_designs.physical_examination.PhysicalExaminationList">
+
+    <include
+        android:id="@+id/no_record"
+        layout="@layout/no_record" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        tools:listitem="@layout/encounter_view"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_margin="@dimen/_15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:gravity="end"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_add"
+            android:tint="@color/white"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:contentDescription="Add Notes" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

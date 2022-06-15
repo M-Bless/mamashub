@@ -130,37 +130,39 @@ class FragmentPhysicalExam1 : Fragment() {
     }
 
     private fun saveData() {
+        
+        
 
         if(rootView.linearGeneralExam.visibility == View.VISIBLE){
             val text = rootView.etAbnomality.text.toString()
             addData("General Examination",text)
         }else{
-            val text = getRadioText(rootView.radioGrpGeneralExam)
+            val text = formatter.getRadioText(rootView.radioGrpGeneralExam)
             addData("General Examination",text)
         }
         if(rootView.linearCvs.visibility == View.VISIBLE){
             val text = rootView.etCvsAbnormal.text.toString()
             addData("CVS",text)
         }else{
-            val text = getRadioText(rootView.radioGrpCVS)
+            val text = formatter.getRadioText(rootView.radioGrpCVS)
             addData("CVS",text)
         }
         if(rootView.linearResp.visibility == View.VISIBLE){
             val text = rootView.etCvsRespiratory.text.toString()
             addData("Respiratory",text)
         }else{
-            val text = getRadioText(rootView.radioGrpRespiratory)
+            val text = formatter.getRadioText(rootView.radioGrpRespiratory)
             addData("Respiratory",text)
         }
         if(rootView.linearResp.visibility == View.VISIBLE){
             val text = rootView.etBreastFinding.text.toString()
             addData("Breasts Exam",text)
         }
-        if(rootView.linearAbnormal.visibility == View.VISIBLE){
+        if(rootView.linearNormal.visibility == View.VISIBLE){
             val text = rootView.etBreastFinding.text.toString()
             addData("Normal Breasts Findings",text)
         }
-        if(rootView.linearNormal.visibility == View.VISIBLE){
+        if(rootView.linearAbnormal.visibility == View.VISIBLE){
             val text = rootView.etBreastAbnormal.text.toString()
             addData("Abnormal Breasts Findings",text)
         }
@@ -168,6 +170,9 @@ class FragmentPhysicalExam1 : Fragment() {
         val systolicBp = rootView.etSystolicBp.text.toString()
         val diastolicBp = rootView.etDiastolicBp.text.toString()
         val pulseRate = rootView.etPulseRate.text.toString()
+
+        val motherWeight = rootView.etMotherWeight.text.toString()
+        val gestation = rootView.etGestation.text.toString()
 
         if (!TextUtils.isEmpty(systolicBp)){
             addData("Systolic Bp",systolicBp)
@@ -178,6 +183,14 @@ class FragmentPhysicalExam1 : Fragment() {
         if (!TextUtils.isEmpty(pulseRate)){
             addData("Pulse Rate",pulseRate)
         }
+
+        if (!TextUtils.isEmpty(motherWeight) && !TextUtils.isEmpty(gestation)){
+
+            addData("Mother Weight",motherWeight)
+            addData("Gestation",gestation)
+        }
+
+
 
         val dbDataList = ArrayList<DbDataList>()
 
@@ -203,18 +216,14 @@ class FragmentPhysicalExam1 : Fragment() {
         ft.commit()
 
     }
-
-    private fun getRadioText(radioGroup: RadioGroup): String {
-
-        val checkedId = radioGroup.checkedRadioButtonId
-        val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-        return checkedRadioButton.text.toString()
-
-    }
+    
 
 
     private fun addData(key: String, value: String) {
-        observationList[key] = value
+        if (key != ""){
+            observationList[key] = value
+        }
+        
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){

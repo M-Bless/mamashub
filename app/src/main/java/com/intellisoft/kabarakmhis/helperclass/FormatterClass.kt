@@ -1,19 +1,23 @@
 package com.intellisoft.kabarakmhis.helperclass
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.intellisoft.kabarakmhis.R
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbCode
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbCodingData
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
+import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.coroutines.*
 import java.lang.Double
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -232,8 +236,31 @@ class FormatterClass {
         val sharedPreferences = context.getSharedPreferences(appName, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
+        Log.e("++++++remove ", sharedKey)
+
         editor.remove(sharedKey)
         editor.apply()
+
+    }
+
+    fun nukeEncounters(context: Context) {
+
+        val encounterList = ArrayList<String>()
+        encounterList.addAll(listOf(
+            DbResourceViews.MEDICAL_HISTORY.name,
+            DbResourceViews.PREVIOUS_PREGNANCY.name,
+            DbResourceViews.PHYSICAL_EXAMINATION.name,
+            DbResourceViews.CLINICAL_NOTES.name,
+            DbResourceViews.BIRTH_PLAN.name,
+            DbResourceViews.SURGICAL_HISTORY.name,
+            DbResourceViews.MEDICAL_DRUG_HISTORY.name,
+            DbResourceViews.FAMILY_HISTORY.name,
+            DbResourceViews.PRESENT_PREGNANCY.name,
+            DbResourceViews.ANTENATAL_PROFILE.name))
+
+        for (items in encounterList){
+            deleteSharedPreference(context, items)
+        }
 
     }
 
@@ -291,6 +318,70 @@ class FormatterClass {
         }
 
         return DbCode(codingList, text)
+
+    }
+
+    fun convertToFhir(dbTypeDataValueList: ArrayList<DbTypeDataValue>):ArrayList<DbObserveValue>{
+
+        val dbObserveValueList =  ArrayList<DbObserveValue>()
+
+        for (items in dbTypeDataValueList){
+
+            val type = items.type
+            val dbObserveValue = items.dbObserveValue
+
+            dbObserveValueList.add(dbObserveValue)
+
+        }
+        return dbObserveValueList
+
+    }
+
+    fun getRadioText(radioGroup: RadioGroup?): String {
+
+        return if (radioGroup != null){
+            val checkedId = radioGroup.checkedRadioButtonId
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            checkedRadioButton?.text?.toString() ?: ""
+
+        }else{
+            ""
+        }
+
+    }
+
+    fun saveToFhir(dbPatientData: DbPatientData, context: Context, encounterType:String) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val kabarakViewModel = KabarakViewModel(context.applicationContext as Application)
+            val retrofitCallsFhir = RetrofitCallsFhir()
+
+            coroutineScope {
+                launch(Dispatchers.IO) {
+
+                    val job = Job()
+                    CoroutineScope(Dispatchers.IO + job).launch {
+
+                        kabarakViewModel.insertInfo(context, dbPatientData)
+
+                    }.join()
+
+                    val list = kabarakViewModel.getTittlePatientData(encounterType, context)
+                    val fhirObserveList = convertToFhir(list)
+
+                    val dbCode = createObservation(fhirObserveList, encounterType)
+
+                    val encounterId = retrieveSharedPreference(context, encounterType)
+                    if (encounterId != null){
+                        retrofitCallsFhir.createObservation(encounterId,context, dbCode)
+                    }else{
+                        retrofitCallsFhir.createFhirEncounter(context, dbCode, encounterType)
+                    }
+                }
+            }
+
+        }
 
     }
 }

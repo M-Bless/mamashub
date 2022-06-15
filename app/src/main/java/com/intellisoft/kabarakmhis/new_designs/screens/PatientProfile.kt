@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
@@ -16,10 +17,17 @@ import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalHistory
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
 import com.intellisoft.kabarakmhis.new_designs.new_patient.PatientDetailsView
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationList
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
+import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyAdd
+import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList
+import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
 import kotlinx.android.synthetic.main.activity_patient_profile.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PatientProfile : AppCompatActivity() {
 
@@ -56,6 +64,10 @@ class PatientProfile : AppCompatActivity() {
     }
 
     private fun getPatientData() {
+
+        CoroutineScope(Dispatchers.IO).launch { RetrofitCallsFhir().getPatientEncounters(this@PatientProfile) }
+
+
 
         val patientName = formatter.retrieveSharedPreference(this, "name")
         val dob = formatter.retrieveSharedPreference(this, "dob")
@@ -102,6 +114,8 @@ class PatientProfile : AppCompatActivity() {
     private fun navigate() {
         navigateClinicalNotes.setOnClickListener { startActivity(Intent(this, ClinicalNotesList::class.java))}
         navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlanView::class.java))}
+        navigatePresent.setOnClickListener { startActivity(Intent(this, PresentPregnancyList::class.java))}
+        navigatePhysicalExam.setOnClickListener { startActivity(Intent(this, PhysicalExaminationList::class.java))}
 
     }
 }

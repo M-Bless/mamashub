@@ -39,9 +39,7 @@ class ClinicalNotesView : AppCompatActivity() {
     private fun getObservationDetails() {
 
         val observationId = formatter.retrieveSharedPreference(this,"observationId")
-
         if (observationId != null) {
-
             val observationList = retrofitCallsFhir.getObservationDetails(this, observationId)
 
             var sourceString = ""
@@ -53,13 +51,12 @@ class ClinicalNotesView : AppCompatActivity() {
 
                 sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
 
-
             }
 
             tvValue.text = sourceString
 
         }else{
-            Toast.makeText(this, "This clinical note has an issue", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "This resource has an issue", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, ClinicalNotesView::class.java))
         }
 

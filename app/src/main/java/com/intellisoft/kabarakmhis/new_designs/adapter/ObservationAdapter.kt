@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.DBEntry
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbCodingData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 
-class ObservationAdapter(private var entryList: ArrayList<DbObserveValue>,
+class ObservationAdapter(private var entryList: ArrayList<DbCodingData>,
                          private val context: Context
 ) : RecyclerView.Adapter<ObservationAdapter.Pager2ViewHolder>() {
 
@@ -57,13 +58,11 @@ class ObservationAdapter(private var entryList: ArrayList<DbObserveValue>,
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
 
-        val title = entryList[position].title
-        val name = entryList[position].value
-
-        val value = name.substring(1, name.length - 1)
+        val title = entryList[position].code
+        val name = entryList[position].display
 
         holder.tvTitle.text = title
-        holder.tvValue.text = value
+        holder.tvValue.text = name
 
 
     }

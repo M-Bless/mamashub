@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.auth.Login
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsAdapter
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
@@ -65,6 +66,7 @@ class NewMainActivity : AppCompatActivity() {
                     patientList,this@NewMainActivity)
                 recyclerView.adapter = configurationListingAdapter
 
+                FormatterClass().nukeEncounters(this@NewMainActivity)
             }
 
 

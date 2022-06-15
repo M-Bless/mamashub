@@ -54,7 +54,7 @@ class BirthPlanView : AppCompatActivity() {
 
             if (observationList.isNotEmpty()){
                 var sourceString = ""
-//
+
                 for(item in observationList){
 
                     val code = item.title
@@ -72,32 +72,6 @@ class BirthPlanView : AppCompatActivity() {
 
         }
 
-
-
-//        val observationId = formatter.retrieveSharedPreference(this,"observationId")
-//
-//        if (observationId != null) {
-//
-//            val observationList = retrofitCallsFhir.getObservationDetails(this, observationId)
-//
-//            var sourceString = ""
-//
-//            for(item in observationList){
-//
-//                val code = item.code
-//                val display = item.display
-//
-//                sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
-//
-//
-//            }
-//
-//            tvValue.text = sourceString
-//
-//        }else{
-//            Toast.makeText(this, "This clinical note has an issue", Toast.LENGTH_SHORT).show()
-//            startActivity(Intent(this, ClinicalNotesView::class.java))
-//        }
 
     }
 }

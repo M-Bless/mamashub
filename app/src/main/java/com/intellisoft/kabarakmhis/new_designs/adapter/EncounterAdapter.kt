@@ -16,11 +16,15 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesView
 import com.intellisoft.kabarakmhis.new_designs.data_class.DBEntry
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbSimpleEncounter
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
+import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 
 class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
-                       private val context: Context
+                       private val context: Context,
+                       private val encounterType: String
 ) : RecyclerView.Adapter<EncounterAdapter.Pager2ViewHolder>() {
 
     inner class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -37,15 +41,20 @@ class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
 
             val pos = adapterPosition
             val id = entryList[pos].title
-//            val appointmentDate = entryList[pos].appointmentDate
-//            val notes = entryList[pos].notes
-//            val dateCollected = entryList[pos].dateCollected
 
             FormatterClass().saveSharedPreference(context, "observationId", id)
-//            FormatterClass().saveSharedPreference(context, "appointmentDate", appointmentDate)
-//            FormatterClass().saveSharedPreference(context, "notes", notes)
-//            FormatterClass().saveSharedPreference(context, "dateCollected", dateCollected)
-            context.startActivity(Intent(context, ClinicalNotesView::class.java))
+
+            if (encounterType == DbResourceViews.PRESENT_PREGNANCY.name){
+                context.startActivity(Intent(context, PresentPregnancyView::class.java))
+            }
+            if (encounterType == DbResourceViews.CLINICAL_NOTES.name){
+                context.startActivity(Intent(context, ClinicalNotesView::class.java))
+            }
+            if (encounterType == DbResourceViews.PHYSICAL_EXAMINATION.name){
+                context.startActivity(Intent(context, PhysicalExaminationView::class.java))
+            }
+
+
 
         }
 

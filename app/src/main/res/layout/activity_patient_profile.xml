@@ -300,6 +300,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/navigatePhysicalExam"
                             android:layout_marginEnd="10dp"
                             android:gravity="center"
                             android:layout_gravity="center"
@@ -547,6 +548,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/navigatePresent"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_weight="1"
