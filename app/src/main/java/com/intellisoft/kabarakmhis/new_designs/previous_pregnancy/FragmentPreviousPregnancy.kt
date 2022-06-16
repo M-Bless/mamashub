@@ -16,6 +16,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
 import java.util.ArrayList
 
@@ -75,14 +76,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
         }
 
     }
-
-    private fun getRadioText(radioGroup: RadioGroup): String {
-
-        val checkedId = radioGroup.checkedRadioButtonId
-        val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-        return checkedRadioButton.text.toString()
-
-    }
+    
 
 
 
@@ -101,7 +95,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             val text = rootView.etAbnormal.text.toString()
             addData("Purperium",text)
         }else{
-            val text = getRadioText(rootView.radioGrpPurperium)
+            val text = formatter.getRadioText(rootView.radioGrpPurperium)
             addData("Purperium",text)
         }
 
@@ -119,18 +113,17 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             addData("Duration",duration)
             addData("Baby Weigt",babyWeight)
 
-            val deliveryMode = getRadioText(rootView.deliveryMode)
+            val deliveryMode = formatter.getRadioText(rootView.deliveryMode)
             addData("Delivery Mode",deliveryMode)
 
-            val radioGrpBabySex = getRadioText(rootView.radioGrpBabySex)
+            val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
             addData("Baby's Sex",radioGrpBabySex)
 
-            val radioGrpOutcome = getRadioText(rootView.radioGrpOutcome)
+            val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
             addData("Outcome",radioGrpOutcome)
 
-            val radioGrpPurperium = getRadioText(rootView.radioGrpPurperium)
+            val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
             addData("Purperium",radioGrpPurperium)
-
 
 
             val dbDataList = ArrayList<DbDataList>()
@@ -149,9 +142,10 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
             val dbPatientData = DbPatientData(DbResourceViews.PREVIOUS_PREGNANCY.name, dbDataDetailsList)
-            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-            startActivity(Intent(requireContext(), PreviousPregnancyView::class.java))
+            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name)
+
+            startActivity(Intent(requireContext(), PatientProfile::class.java))
 
 
         }else{

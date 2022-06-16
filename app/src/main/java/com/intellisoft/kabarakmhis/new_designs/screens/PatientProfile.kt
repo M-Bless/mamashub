@@ -10,6 +10,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfileView
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
@@ -23,6 +24,7 @@ import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnanc
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
+import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
 import kotlinx.android.synthetic.main.activity_patient_profile.*
@@ -119,6 +121,8 @@ class PatientProfile : AppCompatActivity() {
         navigatePhysicalExam.setOnClickListener { startActivity(Intent(this, PhysicalExaminationList::class.java))}
         navigateWeight.setOnClickListener { startActivity(Intent(this, WeightMonitoringChart::class.java))}
         navigateMedicalHistory.setOnClickListener { startActivity(Intent(this, MedicalSurgicalHistoryView::class.java))}
+        navigatePreviousPreg.setOnClickListener { startActivity(Intent(this, PreviousPregnancyList::class.java))}
+        navigateAntenatal.setOnClickListener { startActivity(Intent(this, AntenatalProfileView::class.java))}
 
     }
 }

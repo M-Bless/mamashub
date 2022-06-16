@@ -512,10 +512,14 @@ class RetrofitCallsFhir {
         val responseEncounter: Response<DbEncounterDetailsList> = callEncounterSync.execute()
         if (responseEncounter.isSuccessful) {
 
+            Log.e("----1", responseEncounter.toString())
+
             val reasonBody = responseEncounter.body()
+            Log.e("----2", reasonBody.toString())
             if (reasonBody != null) {
 
                 val entryList = reasonBody.entry
+                Log.e("----3", entryList.toString())
                 if (!entryList.isNullOrEmpty()) {
                     simpleEncounterList = encounterOperations(entryList, encounterType)
 
@@ -554,55 +558,67 @@ class RetrofitCallsFhir {
 
                 }
 
-                for (items in codingList){
+                if (codingList != null){
 
-                    val codeValue = items.code
-                    val displayData = items.display
-                    val display = displayData ?: ""
+                    for (items in codingList){
 
-                    if (encounterType == DbResourceViews.CLINICAL_NOTES.name){
+                        val codeValue = items.code
+                        val displayData = items.display
+                        val display = displayData ?: ""
 
-                        if (codeValue == "Next Appointment"){
-                            val dbObserveValue = DbObserveValue(id, display)
+                        if (encounterType == DbResourceViews.CLINICAL_NOTES.name){
+
+                            if (codeValue == "Next Appointment"){
+                                val dbObserveValue = DbObserveValue(id, display)
+                                simpleEncounterList.add(dbObserveValue)
+                            }
+
+                        }
+                        if (encounterType == DbResourceViews.WEIGHT_MONITORING.name){
+
+                            simpleEncounterList.clear()
+
+                            if (codeValue == "Mother Weight"){
+                                weightList.add(display)
+                            }
+                            if (codeValue == "Gestation"){
+                                gestationList.add(display)
+                            }
+
+                        }
+
+                        if (text == DbResourceViews.BIRTH_PLAN.name){
+
+                            val dbObserveValue = DbObserveValue(codeValue, display)
                             simpleEncounterList.add(dbObserveValue)
+
                         }
+                        if (text == DbResourceViews.MEDICAL_HISTORY.name){
 
-                    }
-                    if (encounterType == DbResourceViews.WEIGHT_MONITORING.name){
-
-                        simpleEncounterList.clear()
-
-                        if (codeValue == "Mother Weight"){
-                            weightList.add(display)
-                        }
-                        if (codeValue == "Gestation"){
-                            gestationList.add(display)
-                        }
-
-                    }
-
-                    if (text == DbResourceViews.BIRTH_PLAN.name){
-
-                        val dbObserveValue = DbObserveValue(codeValue, display)
-                        simpleEncounterList.add(dbObserveValue)
-
-                    }
-                    if (text == DbResourceViews.MEDICAL_HISTORY.name){
-
-                        val dbObserveValue = DbObserveValue(codeValue, display)
-                        simpleEncounterList.add(dbObserveValue)
-
-                    }
-
-                    if (text == DbResourceViews.PRESENT_PREGNANCY.name){
-
-                        if (codeValue == "Pregnancy Contact"){
-                            val dbObserveValue = DbObserveValue(id, display)
+                            val dbObserveValue = DbObserveValue(codeValue, display)
                             simpleEncounterList.add(dbObserveValue)
+
+                        }
+                        if (text == DbResourceViews.ANTENATAL_PROFILE.name){
+
+                            val dbObserveValue = DbObserveValue(codeValue, display)
+                            simpleEncounterList.add(dbObserveValue)
+
                         }
 
+                        if (text == DbResourceViews.PRESENT_PREGNANCY.name){
+
+                            if (codeValue == "Pregnancy Contact"){
+                                val dbObserveValue = DbObserveValue(id, display)
+                                simpleEncounterList.add(dbObserveValue)
+                            }
+
+                        }
                     }
+
+
                 }
+
 
 
             }
@@ -617,6 +633,8 @@ class RetrofitCallsFhir {
             val dbObserveValue = DbObserveValue(value, gestation)
             simpleEncounterList.add(dbObserveValue)
         }
+
+        Log.e("----4", simpleEncounterList.toString())
 
         return simpleEncounterList
 

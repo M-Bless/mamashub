@@ -111,7 +111,7 @@ data class DbObservation(
     val code: DbCode
 )
 data class DbCode(
-    val coding: List<DbCodingData>,
+    val coding: List<DbCodingData>?,
     val text: String
 )
 data class DbCodingData(

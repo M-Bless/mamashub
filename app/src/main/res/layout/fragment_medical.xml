@@ -53,6 +53,7 @@
                             android:text="Diabetes"/>
 
                         <RadioGroup
+                            android:id="@+id/radioGrpDiabetes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -88,6 +89,7 @@
                             android:text="Hypertension"/>
 
                         <RadioGroup
+                            android:id="@+id/radioGrpHypertension"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -126,6 +128,7 @@
                             android:text="Blood Transfusion"/>
 
                         <RadioGroup
+                            android:id="@+id/radioGrpBloodTransfer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -223,6 +226,7 @@
                             android:text="Tuberculosis"/>
 
                         <RadioGroup
+                            android:id="@+id/radioGrpTb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">

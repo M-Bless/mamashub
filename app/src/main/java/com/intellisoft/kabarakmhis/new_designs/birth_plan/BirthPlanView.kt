@@ -64,9 +64,11 @@ class BirthPlanView : AppCompatActivity() {
 
                 }
 
-                CoroutineScope(Dispatchers.Main).launch { tvValue.text = sourceString }
+                CoroutineScope(Dispatchers.Main).launch {
+                    tvValue.text = sourceString
+                    btnAddBirthPlan.text = "Edit Birth Plan"}
 
-                btnAddBirthPlan.text = "Edit Birth Plan"
+
             }
 
 

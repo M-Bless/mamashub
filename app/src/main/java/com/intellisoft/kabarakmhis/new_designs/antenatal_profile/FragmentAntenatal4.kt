@@ -15,6 +15,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 
 import kotlinx.android.synthetic.main.fragment_antenatal4.view.*
@@ -184,9 +185,11 @@ class FragmentAntenatal4 : Fragment() {
         val dbDataDetails = DbDataDetails(dbDataList)
         dbDataDetailsList.add(dbDataDetails)
         val dbPatientData = DbPatientData(DbResourceViews.ANTENATAL_PROFILE.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        val intent = Intent(requireContext(), AntenatalProfileView::class.java)
+        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
+
+
+        val intent = Intent(requireContext(), PatientProfile::class.java)
         startActivity(intent)
 
     }

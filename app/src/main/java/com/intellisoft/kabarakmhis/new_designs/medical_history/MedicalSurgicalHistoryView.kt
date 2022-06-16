@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,6 +67,9 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
 
         val encounterId = formatter.retrieveSharedPreference(this@MedicalSurgicalHistoryView,
             DbResourceViews.MEDICAL_HISTORY.name)
+
+        Log.e("---- ","---")
+        println(encounterId)
         if (encounterId != null) {
 
             val observationList = retrofitCallsFhir.getEncounterDetails(this@MedicalSurgicalHistoryView,
@@ -73,7 +77,7 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
 
             if (observationList.isNotEmpty()){
 
-
+                Log.e("----4", observationList.toString())
 
                 var sourceString = ""
 
@@ -85,6 +89,8 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
                     sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
 
                 }
+
+                Log.e("----5", sourceString.toString())
 
                 CoroutineScope(Dispatchers.Main).launch {
 

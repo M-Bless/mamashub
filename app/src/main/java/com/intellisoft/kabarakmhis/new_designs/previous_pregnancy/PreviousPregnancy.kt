@@ -49,8 +49,6 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
         if (savedInstanceState == null){
 
-            Log.e("++++++ ", "xxxx")
-
             val ft = supportFragmentManager.beginTransaction()
 
             when (formatter.retrieveSharedPreference(this, "FRAGMENT")) {

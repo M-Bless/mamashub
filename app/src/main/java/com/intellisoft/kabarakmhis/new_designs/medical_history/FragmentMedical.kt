@@ -111,6 +111,18 @@ class FragmentMedical : Fragment(){
             addData("Other non drug allergies",text)
         }
 
+        val diabetes = formatter.getRadioText(rootView.radioGrpDiabetes)
+        val hypertension = formatter.getRadioText(rootView.radioGrpDiabetes)
+        val tb = formatter.getRadioText(rootView.radioGrpDiabetes)
+        val bloodTransfusion = formatter.getRadioText(rootView.radioGrpBloodTransfer)
+
+        if (diabetes != "" && hypertension != "" && tb != "" && bloodTransfusion != ""){
+            addData("Diabetes",diabetes)
+            addData("Hypertension",hypertension)
+            addData("Tuberculosis",tb)
+            addData("Blood Transfusion",bloodTransfusion)
+        }
+
         val dbDataList = ArrayList<DbDataList>()
 
         for (items in observationList){

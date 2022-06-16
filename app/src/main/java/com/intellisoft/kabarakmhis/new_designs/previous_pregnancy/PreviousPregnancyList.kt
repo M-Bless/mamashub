@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.present_pregnancy
+package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,27 +10,25 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
-import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesAdd
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
-import kotlinx.android.synthetic.main.activity_present_pregnancy_list.*
+import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PresentPregnancyList : AppCompatActivity() {
+class PreviousPregnancyList : AppCompatActivity() {
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private val formatter = FormatterClass()
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_present_pregnancy_list)
-
+        setContentView(R.layout.activity_previous_pregnancy_list)
 
         fab.setOnClickListener {
 
-            startActivity(Intent(this, PresentPregnancyAdd::class.java))
+            startActivity(Intent(this, PreviousPregnancy::class.java))
 
         }
 
@@ -41,6 +39,7 @@ class PresentPregnancyList : AppCompatActivity() {
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+        
     }
 
     override fun onStart() {
@@ -48,9 +47,9 @@ class PresentPregnancyList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@PresentPregnancyList, DbResourceViews.PRESENT_PREGNANCY.name)
+            val encounterId = formatter.retrieveSharedPreference(this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
             if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@PresentPregnancyList, encounterId, DbResourceViews.PRESENT_PREGNANCY.name)
+                val observationList = retrofitCallsFhir.getEncounterDetails(this@PreviousPregnancyList, encounterId, DbResourceViews.PREVIOUS_PREGNANCY.name)
                 CoroutineScope(Dispatchers.Main).launch {
 
                     if (!observationList.isNullOrEmpty()){
@@ -62,7 +61,7 @@ class PresentPregnancyList : AppCompatActivity() {
                     }
 
                     val configurationListingAdapter = EncounterAdapter(
-                        observationList,this@PresentPregnancyList,DbResourceViews.PRESENT_PREGNANCY.name)
+                        observationList,this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
                     recyclerView.adapter = configurationListingAdapter
                 }
             }

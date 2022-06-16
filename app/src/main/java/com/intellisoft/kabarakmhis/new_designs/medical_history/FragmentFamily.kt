@@ -115,7 +115,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         if (rootView.linearReferTbScreening.visibility == View.VISIBLE){
             //Refer for TB Screening
             val text = rootView.etTbScreening.text.toString()
-            addData("Drug Allergy",text)
+            addData("Tuberculosis Screening",text)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpSameHouse)
             addData("Was the patient sharing residence with TB person? ",text)

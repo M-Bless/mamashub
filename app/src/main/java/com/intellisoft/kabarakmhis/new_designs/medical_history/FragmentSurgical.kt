@@ -50,14 +50,18 @@ class FragmentSurgical : Fragment() {
 
     private fun saveData() {
 
-        if (rootView.checkboxNoPast.isChecked) addData("Surgical History",rootView.checkboxNoPast.text.toString())
-        if (rootView.checkboxNoKnowledge.isChecked) addData("Surgical History",rootView.checkboxNoKnowledge.text.toString())
-        if (rootView.checkboxDilation.isChecked) addData("Surgical History",rootView.checkboxDilation.text.toString())
-        if (rootView.checkboxMyomectomy.isChecked) addData("Surgical History",rootView.checkboxMyomectomy.text.toString())
-        if (rootView.checkboxRemoval.isChecked) addData("Surgical History",rootView.checkboxRemoval.text.toString())
-        if (rootView.checkboxOophorectomy.isChecked) addData("Surgical History",rootView.checkboxOophorectomy.text.toString())
-        if (rootView.checkboxSalpi.isChecked) addData("Surgical History",rootView.checkboxSalpi.text.toString())
-        if (rootView.checkboxCervical.isChecked) addData("Surgical History",rootView.checkboxCervical.text.toString())
+        val surgicalHistoryList = ArrayList<String>()
+
+        if (rootView.checkboxNoPast.isChecked) surgicalHistoryList.add(rootView.checkboxNoPast.text.toString())
+        if (rootView.checkboxNoKnowledge.isChecked) surgicalHistoryList.add(rootView.checkboxNoKnowledge.text.toString())
+        if (rootView.checkboxDilation.isChecked) surgicalHistoryList.add(rootView.checkboxDilation.text.toString())
+        if (rootView.checkboxMyomectomy.isChecked) surgicalHistoryList.add(rootView.checkboxMyomectomy.text.toString())
+        if (rootView.checkboxRemoval.isChecked) surgicalHistoryList.add(rootView.checkboxRemoval.text.toString())
+        if (rootView.checkboxOophorectomy.isChecked) surgicalHistoryList.add(rootView.checkboxOophorectomy.text.toString())
+        if (rootView.checkboxSalpi.isChecked) surgicalHistoryList.add(rootView.checkboxSalpi.text.toString())
+        if (rootView.checkboxCervical.isChecked) surgicalHistoryList.add(rootView.checkboxCervical.text.toString())
+
+        addData("Surgical History", surgicalHistoryList.toString())
 
         val otherGyna = rootView.etOtherGyna.text.toString()
         val otherSurgeries = rootView.etOtherSurgery.text.toString()

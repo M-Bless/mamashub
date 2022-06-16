@@ -15,8 +15,12 @@
         android:theme="@style/Theme.KabarakMHIS">
         <activity
             android:parentActivityName=".new_designs.screens.PatientProfile"
-            android:name=".new_designs.weight_monitoring.WeightMonitoringChart"
+            android:name=".new_designs.previous_pregnancy.PreviousPregnancyList"
             android:exported="false" />
+        <activity
+            android:name=".new_designs.weight_monitoring.WeightMonitoringChart"
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.physical_examination.PhysicalExaminationList"
             android:exported="false"
