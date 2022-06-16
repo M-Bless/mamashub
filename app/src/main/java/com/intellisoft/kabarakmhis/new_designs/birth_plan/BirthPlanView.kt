@@ -3,6 +3,7 @@ package com.intellisoft.kabarakmhis.new_designs.birth_plan
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.widget.Toast
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -12,6 +13,7 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import kotlinx.android.synthetic.main.activity_birth_plan_view.*
 import kotlinx.android.synthetic.main.activity_birth_plan_view.tvValue
 import kotlinx.android.synthetic.main.activity_clinical_notes_view.*
+import kotlinx.android.synthetic.main.activity_medical_surgical_history_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,12 +62,14 @@ class BirthPlanView : AppCompatActivity() {
                     val code = item.title
                     val display = item.value
 
-                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
+//                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
+                    sourceString = "$sourceString<br><b>${code.toUpperCase()}</b>: $display"
 
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    tvValue.text = sourceString
+//                    tvValue.text = sourceString
+                    tvValue.text = Html.fromHtml(sourceString)
                     btnAddBirthPlan.text = "Edit Birth Plan"}
 
 

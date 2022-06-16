@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,8 +87,8 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
                     val code = item.title
                     val display = item.value
 
-                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
-
+//                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
+                    sourceString = "$sourceString<br><b>${code.toUpperCase()}</b>: $display"
                 }
 
                 Log.e("----5", sourceString.toString())
@@ -100,7 +101,7 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
                         no_record.visibility = View.VISIBLE
                     }
 
-                    tvValue.text = sourceString
+                    tvValue.text = Html.fromHtml(sourceString)
                     btnAddHistory.text = "Edit Medical History"
                 }
 

@@ -1,6 +1,5 @@
 package com.intellisoft.kabarakmhis.helperclass
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
@@ -12,13 +11,13 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.coroutines.*
 import java.lang.Double
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
@@ -33,6 +32,7 @@ import kotlin.NumberFormatException
 import kotlin.String
 import kotlin.Triple
 import kotlin.let
+import kotlin.math.abs
 import kotlin.toString
 
 class FormatterClass {
@@ -70,6 +70,31 @@ class FormatterClass {
 
         return sdf1.format(newDate)
 
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calculateAge(input: String):Int{
+
+        val dob = LocalDate.parse(input)
+        val curDate = LocalDate.now()
+
+        return if (dob != null && curDate != null){
+            Period.between(dob, curDate).years
+        } else {
+            0
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calculateLmpAge(input: String):Int{
+
+        var days = 0
+
+
+
+        return days
 
     }
 

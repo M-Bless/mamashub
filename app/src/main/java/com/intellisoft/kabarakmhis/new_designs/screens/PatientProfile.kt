@@ -2,10 +2,12 @@ package com.intellisoft.kabarakmhis.new_designs.screens
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
@@ -60,20 +62,23 @@ class PatientProfile : AppCompatActivity() {
         startActivity(dialIntent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
         super.onStart()
 
         getPatientData()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getPatientData() {
 
         CoroutineScope(Dispatchers.IO).launch { RetrofitCallsFhir().getPatientEncounters(this@PatientProfile) }
 
-
-
         val patientName = formatter.retrieveSharedPreference(this, "name")
         val dob = formatter.retrieveSharedPreference(this, "dob")
+
+        //Calculate Age
+        val age = "${formatter.calculateAge(dob.toString())} years"
 
         val kinRelationShip = formatter.retrieveSharedPreference(this, "kinRelationShip")
         val kinName = formatter.retrieveSharedPreference(this, "kinName")
@@ -83,11 +88,12 @@ class PatientProfile : AppCompatActivity() {
 
             val kinDetails = "$kinName \n$kinPhoneNumber"
             tvKinDetails.text = kinPhoneNumber
+            tvKinName.text = kinName
 
         }
 
         tvName.text = patientName
-        tvAge.text = dob
+        tvAge.text = age
 
     }
 

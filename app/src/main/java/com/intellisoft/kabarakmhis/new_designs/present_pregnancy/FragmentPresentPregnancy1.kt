@@ -27,7 +27,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
     private val formatter = FormatterClass()
 
-    var contactNumberList = arrayOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
+    var contactNumberList = arrayOf("","1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
     private var spinnerContactNumberValue  = contactNumberList[0]
 
     private var observationList = mutableMapOf<String, String>()

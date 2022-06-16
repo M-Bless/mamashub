@@ -29,8 +29,8 @@
         <entry key="app/src/main/res/layout/activity_new_main.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_patient_details_view.xml" value="0.16193063100710406" />
-        <entry key="app/src/main/res/layout/activity_patient_list.xml" value="0.33133817870884996" />
-        <entry key="app/src/main/res/layout/activity_patient_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_patient_list.xml" value="0.2692307692307692" />
+        <entry key="app/src/main/res/layout/activity_patient_profile.xml" value="0.2616822429906542" />
         <entry key="app/src/main/res/layout/activity_physical_examination.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_physical_examination_list.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_physical_examination_view.xml" value="0.2767210144927536" />

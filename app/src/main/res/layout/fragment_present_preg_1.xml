@@ -165,7 +165,7 @@
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Blood Pressure"
+                        android:text="Blood Pressure (mmHg)"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/black"
                          />
@@ -285,7 +285,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If yes, Hb reading"
+                            android:text="If yes, hb reading"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             />
 

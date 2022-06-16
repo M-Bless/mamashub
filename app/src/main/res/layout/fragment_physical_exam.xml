@@ -102,7 +102,7 @@
                             android:textColor="@color/black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Blood Pressure"
+                            android:text="Blood Pressure (mmHg)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 
@@ -120,6 +120,7 @@
                                  />
 
                             <EditText
+                                android:inputType="numberDecimal"
                                 android:id="@+id/etSystolicBp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -143,6 +144,7 @@
                                  />
 
                             <EditText
+                                android:inputType="numberDecimal"
                                 android:id="@+id/etDiastolicBp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -372,7 +374,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If abnormal, specify"
+                            android:text="If abnormal, give findings"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 

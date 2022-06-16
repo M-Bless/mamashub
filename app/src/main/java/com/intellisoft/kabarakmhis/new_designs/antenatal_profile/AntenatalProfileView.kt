@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
@@ -14,6 +15,8 @@ import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.tvValue
+import kotlinx.android.synthetic.main.activity_medical_surgical_history_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -75,12 +78,16 @@ class AntenatalProfileView : AppCompatActivity() {
                     val code = item.title
                     val display = item.value
 
-                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
+//                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
+
+
+                    sourceString = "$sourceString<br><b>${code.toUpperCase()}</b>: $display"
 
                 }
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    tvValue.text = sourceString
+//                    tvValue.text = sourceString
+                    tvValue.text = Html.fromHtml(sourceString)
                     btnAddAntenatal.text = "Edit Antenatal Profile"
                 }
 

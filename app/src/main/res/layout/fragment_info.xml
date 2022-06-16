@@ -34,7 +34,7 @@
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Residence"
+                        android:text="Residential Information"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/black"
                          />
@@ -140,7 +140,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Town"
+                                android:text="Town / Village"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
@@ -160,7 +160,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Address"
+                                android:text="Physical Address"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
@@ -179,7 +179,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Estate"
+                                android:text="Estate / Hse No"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
@@ -212,7 +212,7 @@
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Education"
+                        android:text="Contact Details"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/black"
                          />
@@ -231,7 +231,7 @@
                             />
 
                         <EditText
-                            android:inputType="number"
+                            android:inputType="phone"
                             android:id="@+id/etTelePhone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

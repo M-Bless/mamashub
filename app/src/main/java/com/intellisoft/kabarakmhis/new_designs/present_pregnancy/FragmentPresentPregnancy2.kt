@@ -31,7 +31,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
     private val formatter = FormatterClass()
 
-    var presentationList = arrayOf("Unknown fetal presentation", "Cephalic fetal presentation",
+    var presentationList = arrayOf("","Unknown fetal presentation", "Cephalic fetal presentation",
         "Pelvic fetal presentation", "Transverse fetal presentation", "Other fetal presentation")
     private var spinnerPresentationValue  = presentationList[0]
 

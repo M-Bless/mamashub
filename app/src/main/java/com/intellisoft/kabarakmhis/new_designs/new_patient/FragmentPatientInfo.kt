@@ -30,8 +30,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     private val formatter = FormatterClass()
 
-    var educationList = arrayOf("Dont know level of Education", "No Education", "Primary School", "Secondary School", "Higher Education")
-    var relationshipList = arrayOf("Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
+    var educationList = arrayOf("","Dont know level of Education", "No Education", "Primary School", "Secondary School", "Higher Education")
+    var relationshipList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
     private var spinnerEducationValue = educationList[0]
     private var spinnerRshpValue  = relationshipList[0]
 

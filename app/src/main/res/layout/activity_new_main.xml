@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"/>
 
             <Button
-                android:id="@+id/btnRegisterPatient"
+                app:drawableStartCompat="@drawable/ic_action_add"                android:id="@+id/btnRegisterPatient"
                 android:textAllCaps="false"
                 android:text="Register New Patient"
                 android:layout_width="wrap_content"

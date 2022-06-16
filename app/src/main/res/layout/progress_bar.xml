@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
         <ProgressBar
+            android:theme="@style/CircularProgress"
             android:max="100"
             android:id="@+id/progressBar"
             android:layout_width="fill_parent"

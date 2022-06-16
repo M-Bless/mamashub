@@ -26,10 +26,10 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
 
-    var pregnancyList = arrayOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th","Other")
-    var babySexList = arrayOf("Male", "Female")
-    var outcomeList = arrayOf("Alive", "Dead")
-    var deliveryModeList = arrayOf("Vaginal delivery", "Assisted vaginal delivery", "Caesarean Section","Birth weight(grams)")
+    var pregnancyList = arrayOf("","1st", "2nd", "3rd", "4th", "5th", "6th", "7th","Other")
+    var babySexList = arrayOf("","Male", "Female")
+    var outcomeList = arrayOf("","Alive", "Dead")
+    var deliveryModeList = arrayOf("","Vaginal delivery", "Assisted vaginal delivery", "Caesarean Section","Birth weight(grams)")
 
     private var spinnerPregnancyOrderData  = pregnancyList[0]
     private var spinnerBabySexData = babySexList[0]

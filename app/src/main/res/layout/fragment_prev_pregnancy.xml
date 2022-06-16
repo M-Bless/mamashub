@@ -251,7 +251,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Birth Weight"
+                            android:text="Birth Weight (grams)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 
@@ -273,9 +273,9 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:layout_weight="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:text="Baby Sex"
-                            
                             android:gravity="start|center"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>
@@ -283,7 +283,7 @@
                         <RadioGroup
                             android:layout_marginStart="@dimen/_5dp"
                             android:id="@+id/radioGrpBabySex"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
@@ -315,7 +315,7 @@
                         <TextView
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:text="Outcome"
-                            
+                            android:layout_weight="1"
                             android:gravity="start|center"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>
@@ -323,7 +323,7 @@
                         <RadioGroup
                             android:layout_marginStart="@dimen/_5dp"
                             android:id="@+id/radioGrpOutcome"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
@@ -355,7 +355,7 @@
                         <TextView
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:text="Purperium"
-                            
+                            android:layout_weight="1"
                             android:gravity="start|center"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>
@@ -363,7 +363,7 @@
                         <RadioGroup
                             android:layout_marginStart="@dimen/_5dp"
                             android:id="@+id/radioGrpPurperium"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 

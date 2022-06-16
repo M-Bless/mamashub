@@ -24,7 +24,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 
     private val formatter = FormatterClass()
 
-    var relationshipList = arrayOf("Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
+    var relationshipList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
     private var spinnerRshpValue  = relationshipList[0]
 
     private lateinit var rootView: View

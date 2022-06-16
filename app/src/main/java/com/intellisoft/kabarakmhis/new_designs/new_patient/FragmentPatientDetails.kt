@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +28,8 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
     private val formatter = FormatterClass()
 
-    var maritalStatusList = arrayOf("Married", "Widowed", "Single", "Divorced", "Separated")
-    var educationLevelList = arrayOf("Don't know level of education", "No education",
+    var maritalStatusList = arrayOf("","Married", "Widowed", "Single", "Divorced", "Separated")
+    var educationLevelList = arrayOf("","Don't know level of education", "No education",
         "Primary school", "Secondary school", "Higher education")
 
     private var spinnerMaritalValue  = maritalStatusList[0]
@@ -63,19 +64,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
         rootView.etDoB.setOnClickListener {
             onCreateDialog(999)
-
         }
         rootView.etLmp.setOnClickListener {
             onCreateDialog(998)
         }
-        rootView.btnSave.setOnClickListener {
-
-
-            saveData()
-
-
-
-        }
+        rootView.btnSave.setOnClickListener { saveData() }
 
         initSpinner()
 
@@ -172,6 +165,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun onCreateDialog(id: Int) {
         // TODO Auto-generated method stub
 
@@ -200,20 +194,47 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             // arg2 = month
             // arg3 = day
             val date = showDate(arg1, arg2 + 1, arg3)
-            rootView.etDoB.text = date
-            val age = "${formatter.getAge(arg1, arg2 + 1, arg3)} years"
-            rootView.etAge.setText(age)
+
+            //Check if age is right
+            val ageNumber = formatter.getAge(arg1, arg2 + 1, arg3)
+            if (ageNumber != null){
+
+                if (ageNumber.toInt() > 9){
+
+                    rootView.etDoB.text = date
+                    val age = "$ageNumber years"
+                    rootView.etAge.setText(age)
+
+                }else{
+                    Toast.makeText(requireContext(), "Please select a higher age.", Toast.LENGTH_SHORT).show()
+                }
+
+            }else{
+                Toast.makeText(requireContext(), "The age is invalid!", Toast.LENGTH_SHORT).show()
+
+            }
+
+
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private val myDateLMPListener =
         DatePickerDialog.OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
             // arg1 = year
             // arg2 = month
             // arg3 = day
             val date = showDate(arg1, arg2 + 1, arg3)
-            rootView.etLmp.text = date
-            val edd = formatter.getCalculations(date)
-            rootView.etEdd.setText(edd)
+            val ageNumber = formatter.calculateLmpAge(date)
+
+            Log.e("----- ", ageNumber.toString())
+
+            if (ageNumber > 30){
+                rootView.etLmp.text = date
+                val edd = formatter.getCalculations(date)
+                rootView.etEdd.setText(edd)
+            }else{
+                Toast.makeText(requireContext(), "The Last Menstrual Period Date is invalid", Toast.LENGTH_SHORT).show()
+            }
 
         }
 
