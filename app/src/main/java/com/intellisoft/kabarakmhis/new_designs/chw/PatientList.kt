@@ -11,6 +11,8 @@ class PatientList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_list)
 
+        title = "Patients"
+
         btnRegisterPatient.setOnClickListener {
 
             startActivity(Intent(this@PatientList, CommunityHealthWorkerForm::class.java))

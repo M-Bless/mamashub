@@ -26,6 +26,8 @@ class ClinicalNotesList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clinical_notes_list)
 
+        title = "Clinical Notes"
+
         fab.setOnClickListener {
 
             startActivity(Intent(this, ClinicalNotesAdd::class.java))

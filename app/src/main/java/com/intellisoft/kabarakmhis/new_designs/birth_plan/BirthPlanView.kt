@@ -28,6 +28,8 @@ class BirthPlanView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_birth_plan_view)
 
+        title = "Birth Plan Details"
+
         btnAddBirthPlan.setOnClickListener {
 
             startActivity(Intent(this, BirthPlan::class.java))

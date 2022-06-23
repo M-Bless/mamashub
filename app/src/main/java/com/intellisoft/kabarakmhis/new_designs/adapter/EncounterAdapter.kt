@@ -18,6 +18,7 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DBEntry
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbSimpleEncounter
+import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisView
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
@@ -56,6 +57,9 @@ class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
             }
             if (encounterType == DbResourceViews.PREVIOUS_PREGNANCY.name){
                 context.startActivity(Intent(context, PreviousPregnancyView::class.java))
+            }
+            if (encounterType == DbResourceViews.MALARIA_PROPHYLAXIS.name){
+                context.startActivity(Intent(context, MalariaProphylaxisView::class.java))
             }
 
 

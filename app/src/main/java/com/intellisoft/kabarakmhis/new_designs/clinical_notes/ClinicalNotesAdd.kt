@@ -25,6 +25,8 @@ class ClinicalNotesAdd : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clinical_notes_add)
 
+        title = "Add Clinical Notes"
+
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
 

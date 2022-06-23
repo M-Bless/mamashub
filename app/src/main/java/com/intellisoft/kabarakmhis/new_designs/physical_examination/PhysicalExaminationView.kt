@@ -32,6 +32,8 @@ class PhysicalExaminationView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_physical_examination_view)
 
+        title = "Physical Examination Details"
+
         btnPhysicalExamination.setOnClickListener {
             val intent = Intent(this, PhysicalExamination::class.java)
             startActivity(intent)

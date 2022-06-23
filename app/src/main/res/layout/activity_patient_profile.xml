@@ -628,6 +628,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/navigatePreventiveService"
                             android:layout_marginEnd="10dp"
                             android:gravity="center"
                             android:layout_gravity="center"
@@ -682,6 +683,7 @@
                         android:layout_marginTop="@dimen/_15dp">
 
                         <LinearLayout
+                            android:id="@+id/navigateMalariaProphylaxis"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_weight="1"
@@ -727,6 +729,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/navigateMaternalSerology"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_weight="1"

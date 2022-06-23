@@ -33,6 +33,8 @@ class AntenatalProfileView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_antenatal_profile_view)
 
+        title = "Antenatal Profile Details"
+
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         recyclerView = findViewById(R.id.patient_list);

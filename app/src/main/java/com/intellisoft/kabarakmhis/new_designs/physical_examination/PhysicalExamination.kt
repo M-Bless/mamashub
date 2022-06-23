@@ -29,6 +29,8 @@ class PhysicalExamination : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_physical_examination)
 
+        title = "Physical Examination"
+
         formatter.saveSharedPreference(this, "totalPages", "2")
 
         if (savedInstanceState == null){

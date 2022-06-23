@@ -22,6 +22,8 @@ class AntenatalProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_antenatal_profile)
 
+        title = "Antenatal Profile"
+
         formatter.saveSharedPreference(this, "totalPages", "4")
 
         if (savedInstanceState == null){

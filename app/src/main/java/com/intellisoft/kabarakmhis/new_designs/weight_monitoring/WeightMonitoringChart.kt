@@ -32,6 +32,8 @@ class WeightMonitoringChart : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight_monitoring_chart)
 
+        title = "Weight Monitoring Chart"
+
         chart = findViewById(R.id.chart)
 
 

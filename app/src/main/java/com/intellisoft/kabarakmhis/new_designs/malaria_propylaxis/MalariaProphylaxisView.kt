@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
+package com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis
 
 import android.app.Application
 import android.content.Intent
@@ -7,32 +7,29 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
-import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
 import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PreviousPregnancyView : AppCompatActivity() {
+class MalariaProphylaxisView : AppCompatActivity() {
 
-    private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_previous_pregnancy_view)
+        setContentView(R.layout.activity_malaria_prophylaxis_view)
 
-        title = "Present Pregnancy View"
+        title = "Malaria Prophylaxis Details"
 
         btnPreviousPregnancy.setOnClickListener {
-            val intent = Intent(this, PreviousPregnancy::class.java)
+            val intent = Intent(this, MalariaProphylaxis::class.java)
             startActivity(intent)
         }
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
@@ -52,11 +49,11 @@ class PreviousPregnancyView : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val patientList = kabarakViewModel.getTittlePatientData(DbResourceViews.PREVIOUS_PREGNANCY.name, this@PreviousPregnancyView)
+            val patientList = kabarakViewModel.getTittlePatientData(DbResourceViews.MALARIA_PROPHYLAXIS.name, this@MalariaProphylaxisView)
             CoroutineScope(Dispatchers.Main).launch {
 
                 val configurationListingAdapter = ViewDetailsAdapter(
-                    patientList,this@PreviousPregnancyView)
+                    patientList,this@MalariaProphylaxisView)
                 recyclerView.adapter = configurationListingAdapter
 
             }
@@ -85,6 +82,4 @@ class PreviousPregnancyView : AppCompatActivity() {
 
 
     }
-
-
 }

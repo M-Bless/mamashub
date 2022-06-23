@@ -35,6 +35,9 @@ class RegisterNewPatient : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_new_patient)
+
+        title = "Register New Patient"
+
         formatter.saveSharedPreference(this, "totalPages", "2")
 
         if (savedInstanceState == null){

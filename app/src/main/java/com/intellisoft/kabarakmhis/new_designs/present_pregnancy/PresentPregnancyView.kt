@@ -34,6 +34,8 @@ class PresentPregnancyView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_present_pregnancy_view)
 
+        title = "Present Pregnancy View"
+
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         recyclerView = findViewById(R.id.patient_list);

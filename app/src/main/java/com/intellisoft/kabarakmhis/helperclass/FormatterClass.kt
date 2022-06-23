@@ -4,12 +4,10 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
@@ -408,5 +406,22 @@ class FormatterClass {
 
         }
 
+    }
+
+    fun Context.validated(edittextlist: MutableList<EditText>): Boolean {
+        edittextlist.forEach {
+            val edittext = it
+            if (TextUtils.isEmpty(edittext.text.toString())) {
+                edittext.error = "You cannot leave this field blank"
+                return false
+            }
+        }
+        return true
+    }
+
+
+
+    fun Context.mytext(edittext: EditText): String {
+        return edittext.text.toString().trim()
     }
 }

@@ -1,8 +1,10 @@
-package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
+package com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,29 +13,31 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
-import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.activity_malaria_prophylaxis_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PreviousPregnancyList : AppCompatActivity() {
+class MalariaProphylaxisList : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: RecyclerView.LayoutManager
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
-    private lateinit var layoutManager: RecyclerView.LayoutManager
     private val formatter = FormatterClass()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_previous_pregnancy_list)
+        setContentView(R.layout.activity_malaria_prophylaxis_list)
 
-        title = "Present Pregnancy List"
+        title = "Malaria Prophylaxis List"
 
-        fab.setOnClickListener {
+        kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
-            startActivity(Intent(this, PreviousPregnancy::class.java))
-
-        }
-
+        recyclerView = findViewById(R.id.recyclerView);
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
@@ -41,7 +45,10 @@ class PreviousPregnancyList : AppCompatActivity() {
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        
+
+        fab.setOnClickListener {
+            startActivity(Intent(this, MalariaProphylaxis::class.java))
+        }
     }
 
     override fun onStart() {
@@ -49,9 +56,9 @@ class PreviousPregnancyList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
+            val encounterId = formatter.retrieveSharedPreference(this@MalariaProphylaxisList, DbResourceViews.MALARIA_PROPHYLAXIS.name)
             if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@PreviousPregnancyList, encounterId, DbResourceViews.PREVIOUS_PREGNANCY.name)
+                val observationList = retrofitCallsFhir.getEncounterDetails(this@MalariaProphylaxisList, encounterId, DbResourceViews.MALARIA_PROPHYLAXIS.name)
                 CoroutineScope(Dispatchers.Main).launch {
 
                     if (!observationList.isNullOrEmpty()){
@@ -62,8 +69,10 @@ class PreviousPregnancyList : AppCompatActivity() {
                         recyclerView.visibility = View.GONE
                     }
 
+                    Log.e("----- ", observationList.toString())
+
                     val configurationListingAdapter = EncounterAdapter(
-                        observationList,this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
+                        observationList,this@MalariaProphylaxisList, DbResourceViews.MALARIA_PROPHYLAXIS.name)
                     recyclerView.adapter = configurationListingAdapter
                 }
             }
@@ -72,6 +81,9 @@ class PreviousPregnancyList : AppCompatActivity() {
 
 
         }
+
+
+
 
     }
 }

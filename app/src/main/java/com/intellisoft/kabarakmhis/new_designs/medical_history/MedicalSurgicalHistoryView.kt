@@ -37,6 +37,8 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
         setContentView(R.layout.activity_medical_surgical_history_view)
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
+        title = "Medical & Surgical History Details"
+
         btnAddHistory.setOnClickListener {
             val intent = Intent(this, MedicalHistory::class.java)
             startActivity(intent)

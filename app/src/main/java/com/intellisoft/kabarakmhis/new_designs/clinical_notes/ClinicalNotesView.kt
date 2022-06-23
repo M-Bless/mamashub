@@ -28,6 +28,7 @@ class ClinicalNotesView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clinical_notes_view)
 
+        title = "Clinical Notes Details"
 
 
     }

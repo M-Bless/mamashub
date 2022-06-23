@@ -27,6 +27,7 @@ class PresentPregnancyList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_present_pregnancy_list)
 
+        title = "Present Pregnancy List"
 
         fab.setOnClickListener {
 

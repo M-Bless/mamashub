@@ -45,6 +45,8 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_pregnancy)
 
+        title = "Previous Pregnancy"
+
         formatter.saveSharedPreference(this, "totalPages", "1")
 
         if (savedInstanceState == null){

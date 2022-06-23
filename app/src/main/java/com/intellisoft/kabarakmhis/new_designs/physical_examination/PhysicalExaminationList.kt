@@ -32,6 +32,8 @@ class PhysicalExaminationList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_physical_examination_list)
 
+        title = "Physical Examination List"
+
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         recyclerView = findViewById(R.id.recyclerView);

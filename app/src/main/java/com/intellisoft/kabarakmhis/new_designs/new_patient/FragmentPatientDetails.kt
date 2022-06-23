@@ -224,17 +224,10 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             // arg2 = month
             // arg3 = day
             val date = showDate(arg1, arg2 + 1, arg3)
-            val ageNumber = formatter.calculateLmpAge(date)
 
-            Log.e("----- ", ageNumber.toString())
-
-            if (ageNumber > 30){
-                rootView.etLmp.text = date
-                val edd = formatter.getCalculations(date)
-                rootView.etEdd.setText(edd)
-            }else{
-                Toast.makeText(requireContext(), "The Last Menstrual Period Date is invalid", Toast.LENGTH_SHORT).show()
-            }
+            rootView.etLmp.text = date
+            val edd = formatter.getCalculations(date)
+            rootView.etEdd.setText(edd)
 
         }
 

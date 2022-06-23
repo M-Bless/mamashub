@@ -16,6 +16,8 @@ import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfil
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
+import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxis
+import com.intellisoft.kabarakmhis.new_designs.matenal_serology.MaternalSerology
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalHistory
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
 import com.intellisoft.kabarakmhis.new_designs.new_patient.PatientDetailsView
@@ -25,6 +27,7 @@ import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExam
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyAdd
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
+import com.intellisoft.kabarakmhis.new_designs.preventive_service.PreventiveService
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
@@ -41,6 +44,9 @@ class PatientProfile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
+
+
+        title = "Patient Details"
 
 
         linearLayoutCall.setOnClickListener {
@@ -129,6 +135,10 @@ class PatientProfile : AppCompatActivity() {
         navigateMedicalHistory.setOnClickListener { startActivity(Intent(this, MedicalSurgicalHistoryView::class.java))}
         navigatePreviousPreg.setOnClickListener { startActivity(Intent(this, PreviousPregnancyList::class.java))}
         navigateAntenatal.setOnClickListener { startActivity(Intent(this, AntenatalProfileView::class.java))}
+
+        navigatePreventiveService.setOnClickListener { startActivity(Intent(this, PreventiveService::class.java))}
+        navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxis::class.java))}
+        navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerology::class.java))}
 
     }
 }

@@ -20,6 +20,8 @@ class CommunityHealthWorkerForm : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community_health_worker_form)
 
+        title = "Community Health Worker"
+
         formatter.saveSharedPreference(this, "totalPages", "2")
 
 

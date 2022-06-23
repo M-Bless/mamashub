@@ -33,6 +33,8 @@ class MedicalHistory : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_medical_history)
 
+        title = "Medical & Surgical History"
+
         formatter.saveSharedPreference(this, "totalPages", "3")
 
 

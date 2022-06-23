@@ -614,6 +614,14 @@ class RetrofitCallsFhir {
                             }
 
                         }
+                        if (text == DbResourceViews.MALARIA_PROPHYLAXIS.name){
+
+                            if (codeValue == "ANC Contact"){
+                                val dbObserveValue = DbObserveValue(id, display)
+                                simpleEncounterList.add(dbObserveValue)
+                            }
+
+                        }
                     }
 
 

@@ -21,6 +21,8 @@ class PresentPregnancyAdd : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_present_pregnancy_add)
 
+        title = "Present Pregnancy"
+
         formatter.saveSharedPreference(this, "totalPages", "2")
 
         if (savedInstanceState == null){
