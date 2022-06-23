@@ -1,9 +1,12 @@
 package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -18,6 +21,7 @@ import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenat
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_previous_pregnancy.*
 import kotlinx.android.synthetic.main.activity_previous_pregnancy.btnSave
 import kotlinx.android.synthetic.main.activity_register_new_patient.*
@@ -183,6 +187,25 @@ class PreviousPregnancy : AppCompatActivity(), AdapterView.OnItemSelectedListene
 
     override fun onNothingSelected(arg0: AdapterView<*>) {
 
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.profile_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.profile -> {
+
+                startActivity(Intent(this, PatientProfile::class.java))
+                finish()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }

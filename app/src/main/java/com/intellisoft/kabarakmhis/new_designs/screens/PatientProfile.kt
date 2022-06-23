@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfileView
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
@@ -140,5 +141,12 @@ class PatientProfile : AppCompatActivity() {
         navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxis::class.java))}
         navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerology::class.java))}
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this, NewMainActivity::class.java)
+        startActivity(intent)
     }
 }

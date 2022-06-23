@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.intellisoft.kabarakmhis.R
@@ -251,5 +253,25 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
         TODO("Not yet implemented")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.profile_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.profile -> {
+
+                startActivity(Intent(this, PatientProfile::class.java))
+                finish()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.intellisoft.kabarakmhis.new_designs.weight_monitoring
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -16,6 +19,7 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -110,6 +114,26 @@ class WeightMonitoringChart : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.profile_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.profile -> {
+
+                startActivity(Intent(this, PatientProfile::class.java))
+                finish()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
     
 }
