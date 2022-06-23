@@ -534,6 +534,8 @@ class RetrofitCallsFhir {
 
         val simpleEncounterList = ArrayList<DbObserveValue>()
         var count = 0
+        var countPreventive = 0
+        var countMalaria = 0
 
         val weightList = ArrayList<String>()
         val gestationList = ArrayList<String>()
@@ -554,6 +556,22 @@ class RetrofitCallsFhir {
                     count += 1
 
                     val dbObserveValue = DbObserveValue(id, "$count visit")
+                    simpleEncounterList.add(dbObserveValue)
+
+                }
+                if (text == DbResourceViews.PREVENTIVE_SERVICE.name){
+
+                    countPreventive += 1
+
+                    val dbObserveValue = DbObserveValue(id, "TT $countPreventive")
+                    simpleEncounterList.add(dbObserveValue)
+
+                }
+                if (text == DbResourceViews.MALARIA_PROPHYLAXIS.name){
+
+                    countMalaria += 1
+
+                    val dbObserveValue = DbObserveValue(id, "ANC Contact $countMalaria")
                     simpleEncounterList.add(dbObserveValue)
 
                 }

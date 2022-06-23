@@ -5,18 +5,18 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
-import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
+
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
-import kotlinx.android.synthetic.main.activity_antenatal_profile_view.tvValue
-import kotlinx.android.synthetic.main.activity_medical_surgical_history_view.*
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.no_record
+import kotlinx.android.synthetic.main.activity_malaria_prophylaxis_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,7 +58,6 @@ class AntenatalProfileView : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             getObservationDetails()
-
         }
 
     }
@@ -71,6 +70,14 @@ class AntenatalProfileView : AppCompatActivity() {
 
             val observationList = retrofitCallsFhir.getEncounterDetails(this@AntenatalProfileView,
                 encounterId, DbResourceViews.ANTENATAL_PROFILE.name)
+
+            CoroutineScope(Dispatchers.Main).launch {
+                if (!observationList.isNullOrEmpty()){
+                    no_record.visibility = View.GONE
+                }else{
+                    no_record.visibility = View.VISIBLE
+                }
+            }
 
             if (observationList.isNotEmpty()){
                 var sourceString = ""
@@ -89,8 +96,12 @@ class AntenatalProfileView : AppCompatActivity() {
 
                 CoroutineScope(Dispatchers.Main).launch {
 //                    tvValue.text = sourceString
+
+
                     tvValue.text = Html.fromHtml(sourceString)
                     btnAddAntenatal.text = "Edit Antenatal Profile"
+
+
                 }
 
 

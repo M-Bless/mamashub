@@ -14,10 +14,9 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.*
-import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.btnSave
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.tvDate
-import kotlinx.android.synthetic.main.activity_maternal_serology.*
-import kotlinx.android.synthetic.main.activity_preventive_service.*
+
+import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -81,10 +80,19 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         tvDate.setOnClickListener { createDialog(997) }
         tvNetDate.setOnClickListener { createDialog(996) }
 
-        btnSave.setOnClickListener {
+        handleNavigation()
+        
+        
+    }
 
-            saveData()
-        }
+    private fun handleNavigation() {
+
+        navigation.btnNext.text = "Save"
+        navigation.btnPrevious.text = "Cancel"
+
+        navigation.btnNext.setOnClickListener { saveData() }
+        navigation.btnPrevious.setOnClickListener { onBackPressed() }
+
     }
 
     private fun createDialog(id: Int) {
@@ -179,10 +187,10 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         val dose = tvDose.text.toString()
         val visitNext = tvDate.text.toString()
 
-        val repeatSerology = formatter.getRadioText(radioGrpRepeatSerology)
+        val repeatSerology = formatter.getRadioText(radioGrpLLTIN)
         if (repeatSerology != ""){
             val netInsecticide = tvNetDate.text. toString()
-
+            addData("LLITN Given Date", netInsecticide)
         }
 
         val dbDataList = ArrayList<DbDataList>()
@@ -200,6 +208,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         if (spinnerContactNumberValue != "" && !TextUtils.isEmpty(dose)){
             addData("ANC Contact", spinnerContactNumberValue)
             addData("Dose Date", dose)
+            addData("Next Appointment", visitNext)
 
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)

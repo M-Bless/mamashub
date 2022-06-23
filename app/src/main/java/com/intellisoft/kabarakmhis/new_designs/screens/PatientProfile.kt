@@ -18,7 +18,9 @@ import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxis
+import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisList
 import com.intellisoft.kabarakmhis.new_designs.matenal_serology.MaternalSerology
+import com.intellisoft.kabarakmhis.new_designs.matenal_serology.MaternalSerologyView
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalHistory
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
 import com.intellisoft.kabarakmhis.new_designs.new_patient.PatientDetailsView
@@ -29,6 +31,7 @@ import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnanc
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.preventive_service.PreventiveService
+import com.intellisoft.kabarakmhis.new_designs.preventive_service.PreventiveServiceList
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
@@ -49,15 +52,6 @@ class PatientProfile : AppCompatActivity() {
 
         title = "Patient Details"
 
-
-        linearLayoutCall.setOnClickListener {
-
-            val txtPhone = tvKinDetails.text.toString()
-            if (!TextUtils.isEmpty(txtPhone)){
-                calluser(txtPhone)
-            }
-
-        }
 
         navigate()
 
@@ -94,8 +88,8 @@ class PatientProfile : AppCompatActivity() {
         if (kinRelationShip != null && kinName != null && kinPhoneNumber != null){
 
             val kinDetails = "$kinName \n$kinPhoneNumber"
-            tvKinDetails.text = kinPhoneNumber
-            tvKinName.text = kinName
+            tvKinDetails.text = "Telephone: $kinPhoneNumber"
+            tvKinName.text = "Name: $kinName"
 
         }
 
@@ -104,28 +98,7 @@ class PatientProfile : AppCompatActivity() {
 
     }
 
-    fun navigatePreviousPreg(view: View) {
-        val intent = Intent(this, PreviousPregnancy::class.java)
-        startActivity(intent)
-    }
 
-    fun navigateAntenatalProfile(view: View) {
-        val intent = Intent(this, AntenatalProfile::class.java)
-        startActivity(intent)
-    }
-    fun medicalHistory(view: View) {
-        val intent = Intent(this, MedicalHistory::class.java)
-        startActivity(intent)
-    }
-    fun navigatePhysical(view: View) {
-        val intent = Intent(this, PhysicalExamination::class.java)
-        startActivity(intent)
-    }
-
-    fun navigatePatientDetails(view: View) {
-//        val intent = Intent(this, PatientDetailsView::class.java)
-//        startActivity(intent)
-    }
 
     private fun navigate() {
         navigateClinicalNotes.setOnClickListener { startActivity(Intent(this, ClinicalNotesList::class.java))}
@@ -137,9 +110,9 @@ class PatientProfile : AppCompatActivity() {
         navigatePreviousPreg.setOnClickListener { startActivity(Intent(this, PreviousPregnancyList::class.java))}
         navigateAntenatal.setOnClickListener { startActivity(Intent(this, AntenatalProfileView::class.java))}
 
-        navigatePreventiveService.setOnClickListener { startActivity(Intent(this, PreventiveService::class.java))}
-        navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxis::class.java))}
-        navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerology::class.java))}
+        navigatePreventiveService.setOnClickListener { startActivity(Intent(this, PreventiveServiceList::class.java))}
+        navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxisList::class.java))}
+        navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerologyView::class.java))}
 
     }
 

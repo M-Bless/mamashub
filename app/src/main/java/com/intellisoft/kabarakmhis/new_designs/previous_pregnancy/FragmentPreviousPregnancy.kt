@@ -17,7 +17,10 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
+import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.navigation
+import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.ArrayList
 
 
@@ -41,9 +44,6 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
         rootView = inflater.inflate(R.layout.fragment_prev_pregnancy, container, false)
 
-        rootView.btnSave.setOnClickListener {
-            saveData()
-        }
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         formatter.saveCurrentPage("1", requireContext())
@@ -65,7 +65,19 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
         }
 
 
+        handleNavigation()
+
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Save"
+        rootView.navigation.btnPrevious.text = "Cancel"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){

@@ -16,8 +16,10 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_family.view.*
-import kotlinx.android.synthetic.main.fragment_family.view.btnNext
+import kotlinx.android.synthetic.main.fragment_family.view.navigation
+import kotlinx.android.synthetic.main.navigation.view.*
 
 
 class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
@@ -38,11 +40,6 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 
         rootView = inflater.inflate(R.layout.fragment_family, container, false)
 
-        rootView.btnNext.setOnClickListener {
-
-            saveData()
-
-        }
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         rootView.radioGrpTwins.setOnCheckedChangeListener { radioGroup, checkedId ->
@@ -89,7 +86,19 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         getPageDetails()
         initSpinner()
 
+        handleNavigation()
+
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Save"
+        rootView.navigation.btnPrevious.text = "Previous"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun saveData() {

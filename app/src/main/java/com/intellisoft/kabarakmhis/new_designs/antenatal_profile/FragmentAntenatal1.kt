@@ -18,6 +18,7 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
+import kotlinx.android.synthetic.main.navigation.view.*
 
 
 class FragmentAntenatal1 : Fragment() {
@@ -140,15 +141,22 @@ class FragmentAntenatal1 : Fragment() {
             }
         }
 
-        rootView.btnNext.setOnClickListener {
-
-            checkVisibility()
-        }
+        handleNavigation()
 
         return rootView
     }
 
-    private fun checkVisibility() {
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Cancel"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
+    }
+
+    private fun saveData() {
 
         if (rootView.linearHb.visibility == View.VISIBLE){
             val hbReading = rootView.etHb.text.toString()

@@ -4,7 +4,9 @@ import android.app.Application
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +20,11 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
+import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_details.view.*
+import kotlinx.android.synthetic.main.fragment_details.view.navigation
+import kotlinx.android.synthetic.main.navigation.view.*
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -68,11 +74,53 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         rootView.etLmp.setOnClickListener {
             onCreateDialog(998)
         }
-        rootView.btnSave.setOnClickListener { saveData() }
 
         initSpinner()
 
+        rootView.etAnc.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val ancValue = rootView.etAnc.text.toString()
+                rootView.etPnc.isEnabled = TextUtils.isEmpty(ancValue)
+            }
+
+        })
+        rootView.etPnc.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val ancValue = rootView.etPnc.text.toString()
+                rootView.etAnc.isEnabled = TextUtils.isEmpty(ancValue)
+            }
+
+        })
+
+        handleNavigation()
+
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Cancel"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun saveData() {

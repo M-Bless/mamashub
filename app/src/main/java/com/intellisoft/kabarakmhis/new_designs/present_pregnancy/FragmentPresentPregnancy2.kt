@@ -19,9 +19,12 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_present_preg_2.*
 import kotlinx.android.synthetic.main.fragment_present_preg_2.view.*
+import kotlinx.android.synthetic.main.fragment_present_preg_2.view.navigation
 import kotlinx.android.synthetic.main.fragment_present_preg_2.view.tvDate
+import kotlinx.android.synthetic.main.navigation.view.*
 import kotlinx.coroutines.*
 
 import java.util.*
@@ -55,9 +58,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         rootView = inflater.inflate(R.layout.fragment_present_preg_2, container, false)
 
-        rootView.btnSave.setOnClickListener {
-            saveData()
-        }
+
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         formatter.saveCurrentPage("2", requireContext())
@@ -74,12 +75,20 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
         rootView.tvDate.setOnClickListener { createDialog(999) }
 
 
+        handleNavigation()
+
         return rootView
     }
 
+    private fun handleNavigation() {
 
-   
+        rootView.navigation.btnNext.text = "Save"
+        rootView.navigation.btnPrevious.text = "Previous"
 
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
+    }
 
     private fun saveData() {
 

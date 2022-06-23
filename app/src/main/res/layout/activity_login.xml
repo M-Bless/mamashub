@@ -81,14 +81,28 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/black" />
 
-                <EditText
-                    android:id="@+id/etPassword"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/round_edittext"
-                    android:hint="Password"
-                    android:inputType="textPassword" />
+                    app:passwordToggleTint="@color/primary"
+                    android:scrollbarSize="25dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:passwordToggleEnabled="true"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:inputType="textPassword"
+                        android:background="@drawable/round_edittext"
+                        android:hint="Password"
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
 
             </LinearLayout>
 

@@ -19,7 +19,13 @@ import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenat
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.*
+import kotlinx.android.synthetic.main.fragment_present_preg_1.view.linearUrine
+import kotlinx.android.synthetic.main.fragment_present_preg_1.view.navigation
+import kotlinx.android.synthetic.main.fragment_present_preg_1.view.radioGrpHb
+import kotlinx.android.synthetic.main.fragment_present_preg_1.view.radioGrpUrineResults
+import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
 
 
@@ -47,9 +53,6 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
         rootView = inflater.inflate(R.layout.fragment_present_preg_1, container, false)
 
-        rootView.btnSave.setOnClickListener {
-            saveData()
-        }
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         formatter.saveCurrentPage("1", requireContext())
@@ -91,7 +94,19 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
         }
 
 
+        handleNavigation()
+
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Cancel"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){

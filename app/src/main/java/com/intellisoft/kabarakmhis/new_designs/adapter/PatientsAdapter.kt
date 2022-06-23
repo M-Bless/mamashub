@@ -104,8 +104,10 @@ class PatientsAdapter(private var entryList: List<DBEntry>,
         val name = entryList[position].resource.name
         val birthDate = entryList[position].resource.birthDate
 
+        val pos = "${position + 1}"
 
-        holder.tvId.text = id
+
+        holder.tvId.text = pos
         holder.tvName.text = name[0].family
         holder.tvFieldName.text = birthDate
 

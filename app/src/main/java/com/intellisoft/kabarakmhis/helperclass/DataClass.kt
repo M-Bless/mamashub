@@ -141,6 +141,14 @@ enum class ObservationViewTypes {
     }
 
 }
+
+enum class Navigation{
+    FRAGMENT,
+    ACTIVITY
+}
+
+
+
 data class DbUserData(
     val data: DbData,
     val status: String

@@ -16,8 +16,12 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.*
 import kotlinx.android.synthetic.main.activity_maternal_serology.*
+import kotlinx.android.synthetic.main.activity_maternal_serology.navigation
+import kotlinx.android.synthetic.main.activity_maternal_serology.tvDate
 import kotlinx.android.synthetic.main.fragment_medical.view.*
+import kotlinx.android.synthetic.main.navigation.view.*
 
 class MaternalSerology : AppCompatActivity() {
 
@@ -33,11 +37,6 @@ class MaternalSerology : AppCompatActivity() {
 
         title = "Maternal Serology"
 
-        btnSave.setOnClickListener {
-
-            saveData()
-
-        }
 
         radioGrpRepeatSerology.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -72,6 +71,19 @@ class MaternalSerology : AppCompatActivity() {
 
             }
         }
+
+        handleNavigation()
+
+
+    }
+
+    private fun handleNavigation() {
+
+        navigation.btnNext.text = "Save"
+        navigation.btnPrevious.text = "Cancel"
+
+        navigation.btnNext.setOnClickListener { saveData() }
+        navigation.btnPrevious.setOnClickListener { onBackPressed() }
 
     }
 

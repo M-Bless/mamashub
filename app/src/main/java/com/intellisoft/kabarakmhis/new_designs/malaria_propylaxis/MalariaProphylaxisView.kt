@@ -9,21 +9,24 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
-import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
-import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
+import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
+
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.*
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MalariaProphylaxisView : AppCompatActivity() {
 
+    private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var kabarakViewModel: KabarakViewModel
+    private val formatter = FormatterClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +34,8 @@ class MalariaProphylaxisView : AppCompatActivity() {
 
         title = "Malaria Prophylaxis Details"
 
-        btnPreviousPregnancy.setOnClickListener {
-            val intent = Intent(this, MalariaProphylaxis::class.java)
-            startActivity(intent)
-        }
+
+
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -45,39 +46,28 @@ class MalariaProphylaxisView : AppCompatActivity() {
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+
+
     }
 
     override fun onStart() {
         super.onStart()
 
+
+
         CoroutineScope(Dispatchers.IO).launch {
 
-            val patientList = kabarakViewModel.getTittlePatientData(DbResourceViews.MALARIA_PROPHYLAXIS.name, this@MalariaProphylaxisView)
-            CoroutineScope(Dispatchers.Main).launch {
+            val observationId = formatter.retrieveSharedPreference(this@MalariaProphylaxisView,"observationId")
+            if (observationId != null) {
+                val observationList = retrofitCallsFhir.getObservationDetails(this@MalariaProphylaxisView, observationId)
 
-                val configurationListingAdapter = ViewDetailsAdapter(
-                    patientList,this@MalariaProphylaxisView)
-                recyclerView.adapter = configurationListingAdapter
+                CoroutineScope(Dispatchers.Main).launch {
+                    val configurationListingAdapter = ObservationAdapter(
+                        observationList,this@MalariaProphylaxisView)
+                    recyclerView.adapter = configurationListingAdapter
+                }
 
             }
-
-//            val observations = ArrayList<DbObserveValue>()
-//            val observationList = retrofitCallsFhir.getPatientEncounters(this@PreviousPregnancyView,
-//                DbResourceViews.PREVIOUS_PREGNANCY.name)
-//            for (keys in observationList){
-//
-//                val key = keys.key
-//                val value = observationList.getValue(key)
-//
-//                val dbObserveValue = DbObserveValue(key, value.toString())
-//                observations.add(dbObserveValue)
-//
-//                CoroutineScope(Dispatchers.Main).launch {
-//                    val configurationListingAdapter = ObservationAdapter(
-//                        observations,this@PreviousPregnancyView)
-//                    recyclerView.adapter = configurationListingAdapter
-//                }
-//            }
 
 
 

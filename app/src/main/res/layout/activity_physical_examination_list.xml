@@ -28,6 +28,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:tint="@android:color/white"
             android:src="@drawable/ic_action_add"
             android:tint="@color/white"
             app:elevation="6dp"

@@ -15,7 +15,7 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_preventive_service.*
-import kotlinx.android.synthetic.main.fragment_present_preg_1.view.*
+import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
 
 class PreventiveService : AppCompatActivity() {
@@ -55,10 +55,19 @@ class PreventiveService : AppCompatActivity() {
         tvDate.setOnClickListener { createDialog(999) }
         tvTTDate.setOnClickListener { createDialog(998) }
 
-        btnSave.setOnClickListener {
 
-            saveData()
-        }
+        
+        handleNavigation()
+
+    }
+
+    private fun handleNavigation() {
+
+        navigation.btnNext.text = "Save"
+        navigation.btnPrevious.text = "Cancel"
+
+        navigation.btnNext.setOnClickListener { saveData() }
+        navigation.btnPrevious.setOnClickListener { onBackPressed() }
 
     }
 

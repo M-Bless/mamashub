@@ -67,6 +67,8 @@ class RegisterNewPatient : AppCompatActivity() {
 
 
 
+
+
         btnSave.setOnClickListener {
 
             try {

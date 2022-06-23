@@ -36,7 +36,7 @@
     <string name="resources_saved">Record added successfully.</string>
     <string name="dashboard_maternity_icon_label">Patients.</string>
     <string name="action_patient_list">Previous Pregnancy.</string>
-    <string name="action_medical">Medical History</string>
+    <string name="action_medical">Medical History and Surgical History</string>
     <string name="physical_exam">Physical Examination.</string>
     <string name="header_relation">Child/Children</string>
     <string name="header_encounters">Encounters</string>

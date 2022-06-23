@@ -27,12 +27,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <Button
-                app:drawableStartCompat="@drawable/ic_action_add"                android:id="@+id/btnRegisterPatient"
-                android:textAllCaps="false"
-                android:text="Register New Patient"
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
+                android:text="Register New Patient"
+                android:id="@+id/btnRegisterPatient"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_action_add"
                 android:layout_height="wrap_content"/>
+
+
 
         </LinearLayout>
 
@@ -60,6 +63,10 @@
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
             app:queryHint="@string/query_hint_patient_search" />
+
+        <include
+            android:id="@+id/no_record"
+            layout="@layout/no_record" />
 
         <LinearLayout
             android:layout_margin="@dimen/_5dp"

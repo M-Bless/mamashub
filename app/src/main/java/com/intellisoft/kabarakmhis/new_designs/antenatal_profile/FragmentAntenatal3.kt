@@ -14,10 +14,8 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
-
-
 import kotlinx.android.synthetic.main.fragment_antenatal3.view.*
-import kotlinx.android.synthetic.main.fragment_antenatal3.view.btnNext
+import kotlinx.android.synthetic.main.navigation.view.*
 
 import java.util.*
 
@@ -44,12 +42,6 @@ class FragmentAntenatal3 : Fragment() {
         formatter.saveCurrentPage("3", requireContext())
         getPageDetails()
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
-
-        rootView.btnNext.setOnClickListener {
-
-            saveData()
-
-        }
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -119,7 +111,19 @@ class FragmentAntenatal3 : Fragment() {
 
 
 
+        handleNavigation()
+
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Previous"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun onCreateDialog(id: Int) {

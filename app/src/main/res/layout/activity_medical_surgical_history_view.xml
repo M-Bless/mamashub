@@ -7,7 +7,6 @@
     tools:context=".new_designs.medical_history.MedicalSurgicalHistoryView">
 
     <include
-        android:visibility="gone"
         android:id="@+id/no_record"
         layout="@layout/no_record" />
 

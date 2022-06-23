@@ -10,11 +10,13 @@
 
 
     <LinearLayout
+        android:background="@drawable/layout_dotted"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:layout_gravity="center"
             android:orientation="horizontal"
             android:layout_width="@dimen/_100dp"
             android:layout_height="@dimen/_100dp">
@@ -30,137 +32,124 @@
 
         </LinearLayout>
 
-        <TableLayout
-            android:layout_marginStart="10dp"
+        <LinearLayout
             android:orientation="vertical"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TableRow>
-
-                <TextView
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:text="Patient Name  "
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/black"
-                    android:text=":"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tvName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Jane Doe"
-                    android:textColor="@color/black" />
-
-            </TableRow>
-            <TableRow
-                android:visibility="gone"
-                >
-
-                <TextView
-                    android:visibility="gone"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:text="ANC ID  "
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/black"
-                    android:text=":"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black" />
-
-            </TableRow>
-            <TableRow>
-
-                <TextView
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:text="Age"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/black"
-                    android:text=":"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tvAge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Jane Doe"
-                    android:textColor="@color/black" />
-
-            </TableRow>
-
-
-
-        </TableLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/_15dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_marginStart="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:text="Next of Kin Details:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <androidx.cardview.widget.CardView
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TableLayout
+                android:layout_marginStart="10dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow>
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:text="Patient Name  "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
+                        android:text=":"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jane Doe"
+                        android:textColor="@color/black" />
+
+                </TableRow>
+                <TableRow
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:visibility="gone"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:text="ANC ID  "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
+                        android:text=":"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black" />
+
+                </TableRow>
+                <TableRow>
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:text="Age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/black"
+                        android:text=":"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/tvAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Jane Doe"
+                        android:textColor="@color/black" />
+
+                </TableRow>
+
+
+
+            </TableLayout>
+
+            <View
+                android:layout_margin="@dimen/_5dp"
+                android:background="@color/primary"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
             <LinearLayout
-                android:id="@+id/linearLayoutCall"
-                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:layout_marginStart="@dimen/_5dp"
-                    android:padding="20dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/ic_action_call"
+                <TextView
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:text="Next of Kin Details:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <LinearLayout
-                    android:layout_margin="@dimen/_5dp"
-                    android:layout_marginStart="@dimen/_5dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -171,7 +160,6 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:text="Patient Name"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/black"/>
 
 
@@ -188,10 +176,10 @@
                 </LinearLayout>
 
 
+
             </LinearLayout>
 
-
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
 
 
@@ -200,9 +188,7 @@
 
     <LinearLayout
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginStart="10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -212,7 +198,6 @@
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_marginBottom="@dimen/_15dp"
-            android:layout_marginStart="@dimen/_15dp"
             android:textColor="@color/black"
             android:text="Patient Information"
             android:layout_width="wrap_content"

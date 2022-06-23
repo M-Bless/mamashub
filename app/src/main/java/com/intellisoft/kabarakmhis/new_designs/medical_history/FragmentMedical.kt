@@ -15,7 +15,8 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_medical.view.*
-import kotlinx.android.synthetic.main.fragment_medical.view.btnNext
+import kotlinx.android.synthetic.main.fragment_medical.view.navigation
+import kotlinx.android.synthetic.main.navigation.view.*
 
 class FragmentMedical : Fragment(){
 
@@ -38,10 +39,6 @@ class FragmentMedical : Fragment(){
         rootView = inflater.inflate(R.layout.fragment_medical, container, false)
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        rootView.btnNext.setOnClickListener {
-
-            saveData()
-        }
 
         rootView.radioGrpTransfusion.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -87,7 +84,19 @@ class FragmentMedical : Fragment(){
         getPageDetails()
 
 
+        handleNavigation()
+
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Previous"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun saveData() {

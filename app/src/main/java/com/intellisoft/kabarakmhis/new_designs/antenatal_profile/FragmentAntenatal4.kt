@@ -16,11 +16,11 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 
 import kotlinx.android.synthetic.main.fragment_antenatal4.view.*
 import kotlinx.android.synthetic.main.fragment_antenatal4.view.radioGrpHIVStatus
 import kotlinx.android.synthetic.main.fragment_antenatal4.view.radioGrpHiv
+import kotlinx.android.synthetic.main.navigation.view.*
 
 import java.util.*
 
@@ -50,12 +50,6 @@ class FragmentAntenatal4 : Fragment() {
         formatter.saveCurrentPage("4", requireContext())
         getPageDetails()
 
-        rootView.btnSave.setOnClickListener {
-
-//            formatter.saveSharedPreference(requireContext(), "FRAGMENT", antenatal4)
-           saveData()
-
-        }
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -105,8 +99,19 @@ class FragmentAntenatal4 : Fragment() {
         rootView.tvHivTestDate.setOnClickListener { onCreateDialog(999) }
 
 
+        handleNavigation()
 
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Save"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun onCreateDialog(id: Int) {

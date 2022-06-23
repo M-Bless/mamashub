@@ -86,7 +86,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If yes, Hb Reading"
+                            android:text="If yes, Hb reading"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
@@ -234,7 +234,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If yes, specify Rhesus factor"
+                            android:text="If yes, specify rhesus factor"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 
@@ -453,28 +453,8 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:backgroundTint="@color/cancel"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnNext"
-            android:backgroundTint="@color/save"
-            android:layout_marginStart="@dimen/_15dp"
-            android:layout_weight="1"
-            android:text="Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
 
 </RelativeLayout>

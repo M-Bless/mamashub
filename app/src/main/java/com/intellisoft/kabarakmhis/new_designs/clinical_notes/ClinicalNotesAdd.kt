@@ -13,6 +13,8 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_clinical_notes_add.*
+import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
+import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -36,41 +38,53 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        btnSave.setOnClickListener {
-
-            val clinicalNotes = etClinicalNotes.text.toString()
-            val appointmentDate = tvNextVisit.text.toString()
-
-            if (!TextUtils.isEmpty(clinicalNotes)){
-
-                val todayDate = formatter.getTodayDateNoTime()
-                val dbObserveValueList = ArrayList<DbObserveValue>()
-                val dbClinicalValue = DbObserveValue("Clinical Note", clinicalNotes)
-                val dbNextValue = DbObserveValue("Next Appointment", appointmentDate)
-                val dbTodayValue = DbObserveValue("Date Collected", todayDate)
-
-                dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
-
-                val dbCode = formatter.createObservation(dbObserveValueList, DbResourceViews.CLINICAL_NOTES.name)
-
-                val encounterId = formatter.retrieveSharedPreference(this, DbResourceViews.CLINICAL_NOTES.name)
-                if (encounterId != null){
-                    retrofitCallsFhir.createObservation(encounterId,this, dbCode)
-
-                }else{
-                    retrofitCallsFhir.createFhirEncounter(this, dbCode, DbResourceViews.CLINICAL_NOTES.name)
-                }
-
-
-
-            }else
-                etClinicalNotes.error = "Field cannot be empty"
-
-
-        }
+        
+        handleNavigation()
 
         tvNextVisit.setOnClickListener { createDialog(999) }
+    }
+
+    private fun handleNavigation() {
+
+        navigation.btnNext.text = "Next"
+        navigation.btnPrevious.text = "Cancel"
+
+        navigation.btnNext.setOnClickListener { saveData() }
+        navigation.btnPrevious.setOnClickListener { onBackPressed() }
+
+    }
+
+    private fun saveData() {
+
+        val clinicalNotes = etClinicalNotes.text.toString()
+        val appointmentDate = tvNextVisit.text.toString()
+
+        if (!TextUtils.isEmpty(clinicalNotes)){
+
+            val todayDate = formatter.getTodayDateNoTime()
+            val dbObserveValueList = ArrayList<DbObserveValue>()
+            val dbClinicalValue = DbObserveValue("Clinical Note", clinicalNotes)
+            val dbNextValue = DbObserveValue("Next Appointment", appointmentDate)
+            val dbTodayValue = DbObserveValue("Date Collected", todayDate)
+
+            dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
+
+            val dbCode = formatter.createObservation(dbObserveValueList, DbResourceViews.CLINICAL_NOTES.name)
+
+            val encounterId = formatter.retrieveSharedPreference(this, DbResourceViews.CLINICAL_NOTES.name)
+            if (encounterId != null){
+                retrofitCallsFhir.createObservation(encounterId,this, dbCode)
+
+            }else{
+                retrofitCallsFhir.createFhirEncounter(this, dbCode, DbResourceViews.CLINICAL_NOTES.name)
+            }
+
+
+
+        }else
+            etClinicalNotes.error = "Field cannot be empty"
+
+
     }
 
 

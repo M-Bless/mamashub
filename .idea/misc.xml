@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_malaria_prophylaxis.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_malaria_prophylaxis_list.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_malaria_prophylaxis_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_maternal_serology.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_maternal_serology_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_medical_history.xml" value="0.22" />
@@ -42,6 +43,7 @@
         <entry key="app/src/main/res/layout/activity_present_pregnancy_list.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_present_pregnancy_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_preventive_service.xml" value="0.31979478409576745" />
+        <entry key="app/src/main/res/layout/activity_preventive_service_list.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_preventive_service_view.xml" value="0.31979478409576745" />
         <entry key="app/src/main/res/layout/activity_previous_pregnancy.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_previous_pregnancy_list.xml" value="0.2543822146216332" />
@@ -75,6 +77,7 @@
         <entry key="app/src/main/res/layout/fragment_prev_pregnancy.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_previous_pregnancy.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_surgical.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/navigation.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/no_record.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/observation_view.xml" value="0.223731884057971" />
         <entry key="app/src/main/res/layout/patient_detail.xml" value="0.4036458333333333" />

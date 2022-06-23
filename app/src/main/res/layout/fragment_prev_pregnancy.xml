@@ -10,6 +10,7 @@
         android:orientation="vertical">
 
         <include
+            android:visibility="gone"
             android:id="@+id/progress_bar"
             layout="@layout/progress_bar" />
 
@@ -139,11 +140,12 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Gestation ( weeeks )."
+                            android:text="Gestation ( weeks )."
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 
                         <EditText
+                            android:inputType="numberDecimal"
                             android:id="@+id/etGestation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -162,7 +164,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Duration of labour"
+                            android:text="Duration of labour (hours)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 
@@ -428,28 +430,11 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
 
-        <Button
-            android:backgroundTint="@color/cancel"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btnSave"
-            android:backgroundTint="@color/save"
-            android:layout_marginStart="@dimen/_15dp"
-            android:layout_weight="1"
-            android:text="Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
 
 
 </RelativeLayout>

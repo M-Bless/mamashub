@@ -17,7 +17,10 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_surgical.view.*
+import kotlinx.android.synthetic.main.fragment_surgical.view.navigation
+import kotlinx.android.synthetic.main.navigation.view.*
 
 
 class FragmentSurgical : Fragment() {
@@ -36,16 +39,24 @@ class FragmentSurgical : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_surgical, container, false)
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        rootView.btnSave.setOnClickListener {
 
-            saveData()
-
-        }
 
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
+        handleNavigation()
+
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Cancel"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun saveData() {

@@ -18,7 +18,8 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_birth_plan.*
-import kotlinx.android.synthetic.main.activity_birth_plan.btnSave
+
+import kotlinx.android.synthetic.main.navigation.view.*
 import java.text.Normalizer
 import java.util.*
 import kotlin.collections.ArrayList
@@ -47,50 +48,63 @@ class BirthPlan : AppCompatActivity() {
 
         etEdd.setOnClickListener { createDialog(999) }
 
-        btnSave.setOnClickListener {
+        handleNavigation()
 
-            val facilityName = etFacilityName.text.toString()
-            val attendantName = etAttendantName.text.toString()
-            val facilityContact = etFacilityContact.text.toString()
-            val supportPerson = etSupportName.text.toString()
-            val transport = etTransport.text.toString()
-            val bloodDonorName = etBloodName.text.toString()
-            val financialPlan = etFinancialChildBirth.text.toString()
-            val birthPlan = etEdd.text.toString()
+    }
 
-            if (
-                !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(attendantName) &&
-                !TextUtils.isEmpty(facilityContact) && !TextUtils.isEmpty(supportPerson) &&
-                !TextUtils.isEmpty(transport) && !TextUtils.isEmpty(bloodDonorName) &&
-                !TextUtils.isEmpty(financialPlan) && !TextUtils.isEmpty(birthPlan)){
+    private fun handleNavigation() {
 
-                val birthPlanList = ArrayList<DbObserveValue>()
+        navigation.btnNext.text = "Save"
+        navigation.btnPrevious.text = "Cancel"
 
-                val valueFacName = DbObserveValue("Facility Name", facilityName)
-                val valueAttendant = DbObserveValue("Attendant Name", attendantName)
-                val valFacContact = DbObserveValue("Facility Contact", facilityContact)
-                val valueSupportPerson = DbObserveValue("Support Person", supportPerson)
-                val valueTransport = DbObserveValue("Transport", transport)
-                val valueBirthPlan = DbObserveValue("Birth Plan", birthPlan)
-                val valueBloodDonor = DbObserveValue("Blood Donor Name", bloodDonorName)
-                val valueFinancial = DbObserveValue("Financial Plan for Childbirth", financialPlan)
+        navigation.btnNext.setOnClickListener { saveData() }
+        navigation.btnPrevious.setOnClickListener { onBackPressed() }
 
-                birthPlanList.addAll(listOf(valueFacName, valueAttendant, valFacContact, valueSupportPerson,
+    }
+
+    private fun saveData() {
+
+        val facilityName = etFacilityName.text.toString()
+        val attendantName = etAttendantName.text.toString()
+        val facilityContact = etFacilityContact.text.toString()
+        val supportPerson = etSupportName.text.toString()
+        val transport = etTransport.text.toString()
+        val bloodDonorName = etBloodName.text.toString()
+        val financialPlan = etFinancialChildBirth.text.toString()
+        val birthPlan = etEdd.text.toString()
+
+        if (
+            !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(attendantName) &&
+            !TextUtils.isEmpty(facilityContact) && !TextUtils.isEmpty(supportPerson) &&
+            !TextUtils.isEmpty(transport) && !TextUtils.isEmpty(bloodDonorName) &&
+            !TextUtils.isEmpty(financialPlan) && !TextUtils.isEmpty(birthPlan)){
+
+            val birthPlanList = ArrayList<DbObserveValue>()
+
+            val valueFacName = DbObserveValue("Facility Name", facilityName)
+            val valueAttendant = DbObserveValue("Attendant Name", attendantName)
+            val valFacContact = DbObserveValue("Facility Contact", facilityContact)
+            val valueSupportPerson = DbObserveValue("Support Person", supportPerson)
+            val valueTransport = DbObserveValue("Transport", transport)
+            val valueBirthPlan = DbObserveValue("Birth Plan", birthPlan)
+            val valueBloodDonor = DbObserveValue("Blood Donor Name", bloodDonorName)
+            val valueFinancial = DbObserveValue("Financial Plan for Childbirth", financialPlan)
+
+            birthPlanList.addAll(listOf(valueFacName, valueAttendant, valFacContact, valueSupportPerson,
                 valueTransport, valueBloodDonor, valueFinancial, valueBirthPlan))
 
-                val dbObservationValue = formatter.createObservation(birthPlanList,
-                    DbResourceViews.BIRTH_PLAN.name)
+            val dbObservationValue = formatter.createObservation(birthPlanList,
+                DbResourceViews.BIRTH_PLAN.name)
 
-                retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-                    DbResourceViews.BIRTH_PLAN.name)
+            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+                DbResourceViews.BIRTH_PLAN.name)
 
 
-            }else{
+        }else{
 
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-            }
-
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
         }
+        
     }
 
     private fun createDialog(id: Int) {

@@ -1,7 +1,9 @@
 package com.intellisoft.kabarakmhis.helperclass
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
 import android.text.TextUtils
@@ -11,8 +13,10 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.coroutines.*
 import java.lang.Double
 import java.text.DateFormat
@@ -323,6 +327,28 @@ class FormatterClass {
 
     fun saveCurrentPage(currentPage: String,context: Context) {
         saveSharedPreference(context, "currentPage", currentPage)
+    }
+
+    fun navigateUser(type: String, context: Context, activity: Activity?, ){
+
+        when (type) {
+            Navigation.FRAGMENT.name -> {
+
+
+
+            }
+            Navigation.ACTIVITY.name -> {
+                if (activity != null){
+                    val intent = Intent(context, activity::class.java)
+                    context.startActivity(intent)
+                }
+
+            }
+            else -> {
+                null
+            }
+        }
+
     }
 
 

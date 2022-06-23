@@ -81,6 +81,16 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
             val observationList = retrofitCallsFhir.getEncounterDetails(this@MedicalSurgicalHistoryView,
                 encounterId, DbResourceViews.MEDICAL_HISTORY.name)
 
+            CoroutineScope(Dispatchers.Main).launch {
+
+                if (!observationList.isNullOrEmpty()){
+                    no_record.visibility = View.GONE
+                }else{
+                    no_record.visibility = View.VISIBLE
+                }
+
+            }
+
             if (observationList.isNotEmpty()){
 
                 Log.e("----4", observationList.toString())
@@ -100,11 +110,7 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
 
                 CoroutineScope(Dispatchers.Main).launch {
 
-                    if (!observationList.isNullOrEmpty()){
-                        no_record.visibility = View.GONE
-                    }else{
-                        no_record.visibility = View.VISIBLE
-                    }
+
 
                     tvValue.text = Html.fromHtml(sourceString)
                     btnAddHistory.text = "Edit Medical History"

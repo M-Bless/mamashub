@@ -20,6 +20,9 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.*
+import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.navigation
+import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.radioGrpExternalExam
+import kotlinx.android.synthetic.main.navigation.view.*
 
 
 class FragmentPhysicalExam2 : Fragment() {
@@ -41,9 +44,6 @@ class FragmentPhysicalExam2 : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_physical_exam_2, container, false)
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        rootView.btnSave.setOnClickListener {
-            saveData()
-        }
 
         formatter.saveCurrentPage("2", requireContext())
         getPageDetails()
@@ -142,8 +142,19 @@ class FragmentPhysicalExam2 : Fragment() {
 
 
 
+        handleNavigation()
 
         return rootView
+    }
+
+    private fun handleNavigation() {
+
+        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnPrevious.text = "Previous"
+
+        rootView.navigation.btnNext.setOnClickListener { saveData() }
+        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+
     }
 
     private fun saveData() {

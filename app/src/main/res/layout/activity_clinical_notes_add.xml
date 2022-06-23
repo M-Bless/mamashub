@@ -96,27 +96,9 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
 
-        <Button
-            android:backgroundTint="@color/cancel"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnSave"
-            android:backgroundTint="@color/save"
-            android:layout_marginStart="@dimen/_15dp"
-            android:layout_weight="1"
-            android:text="Save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
 
 </RelativeLayout>

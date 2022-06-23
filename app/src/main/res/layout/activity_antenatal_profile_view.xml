@@ -54,6 +54,10 @@
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/no_record"
+        layout="@layout/no_record" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="gone"
         android:id="@+id/patient_list"
