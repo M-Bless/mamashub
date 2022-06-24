@@ -14,6 +14,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
 import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
@@ -56,7 +57,23 @@ class PresentPregnancyView : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        CoroutineScope(Dispatchers.IO).launch {
 
+            val observationId = formatter.retrieveSharedPreference(this@PresentPregnancyView,"observationId")
+            if (observationId != null) {
+                val observationList = retrofitCallsFhir.getObservationDetails(this@PresentPregnancyView, observationId)
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    val configurationListingAdapter = ObservationAdapter(
+                        observationList,this@PresentPregnancyView)
+                    recyclerView.adapter = configurationListingAdapter
+                }
+
+            }
+
+
+
+        }
 
 
     }

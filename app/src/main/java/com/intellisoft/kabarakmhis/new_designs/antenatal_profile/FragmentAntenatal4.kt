@@ -163,15 +163,15 @@ class FragmentAntenatal4 : Fragment() {
     private fun saveData() {
 
         if (rootView.linearReactive.visibility == View.VISIBLE){
-            val text = getRadioText(rootView.radioGrpHIVStatus)
+            val text = formatter.getRadioText(rootView.radioGrpHIVStatus)
             addData("Partner HIV Status",text)
         }
         if (rootView.linearReferral.visibility == View.VISIBLE){
-            val text = getRadioText(rootView.radioGrpReactive)
+            val text = formatter.getRadioText(rootView.radioGrpReactive)
             addData("Referral Date",text)
         }
 
-        val text = getRadioText(rootView.radioGrpHiv)
+        val text = formatter.getRadioText(rootView.radioGrpHiv)
         addData("HIV Counselling",text)
 
         val dbDataList = ArrayList<DbDataList>()
@@ -199,19 +199,7 @@ class FragmentAntenatal4 : Fragment() {
 
     }
 
-    private fun getRadioText(radioGroup: RadioGroup?): String {
 
-        return if (radioGroup != null){
-            val checkedId = radioGroup.checkedRadioButtonId
-            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-            checkedRadioButton.text.toString()
-        }else{
-            ""
-        }
-
-
-
-    }
 
 
     private fun addData(key: String, value: String) {

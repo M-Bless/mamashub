@@ -142,11 +142,23 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
         if (
             !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(kmhflCode) &&
-            !TextUtils.isEmpty(anc) && !TextUtils.isEmpty(pnc) &&
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(gravida) &&
             !TextUtils.isEmpty(parity) && !TextUtils.isEmpty(height) &&
             !TextUtils.isEmpty(weight) && !TextUtils.isEmpty(dob) &&
             !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd)){
+
+            val ancCode = if (!TextUtils.isEmpty(anc)) {
+                DbDataList("ANC Code", anc, "Patient Details", DbResourceType.Observation.name)
+            }else{
+                DbDataList("ANC Code", "", "Patient Details", DbResourceType.Observation.name)
+            }
+
+            val pncNo = if (!TextUtils.isEmpty(pnc)) {
+                DbDataList("PNC Code", pnc, "Patient Details", DbResourceType.Observation.name)
+            }else{
+                DbDataList("PNC Code", "", "Patient Details", DbResourceType.Observation.name)
+            }
+
 
             val fhirId = formatter.generateUuid()
             formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
@@ -156,8 +168,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             val dbDataFacName = DbDataList("Facility Name", facilityName, "Facility Details", DbResourceType.Observation.name)
             val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, "Facility Details", DbResourceType.Observation.name)
 
-            val ancCode = DbDataList("ANC Code", anc, "Patient Details", DbResourceType.Observation.name)
-            val pncNo = DbDataList("PNC Code", pnc, "Patient Details", DbResourceType.Observation.name)
+
             val educationLevel = DbDataList("Level of Education", educationLevelValue, "Patient Details", DbResourceType.Observation.name)
 
             val nameClient = DbDataList("Client Name", clientName, "Patient Details", DbResourceType.Patient.name)

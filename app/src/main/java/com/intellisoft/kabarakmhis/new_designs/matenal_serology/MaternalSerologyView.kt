@@ -32,7 +32,7 @@ class MaternalSerologyView : AppCompatActivity() {
 
         btnAdd.setOnClickListener {
 
-            startActivity(Intent(this, MalariaProphylaxis::class.java))
+            startActivity(Intent(this, MaternalSerology::class.java))
 
         }
     }

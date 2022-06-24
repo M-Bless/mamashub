@@ -237,13 +237,13 @@ class FragmentAntenatal3 : Fragment() {
         }
 
 
-        val text = getRadioText(rootView.radioGrpHIVStatus)
+        val text = formatter.getRadioText(rootView.radioGrpHIVStatus)
         addData("Mother HIV Status",text)
 
-        val text1 = getRadioText(rootView.radioGrpSyphilisStatus)
+        val text1 = formatter.getRadioText(rootView.radioGrpSyphilisStatus)
         addData("Mother Syphilis Status",text1)
 
-        val text2 = getRadioText(rootView.radioGrpHepatitisStatus)
+        val text2 = formatter.getRadioText(rootView.radioGrpHepatitisStatus)
         addData("Mother Hepatitis B Status",text2)
 
         val dbDataList = ArrayList<DbDataList>()
@@ -271,19 +271,7 @@ class FragmentAntenatal3 : Fragment() {
 
     }
 
-    private fun getRadioText(radioGroup: RadioGroup?): String {
 
-        return if (radioGroup != null){
-            val checkedId = radioGroup.checkedRadioButtonId
-            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-            checkedRadioButton.text.toString()
-        }else{
-            ""
-        }
-
-
-
-    }
 
 
     private fun addData(key: String, value: String) {
