@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/layout/activity_clinical_notes_list.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_community_health_worker_form.xml" value="0.31979478409576745" />
+        <entry key="app/src/main/res/layout/activity_deworming.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_ifas_list.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_ifas_view2.xml" value="0.242973708068903" />
@@ -63,6 +64,8 @@
         <entry key="app/src/main/res/layout/fragment_antenatal4.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_chw1.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_chw2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_couselling1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_couselling2.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_family.xml" value="0.33" />
@@ -76,6 +79,9 @@
         <entry key="app/src/main/res/layout/fragment_physical_exam.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_physical_exam_2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_physical_examination.xml" value="0.26268115942028986" />
+        <entry key="app/src/main/res/layout/fragment_pmtct1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_pmtct2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_pmtct3.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_present_preg_1.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_present_preg_2.xml" value="0.35542428335085413" />
         <entry key="app/src/main/res/layout/fragment_prev_pregnancy.xml" value="0.25" />

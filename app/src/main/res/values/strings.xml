@@ -49,6 +49,11 @@
     <string name="iron_sup">Was iron supplements issued to the patient</string>
     <string name="patient_suppliment">Supplements Issuing to Patient</string>
     <string name="if_yes_specify_the_drug_given">If yes, specify the drug given</string>
+    <string name="benefits">Was benefits of iron and folic acid and counselling done</string>
+    <string name="no">No</string>
+    <string name="deworming">Was deworming (Medbendazole 500mgs) given once in the 2nd trimester:</string>
+    <string name="danger_signs_counselling">Danger signs counselling</string>
+    <string name="was_counselling_on_exclusive_breastfeeding_and_benefits_of_colostrum_done">Was counselling on exclusive breastfeeding and benefits of colostrum done</string>
 
     <string-array name="array_marital">
         <item>Married</item>

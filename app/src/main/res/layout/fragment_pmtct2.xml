@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/_5dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progress_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_50dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Viral Load (VL) Sample"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Amount"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <EditText
+                            android:id="@+id/etDosageAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Frequency"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <EditText
+                            android:id="@+id/etFrequency"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Was regimen changed:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <RadioGroup
+                            android:id="@+id/radioGrpRegimen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioYesRegimen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/yes" />
+
+                            <RadioButton
+                                android:id="@+id/radioNoRegimen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/no" />
+
+                        </RadioGroup>
+
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If yes, give reason (Select all that apply)"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <CheckBox
+                            android:id="@+id/checkboxViralLoad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layoutDirection="rtl"
+                            android:text="Change in viral load" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxAdverseReactions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Adverse reaction" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxInteraction"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Interaction with another drug concomitantly used" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxTrimester"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pregnancy trimester" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxOther"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If other, specify" />
+
+                        <EditText
+                            android:id="@+id/etOther"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
+
+
+
+</RelativeLayout>

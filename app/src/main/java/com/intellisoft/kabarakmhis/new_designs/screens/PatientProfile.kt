@@ -17,6 +17,9 @@ import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfil
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
+import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
+import com.intellisoft.kabarakmhis.new_designs.deworming.DewormingView
+import com.intellisoft.kabarakmhis.new_designs.ifas.IfasView2
 import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxis
 import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisList
 import com.intellisoft.kabarakmhis.new_designs.matenal_serology.MaternalSerology
@@ -27,6 +30,7 @@ import com.intellisoft.kabarakmhis.new_designs.new_patient.PatientDetailsView
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationList
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
+import com.intellisoft.kabarakmhis.new_designs.pmtct.PMTCTInterventionsView
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyAdd
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
@@ -109,10 +113,14 @@ class PatientProfile : AppCompatActivity() {
         navigateMedicalHistory.setOnClickListener { startActivity(Intent(this, MedicalSurgicalHistoryView::class.java))}
         navigatePreviousPreg.setOnClickListener { startActivity(Intent(this, PreviousPregnancyList::class.java))}
         navigateAntenatal.setOnClickListener { startActivity(Intent(this, AntenatalProfileView::class.java))}
-
         navigatePreventiveService.setOnClickListener { startActivity(Intent(this, PreventiveServiceList::class.java))}
         navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxisList::class.java))}
         navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerologyView::class.java))}
+
+        navigateIfas.setOnClickListener { startActivity(Intent(this, IfasView2::class.java))}
+        navigatePmtct.setOnClickListener { startActivity(Intent(this, PMTCTInterventionsView::class.java))}
+        navigateDeworming.setOnClickListener { startActivity(Intent(this, DewormingView::class.java))}
+        navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}
 
     }
 

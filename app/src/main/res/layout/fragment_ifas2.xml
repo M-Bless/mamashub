@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/_5dp"
     android:layout_height="match_parent">
 
@@ -30,365 +31,63 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:orientation="vertical"
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:gravity="center|start"
-                            android:layout_weight="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="General Examination"/>
-
-                        <RadioGroup
-                            android:id="@+id/radioGrpGeneralExam"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioYesNormal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Normal" />
-
-                            <RadioButton
-                                android:id="@+id/radioNoAbnormal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Abnormal" />
-
-                        </RadioGroup>
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:text="ANC Contact"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
 
                     <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearGeneralExam"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If abnormal, specify"
+                            android:text="ANC contact"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
+                            />
 
-                        <EditText
-                            android:id="@+id/etAbnomality"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Blood Pressure (mmHg)"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
-
-                        <LinearLayout
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Systolic BP"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                 />
-
-                            <EditText
-                                android:inputType="numberDecimal"
-                                android:id="@+id/etSystolicBp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
-                                android:hint="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Diastolic BP"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                 />
-
-                            <EditText
-                                android:inputType="numberDecimal"
-                                android:id="@+id/etDiastolicBp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
-                                android:hint="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Pulse rate"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                                 />
-
-                            <EditText
-                                android:id="@+id/etPulseRate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
-                                android:hint="" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:gravity="center|start"
-                            android:layout_weight="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        <Spinner
+                            android:id="@+id/spinnerAncContact"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="CVS"/>
-
-                        <RadioGroup
-                            android:id="@+id/radioGrpCVS"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioYesCvs"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Normal" />
-
-                            <RadioButton
-                                android:id="@+id/radioNoCvs"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Abnormal" />
-
-                        </RadioGroup>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearCvs"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="If abnormal specify"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
-
-                        <EditText
-                            android:id="@+id/etCvsAbnormal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
+                            android:spinnerMode="dialog" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:gravity="center|start"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Timing of contacts"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <Spinner
+                            android:id="@+id/spinnerTimingContact"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Respiratory"/>
-
-                        <RadioGroup
-                            android:id="@+id/radioGrpRespiratory"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioYesRespiratory"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Normal" />
-
-                            <RadioButton
-                                android:id="@+id/radioNoRespiratory"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Abnormal" />
-
-                        </RadioGroup>
+                            android:spinnerMode="dialog" />
 
                     </LinearLayout>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearResp"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
+
+                    <CheckBox
+                        android:layoutDirection="rtl"
+                        android:id="@+id/checkboxTiming"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="If abnormal specify"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
-
-                        <EditText
-                            android:id="@+id/etCvsRespiratory"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:gravity="center|start"
-                            android:layout_weight="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Breast Exams"/>
-
-                        <RadioGroup
-                            android:id="@+id/radioGrpBreasts"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioYesBreast"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Normal" />
-
-                            <RadioButton
-                                android:id="@+id/radioNoBreast"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Abnormal" />
-
-                        </RadioGroup>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearNormal"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="If normal, give findings"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
-
-                        <EditText
-                            android:id="@+id/etBreastFinding"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearAbnormal"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="If abnormal, give findings"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
-
-                        <EditText
-                            android:id="@+id/etBreastAbnormal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
-
-                    </LinearLayout>
-
-
+                        android:layout_height="wrap_content"
+                        android:text="No. of tablets : 56 tablets" />
 
 
 
@@ -411,7 +110,7 @@
                             android:textColor="@color/black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Weight Monitoring"
+                            android:text="Dosage"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 
@@ -424,7 +123,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Mother's weight (kg)"
+                                android:text="Amount"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
@@ -447,7 +146,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Gestation (weeks)"
+                                android:text="Frequency"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
@@ -458,6 +157,70 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_outline_trans"
                                 android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Date given"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <TextView
+                                app:drawableEndCompat="@drawable/ic_action_date"
+                                android:id="@+id/tvDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint=""
+                                android:textColor="@color/black" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/benefits"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <RadioGroup
+                                android:id="@+id/radioGrpBenefits"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/radioYesBenefit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/yes" />
+
+                                <RadioButton
+                                    android:id="@+id/radioNoBenefit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/no" />
+
+                            </RadioGroup>
+
+
+
 
                         </LinearLayout>
 

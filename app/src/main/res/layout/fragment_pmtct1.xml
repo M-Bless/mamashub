@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/_5dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progress_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_50dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ART for life"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Intervention given:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <RadioGroup
+                            android:id="@+id/radioGrpBenefits"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioYesBenefit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="ART for life" />
+
+                            <RadioButton
+                                android:id="@+id/radioNoBenefit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Viral Load (VL) sample" />
+
+                        </RadioGroup>
+
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="If ART for life"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If yes, date started"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <TextView
+                            app:drawableEndCompat="@drawable/ic_action_date"
+                            android:id="@+id/tvDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Regimen (Select all that apply)"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
+
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxDolutegravir"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Dolutegravir" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxEmtricitabine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Emtricitabine" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxTenofovir"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tenofovir alafenamide fumarate" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxOvarian"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Removal of ovarian cysts" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxZidovudine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Zidovudine" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxLamivudine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Lamivudine" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxNevirapine"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nevirapine" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxEfavirenz"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Efavirenz" />
+
+                        <CheckBox
+                            android:layoutDirection="rtl"
+                            android:id="@+id/checkboxOther"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If other, specify" />
+
+                        <EditText
+                            android:id="@+id/etOther"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
+
+
+
+</RelativeLayout>

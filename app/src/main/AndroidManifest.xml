@@ -14,13 +14,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
         <activity
-            android:name=".IfasView2"
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.counselling.CounsellingView"
             android:exported="false" />
         <activity
-            android:name=".Ifas"
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.counselling.Counselling"
             android:exported="false" />
         <activity
-            android:name=".IfasList"
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.pmtct.PMTCTInterventionsView"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.pmtct.PMTCTInterventions"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.deworming.DewormingView"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.deworming.Deworming"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.ifas.IfasView2"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.ifas.Ifas"
+            android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.ifas.IfasList"
             android:exported="false" />
         <activity
             android:name=".new_designs.matenal_serology.MaternalSerologyView"
