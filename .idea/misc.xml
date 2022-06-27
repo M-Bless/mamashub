@@ -21,6 +21,8 @@
         <entry key="app/src/main/res/layout/activity_clinical_notes_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_community_health_worker_form.xml" value="0.31979478409576745" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_ifas_list.xml" value="0.242973708068903" />
+        <entry key="app/src/main/res/layout/activity_ifas_view2.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25796178343949044" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_malaria_prophylaxis.xml" value="0.22" />
@@ -64,6 +66,8 @@
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_family.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_ifas1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_ifas2.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_medical.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_medical_history.xml" value="0.4036458333333333" />

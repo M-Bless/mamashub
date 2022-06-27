@@ -52,14 +52,6 @@
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
-                            <EditText
-                                android:id="@+id/etCounty"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
-                                android:hint="" />
 
                             <Spinner
                                 android:id="@+id/spinnerCounty"
@@ -67,9 +59,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginStart="10dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
                                 android:spinnerMode="dialog"
-                                android:visibility="gone" />
+                                />
 
 
 
@@ -84,14 +75,6 @@
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                  />
 
-                            <EditText
-                                android:id="@+id/etSubCounty"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
-                                android:hint="" />
 
                             <Spinner
                                 android:id="@+id/spinnerSubCounty"
@@ -99,9 +82,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginStart="10dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
-                                android:spinnerMode="dialog"
-                                android:visibility="gone" />
+                                android:spinnerMode="dialog" />
 
                         </TableRow>
 

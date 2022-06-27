@@ -14,37 +14,46 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS">
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".IfasView2"
+            android:exported="false" />
+        <activity
+            android:name=".Ifas"
+            android:exported="false" />
+        <activity
+            android:name=".IfasList"
+            android:exported="false" />
+        <activity
             android:name=".new_designs.matenal_serology.MaternalSerologyView"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.matenal_serology.MaternalSerology"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.malaria_propylaxis.MalariaProphylaxisView"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.malaria_propylaxis.MalariaProphylaxisList"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.malaria_propylaxis.MalariaProphylaxis"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.preventive_service.PreventiveServiceView"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.preventive_service.PreventiveService"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.preventive_service.PreventiveServiceList"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.previous_pregnancy.PreviousPregnancyList"
             android:exported="false"

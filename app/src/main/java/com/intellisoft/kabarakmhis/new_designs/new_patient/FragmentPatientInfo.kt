@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.dave.county.CountyData
+import com.dave.county.DbCounty
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.data.SYNC_VALUE
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -43,6 +45,12 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
 
+    var allCountyList = listOf<DbCounty>()
+
+    var countyList = ArrayList<String>()
+    private var spinnerCountyValue  = "Please Select county"
+    private var spinnerSubCountyValue  = "Please Select Sub county"
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,6 +58,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
         rootView = inflater.inflate(R.layout.fragment_info, container, false)
 
+        allCountyList = CountyData().getCountyData(requireContext())
 
         formatter.saveCurrentPage("2", requireContext())
         getPageDetails()
@@ -74,8 +83,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     private fun saveData() {
 
-        val countyName = rootView.etCounty.text.toString()
-        val subCountyName = rootView.etSubCounty.text.toString()
+//        val countyName = rootView.etCounty.text.toString()
+//        val subCountyName = rootView.etSubCounty.text.toString()
         val wardName = rootView.etWard.text.toString()
         val townName = rootView.etTown.text.toString()
         val addressName = rootView.etAddress.text.toString()
@@ -87,7 +96,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         val kinPhone = rootView.etTelePhonKin.text.toString()
 
         if (
-            !TextUtils.isEmpty(countyName) && !TextUtils.isEmpty(subCountyName) &&
             !TextUtils.isEmpty(wardName) && !TextUtils.isEmpty(townName) &&
             !TextUtils.isEmpty(addressName) && !TextUtils.isEmpty(estateName) &&
             !TextUtils.isEmpty(telephoneName) && !TextUtils.isEmpty(kinName) &&
@@ -95,8 +103,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
             val dbDataList = ArrayList<DbDataList>()
 
-            val countyData = DbDataList("County Name", countyName, "Residential Information", DbResourceType.Patient.name)
-            val subCountyData = DbDataList("Sub county Name", countyName, "Residential Information", DbResourceType.Patient.name)
+//            val countyData = DbDataList("County Name", countyName, "Residential Information", DbResourceType.Patient.name)
+//            val subCountyData = DbDataList("Sub county Name", countyName, "Residential Information", DbResourceType.Patient.name)
             val wardData = DbDataList("Ward Name", wardName, "Residential Information", DbResourceType.Patient.name)
             val townData = DbDataList("Town Name", townName, "Residential Information", DbResourceType.Patient.name)
             val addressData = DbDataList("Address Name", addressName, "Residential Information", DbResourceType.Patient.name)
@@ -107,7 +115,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
             val kinPhoneData = DbDataList("Next of Kin Phone", kinPhone, "Next of Kin Details", DbResourceType.Patient.name)
             val rshpValueData = DbDataList("Next Of Kin Relationship", spinnerRshpValue, "Next of Kin Details", DbResourceType.Patient.name)
 
-            dbDataList.addAll(listOf(countyData, subCountyData, wardData, townData, addressData, estateData, telephoneData, kinNameData, kinPhoneData, rshpValueData))
+            dbDataList.addAll(listOf( wardData, townData, addressData, estateData, telephoneData, kinNameData, kinPhoneData, rshpValueData))
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
@@ -131,7 +139,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                 telecomList.add(dbTelecom)
 
                 val addressList = java.util.ArrayList<DbAddress>()
-                val addressData1 = DbAddress(countyName, java.util.ArrayList(), subCountyName, wardName, SYNC_VALUE, "Ke")
+                val addressData1 = DbAddress("countyName", java.util.ArrayList(), "subCountyName", wardName, SYNC_VALUE, "Ke")
                 addressList.add(addressData1)
 
                 val contactList = java.util.ArrayList<DbContact>()
@@ -190,17 +198,56 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         val kinRshp = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, relationshipList)
         kinRshp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         rootView.spinnerRshp!!.adapter = kinRshp
-
         rootView.spinnerRshp.onItemSelectedListener = this
 
+        for (county in allCountyList){
+            val name = county.name
+            countyList.add(name)
+        }
+
+        val countyData = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, countyList)
+        countyData.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        rootView.spinnerCounty!!.adapter = countyData
+        rootView.spinnerCounty.onItemSelectedListener = this
+
+        initSubCounty()
 
     }
 
     override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
         when (arg0.id) {
             R.id.spinnerRshp -> { spinnerRshpValue = rootView.spinnerRshp.selectedItem.toString() }
+            R.id.spinnerCounty -> {
+                spinnerCountyValue = rootView.spinnerCounty.selectedItem.toString()
+                initSubCounty()
+            }
+            R.id.spinnerSubCounty -> { spinnerSubCountyValue = rootView.spinnerSubCounty.selectedItem.toString() }
+
             else -> {}
         }
+    }
+
+    private fun initSubCounty() {
+
+        val subCountList = ArrayList<String>()
+        for (county in allCountyList){
+
+            val name = county.name
+            if (spinnerCountyValue == name){
+
+                county.sub_counties.forEach {
+                    subCountList.add(it)
+                }
+
+            }
+
+        }
+
+        val subCountyData = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, subCountList)
+        subCountyData.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        rootView.spinnerSubCounty!!.adapter = subCountyData
+        rootView.spinnerSubCounty.onItemSelectedListener = this
+
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {

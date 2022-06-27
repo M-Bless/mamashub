@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.dave.county.CountyData
+import com.dave.validations.PhoneNumberValidation
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -74,6 +76,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         rootView.etLmp.setOnClickListener {
             onCreateDialog(998)
         }
+
 
         initSpinner()
 

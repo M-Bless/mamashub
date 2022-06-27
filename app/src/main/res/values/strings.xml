@@ -46,6 +46,9 @@
     <string name="present_pregnancy">Present Pregnancy</string>
     <string name="preventive_services">Preventive Services</string>
     <string name="malaria_prophylaxis">Malaria Prophylaxis</string>
+    <string name="iron_sup">Was iron supplements issued to the patient</string>
+    <string name="patient_suppliment">Supplements Issuing to Patient</string>
+    <string name="if_yes_specify_the_drug_given">If yes, specify the drug given</string>
 
     <string-array name="array_marital">
         <item>Married</item>
