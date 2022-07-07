@@ -39,7 +39,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <RadioGroup
-                    android:id="@+id/radioGrpBenefits"
+                    android:id="@+id/radioGrpDeworming"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -64,6 +64,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/linearDewormingReason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

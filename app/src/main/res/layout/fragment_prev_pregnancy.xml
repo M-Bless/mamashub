@@ -76,6 +76,7 @@
                              />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etYear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -99,6 +100,7 @@
                              />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etVisitTime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -169,6 +171,7 @@
                              />
 
                         <EditText
+                            android:inputType="numberDecimal"
                             android:id="@+id/etDuration"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

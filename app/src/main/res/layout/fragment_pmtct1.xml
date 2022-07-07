@@ -36,7 +36,7 @@
                         android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ART for life"
+                        android:text="Intervention Given"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         />
 
@@ -53,20 +53,20 @@
                             />
 
                         <RadioGroup
-                            android:id="@+id/radioGrpBenefits"
+                            android:id="@+id/radioGrpIntervention"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/radioYesBenefit"
+                                android:id="@+id/radioART"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="ART for life" />
 
                             <RadioButton
-                                android:id="@+id/radioNoBenefit"
+                                android:id="@+id/radioVL"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -89,6 +89,8 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearART"
                     android:background="@drawable/layout_dotted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

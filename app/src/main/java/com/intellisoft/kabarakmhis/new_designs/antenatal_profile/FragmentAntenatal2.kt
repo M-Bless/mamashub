@@ -189,24 +189,28 @@ class FragmentAntenatal2 : Fragment() {
             999 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateIptDateGvnListener, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }
             998 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateIptNextVisitListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }
             997 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateSound1Listener, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }
             996 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateSound2Listener, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

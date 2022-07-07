@@ -171,6 +171,17 @@ enum class DbResourceViews {
     WEIGHT_MONITORING,
 
     IFAS,
+    IFAS1,
+    IFAS2,
+
+    PMTCT,
+    PMTCT1,
+    PMTCT2,
+    PMTCT3,
+
+    COUNSELLING,
+    COUNSELLING1,
+    COUNSELLING2,
 
     PREVENTIVE_SERVICE,
     MATERNAL_SEROLOGY,
@@ -180,6 +191,8 @@ enum class DbResourceViews {
     PRESENT_PREGNANCY_2,
 
     BIRTH_PLAN,
+
+    DEWORMING,
 
     PATIENT_INFO,
     SURGICAL_HISTORY,

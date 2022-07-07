@@ -641,7 +641,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:contentDescription="@string/dashboard_maternity_icon_label"
-                                        android:src="@drawable/preventive_services" />
+                                        android:src="@drawable/tetanusinjection" />
 
                                 </LinearLayout>
 
@@ -844,7 +844,7 @@
                                         android:id="@+id/malariaIfas"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:src="@drawable/malaria_prophylaxis" />
+                                        android:src="@drawable/td" />
 
                                 </LinearLayout>
 
@@ -892,7 +892,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:contentDescription="@string/dashboard_maternity_icon_label"
-                                        android:src="@drawable/maternal_serology" />
+                                        android:src="@drawable/preventiveservices" />
 
                                 </LinearLayout>
 
@@ -942,7 +942,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:contentDescription="@string/dashboard_maternity_icon_label"
-                                        android:src="@drawable/weight_monitoring" />
+                                        android:src="@drawable/deworming" />
 
                                 </LinearLayout>
 
@@ -995,7 +995,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:contentDescription="@string/dashboard_maternity_icon_label"
-                                        android:src="@drawable/maternal_serology" />
+                                        android:src="@drawable/counselling1" />
 
                                 </LinearLayout>
 

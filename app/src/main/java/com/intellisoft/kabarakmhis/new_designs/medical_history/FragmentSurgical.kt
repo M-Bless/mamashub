@@ -39,6 +39,30 @@ class FragmentSurgical : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_surgical, container, false)
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
+        rootView.checkboxNoPast.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked){
+                rootView.linearSurgeries.visibility = View.GONE
+            }else{
+                if (!rootView.checkboxNoKnowledge.isChecked){
+                    rootView.linearSurgeries.visibility = View.VISIBLE
+                }else{
+                    rootView.linearSurgeries.visibility = View.GONE
+                }
+
+            }
+        }
+        rootView.checkboxNoKnowledge.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked){
+                rootView.linearSurgeries.visibility = View.GONE
+            }else{
+                if (!rootView.checkboxNoPast.isChecked){
+                    rootView.linearSurgeries.visibility = View.VISIBLE
+                }else{
+                    rootView.linearSurgeries.visibility = View.GONE
+                }
+
+            }
+        }
 
 
         formatter.saveCurrentPage("1", requireContext())

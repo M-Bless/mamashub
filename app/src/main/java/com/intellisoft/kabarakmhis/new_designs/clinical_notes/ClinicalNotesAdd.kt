@@ -95,6 +95,7 @@ class ClinicalNotesAdd : AppCompatActivity() {
             999 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateDobListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

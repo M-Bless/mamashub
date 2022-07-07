@@ -155,6 +155,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             dbDataDetailsList.add(dbDataDetails)
             val dbPatientData = DbPatientData(DbResourceViews.PREVIOUS_PREGNANCY.name, dbDataDetailsList)
 
+
             formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name)
 
             startActivity(Intent(requireContext(), PatientProfile::class.java))

@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.activity_pmtctinterventions_view.*
 
 class PMTCTInterventionsView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,6 +15,10 @@ class PMTCTInterventionsView : AppCompatActivity() {
         setContentView(R.layout.activity_pmtctinterventions_view)
 
         title = "PMTCT Interventions"
+
+        btnAddPMTCT.setOnClickListener {
+            startActivity(Intent(this, PMTCTInterventions::class.java))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

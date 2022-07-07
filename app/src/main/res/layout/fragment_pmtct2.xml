@@ -36,7 +36,7 @@
                         android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Viral Load (VL) Sample"
+                        android:text="ART for life"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         />
 
@@ -133,6 +133,8 @@
 
 
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearReason"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

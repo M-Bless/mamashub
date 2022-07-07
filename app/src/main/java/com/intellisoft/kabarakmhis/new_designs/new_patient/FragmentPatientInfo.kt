@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.dave.county.CountyData
 import com.dave.county.DbCounty
+import com.dave.validations.PhoneNumberValidation
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.data.SYNC_VALUE
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -101,75 +102,88 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
             !TextUtils.isEmpty(telephoneName) && !TextUtils.isEmpty(kinName) &&
             !TextUtils.isEmpty(kinPhone)){
 
-            val dbDataList = ArrayList<DbDataList>()
+            val patientNo = PhoneNumberValidation().getStandardPhoneNumber(telephoneName)
+            val kinNo = PhoneNumberValidation().getStandardPhoneNumber(kinPhone)
 
-//            val countyData = DbDataList("County Name", countyName, "Residential Information", DbResourceType.Patient.name)
-//            val subCountyData = DbDataList("Sub county Name", countyName, "Residential Information", DbResourceType.Patient.name)
-            val wardData = DbDataList("Ward Name", wardName, "Residential Information", DbResourceType.Patient.name)
-            val townData = DbDataList("Town Name", townName, "Residential Information", DbResourceType.Patient.name)
-            val addressData = DbDataList("Address Name", addressName, "Residential Information", DbResourceType.Patient.name)
-            val estateData = DbDataList("Estate Name", estateName, "Residential Information", DbResourceType.Patient.name)
+            if (patientNo != null && kinNo != null){
 
-            val telephoneData = DbDataList("Telephone", telephoneName, "Contact Details", DbResourceType.Patient.name)
-            val kinNameData = DbDataList("Next of Kin Name", kinName, "Next of Kin Details", DbResourceType.Patient.name)
-            val kinPhoneData = DbDataList("Next of Kin Phone", kinPhone, "Next of Kin Details", DbResourceType.Patient.name)
-            val rshpValueData = DbDataList("Next Of Kin Relationship", spinnerRshpValue, "Next of Kin Details", DbResourceType.Patient.name)
+                val dbDataList = ArrayList<DbDataList>()
 
-            dbDataList.addAll(listOf( wardData, townData, addressData, estateData, telephoneData, kinNameData, kinPhoneData, rshpValueData))
-            val dbDataDetailsList = ArrayList<DbDataDetails>()
-            val dbDataDetails = DbDataDetails(dbDataList)
-            dbDataDetailsList.add(dbDataDetails)
-            val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
-            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+                val countyData = DbDataList("County Name", spinnerCountyValue, "Residential Information", DbResourceType.Patient.name)
+                val subCountyData = DbDataList("Sub county Name", spinnerSubCountyValue, "Residential Information", DbResourceType.Patient.name)
+                val wardData = DbDataList("Ward Name", wardName, "Residential Information", DbResourceType.Patient.name)
+                val townData = DbDataList("Town Name", townName, "Residential Information", DbResourceType.Patient.name)
+                val addressData = DbDataList("Address Name", addressName, "Residential Information", DbResourceType.Patient.name)
+                val estateData = DbDataList("Estate Name", estateName, "Residential Information", DbResourceType.Patient.name)
 
-            CoroutineScope(Dispatchers.IO).launch {
+                val telephoneData = DbDataList("Telephone", telephoneName, "Contact Details", DbResourceType.Patient.name)
+                val kinNameData = DbDataList("Next of Kin Name", kinName, "Next of Kin Details", DbResourceType.Patient.name)
+                val kinPhoneData = DbDataList("Next of Kin Phone", kinPhone, "Next of Kin Details", DbResourceType.Patient.name)
+                val rshpValueData = DbDataList("Next Of Kin Relationship", spinnerRshpValue, "Next of Kin Details", DbResourceType.Patient.name)
 
-                val clientName = formatter.retrieveSharedPreference(requireContext(), "clientName").toString()
-                val dob = formatter.retrieveSharedPreference(requireContext(), "dob").toString()
+                dbDataList.addAll(listOf(countyData, subCountyData, wardData, townData, addressData, estateData, telephoneData, kinNameData, kinPhoneData, rshpValueData))
+                val dbDataDetailsList = ArrayList<DbDataDetails>()
+                val dbDataDetails = DbDataDetails(dbDataList)
+                dbDataDetailsList.add(dbDataDetails)
+                val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
+                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-                //Save to FHIR
-                val nameList = java.util.ArrayList<DbName>()
-                val givenNameList = java.util.ArrayList<String>()
-                givenNameList.add(clientName)
-                val dbName = DbName(clientName, givenNameList)
-                nameList.add(dbName)
+                CoroutineScope(Dispatchers.IO).launch {
 
-                val telecomList = java.util.ArrayList<DbTelecom>()
-                val dbTelecom = DbTelecom("phone", telephoneName)
-                telecomList.add(dbTelecom)
+                    val clientName = formatter.retrieveSharedPreference(requireContext(), "clientName").toString()
+                    val dob = formatter.retrieveSharedPreference(requireContext(), "dob").toString()
 
-                val addressList = java.util.ArrayList<DbAddress>()
-                val addressData1 = DbAddress("countyName", java.util.ArrayList(), "subCountyName", wardName, SYNC_VALUE, "Ke")
-                addressList.add(addressData1)
+                    //Save to FHIR
+                    val nameList = java.util.ArrayList<DbName>()
+                    val givenNameList = java.util.ArrayList<String>()
+                    givenNameList.add(clientName)
+                    val dbName = DbName(clientName, givenNameList)
+                    nameList.add(dbName)
 
-                val contactList = java.util.ArrayList<DbContact>()
-                val relationship = java.util.ArrayList<DbRshp>()
-                val dbRshp = DbRshp(spinnerRshpValue)
-                relationship.add(dbRshp)
+                    val telecomList = java.util.ArrayList<DbTelecom>()
+                    val dbTelecom = DbTelecom("phone", telephoneName)
+                    telecomList.add(dbTelecom)
 
-                val givenKinNameList = java.util.ArrayList<String>()
-                givenKinNameList.add(kinName)
-                val dbKinName = DbName(kinName, givenKinNameList)
+                    val addressList = java.util.ArrayList<DbAddress>()
+                    val addressData1 = DbAddress(spinnerCountyValue, java.util.ArrayList(), spinnerSubCountyValue, wardName, SYNC_VALUE, "Ke")
+                    addressList.add(addressData1)
 
-                val kinTelecomList = java.util.ArrayList<DbTelecom>()
-                val kinDbTelecom = DbTelecom("phone", kinPhone)
-                kinTelecomList.add(kinDbTelecom)
+                    val contactList = java.util.ArrayList<DbContact>()
+                    val relationship = java.util.ArrayList<DbRshp>()
+                    val dbRshp = DbRshp(spinnerRshpValue)
+                    relationship.add(dbRshp)
 
-                val dbContact = DbContact(relationship, dbKinName, kinTelecomList)
-                contactList.add(dbContact)
+                    val givenKinNameList = java.util.ArrayList<String>()
+                    givenKinNameList.add(kinName)
+                    val dbKinName = DbName(kinName, givenKinNameList)
 
-                val dbPatient = DbPatient(
-                    DbResourceType.Patient.name, FormatterClass().generateUuid(), true,
-                    nameList, telecomList, "female", dob, addressList, contactList)
+                    val kinTelecomList = java.util.ArrayList<DbTelecom>()
+                    val kinDbTelecom = DbTelecom("phone", kinPhone)
+                    kinTelecomList.add(kinDbTelecom)
 
-                retrofitCallsFhir.createPatient(requireContext(), dbPatient)
+                    val dbContact = DbContact(relationship, dbKinName, kinTelecomList)
+                    contactList.add(dbContact)
+
+                    val dbPatient = DbPatient(
+                        DbResourceType.Patient.name, FormatterClass().generateUuid(), true,
+                        nameList, telecomList, "female", dob, addressList, contactList)
+
+                    retrofitCallsFhir.createPatient(requireContext(), dbPatient)
+
+                }
+
+
+
+
+                startActivity(Intent(requireContext(), PatientDetailsView::class.java))
+
+            }else{
+
+                Toast.makeText(requireContext(), "Please provide Kenyan valid phone numbers", Toast.LENGTH_SHORT).show()
 
             }
 
 
-
-
-            startActivity(Intent(requireContext(), PatientDetailsView::class.java))
 
         }else{
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()

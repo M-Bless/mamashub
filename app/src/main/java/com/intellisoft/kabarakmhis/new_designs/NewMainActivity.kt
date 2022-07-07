@@ -84,6 +84,8 @@ class NewMainActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onStart() {
         super.onStart()
 

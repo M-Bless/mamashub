@@ -49,7 +49,7 @@ class IfasList : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
 
         fab.setOnClickListener {
-            startActivity(Intent(this, IfasView2::class.java))
+            startActivity(Intent(this, Ifas::class.java))
         }
     }
 
@@ -66,7 +66,9 @@ class IfasList : AppCompatActivity() {
                     if (!observationList.isNullOrEmpty()){
                         no_record.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
+
                     }else{
+
                         no_record.visibility = View.VISIBLE
                         recyclerView.visibility = View.GONE
                     }

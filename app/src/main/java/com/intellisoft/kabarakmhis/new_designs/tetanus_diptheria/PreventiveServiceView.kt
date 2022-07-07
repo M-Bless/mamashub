@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.preventive_service
+package com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria
 
 import android.app.Application
 import android.content.Intent
@@ -12,7 +12,6 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
-import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_physical_examination_view.*

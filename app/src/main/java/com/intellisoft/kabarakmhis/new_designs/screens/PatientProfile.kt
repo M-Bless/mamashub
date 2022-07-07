@@ -5,40 +5,25 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
-import android.view.View
 import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
-import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfileView
-import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlan
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
 import com.intellisoft.kabarakmhis.new_designs.deworming.DewormingView
-import com.intellisoft.kabarakmhis.new_designs.ifas.IfasView2
-import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxis
+import com.intellisoft.kabarakmhis.new_designs.ifas.IfasList
 import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisList
-import com.intellisoft.kabarakmhis.new_designs.matenal_serology.MaternalSerology
 import com.intellisoft.kabarakmhis.new_designs.matenal_serology.MaternalSerologyView
-import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalHistory
 import com.intellisoft.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView
-import com.intellisoft.kabarakmhis.new_designs.new_patient.PatientDetailsView
-import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationList
-import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
 import com.intellisoft.kabarakmhis.new_designs.pmtct.PMTCTInterventionsView
-import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyAdd
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList
-import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
-import com.intellisoft.kabarakmhis.new_designs.preventive_service.PreventiveService
-import com.intellisoft.kabarakmhis.new_designs.preventive_service.PreventiveServiceList
-import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
+import com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceList
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
-import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
 import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 import kotlinx.coroutines.CoroutineScope
@@ -117,7 +102,7 @@ class PatientProfile : AppCompatActivity() {
         navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxisList::class.java))}
         navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerologyView::class.java))}
 
-        navigateIfas.setOnClickListener { startActivity(Intent(this, IfasView2::class.java))}
+        navigateIfas.setOnClickListener { startActivity(Intent(this, IfasList::class.java))}
         navigatePmtct.setOnClickListener { startActivity(Intent(this, PMTCTInterventionsView::class.java))}
         navigateDeworming.setOnClickListener { startActivity(Intent(this, DewormingView::class.java))}
         navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}

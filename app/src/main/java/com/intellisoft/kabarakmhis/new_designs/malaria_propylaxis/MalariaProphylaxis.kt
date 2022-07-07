@@ -102,24 +102,28 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             999 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateDoseListener, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }
             998 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateDateGvnListener, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }
             997 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateNextVisitListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }
             996 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateLLITNDateListener, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

@@ -70,15 +70,15 @@
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.preventive_service.PreventiveServiceView"
+            android:name=".new_designs.tetanus_diptheria.PreventiveServiceView"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.preventive_service.PreventiveService"
+            android:name=".new_designs.tetanus_diptheria.PreventiveService"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name=".new_designs.preventive_service.PreventiveServiceList"
+            android:name=".new_designs.tetanus_diptheria.PreventiveServiceList"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity

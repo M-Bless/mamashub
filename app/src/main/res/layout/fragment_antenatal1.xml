@@ -86,7 +86,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If yes, Hb reading"
+                            android:text="If yes, Hb reading (g/dl)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
@@ -308,7 +308,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If yes, Blood RBS Reading"
+                            android:text="If yes, Blood RBS Reading (mmol/L)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 

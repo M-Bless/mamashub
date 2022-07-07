@@ -16,8 +16,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.dave.county.CountyData
-import com.dave.validations.PhoneNumberValidation
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -27,9 +25,8 @@ import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_details.view.*
 import kotlinx.android.synthetic.main.fragment_details.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
-
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
@@ -150,58 +147,66 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             !TextUtils.isEmpty(weight) && !TextUtils.isEmpty(dob) &&
             !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd)){
 
-            val ancCode = if (!TextUtils.isEmpty(anc)) {
-                DbDataList("ANC Code", anc, "Patient Details", DbResourceType.Observation.name)
+            if (weight.toInt() in 31..159 && height.toInt() in 101..199){
+
+                val ancCode = if (!TextUtils.isEmpty(anc)) {
+                    DbDataList("ANC Code", anc, "Patient Details", DbResourceType.Observation.name)
+                }else{
+                    DbDataList("ANC Code", "", "Patient Details", DbResourceType.Observation.name)
+                }
+
+                val pncNo = if (!TextUtils.isEmpty(pnc)) {
+                    DbDataList("PNC Code", pnc, "Patient Details", DbResourceType.Observation.name)
+                }else{
+                    DbDataList("PNC Code", "", "Patient Details", DbResourceType.Observation.name)
+                }
+
+
+                val fhirId = formatter.generateUuid()
+                formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
+
+                val dbDataList = ArrayList<DbDataList>()
+
+                val dbDataFacName = DbDataList("Facility Name", facilityName, "Facility Details", DbResourceType.Observation.name)
+                val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, "Facility Details", DbResourceType.Observation.name)
+
+
+                val educationLevel = DbDataList("Level of Education", educationLevelValue, "Patient Details", DbResourceType.Observation.name)
+
+                val nameClient = DbDataList("Client Name", clientName, "Patient Details", DbResourceType.Patient.name)
+                val dateOfBirth = DbDataList("Date Of Birth", dob, "Patient Details", DbResourceType.Patient.name)
+                val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, "Patient Details", DbResourceType.Patient.name)
+
+                val gravidaData = DbDataList("Gravida", gravida, "Clinical Information", DbResourceType.Observation.name)
+                val parityData = DbDataList("Parity", parity, "Clinical Information", DbResourceType.Observation.name)
+                val heightData = DbDataList("Height", height, "Clinical Information", DbResourceType.Observation.name)
+                val weightData = DbDataList("Weight", weight, "Clinical Information", DbResourceType.Observation.name)
+                val eddData = DbDataList("Expected Date of Delivery", edd, "Clinical Information", DbResourceType.Observation.name)
+                val lmpData = DbDataList("Last Menstrual Date", lmp, "Clinical Information", DbResourceType.Observation.name)
+
+                dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
+                    gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage))
+
+                val dbDataDetailsList = ArrayList<DbDataDetails>()
+                val dbDataDetails = DbDataDetails(dbDataList)
+                dbDataDetailsList.add(dbDataDetails)
+                val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
+
+                formatter.saveSharedPreference(requireContext(), "dob", dob)
+                formatter.saveSharedPreference(requireContext(), "clientName", clientName)
+
+                val ft = requireActivity().supportFragmentManager.beginTransaction()
+                ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
+                ft.addToBackStack(null)
+                ft.commit()
+
+                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
             }else{
-                DbDataList("ANC Code", "", "Patient Details", DbResourceType.Observation.name)
+                Toast.makeText(requireContext(), "Please check on height or weight", Toast.LENGTH_SHORT).show()
             }
 
-            val pncNo = if (!TextUtils.isEmpty(pnc)) {
-                DbDataList("PNC Code", pnc, "Patient Details", DbResourceType.Observation.name)
-            }else{
-                DbDataList("PNC Code", "", "Patient Details", DbResourceType.Observation.name)
-            }
 
-
-            val fhirId = formatter.generateUuid()
-            formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
-
-            val dbDataList = ArrayList<DbDataList>()
-
-            val dbDataFacName = DbDataList("Facility Name", facilityName, "Facility Details", DbResourceType.Observation.name)
-            val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, "Facility Details", DbResourceType.Observation.name)
-
-
-            val educationLevel = DbDataList("Level of Education", educationLevelValue, "Patient Details", DbResourceType.Observation.name)
-
-            val nameClient = DbDataList("Client Name", clientName, "Patient Details", DbResourceType.Patient.name)
-            val dateOfBirth = DbDataList("Date Of Birth", dob, "Patient Details", DbResourceType.Patient.name)
-            val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, "Patient Details", DbResourceType.Patient.name)
-
-            val gravidaData = DbDataList("Gravida", gravida, "Clinical Information", DbResourceType.Observation.name)
-            val parityData = DbDataList("Parity", parity, "Clinical Information", DbResourceType.Observation.name)
-            val heightData = DbDataList("Height", height, "Clinical Information", DbResourceType.Observation.name)
-            val weightData = DbDataList("Weight", weight, "Clinical Information", DbResourceType.Observation.name)
-            val eddData = DbDataList("Expected Date of Delivery", edd, "Clinical Information", DbResourceType.Observation.name)
-            val lmpData = DbDataList("Last Menstrual Date", lmp, "Clinical Information", DbResourceType.Observation.name)
-
-            dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
-                gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage))
-
-            val dbDataDetailsList = ArrayList<DbDataDetails>()
-            val dbDataDetails = DbDataDetails(dbDataList)
-            dbDataDetailsList.add(dbDataDetails)
-            val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
-
-            formatter.saveSharedPreference(requireContext(), "dob", dob)
-            formatter.saveSharedPreference(requireContext(), "clientName", clientName)
-
-            val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
-            ft.addToBackStack(null)
-            ft.commit()
-
-            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
         }else{
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
@@ -241,6 +246,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             998 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateLMPListener, year, month, day)
+
+
+
                 datePickerDialog.show()
 
             }
@@ -287,9 +295,26 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             // arg3 = day
             val date = showDate(arg1, arg2 + 1, arg3)
 
-            rootView.etLmp.text = date
-            val edd = formatter.getCalculations(date)
-            rootView.etEdd.setText(edd)
+            //Check if its past one month
+
+            val diff = formatter.getDateDifference(date)
+
+            val seconds: Long = diff / 1000
+            val minutes = seconds / 60
+            val hours = minutes / 60
+            val days = hours / 24
+
+            if (days >= 28){
+
+                rootView.etLmp.text = date
+                val edd = formatter.getCalculations(date)
+                rootView.etEdd.setText(edd)
+            }else{
+                Toast.makeText(requireContext(), "Please select a date more than a month", Toast.LENGTH_SHORT).show()
+            }
+
+
+
 
         }
 

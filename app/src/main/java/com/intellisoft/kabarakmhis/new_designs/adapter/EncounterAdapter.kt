@@ -2,28 +2,22 @@ package com.intellisoft.kabarakmhis.new_designs.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesView
-import com.intellisoft.kabarakmhis.new_designs.data_class.DBEntry
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbSimpleEncounter
+import com.intellisoft.kabarakmhis.new_designs.ifas.IfasView2
 import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisView
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView
-import com.intellisoft.kabarakmhis.new_designs.preventive_service.PreventiveServiceView
+import com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceView
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView
-import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 
 class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
                        private val context: Context,
@@ -64,6 +58,9 @@ class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
             }
             if (encounterType == DbResourceViews.PREVENTIVE_SERVICE.name){
                 context.startActivity(Intent(context, PreventiveServiceView::class.java))
+            }
+            if (encounterType == DbResourceViews.IFAS.name){
+                context.startActivity(Intent(context, IfasView2::class.java))
             }
 
 

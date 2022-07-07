@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.preventive_service
+package com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -78,12 +78,14 @@ class PreventiveService : AppCompatActivity() {
             999 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateDobListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }
             998 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateDobListener1, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

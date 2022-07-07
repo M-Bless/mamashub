@@ -187,6 +187,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
             999 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateDobListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

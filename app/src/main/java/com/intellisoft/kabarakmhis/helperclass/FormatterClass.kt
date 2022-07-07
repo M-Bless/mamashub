@@ -13,12 +13,9 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
-import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.coroutines.*
-import java.lang.Double
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -26,16 +23,6 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.Boolean
-import kotlin.Exception
-import kotlin.Int
-import kotlin.Long
-import kotlin.NumberFormatException
-import kotlin.String
-import kotlin.Triple
-import kotlin.let
-import kotlin.math.abs
-import kotlin.toString
 
 class FormatterClass {
 
@@ -112,6 +99,27 @@ class FormatterClass {
         return ageInt.toString()
     }
 
+    fun getDateDifference(dateStr: String):Long{
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val gvnDate = sdf.parse(dateStr)
+        val today = convertDate(getTodayDate())
+        val todayDate = sdf.parse(today)
+
+        val diff: Long = todayDate.time - gvnDate.time
+        return diff
+
+    }
+
+    fun convertDate(convertDate:String):String{
+
+        val originalFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
+        val targetFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date = originalFormat.parse(convertDate)
+        val formattedDate = targetFormat.format(date)
+        return formattedDate
+    }
+
     fun calculateGestation(lmpDate: String): String {
 
         val days = try {
@@ -181,16 +189,9 @@ class FormatterClass {
 
     }
 
-    fun checkPhoneNo(string: String): Boolean {
-        var isNo = true
 
-        try {
-            val num = Double.parseDouble(string)
-        } catch (e: NumberFormatException) {
-            isNo = false
-        }
-        return isNo
-    }
+
+
     fun getTodayDate(): String {
         val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
         val date = Date()
@@ -329,7 +330,7 @@ class FormatterClass {
         saveSharedPreference(context, "currentPage", currentPage)
     }
 
-    fun navigateUser(type: String, context: Context, activity: Activity?, ){
+    fun navigateUser(type: String, context: Context, activity: Activity?){
 
         when (type) {
             Navigation.FRAGMENT.name -> {
@@ -370,7 +371,7 @@ class FormatterClass {
 
     }
 
-    fun convertToFhir(dbTypeDataValueList: ArrayList<DbTypeDataValue>):ArrayList<DbObserveValue>{
+    private fun convertToFhir(dbTypeDataValueList: ArrayList<DbTypeDataValue>):ArrayList<DbObserveValue>{
 
         val dbObserveValueList =  ArrayList<DbObserveValue>()
 

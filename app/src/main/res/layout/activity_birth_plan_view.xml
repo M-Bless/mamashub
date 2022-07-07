@@ -38,13 +38,13 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Clinical Notes:"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/primary" />
 
             <TextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:text="Values"
+                android:text=""
                 android:id="@+id/tvValue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -161,53 +161,55 @@
                             android:background="@drawable/edit_outline_trans"
                             android:hint="" />
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="IPT Date Given"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-
-                        <TextView
-                            android:id="@+id/tvIPTDateGiven"
+                        <LinearLayout
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint=""
-                            android:textColor="@color/black"
-                            app:drawableEndCompat="@drawable/ic_action_date" />
+                            android:layout_height="wrap_content">
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="IPT Next Visit"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="IPT Date Given"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 
-                        <TextView
-                            android:id="@+id/tvIPTNextVisit"
+                            <TextView
+                                android:id="@+id/tvIPTDateGiven"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint=""
+                                android:textColor="@color/black"
+                                app:drawableEndCompat="@drawable/ic_action_date" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint=""
-                            android:textColor="@color/black"
-                            app:drawableEndCompat="@drawable/ic_action_date" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="IPT Next Visit"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+                            <TextView
+                                android:id="@+id/tvIPTNextVisit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint=""
+                                android:textColor="@color/black"
+                                app:drawableEndCompat="@drawable/ic_action_date" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
+
 
 
 

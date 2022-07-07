@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.activity_deworming_view.*
 
 class DewormingView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,6 +16,11 @@ class DewormingView : AppCompatActivity() {
         setContentView(R.layout.activity_deworming_view)
 
         title = "Deworming"
+
+        btnAddDeworming.setOnClickListener {
+            startActivity(Intent(this, Deworming::class.java))
+
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.preventive_service
+package com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,6 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
-import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +29,7 @@ class PreventiveServiceList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preventive_service_list)
 
-        title = "Preventive Service List"
+        title = "Preventive Service"
 
         fab.setOnClickListener {
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/_5dp"
-    tools:context=".new_designs.preventive_service.PreventiveService">
+    tools:context=".new_designs.tetanus_diptheria.PreventiveService">
 
     <LinearLayout
         android:layout_width="match_parent"

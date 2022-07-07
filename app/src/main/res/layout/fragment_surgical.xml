@@ -60,6 +60,14 @@
                         android:text="No Knowledge of past surgeries" />
 
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearSurgeries"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
                     <CheckBox
                         android:id="@+id/checkboxDilation"
                         android:layout_width="match_parent"
@@ -102,51 +110,52 @@
                         android:layout_weight="1"
                         android:text="Cervical cone" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Other gynecological procedures (specify) "
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/etOtherGyna"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Other gynecological procedures (specify) "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:id="@+id/etOtherGyna"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edit_outline_trans"
-                        android:hint="" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Other surgeries (specify) "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:id="@+id/etOtherSurgery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Other surgeries (specify) "
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                    <EditText
-                        android:id="@+id/etOtherSurgery"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:background="@drawable/edit_outline_trans"
-                        android:hint="" />
-
-                </LinearLayout>
 
             </LinearLayout>
 

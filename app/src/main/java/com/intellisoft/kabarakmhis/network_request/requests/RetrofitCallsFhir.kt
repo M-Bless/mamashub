@@ -577,10 +577,15 @@ class RetrofitCallsFhir {
 
                 }
                 if (text == DbResourceViews.IFAS.name){
+                    val dbObserveValue = if (countIFAS == 0){
+                         DbObserveValue(id, "First contact before first ANC (12 weeks)")
+                    }else{
+                        DbObserveValue(id, "ANC Contact $countIFAS")
+                    }
 
                     countIFAS += 1
 
-                    val dbObserveValue = DbObserveValue(id, "ANC Contact $countIFAS")
+
                     simpleEncounterList.add(dbObserveValue)
 
                 }

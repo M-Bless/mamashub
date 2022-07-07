@@ -114,6 +114,7 @@ class BirthPlan : AppCompatActivity() {
             999 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateDoseListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

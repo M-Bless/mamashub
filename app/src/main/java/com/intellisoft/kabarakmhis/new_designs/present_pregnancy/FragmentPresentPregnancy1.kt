@@ -126,6 +126,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
         val diastolic = rootView.etDiastolicBp.text.toString()
         val gestation = rootView.etGestation.text.toString()
         val fundalHeight = rootView.etFundal.text.toString()
+        val muac = rootView.etMuac.text.toString()
 
         if (rootView.linearUrine.visibility == View.VISIBLE){
             val text = rootView.etUrineResults.text.toString()
@@ -148,7 +149,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
         if (
             !TextUtils.isEmpty(systolic) && !TextUtils.isEmpty(diastolic)
             && !TextUtils.isEmpty(fundalHeight) && !TextUtils.isEmpty(gestation)
-            && !TextUtils.isEmpty(date)
+            && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac)
         ){
 
 
@@ -159,6 +160,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             addData("Gestation (Weeks)",gestation)
             addData("Fundal Height",fundalHeight)
             addData("Date",date)
+            addData("MUAC",muac)
 
             val dbDataList = ArrayList<DbDataList>()
 
@@ -240,6 +242,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             999 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateDobListener, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

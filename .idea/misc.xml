@@ -20,8 +20,11 @@
         <entry key="app/src/main/res/layout/activity_clinical_notes_list.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_community_health_worker_form.xml" value="0.31979478409576745" />
+        <entry key="app/src/main/res/layout/activity_counselling_view.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_deworming.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_deworming_view.xml" value="0.16193063100710406" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_ifas.xml" value="0.14792646430098333" />
         <entry key="app/src/main/res/layout/activity_ifas_list.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_ifas_view2.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25796178343949044" />
@@ -42,6 +45,8 @@
         <entry key="app/src/main/res/layout/activity_physical_examination.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_physical_examination_list.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_physical_examination_view.xml" value="0.2767210144927536" />
+        <entry key="app/src/main/res/layout/activity_pmtctinterventions.xml" value="0.14792646430098333" />
+        <entry key="app/src/main/res/layout/activity_pmtctinterventions_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_present_pregnancy_add.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_present_pregnancy_list.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_present_pregnancy_view.xml" value="0.33133817870884996" />
