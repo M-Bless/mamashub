@@ -42,10 +42,6 @@ class FragmentPhysicalExam1 : Fragment() {
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-
-
-
-
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
@@ -126,7 +122,99 @@ class FragmentPhysicalExam1 : Fragment() {
 
         handleNavigation()
 
+        rootView.etSystolicBp.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etSystolicBp.text.toString()
+                if (!TextUtils.isEmpty(value)){
+                    validateSystolicBloodPressure(rootView.etSystolicBp, value.toInt())
+                }
+
+            }
+
+        })
+        rootView.etDiastolicBp.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etDiastolicBp.text.toString()
+                if (!TextUtils.isEmpty(value)){
+                    validateDiastolicBloodPressure(rootView.etDiastolicBp, value.toInt())
+                }
+
+            }
+
+        })
+        rootView.etPulseRate.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etPulseRate.text.toString()
+                if (!TextUtils.isEmpty(value)){
+                    validatePulseRateBloodPressure(rootView.etPulseRate, value.toInt())
+                }
+
+            }
+
+        })
+
         return rootView
+    }
+
+    private fun validateSystolicBloodPressure(editText: EditText, value: Int){
+
+        if (value <= 70){
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }else if (value <= 80){
+            editText.setBackgroundColor(resources.getColor(R.color.orange))
+        }else if (value <= 110){
+            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+        }else if (value <= 130)
+            editText.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
+        else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
+
+
+    }
+    private fun validateDiastolicBloodPressure(editText: EditText, value: Int){
+
+        if (value <= 60){
+            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+        }else if (value <= 90){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        }else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
+    }
+    private fun validatePulseRateBloodPressure(editText: EditText, value: Int){
+
+        if (value < 60){
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }else if (value <= 100){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        }else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
     }
 
     private fun handleNavigation() {
@@ -195,34 +283,46 @@ class FragmentPhysicalExam1 : Fragment() {
 
         if (!TextUtils.isEmpty(motherWeight) && !TextUtils.isEmpty(gestation)){
 
-            addData("Mother Weight",motherWeight)
-            addData("Gestation",gestation)
+            val isWeight = formatter.validateWeight(motherWeight)
+            if (isWeight){
+                addData("Mother Weight",motherWeight)
+                addData("Gestation",gestation)
+
+                val dbDataList = ArrayList<DbDataList>()
+
+                for (items in observationList){
+
+                    val key = items.key
+                    val value = observationList.getValue(key)
+
+                    val data = DbDataList(key, value, "Physical Exam", DbResourceType.Observation.name)
+                    dbDataList.add(data)
+
+                }
+
+                val dbDataDetailsList = ArrayList<DbDataDetails>()
+                val dbDataDetails = DbDataDetails(dbDataList)
+                dbDataDetailsList.add(dbDataDetails)
+                val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
+                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+                val ft = requireActivity().supportFragmentManager.beginTransaction()
+                ft.replace(R.id.fragmentHolder, FragmentPhysicalExam2())
+                ft.addToBackStack(null)
+                ft.commit()
+
+            }else{
+                Toast.makeText(requireContext(), "Invalid Weight", Toast.LENGTH_SHORT).show()
+            }
+
+
+        }else{
+            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
         }
 
 
 
-        val dbDataList = ArrayList<DbDataList>()
 
-        for (items in observationList){
-
-            val key = items.key
-            val value = observationList.getValue(key)
-
-            val data = DbDataList(key, value, "Physical Exam", DbResourceType.Observation.name)
-            dbDataList.add(data)
-
-        }
-
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
-
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, FragmentPhysicalExam2())
-        ft.addToBackStack(null)
-        ft.commit()
 
     }
     

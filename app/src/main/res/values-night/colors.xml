@@ -43,9 +43,9 @@
     <color name="save">#BF3ACC6C</color>
     <color name="cancel">#D9D9D9</color>
 
-    <color name="textColor">@color/black</color>
-    <color name="headerColor">@color/black</color>
-    <color name="contentColor">@color/black</color>
+    <color name="textColor">#0A0A0A</color>
+    <color name="headerColor">@color/white</color>
+    <color name="contentColor">@color/white</color>
 
 
 

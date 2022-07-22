@@ -19,3 +19,26 @@ data class PatientData(
         @PrimaryKey(autoGenerate = true)
         var id: Int? = null
 }
+@Entity(tableName = "county")
+data class County(
+
+        var countyName: String ,
+
+        ){
+
+        @PrimaryKey(autoGenerate = true)
+        var id: Int? = null
+}
+@Entity(tableName = "sub_county")
+data class SubCounty(
+
+        var countyId: String ,
+        var constituencyName: String ,
+        var ward: String ,
+        var alias: String
+
+        ){
+
+        @PrimaryKey(autoGenerate = true)
+        var id: Int? = null
+}

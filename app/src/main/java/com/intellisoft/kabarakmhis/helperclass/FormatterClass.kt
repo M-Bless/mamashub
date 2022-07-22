@@ -451,4 +451,11 @@ class FormatterClass {
     fun Context.mytext(edittext: EditText): String {
         return edittext.text.toString().trim()
     }
+
+    fun validateWeight(weight: String):Boolean{
+        return weight.toInt() in 31..159
+    }
+    fun validateHeight(height: String):Boolean{
+        return height.toInt() in 101..199
+    }
 }

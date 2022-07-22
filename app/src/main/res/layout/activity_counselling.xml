@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".new_designs.counselling.Counselling">
 
+    <FrameLayout
+        android:id="@+id/fragmentHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

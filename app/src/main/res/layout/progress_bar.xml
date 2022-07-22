@@ -21,7 +21,7 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
         <TextView
-            android:textColor="@color/black"
+            android:textColor="@color/headerColor"
             android:textStyle="bold"
             android:gravity="center"
             android:id="@+id/tvProgress"

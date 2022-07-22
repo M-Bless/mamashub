@@ -96,6 +96,7 @@
                                  />
 
                             <EditText
+                                android:visibility="gone"
                                 android:id="@+id/etWard"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -106,7 +107,6 @@
 
 
                             <Spinner
-                                android:visibility="gone"
                                 android:id="@+id/spinnerWard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
@@ -212,14 +212,14 @@
                             />
 
                         <EditText
+                            android:hint="+254XXXXXX"
                             android:inputType="phone"
                             android:id="@+id/etTelePhone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
+                            android:background="@drawable/edit_outline_trans" />
 
                     </LinearLayout>
 
@@ -298,14 +298,14 @@
                                  />
 
                             <EditText
+                                android:hint="+254XXXXXX"
                                 android:inputType="phone"
                                 android:id="@+id/etTelePhonKin"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/edit_outline_trans"
-                                android:hint="" />
+                                android:background="@drawable/edit_outline_trans" />
 
                         </TableRow>
 

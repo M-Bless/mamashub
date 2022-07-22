@@ -3,6 +3,9 @@ package com.intellisoft.kabarakmhis.new_designs.antenatal_profile
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -141,9 +144,39 @@ class FragmentAntenatal1 : Fragment() {
             }
         }
 
+        rootView.etHb.addTextChangedListener(object :  TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etHb.text.toString()
+
+                if (!TextUtils.isEmpty(value)){
+                    validateHB(rootView.etHb, value.toInt())
+                }
+
+            }
+
+        })
+
         handleNavigation()
 
         return rootView
+    }
+
+    private fun validateHB(editText: EditText, value: Int){
+
+        if (value < 11){
+            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+        }else if (value in 11..13){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        }else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
     }
 
     private fun handleNavigation() {

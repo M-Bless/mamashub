@@ -44,7 +44,7 @@ class MaternalSerology : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maternal_serology)
 
-        title = "Maternal Serology"
+        title = "Repeat Maternal Serology"
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
 

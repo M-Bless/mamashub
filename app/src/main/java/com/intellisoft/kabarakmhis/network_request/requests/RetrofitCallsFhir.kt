@@ -625,6 +625,12 @@ class RetrofitCallsFhir {
                             simpleEncounterList.add(dbObserveValue)
 
                         }
+                        if (text == DbResourceViews.COUNSELLING.name){
+
+                            val dbObserveValue = DbObserveValue(codeValue, display)
+                            simpleEncounterList.add(dbObserveValue)
+
+                        }
                         if (text == DbResourceViews.MEDICAL_HISTORY.name){
 
                             val dbObserveValue = DbObserveValue(codeValue, display)

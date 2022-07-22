@@ -28,10 +28,26 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
         repository.insertPatientDataInfo(context, dbPatientData)
     }
 
+    fun insertCounty(context: Context) {
+        repository.insertCounty(context)
+    }
+
     fun getTittlePatientData(title: String, context: Context) = runBlocking {
         repository.getTittlePatientData(title, context)
     }
 
+    fun getCounties() = runBlocking {
+        repository.getCounties()
+    }
+    fun getSubCounty(countyId: Int) = runBlocking {
+        repository.getSubCounty(countyId)
+    }
+    fun getWards(constituencyName: String) = runBlocking {
+        repository.getWards(constituencyName)
+    }
+    fun getCountyNameData(countyName: String) = runBlocking {
+        repository.getCountyNameData(countyName)
+    }
 
 
 

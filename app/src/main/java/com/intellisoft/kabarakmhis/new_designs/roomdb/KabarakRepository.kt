@@ -1,14 +1,20 @@
 package com.intellisoft.kabarakmhis.new_designs.roomdb
 
 import android.content.Context
+import android.provider.SyncStateContract
 import android.util.Log
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbTypeDataValue
+import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.County
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.PatientData
-
+import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.SubCounty
 import kotlinx.coroutines.*
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
 
 
 class KabarakRepository(private val roomDao: RoomDao) {
@@ -122,8 +128,131 @@ class KabarakRepository(private val roomDao: RoomDao) {
         return dbObservationDataList
     }
 
+    fun insertCounty(context: Context){
+
+        CoroutineScope(Dispatchers.IO).launch { importCSV(context) }
 
 
+    }
 
+    class CSVReader(var context: Context, var fileName: String) {
+        var rows: MutableList<Array<String>> = ArrayList()
+        @Throws(IOException::class)
+        fun readCSV(): List<Array<String>> {
+            val `is`: InputStream = context.assets.open(fileName)
+            val isr = InputStreamReader(`is`)
+            val br = BufferedReader(isr)
+            var line: String? = null
+            val csvSplitBy = ","
+            br.readLine()
+            while (br.readLine().also {
+
+                    if (it != null){
+                        line = it
+                    }
+//                    line = it
+            } != null) {
+                if (line != null){
+                    val row = line!!.split(csvSplitBy).toTypedArray()
+                    rows.add(row)
+                }
+
+            }
+            return rows
+        }
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun importCSV(context: Context){
+        val csvReaderCounty = CSVReader(context, "county.csv")/* path of local storage (it should be your csv file locatioin)*/
+        val csvReaderSubCounty = CSVReader(context, "subcounty.csv")/* path of local storage (it should be your csv file locatioin)*/
+
+        addCsvCounty(csvReaderCounty)
+        addCsvSubCounty(csvReaderSubCounty)
+
+    }
+
+
+    private fun addCsvCounty(csvReaderCounty: CSVReader){
+        var rows: List<Array<String>> = ArrayList()
+        GlobalScope.launch(Dispatchers.IO) {
+
+            try {
+                rows = csvReaderCounty.readCSV()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+            for (i in rows.indices) {
+
+                val countyName = rows[i][1]
+                addCounty(countyName)
+            }
+
+        }
+    }
+
+    private suspend fun addCounty(countyName: String){
+        if (!roomDao.checkCounty(countyName)){
+            val county = County(countyName)
+            roomDao.addCounty(county)
+        }
+    }
+    private suspend fun addSubCounty(
+        countyId: String,
+        constituencyName: String,
+        wardName: String){
+        if (!roomDao.checkSubCounty(wardName)){
+            val subCounty = SubCounty(countyId, constituencyName, wardName, "")
+            roomDao.addSubCounty(subCounty)
+        }
+    }
+
+    private fun addCsvSubCounty(csvReader: CSVReader){
+        var rows: List<Array<String>> = ArrayList()
+        GlobalScope.launch(Dispatchers.IO) {
+
+            try {
+                rows = csvReader.readCSV()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+            for (i in rows.indices) {
+
+                val countyId = rows[i][1]
+                val constituencyName = rows[i][2]
+                val ward = rows[i][3]
+
+                addSubCounty(countyId, constituencyName, ward)
+
+
+            }
+
+        }
+    }
+
+    public suspend fun getCounties(): ArrayList<County>{
+
+        var countyDataList = ArrayList<County>()
+
+
+        val countyList = roomDao.getCounties()
+        countyDataList = countyList as ArrayList<County>
+
+
+        return countyDataList
+    }
+    public suspend fun getSubCounty(countyId: Int): List<SubCounty>{
+
+
+        return roomDao.getSubCounty(countyId)
+    }
+    public suspend fun getWards(constituencyName: String): List<SubCounty>{
+        return roomDao.getWards(constituencyName)
+    }
+    public suspend fun getCountyNameData(countyName: String): County?{
+        return roomDao.getCountyNameData(countyName)
+    }
 
 }

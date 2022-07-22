@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -20,6 +21,7 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.activity_weight_monitoring_chart.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +46,13 @@ class WeightMonitoringChart : AppCompatActivity() {
     }
 
 
-    private fun setData(observationList: ArrayList<DbObserveValue>) {
+    private fun  setData(observationList: ArrayList<DbObserveValue>) {
+
+        CoroutineScope(Dispatchers.Main).launch {
+            tvYaxis.visibility = View.VISIBLE
+            tvXaxis.visibility = View.VISIBLE
+        }
+
 
         val weightMonitorList = ArrayList<Entry>()
 
@@ -62,17 +70,18 @@ class WeightMonitoringChart : AppCompatActivity() {
         val dataSets = ArrayList<ILineDataSet>()
         dataSets.add(lineDataSet1)
 
-//        val xAxis = chart.xAxis
-//        xAxis.position = XAxis.XAxisPosition.BOTTOM
-//        xAxis.textSize = 10f
-//        xAxis.textColor = Color.WHITE
-//        xAxis.setDrawAxisLine(false)
-//        xAxis.setDrawGridLines(true)
-//        xAxis.textColor = Color.rgb(255, 192, 56)
-//        xAxis.setCenterAxisLabels(true)
-//        xAxis.granularity = 1f // one hour
+        val xAxis = chart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.textSize = 10f
+        xAxis.textColor = Color.WHITE
+        xAxis.setDrawAxisLine(false)
+        xAxis.setDrawGridLines(true)
+        xAxis.textColor = Color.rgb(255, 192, 56)
+        xAxis.setCenterAxisLabels(true)
+        xAxis.granularity = 1f // one hour
 
-//        xAxis.valueFormatter = DayAxisValueFormatter(chart)
+
+        xAxis.valueFormatter = DayAxisValueFormatter(chart)
 
         val lineData = LineData(dataSets)
         chart.data = lineData
@@ -82,7 +91,7 @@ class WeightMonitoringChart : AppCompatActivity() {
 
     class DayAxisValueFormatter(chart: LineChart) : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
-            return "$value grams"
+            return "$value weeks"
         }
     }
 

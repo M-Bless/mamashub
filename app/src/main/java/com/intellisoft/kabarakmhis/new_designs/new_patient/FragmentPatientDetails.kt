@@ -147,7 +147,10 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             !TextUtils.isEmpty(weight) && !TextUtils.isEmpty(dob) &&
             !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd)){
 
-            if (weight.toInt() in 31..159 && height.toInt() in 101..199){
+            val isWeight = formatter.validateWeight(weight)
+            val isHeight = formatter.validateHeight(height)
+
+            if (isWeight && isHeight && parity.toInt() < gravida.toInt()){
 
                 val ancCode = if (!TextUtils.isEmpty(anc)) {
                     DbDataList("ANC Code", anc, "Patient Details", DbResourceType.Observation.name)
@@ -203,7 +206,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
             }else{
-                Toast.makeText(requireContext(), "Please check on height or weight", Toast.LENGTH_SHORT).show()
+
+                if (parity.toInt() >= gravida.toInt())Toast.makeText(requireContext(), "Parity cannot be higher than gravida.", Toast.LENGTH_SHORT).show()
+                if (weight.toInt() < 31 || weight.toInt() > 159)Toast.makeText(requireContext(), "Weight should be between 31 and 159 kg.", Toast.LENGTH_SHORT).show()
+                if (height.toInt() < 101 || height.toInt() > 199)Toast.makeText(requireContext(), "Height should be between 101 and 199 cm.", Toast.LENGTH_SHORT).show()
+
+
             }
 
 

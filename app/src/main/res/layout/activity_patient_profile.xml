@@ -49,7 +49,7 @@
 
                     <TextView
                         android:textStyle="bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:text="Patient Name  "
                         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                     <TextView
                         android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:text=":"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Jane Doe"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/textColor" />
 
                 </TableRow>
                 <TableRow
@@ -78,7 +78,7 @@
                     <TextView
                         android:visibility="gone"
                         android:textStyle="bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:text="ANC ID  "
                         android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                     <TextView
                         android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:text=":"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -95,14 +95,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/textColor" />
 
                 </TableRow>
                 <TableRow>
 
                     <TextView
                         android:textStyle="bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:text="Age"
                         android:layout_width="match_parent"
@@ -111,7 +111,7 @@
                     <TextView
                         android:layout_marginEnd="10dp"
                         android:layout_marginStart="10dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/textColor"
                         android:text=":"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -121,7 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Jane Doe"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/textColor" />
 
                 </TableRow>
 
@@ -143,7 +143,7 @@
 
                 <TextView
                     android:textStyle="bold"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:text="Next of Kin Details:"
                     android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
                         android:text="Patient Name"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/textColor"/>
 
 
                     <TextView
@@ -170,7 +170,7 @@
                         android:drawablePadding="10dp"
                         android:text="Patient Number"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/textColor" />
 
 
                 </LinearLayout>
@@ -198,7 +198,7 @@
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_marginBottom="@dimen/_15dp"
-            android:textColor="@color/black"
+            android:textColor="@color/headerColor"
             android:text="Patient Information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -253,7 +253,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -303,7 +303,7 @@
 
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -352,7 +352,7 @@
                         </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -404,7 +404,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -451,7 +451,7 @@
 
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -500,7 +500,7 @@
                         </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -553,7 +553,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -602,7 +602,7 @@
 
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -651,7 +651,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -703,7 +703,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -752,7 +752,7 @@
 
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -801,7 +801,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -854,7 +854,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -903,7 +903,7 @@
 
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -952,7 +952,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"
@@ -1006,7 +1006,7 @@
 
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:textColor="@color/headerColor"
                                 android:layout_marginTop="@dimen/_5dp"
                                 android:layout_gravity="center"
                                 android:gravity="center"

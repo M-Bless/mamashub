@@ -65,8 +65,29 @@ class FragmentCounselling2 : Fragment() {
 
         val text1 = formatter.getRadioText(rootView.radioGrpInfantFeeding)
         val text2 = formatter.getRadioText(rootView.radioGrpColostrum)
+
+        val paleMother = formatter.getRadioText(rootView.radioGrpMotherPale)
+        val headAche = formatter.getRadioText(rootView.radioGrpHeadAche)
+        val vaginalBleeding = formatter.getRadioText(rootView.radioGrpVaginalBleeding)
+        val abdominalPain = formatter.getRadioText(rootView.radioGrpAbdominalPain)
+        val babyMovement = formatter.getRadioText(rootView.radioGrpBabyMovement)
+        val convulsions = formatter.getRadioText(rootView.radioGrpConvulsions)
+        val waterBreaking = formatter.getRadioText(rootView.radioGrpWaterBreaking)
+        val swollenFace = formatter.getRadioText(rootView.radioGrpSwollenFace)
+        val motherFever = formatter.getRadioText(rootView.radioGrpMotherFever)
+
         addData("Was infant feeding counselling done",text1)
         addData("Was counselling on exclusive breastfeeding and benefits of colostrum done",text2)
+
+        addData("Was the mother pale:",paleMother)
+        addData("Does the mother have severe headache:",headAche)
+        addData("Did the mother have vaginal bleeding:",vaginalBleeding)
+        addData("Did the mother have abdominal pain:",abdominalPain)
+        addData("Did the mother have reduced or no movement of the unborn baby:",babyMovement)
+        addData("Did the mother have convulsions/fits:",convulsions)
+        addData("Was the mother's water breaking:",waterBreaking)
+        addData("Did the mother have swollen face and hands:",swollenFace)
+        addData("Did the mother have a fever:",motherFever)
 
         val dbDataList = ArrayList<DbDataList>()
 

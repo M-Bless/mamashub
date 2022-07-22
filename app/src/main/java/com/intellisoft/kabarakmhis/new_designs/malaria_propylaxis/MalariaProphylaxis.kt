@@ -259,7 +259,17 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
     override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
         when (arg0.id) {
-            R.id.spinnerContact -> { spinnerContactNumberValue = spinnerContact.selectedItem.toString() }
+            R.id.spinnerContact -> {
+                spinnerContactNumberValue = spinnerContact.selectedItem.toString()
+                contactNumberList.forEachIndexed { index, item ->
+
+                    if (item == spinnerContactNumberValue){
+                        tvIptp.text = "IPTp - SP dose $index"
+                    }
+
+                }
+
+            }
             else -> {}
         }
     }

@@ -46,7 +46,7 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
     private fun handleNavigation() {
 
-        navigation.btnNext.text = "Next"
+        navigation.btnNext.text = "Save"
         navigation.btnPrevious.text = "Cancel"
 
         navigation.btnNext.setOnClickListener { saveData() }

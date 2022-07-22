@@ -22,11 +22,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:layout_margin="@dimen/_15dp"
-            android:id="@+id/chart"
+        <FrameLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="500dp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvYaxis"
+                android:textColor="@color/black"
+                android:layout_marginStart="-80dp"
+                android:layout_marginTop="@dimen/_100dp"
+                android:rotation="270"
+                android:text="Fetal weight/birthweight (kg)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginStart="20dp"                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp" />
+
+                <TextView
+                    android:id="@+id/tvXaxis"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5dp"
+                    android:text="Gestation weeks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+
+        </FrameLayout>
+
+
 
     </LinearLayout>
 

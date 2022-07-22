@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
-
+    id 'kotlin-android'
 }
 
 android {
@@ -41,8 +41,13 @@ android {
             pickFirsts += ['META-INF/ASL-2.0.txt', 'META-INF/LGPL-3.0.txt' ]
         }
         resources.excludes.add("META-INF/*")
-
     }
+//    buildscript {
+//        ext{
+//            kotlinVersion = '1.4.20'
+//        }
+//    }
+
 }
 
 
@@ -69,6 +74,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
+
     /*FHIR */
     implementation("com.google.android.fhir:engine:0.1.0-beta01")
     implementation("com.google.android.fhir:data-capture:0.1.0-beta03")
@@ -94,6 +100,7 @@ dependencies {
 
 
     implementation 'com.github.davidnjau:DavidLibrary:v2.0.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
 
