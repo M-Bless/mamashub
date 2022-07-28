@@ -15,7 +15,9 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.FragmentPhysicalExam2
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
@@ -95,6 +97,12 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
     private fun saveData() {
 
+        formatter.saveSharedPreference(requireContext(), "encounterTitle", DbResourceViews.PREVIOUS_PREGNANCY.name)
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentHolder, FragmentConfirmDetails())
+        ft.addToBackStack(null)
+        ft.commit()
+
         val year = rootView.etYear.text.toString()
         val ancTime = rootView.etVisitTime.text.toString()
         val birthPlace = rootView.etPlaceOfChildBirth.text.toString()
@@ -116,29 +124,16 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             !TextUtils.isEmpty(gestation) && !TextUtils.isEmpty(duration) && !TextUtils.isEmpty(babyWeight)
         ){
 
-            addData("Pregnancy Order",spinnerPregnancyValue)
+            val dbDataList = ArrayList<DbDataList>()
 
+            addData("Pregnancy Order",spinnerPregnancyValue)
             addData("Year",year)
             addData("ANC Time",ancTime)
             addData("Birth Place",birthPlace)
             addData("Gestation",gestation)
             addData("Duration",duration)
-            addData("Baby Weigt",babyWeight)
-
             val deliveryMode = formatter.getRadioText(rootView.deliveryMode)
             addData("Delivery Mode",deliveryMode)
-
-            val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
-            addData("Baby's Sex",radioGrpBabySex)
-
-            val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
-            addData("Outcome",radioGrpOutcome)
-
-            val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
-            addData("Purperium",radioGrpPurperium)
-
-
-            val dbDataList = ArrayList<DbDataList>()
 
             for (items in observationList){
 
@@ -150,15 +145,40 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
             }
 
+            observationList.clear()
+
+            addData("Baby Weigt",babyWeight)
+            val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
+            addData("Baby's Sex",radioGrpBabySex)
+            val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
+            addData("Outcome",radioGrpOutcome)
+            val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
+            addData("Purperium",radioGrpPurperium)
+
+            for (items in observationList){
+
+                val key = items.key
+                val value = observationList.getValue(key)
+
+                val data = DbDataList(key, value, "Baby Details", DbResourceType.Observation.name)
+                dbDataList.add(data)
+
+            }
+
+
+
+
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
             val dbPatientData = DbPatientData(DbResourceViews.PREVIOUS_PREGNANCY.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
 
-            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name)
 
-            startActivity(Intent(requireContext(), PatientProfile::class.java))
+//            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name)
+
+//            startActivity(Intent(requireContext(), PatientProfile::class.java))
 
 
         }else{

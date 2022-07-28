@@ -30,7 +30,7 @@ class PreviousPregnancyList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_pregnancy_list)
 
-        title = "Present Pregnancy List"
+        title = "Previous Pregnancy List"
 
         btnVisit.setOnClickListener {
             startActivity(Intent(this, PreviousPregnancy::class.java))

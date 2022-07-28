@@ -46,6 +46,13 @@ interface RoomDao {
     @Query("SELECT * FROM patient_data WHERE loggedUserId =:userId AND fhirId =:fhirId AND type =:type AND code =:code")
     suspend fun getPatientData(userId: String, type: String, code:String, fhirId: String): PatientData?
 
+    @Query("SELECT * FROM patient_data WHERE loggedUserId =:userId AND fhirId =:fhirId AND title =:title")
+    suspend fun getPatientDataTitle(userId: String, title: String, fhirId: String): List<PatientData>
+
+    @Query("SELECT * FROM patient_data WHERE loggedUserId =:userId AND fhirId =:fhirId AND title =:title AND type =:type")
+    suspend fun getPatientDataTitleType(userId: String, title: String, fhirId: String, type:String): List<PatientData>
+
+
     //County
     @Query("SELECT EXISTS (SELECT 1 FROM county WHERE countyName =:countyName)")
     suspend fun checkCounty(countyName: String): Boolean

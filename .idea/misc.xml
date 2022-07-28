@@ -62,6 +62,10 @@
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_weight_monitoring_chart.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/clinical_notes.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/confirm_children_details.xml" value="0.3304831124412142" />
+        <entry key="app/src/main/res/layout/confirm_details.xml" value="0.23129542539546816" />
+        <entry key="app/src/main/res/layout/confirm_parent_details.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/confrim_details_child.xml" value="0.23129542539546816" />
         <entry key="app/src/main/res/layout/details_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/encounter_view.xml" value="0.16193063100710406" />
@@ -71,6 +75,7 @@
         <entry key="app/src/main/res/layout/fragment_antenatal4.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_chw1.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_chw2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_confirm_patient.xml" value="0.2321504916631039" />
         <entry key="app/src/main/res/layout/fragment_couselling1.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_couselling2.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
@@ -94,6 +99,7 @@
         <entry key="app/src/main/res/layout/fragment_prev_pregnancy.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_previous_pregnancy.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_surgical.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/frament_confirm.xml" value="0.33" />
         <entry key="app/src/main/res/layout/navigation.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/no_record.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/observation_view.xml" value="0.223731884057971" />

@@ -36,6 +36,10 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
         repository.getTittlePatientData(title, context)
     }
 
+    fun getConfirmDetails(context: Context) = runBlocking {
+        repository.getConfirmDetails(context)
+    }
+
     fun getCounties() = runBlocking {
         repository.getCounties()
     }

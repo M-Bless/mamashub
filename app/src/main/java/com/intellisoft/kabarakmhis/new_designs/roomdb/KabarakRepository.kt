@@ -4,6 +4,7 @@ import android.content.Context
 import android.provider.SyncStateContract
 import android.util.Log
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbConfirmDetails
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbTypeDataValue
@@ -126,6 +127,56 @@ class KabarakRepository(private val roomDao: RoomDao) {
         Log.e("-0-0-0-0 ", dbObservationDataList.toString())
 
         return dbObservationDataList
+    }
+
+    //get availabale types from the database
+    suspend fun getTypes(context: Context):HashSet<String>{
+
+        val fhirId = getSharedPref(context, "FHIRID").toString()
+        val loggedInUser = getSharedPref(context, "USERID").toString()
+        val encounterTitle = getSharedPref(context, "encounterTitle").toString()
+
+        val detailsList = roomDao.getPatientDataTitle(loggedInUser, encounterTitle, fhirId)
+        val hashSet = HashSet<String>()
+        detailsList.forEach {
+            val type = it.type
+            hashSet.add(type)
+        }
+
+        return hashSet
+
+    }
+
+    suspend fun getConfirmDetails(context: Context):ArrayList<DbConfirmDetails>{
+
+        val dbConfirmDetailsList = ArrayList<DbConfirmDetails>()
+
+        val fhirId = getSharedPref(context, "FHIRID").toString()
+        val loggedInUser = getSharedPref(context, "USERID").toString()
+        val encounterTitle = getSharedPref(context, "encounterTitle").toString()
+
+        val typeSetList = getTypes(context)
+        typeSetList.forEach { type ->
+
+            val typeDataList = roomDao.getPatientDataTitleType(loggedInUser, encounterTitle, fhirId, type)
+
+            val dbObserveValueList = ArrayList<DbObserveValue>()
+
+            typeDataList.forEach {
+
+                val code = it.code
+                val value = it.value
+
+                val dbObserveValue = DbObserveValue(code, value)
+                dbObserveValueList.add(dbObserveValue)
+            }
+
+            val dbConfirmDetails =  DbConfirmDetails(type, dbObserveValueList)
+            dbConfirmDetailsList.add(dbConfirmDetails)
+        }
+
+        return dbConfirmDetailsList
+
     }
 
     fun insertCounty(context: Context){

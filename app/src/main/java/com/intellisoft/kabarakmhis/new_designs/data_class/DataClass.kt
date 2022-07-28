@@ -128,10 +128,7 @@ data class DbObservationData(
     val valueList: HashSet<String>
 )
 
-data class DbObserveValue(
-    val title: String,
-    val value : String
-)
+
 
 data class DbSimpleEncounter(
     var id: String = "",
@@ -214,4 +211,14 @@ enum class DbResourceViews {
 data class DbTypeDataValue(
     val type: String,
     val dbObserveValue: DbObserveValue
+)
+
+data class DbConfirmDetails(
+    val titleData: String,
+    val detailsList : List<DbObserveValue>
+)
+
+data class DbObserveValue(
+    val title: String,
+    val value : String
 )
