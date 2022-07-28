@@ -78,6 +78,11 @@ class KabarakRepository(private val roomDao: RoomDao) {
     suspend fun nukePatientDataTable(){
         return roomDao.nukePatientDataTable()
     }
+    suspend fun deleteTitleTable(context: Context){
+
+        val encounterTitle = getSharedPref(context, "encounterTitle").toString()
+        return roomDao.deleteTitleTable(encounterTitle)
+    }
 
     suspend fun getTittlePatientData(title:String, context: Context):ArrayList<DbTypeDataValue>{
 

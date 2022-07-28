@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -15,6 +16,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import kotlinx.coroutines.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -458,4 +460,50 @@ class FormatterClass {
     fun validateHeight(height: String):Boolean{
         return height.toInt() in 101..199
     }
+
+    fun startFragmentConfirm(): FragmentConfirmDetails {
+        val frag = FragmentConfirmDetails()
+        val bundle = Bundle()
+        bundle.putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "new-patient-registration-paginated.json")
+        frag.arguments = bundle
+        return frag
+    }
+
+    fun checkObservations(code: String):String{
+
+        if (code.contains("weight")){
+            return "g"
+        }else if (code.contains("height")){
+            return "cm"
+        }else if (code.contains("Gestation")){
+            return "weeks"
+        }else if (code.contains("BP")) {
+            return "mmHg"
+        }else if (code.contains("Pulse")) {
+            return "bpm"
+        }else if (code.contains("Temperature")) {
+            return "°C"
+        }else if (code.contains("BMI")) {
+            return "kg/m2"
+        }else if (code.contains("Head")) {
+            return "cm"
+        }else if (code.contains("Hemoglobin")) {
+            return "g/dl"
+        }else if (code.contains("Fundal")) {
+            return "cm"
+        }else if (code.contains("Dose")) {
+            return "gms"
+        }else if (code.contains("Amount")) {
+            return "mg"
+        }else if (code.contains("Duration")) {
+            return "hrs"
+        }else if (code.contains("MUAC")) {
+            return "cm"
+        }else{
+            return ""
+        }
+
+
+    }
+
 }

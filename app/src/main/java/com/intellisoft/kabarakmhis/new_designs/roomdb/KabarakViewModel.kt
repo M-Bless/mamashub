@@ -39,6 +39,9 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
     fun getConfirmDetails(context: Context) = runBlocking {
         repository.getConfirmDetails(context)
     }
+    fun deleteTitleTable(context: Context) = runBlocking {
+        repository.deleteTitleTable(context)
+    }
 
     fun getCounties() = runBlocking {
         repository.getCounties()

@@ -98,10 +98,6 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
     private fun saveData() {
 
         formatter.saveSharedPreference(requireContext(), "encounterTitle", DbResourceViews.PREVIOUS_PREGNANCY.name)
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, FragmentConfirmDetails())
-        ft.addToBackStack(null)
-        ft.commit()
 
         val year = rootView.etYear.text.toString()
         val ancTime = rootView.etVisitTime.text.toString()
@@ -165,21 +161,16 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
             }
 
-
-
-
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
             val dbPatientData = DbPatientData(DbResourceViews.PREVIOUS_PREGNANCY.name, dbDataDetailsList)
             kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-
-
-//            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name)
-
-//            startActivity(Intent(requireContext(), PatientProfile::class.java))
-
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm())
+            ft.addToBackStack(null)
+            ft.commit()
 
         }else{
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()

@@ -40,6 +40,9 @@ interface RoomDao {
     @Query("DELETE FROM patient_data")
     suspend fun nukePatientDataTable()
 
+    @Query("DELETE FROM patient_data WHERE title =:title")
+    suspend fun deleteTitleTable(title: String)
+
     @Query("UPDATE patient_data SET value =:value WHERE id =:id")
     suspend fun updatePatientRecords(value: String, id: Int)
 
