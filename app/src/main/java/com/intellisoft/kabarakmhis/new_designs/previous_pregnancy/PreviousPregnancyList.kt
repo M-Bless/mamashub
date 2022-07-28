@@ -14,6 +14,7 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria.PreventiveService
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,11 +32,11 @@ class PreviousPregnancyList : AppCompatActivity() {
 
         title = "Present Pregnancy List"
 
-        fab.setOnClickListener {
-
+        btnVisit.setOnClickListener {
             startActivity(Intent(this, PreviousPregnancy::class.java))
-
         }
+
+
 
         layoutManager = LinearLayoutManager(
             this,

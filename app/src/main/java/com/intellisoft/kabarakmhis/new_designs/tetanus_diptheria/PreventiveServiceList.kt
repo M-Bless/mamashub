@@ -31,10 +31,8 @@ class PreventiveServiceList : AppCompatActivity() {
 
         title = "Preventive Service"
 
-        fab.setOnClickListener {
-
+        btnVisit.setOnClickListener {
             startActivity(Intent(this, PreventiveService::class.java))
-
         }
 
         layoutManager = LinearLayoutManager(
