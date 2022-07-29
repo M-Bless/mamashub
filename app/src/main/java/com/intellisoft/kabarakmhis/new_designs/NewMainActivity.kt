@@ -2,15 +2,18 @@ package com.intellisoft.kabarakmhis.new_designs
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.auth.Login
@@ -18,9 +21,7 @@ import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbPatientDetails
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
-import com.intellisoft.kabarakmhis.helperclass.PatientItem
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsAdapter
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
@@ -39,11 +40,16 @@ class NewMainActivity : AppCompatActivity() {
     private lateinit var patientListViewModel: PatientListViewModel
     private lateinit var fhirEngine: FhirEngine
 
+    private lateinit var etSearch : SearchView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_main)
 
         title = "Patient List"
+
+        etSearch = findViewById(R.id.search)
+
         fhirEngine = FhirApplication.fhirEngine(this)
         patientListViewModel = PatientListViewModel(application, fhirEngine)
         patientListViewModel = ViewModelProvider(this,
@@ -68,6 +74,29 @@ class NewMainActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterNewPatient::class.java))
         }
 
+        etSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // collapse the view ?
+                //menu.findItem(R.id.menu_search).collapseActionView();
+                Log.e("queryText", query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                // search goes here !!
+                // listAdapter.getFilter().filter(query);
+
+                val txtSearch = newText.toString()
+                if (!TextUtils.isEmpty(txtSearch)) {
+                    patientListViewModel.searchPatientsByName(txtSearch)
+                } else {
+                    val patientList = patientListViewModel.getPatientList()
+                    showPatients(patientList)
+                }
+
+                return false
+            }
+        })
 
 
         refreshLayout.setOnRefreshListener{

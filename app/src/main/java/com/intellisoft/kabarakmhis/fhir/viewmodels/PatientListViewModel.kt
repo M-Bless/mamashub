@@ -18,6 +18,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Arrays.sort
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -31,6 +32,10 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
 
     fun searchPatientsByName(nameQuery: String) {
         updatePatientListAndPatientCount { getSearchResults(nameQuery) }
+    }
+
+    fun getPatientList() = runBlocking{
+        getSearchResults()
     }
 
     private fun updatePatientListAndPatientCount(search: suspend () -> List<DbPatientDetails>) {
