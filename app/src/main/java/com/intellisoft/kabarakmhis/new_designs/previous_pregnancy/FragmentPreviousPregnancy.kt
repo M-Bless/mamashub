@@ -1,11 +1,9 @@
 package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
 
 import android.app.Application
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +13,7 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
-import com.intellisoft.kabarakmhis.new_designs.physical_examination.FragmentPhysicalExam2
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
-import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
-import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
@@ -97,8 +91,6 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
     private fun saveData() {
 
-        formatter.saveSharedPreference(requireContext(), "encounterTitle", DbResourceViews.PREVIOUS_PREGNANCY.name)
-
         val year = rootView.etYear.text.toString()
         val ancTime = rootView.etVisitTime.text.toString()
         val birthPlace = rootView.etPlaceOfChildBirth.text.toString()
@@ -167,8 +159,10 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             val dbPatientData = DbPatientData(DbResourceViews.PREVIOUS_PREGNANCY.name, dbDataDetailsList)
             kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
+
+
             val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm())
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name))
             ft.addToBackStack(null)
             ft.commit()
 

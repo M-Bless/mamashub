@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.helperclass
 
 import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
+import java.time.LocalDate
 
 enum class UrlData(var message: Int) {
     BASE_URL(R.string.base_url),
@@ -30,20 +31,22 @@ data class PatientItem(
     val resourceId: String,
     val name: String,
     val gender: String,
-    val dob: String,
+    val dob: LocalDate? = null,
     val phone: String,
     val city: String,
     val country: String,
     val isActive: Boolean,
     val html: String,
     var risk: String? = "",
-    var riskItem: RiskAssessmentItem? = null,
-    var state: String,
-    var district: String,
-    var region: String
 ) {
     override fun toString(): String = name
 }
+
+data class DbPatientDetails(
+    val id : String,
+    val name : String,
+)
+
 data class RiskAssessmentItem(
     var riskStatusColor: Int,
     var riskStatus: String,
@@ -62,7 +65,7 @@ data class RelatedPersonItem(
 data class ObservationItem(
     val id: String,
     val code: String,
-    val effective: String,
+    val text: String,
     val value: String
 ) {
     override fun toString(): String = code
@@ -153,4 +156,15 @@ data class DbData(
     val names: String,
     val email: String,
     val role: String
+)
+data class DbPatientRecord(
+    val id: String,
+    val name: String,
+    val dob: String,
+    val phone: String?,
+    val kinData: DbKinData,
+)
+data class DbKinData(
+    val name: String,
+    val phone: String
 )

@@ -23,7 +23,7 @@ interface Interface {
     fun createFhirPatient(@Body dbPatient: DbPatient): Call<DbPatientSuccess>
 
     @GET("Patient")
-    fun getPatientList(@Query("address-state") address_state:String): Call<DbPatientResult>
+    fun getPatientList(@Query("address-country") address_state:String): Call<DbPatientResult>
 
     @POST("Encounter")
     fun createFhirEncounter(@Body dbEncounter: DbEncounter): Call<DbEncounter>

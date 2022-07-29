@@ -247,7 +247,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
 
     private suspend fun saveResourceToDatabase(resource: Resource) {
         val saved = fhirEngine.create(resource)
-        Log.e("**** ", saved.toString())
+        Log.e("****Observations ", saved.toString())
 
     }
     private suspend fun updateResourceToDatabase(resource: Resource) {

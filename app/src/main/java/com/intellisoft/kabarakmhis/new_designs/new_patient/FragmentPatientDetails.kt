@@ -197,9 +197,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                 formatter.saveSharedPreference(requireContext(), "dob", dob)
                 formatter.saveSharedPreference(requireContext(), "clientName", clientName)
+                formatter.saveSharedPreference(requireContext(), "FHIRID", formatter.generateUuid())
 
                 val ft = requireActivity().supportFragmentManager.beginTransaction()
-                ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
+                ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
+                    DbResourceViews.PATIENT_INFO.name))
                 ft.addToBackStack(null)
                 ft.commit()
 
@@ -215,12 +217,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             }
 
 
-
         }else{
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
         }
-
-
 
 
     }

@@ -1,12 +1,18 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
+import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
@@ -33,11 +39,21 @@ import kotlinx.coroutines.launch
 class PatientProfile : AppCompatActivity() {
 
     private val formatter = FormatterClass()
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+    private val formatterClass = FormatterClass()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_profile)
 
+        patientId = formatterClass.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         title = "Patient Details"
 
@@ -62,28 +78,21 @@ class PatientProfile : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getPatientData() {
 
-        CoroutineScope(Dispatchers.IO).launch { RetrofitCallsFhir().getPatientEncounters(this@PatientProfile) }
+        val patientData = patientDetailsViewModel.getPatientData()
 
-        val patientName = formatter.retrieveSharedPreference(this, "name")
-        val dob = formatter.retrieveSharedPreference(this, "dob")
+        val patientName = patientData.name
+        val dob = patientData.dob
 
-        //Calculate Age
-        val age = "${formatter.calculateAge(dob.toString())} years"
-
-        val kinRelationShip = formatter.retrieveSharedPreference(this, "kinRelationShip")
-        val kinName = formatter.retrieveSharedPreference(this, "kinName")
-        val kinPhoneNumber = formatter.retrieveSharedPreference(this, "kinPhoneNumber")
-
-        if (kinRelationShip != null && kinName != null && kinPhoneNumber != null){
-
-            val kinDetails = "$kinName \n$kinPhoneNumber"
-            tvKinDetails.text = "Telephone: $kinPhoneNumber"
-            tvKinName.text = "Name: $kinName"
-
-        }
+        val kinName = patientData.kinData.name
+        val kinPhone = patientData.kinData.phone
 
         tvName.text = patientName
-        tvAge.text = age
+        tvAge.text = dob
+
+        tvKinName.text = kinName
+        tvKinDetails.text = kinPhone
+
+
 
     }
 

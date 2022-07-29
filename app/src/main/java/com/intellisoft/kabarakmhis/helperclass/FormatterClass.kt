@@ -15,9 +15,11 @@ import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentPatientInfo
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import kotlinx.coroutines.*
+import org.hl7.fhir.r4.model.Patient
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -29,6 +31,39 @@ import java.util.concurrent.TimeUnit
 class FormatterClass {
 
     private val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun patientData(patient: Patient, position: Int):DbPatientDetails{
+        return patient.toPatientItem(position)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun Patient.toPatientItem(position: Int): DbPatientDetails {
+        // Show nothing if no values available for gender and date of birth.
+        val patientId = if (hasIdElement()) idElement.idPart else ""
+        val name = if (hasName()) name[0].nameAsSingleString else ""
+
+//        val gender = if (hasGenderElement()) genderElement.valueAsString else ""
+//        val dob =
+//            if (hasBirthDateElement())
+//                LocalDate.parse(birthDateElement.valueAsString, DateTimeFormatter.ISO_DATE)
+//            else null
+//        val phone = if (hasTelecom()) telecom[0].value else ""
+//        val city = if (hasAddress()) address[0].city else ""
+//        val country = if (hasAddress()) address[0].country else ""
+//        val isActive = active
+//        val html: String = if (hasText()) text.div.valueAsString else ""
+        return DbPatientDetails(
+            id = patientId,
+            name = name
+        )
+    }
+
+    fun convertStringToDate(date: String): Date {
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        return formatter.parse(date)
+    }
 
     fun validateEmail(emailAddress: String):Boolean{
         return emailAddress.matches(emailPattern.toRegex())
@@ -461,10 +496,23 @@ class FormatterClass {
         return height.toInt() in 101..199
     }
 
-    fun startFragmentConfirm(): FragmentConfirmDetails {
+    fun startFragmentConfirm(context: Context, encounterName: String): FragmentConfirmDetails {
+
+        saveSharedPreference(context, "encounterTitle", encounterName)
+
         val frag = FragmentConfirmDetails()
         val bundle = Bundle()
-        bundle.putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "new-patient-registration-paginated.json")
+        bundle.putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "client.json")
+        frag.arguments = bundle
+        return frag
+    }
+
+    fun startFragmentPatient(context: Context, encounterName: String): FragmentPatientInfo {
+
+        saveSharedPreference(context, "encounterTitle", encounterName)
+        val frag = FragmentPatientInfo()
+        val bundle = Bundle()
+        bundle.putString(FragmentPatientInfo.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
         frag.arguments = bundle
         return frag
     }

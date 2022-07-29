@@ -1,9 +1,11 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
 import android.app.Application
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +25,12 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
-import com.intellisoft.kabarakmhis.new_designs.data_class.CodingObservation
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbConfirmDetails
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbEncounterDetailsList
-import com.intellisoft.kabarakmhis.new_designs.data_class.QuantityObservation
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.hl7.fhir.r4.model.Reference
 
 
@@ -83,76 +86,101 @@ class FragmentConfirmDetails : Fragment(){
         btnSave.setOnClickListener {
 
             val encounter = formatter.retrieveSharedPreference(requireContext(), "encounterTitle")
+            if (encounter != null){
 
-            if (encounterDetailsList.isNotEmpty() && encounter != null){
+                val progressDialog= ProgressDialog(requireContext())
+                progressDialog.setMessage("Saving...")
+                progressDialog.setCancelable(false)
+                progressDialog.show()
 
-                val encounterId = formatter.generateUuid()
-                val patientReference = Reference("Patient/$patientId")
+                CoroutineScope(Dispatchers.IO).launch {
 
-                val questionnaireFragment =
-                    childFragmentManager.findFragmentByTag(QUESTIONNAIRE_FRAGMENT_TAG) as QuestionnaireFragment
-                val questionnaireResponse = questionnaireFragment.getQuestionnaireResponse()
+                    delay(1000)
 
-                val dataQuantityList = ArrayList<QuantityObservation>()
-                val dataCodeList = ArrayList<CodingObservation>()
+                    if (encounterDetailsList.isNotEmpty()){
 
-                encounterDetailsList.forEach {observation ->
+                        val encounterId = formatter.generateUuid()
+                        val patientReference = Reference("Patient/$patientId")
 
-                    val observationList = observation.detailsList
-                    observationList.forEach {
+                        val questionnaireFragment =
+                            childFragmentManager.findFragmentByTag(QUESTIONNAIRE_FRAGMENT_TAG) as QuestionnaireFragment
+                        val questionnaireResponse = questionnaireFragment.getQuestionnaireResponse()
 
-                        val code = it.title
-                        val value = it.value
+                        val dataQuantityList = ArrayList<QuantityObservation>()
+                        val dataCodeList = ArrayList<CodingObservation>()
 
-                        val checkObservation = formatter.checkObservations(code)
-                        if (checkObservation == ""){
-                            //Save as a value string
+                        encounterDetailsList.forEach {observation ->
 
-                            val codingObservation = CodingObservation(
-                                "8338-6",
-                                code,
-                                value)
-                            dataCodeList.add(codingObservation)
+                            val observationList = observation.detailsList
+                            observationList.forEach {
 
-                        }else{
-                            //Save as a value quantity
-                            val quantityObservation = QuantityObservation(
-                                "8338-6",
-                                code,
-                                value,
-                                checkObservation
-                            )
-                            dataQuantityList.add(quantityObservation)
+                                val code = it.title
+                                val value = it.value
+
+                                val checkObservation = formatter.checkObservations(code)
+                                if (checkObservation == ""){
+                                    //Save as a value string
+
+                                    val codingObservation = CodingObservation(
+                                        "8338-6",
+                                        code,
+                                        value)
+                                    dataCodeList.add(codingObservation)
+
+                                }else{
+                                    //Save as a value quantity
+                                    val quantityObservation = QuantityObservation(
+                                        "8338-6",
+                                        code,
+                                        value,
+                                        checkObservation
+                                    )
+                                    dataQuantityList.add(quantityObservation)
+
+                                }
+
+
+
+                            }
+
 
                         }
 
+                        viewModel.createEncounter(
+                            patientReference,
+                            encounterId,
+                            questionnaireResponse,
+                            dataCodeList,
+                            dataQuantityList,
+                            encounter
+                        )
+
+                        CoroutineScope(Dispatchers.Main).launch {
+                            Toast.makeText(requireContext(), "The data has been collected successfully. PLease wait as its being saved.", Toast.LENGTH_SHORT).show()
+                            progressDialog.dismiss()
+                        }
 
 
+                        kabarakViewModel.deleteTitleTable(requireContext())
+
+                        val intent = Intent(requireContext(), PatientProfile::class.java)
+                        startActivity(intent)
+                        activity?.finish()
+
+                    }else{
+                        CoroutineScope(Dispatchers.Main).launch {
+                            Toast.makeText(requireContext(), "No data to save", Toast.LENGTH_SHORT).show()
+                            progressDialog.dismiss()
+                        }
                     }
-
 
                 }
 
-                viewModel.createEncounter(
-                    patientReference,
-                    encounterId,
-                    questionnaireResponse,
-                    dataCodeList,
-                    dataQuantityList,
-                    encounter
-                )
 
-                Toast.makeText(requireContext(), "The data has been collected successfully. PLease wait as its being saved.", Toast.LENGTH_SHORT).show()
 
-                kabarakViewModel.deleteTitleTable(requireContext())
-
-                val intent = Intent(requireContext(), PatientProfile::class.java)
-                startActivity(intent)
-                activity?.finish()
-
-            }else{
-                Toast.makeText(requireContext(), "No data to save", Toast.LENGTH_SHORT).show()
             }
+
+
 
 
         }
@@ -163,8 +191,9 @@ class FragmentConfirmDetails : Fragment(){
 
     override fun onStart() {
         super.onStart()
-
         getConfirmDetails()
+
+
     }
 
     private fun updateArguments(){
@@ -185,6 +214,8 @@ class FragmentConfirmDetails : Fragment(){
 
         //Get the data from the previous screen
         //Use fhirId, loggedIn User, and title
+
+
 
         encounterDetailsList = kabarakViewModel.getConfirmDetails(requireContext())
         val confirmParentAdapter = ConfirmParentAdapter(encounterDetailsList,requireContext())

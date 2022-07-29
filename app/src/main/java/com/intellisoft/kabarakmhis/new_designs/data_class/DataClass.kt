@@ -233,3 +233,35 @@ data class QuantityObservation(
     val value: String,
     val unit: String,
 )
+data class DbPatientFhirInformation(
+    val name: String,
+    val telecomList: List<DbTelecom>,
+    val gender: String,
+    val birthDate: String,
+    val addressList: List<DbAddress>,
+    val kinList: List<DbKinDetails>,
+    val maritalStatus: String
+)
+data class DbKinDetails(
+    val relationship:String,
+    val name: String,
+    val telecom: List<DbTelecom>
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

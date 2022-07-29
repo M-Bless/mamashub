@@ -160,6 +160,10 @@ class KabarakRepository(private val roomDao: RoomDao) {
         val loggedInUser = getSharedPref(context, "USERID").toString()
         val encounterTitle = getSharedPref(context, "encounterTitle").toString()
 
+        Log.e("----", "fhirId:$fhirId")
+        Log.e("----", "loggedInUser:$loggedInUser")
+
+
         val typeSetList = getTypes(context)
         typeSetList.forEach { type ->
 
