@@ -149,7 +149,7 @@ class FragmentPhysicalExam2 : Fragment() {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnNext.text = "Confirm"
         rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
@@ -158,6 +158,8 @@ class FragmentPhysicalExam2 : Fragment() {
     }
 
     private fun saveData() {
+
+        val dbDataList = ArrayList<DbDataList>()
 
         if(rootView.linearInspection.visibility == View.VISIBLE){
             val text = rootView.etAbnomality.text.toString()
@@ -171,6 +173,16 @@ class FragmentPhysicalExam2 : Fragment() {
             val text = rootView.etAuscalation.text.toString()
             addData("Auscultation Done",text)
         }
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Abdominal Examination", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
 
 
         if(rootView.linearExternalInspection.visibility == View.VISIBLE){
@@ -190,28 +202,36 @@ class FragmentPhysicalExam2 : Fragment() {
             val text = rootView.etGenital.text.toString()
             addData("Genital Ulcer Present",text)
         }
-
-        val dbDataList = ArrayList<DbDataList>()
-
         for (items in observationList){
 
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Physical Exam", DbResourceType.Observation.name)
+            val data = DbDataList(key, value, "External Genitalia Examination", DbResourceType.Observation.name)
             dbDataList.add(data)
 
         }
+        observationList.clear()
+
 
         val dbDataDetailsList = ArrayList<DbDataDetails>()
         val dbDataDetails = DbDataDetails(dbDataList)
         dbDataDetailsList.add(dbDataDetails)
         val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
 
-        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PHYSICAL_EXAMINATION.name)
+        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
 
-        startActivity(Intent(requireContext(), PatientProfile::class.java))
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PHYSICAL_EXAMINATION.name))
+        ft.addToBackStack(null)
+        ft.commit()
+
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PHYSICAL_EXAMINATION.name)
+//
+//
+//        startActivity(Intent(requireContext(), PatientProfile::class.java))
 
     }
 

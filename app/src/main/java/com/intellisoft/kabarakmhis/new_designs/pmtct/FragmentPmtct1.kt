@@ -156,6 +156,21 @@ class FragmentPmtct1 : Fragment() {
 
     private fun saveData() {
 
+        val dbDataList = ArrayList<DbDataList>()
+
+
+        addData("ART for life", if (lifeART) "Yes" else "No")
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Intervention Given", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
         if(rootView.linearART.visibility == View.VISIBLE){
             checkedText(rootView.checkboxDolutegravir)
             checkedText(rootView.checkboxEmtricitabine)
@@ -170,22 +185,21 @@ class FragmentPmtct1 : Fragment() {
             if (!TextUtils.isEmpty(otherRegimen)){
                 addData("Other Regimen Applied",otherRegimen)
             }
-        }
 
+            for (items in observationList){
 
+                val key = items.key
+                val value = observationList.getValue(key)
 
+                val data = DbDataList(key, value, "ART for life", DbResourceType.Observation.name)
+                dbDataList.add(data)
 
-        val dbDataList = ArrayList<DbDataList>()
-
-        for (items in observationList){
-
-            val key = items.key
-            val value = observationList.getValue(key)
-
-            val data = DbDataList(key, value, "PMTCT", DbResourceType.Observation.name)
-            dbDataList.add(data)
+            }
+            observationList.clear()
 
         }
+
+
 
         val dbDataDetailsList = ArrayList<DbDataDetails>()
         val dbDataDetails = DbDataDetails(dbDataList)

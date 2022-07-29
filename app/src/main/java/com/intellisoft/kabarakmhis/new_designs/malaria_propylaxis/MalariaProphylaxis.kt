@@ -12,6 +12,8 @@ import android.widget.*
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.*
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.tvDate
@@ -28,6 +30,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
     var contactNumberList = arrayOf("","ANC Contact 1", "ANC Contact 2", "ANC Contact 3", "ANC Contact 4", "ANC Contact 5", "ANC Contact 6", "ANC Contact 7")
     private var spinnerContactNumberValue  = contactNumberList[0]
 
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     private var year = 0
     private  var month = 0
@@ -41,6 +44,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         title = "Malaria Prophylaxis"
 
         initSpinner()
+        kabarakViewModel = KabarakViewModel(application)
 
         radioGrpIPTp.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -188,6 +192,8 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
     private fun saveData() {
 
+        val dbDataList = ArrayList<DbDataList>()
+
         val dose = tvDose.text.toString()
         val visitNext = tvDate.text.toString()
 
@@ -197,30 +203,49 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             addData("LLITN Given Date", netInsecticide)
         }
 
-        val dbDataList = ArrayList<DbDataList>()
-
         for (items in observationList){
 
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Malaria Prophylaxis", DbResourceType.Observation.name)
+            val data = DbDataList(key, value, "Long Lasting Insecticide Treated Net", DbResourceType.Observation.name)
             dbDataList.add(data)
 
         }
+
+
+        observationList.clear()
 
         if (spinnerContactNumberValue != "" && !TextUtils.isEmpty(dose)){
             addData("ANC Contact", spinnerContactNumberValue)
             addData("Dose Date", dose)
             addData("Next Appointment", visitNext)
 
+            for (items in observationList){
+
+                val key = items.key
+                val value = observationList.getValue(key)
+
+                val data = DbDataList(key, value, "ANC Visit", DbResourceType.Observation.name)
+                dbDataList.add(data)
+
+            }
+
+
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
             val dbPatientData = DbPatientData(DbResourceViews.MALARIA_PROPHYLAXIS.name, dbDataDetailsList)
-            formatter.saveToFhir(dbPatientData, this, DbResourceViews.MALARIA_PROPHYLAXIS.name)
 
-            startActivity(Intent(this, PatientProfile::class.java))
+            kabarakViewModel.insertInfo(this, dbPatientData)
+
+            formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.MALARIA_PROPHYLAXIS.name)
+
+            val intent = Intent(this, ConfirmPage::class.java)
+            startActivity(intent)
+
+//            formatter.saveToFhir(dbPatientData, this, DbResourceViews.MALARIA_PROPHYLAXIS.name)
+//            startActivity(Intent(this, PatientProfile::class.java))
 
         }else{
             Toast.makeText(this, "Please select an ANC Contact", Toast.LENGTH_SHORT).show()

@@ -146,9 +146,18 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         val dbDataDetails = DbDataDetails(dbDataList)
         dbDataDetailsList.add(dbDataDetails)
         val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
-        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.MEDICAL_HISTORY.name)
 
-        startActivity(Intent(requireContext(), PatientProfile::class.java))
+        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
+
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.MEDICAL_HISTORY.name))
+        ft.addToBackStack(null)
+        ft.commit()
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.MEDICAL_HISTORY.name)
+//
+//        startActivity(Intent(requireContext(), PatientProfile::class.java))
 
     }
 

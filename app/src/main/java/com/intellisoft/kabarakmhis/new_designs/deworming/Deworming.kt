@@ -16,8 +16,9 @@ import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_deworming.*
 import kotlinx.android.synthetic.main.fragment_antenatal2.view.*
@@ -33,6 +34,7 @@ class Deworming : AppCompatActivity() {
     private  var day = 0
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private val formatter = FormatterClass()
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class Deworming : AppCompatActivity() {
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+        kabarakViewModel = KabarakViewModel(application)
 
         radioGrpDeworming.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -78,28 +81,50 @@ class Deworming : AppCompatActivity() {
     private fun saveData() {
 
         val deworming = formatter.getRadioText(radioGrpDeworming)
-        val dewormingList = ArrayList<DbObserveValue>()
+        val dewormingList = ArrayList<DbDataList>()
 
         val dateGvn = tvDate.text.toString()
 
         if (deworming != ""){
-            val value = DbObserveValue("Deworming given in the 2nd trimester", deworming)
-            dewormingList.add(value)
 
+            if (deworming == "No"){
+                val value = DbDataList("Deworming given in the 2nd trimester", deworming, "Deworming", DbResourceType.Observation.name)
+                dewormingList.add(value)
+            }
             if (deworming == "Yes"){
-                val value1 = DbObserveValue("Date deworming was given", dateGvn)
-                dewormingList.add(value1)
-            }else{
-                Toast.makeText(this, "Please select a date.", Toast.LENGTH_SHORT).show()
+
+                if (!TextUtils.isEmpty(dateGvn)){
+                    val value1 = DbDataList("Date deworming was given", dateGvn, "Deworming", DbResourceType.Observation.name)
+                    dewormingList.add(value1)
+                }else{
+                    Toast.makeText(this, "Please enter date", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
-            val dbObservationValue = formatter.createObservation(dewormingList,
-                DbResourceViews.DEWORMING.name)
+            if(dewormingList.isNotEmpty()){
 
-            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-                DbResourceViews.DEWORMING.name)
+                val dbDataDetailsList = ArrayList<DbDataDetails>()
+                val dbDataDetails = DbDataDetails(dewormingList)
+                dbDataDetailsList.add(dbDataDetails)
 
-            startActivity(Intent(this, PatientProfile::class.java))
+                val dbPatientData = DbPatientData(DbResourceViews.DEWORMING.name, dbDataDetailsList)
+                kabarakViewModel.insertInfo(this, dbPatientData)
+
+                formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.DEWORMING.name)
+
+                val intent = Intent(this, ConfirmPage::class.java)
+                startActivity(intent)
+
+            }
+
+//            val dbObservationValue = formatter.createObservation(dewormingList,
+//                DbResourceViews.DEWORMING.name)
+//
+//            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+//                DbResourceViews.DEWORMING.name)
+
+//            startActivity(Intent(this, PatientProfile::class.java))
 
         }else{
             Toast.makeText(this, "Please make a selection", Toast.LENGTH_SHORT).show()

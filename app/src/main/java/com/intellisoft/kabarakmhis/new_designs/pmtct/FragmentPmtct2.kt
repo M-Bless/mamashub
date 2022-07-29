@@ -116,7 +116,7 @@ class FragmentPmtct2 : Fragment() {
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "PMTCT", DbResourceType.Observation.name)
+            val data = DbDataList(key, value, "Dosage", DbResourceType.Observation.name)
             dbDataList.add(data)
 
         }
@@ -127,9 +127,15 @@ class FragmentPmtct2 : Fragment() {
         val dbPatientData = DbPatientData(DbResourceViews.PMTCT.name, dbDataDetailsList)
         kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PMTCT.name)
 
-        startActivity(Intent(requireContext(), PatientProfile::class.java))
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PMTCT.name))
+        ft.addToBackStack(null)
+        ft.commit()
+
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PMTCT.name)
+//
+//        startActivity(Intent(requireContext(), PatientProfile::class.java))
 
 
     }

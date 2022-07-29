@@ -227,8 +227,14 @@ class FragmentPhysicalExam1 : Fragment() {
 
     }
     private fun saveData() {
-        
-        
+
+        val dbDataList = ArrayList<DbDataList>()
+        val systolicBp = rootView.etSystolicBp.text.toString()
+        val diastolicBp = rootView.etDiastolicBp.text.toString()
+        val pulseRate = rootView.etPulseRate.text.toString()
+
+        val motherWeight = rootView.etMotherWeight.text.toString()
+        val gestation = rootView.etGestation.text.toString()
 
         if(rootView.linearGeneralExam.visibility == View.VISIBLE){
             val text = rootView.etAbnomality.text.toString()
@@ -237,6 +243,18 @@ class FragmentPhysicalExam1 : Fragment() {
             val text = formatter.getRadioText(rootView.radioGrpGeneralExam)
             addData("General Examination",text)
         }
+
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Physical Examination", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
         if(rootView.linearCvs.visibility == View.VISIBLE){
             val text = rootView.etCvsAbnormal.text.toString()
             addData("CVS",text)
@@ -244,6 +262,16 @@ class FragmentPhysicalExam1 : Fragment() {
             val text = formatter.getRadioText(rootView.radioGrpCVS)
             addData("CVS",text)
         }
+        if (!TextUtils.isEmpty(systolicBp)){
+            addData("Systolic Bp",systolicBp)
+        }
+        if (!TextUtils.isEmpty(diastolicBp)){
+            addData("Diastolic BP",diastolicBp)
+        }
+        if (!TextUtils.isEmpty(pulseRate)){
+            addData("Pulse Rate",pulseRate)
+        }
+
         if(rootView.linearResp.visibility == View.VISIBLE){
             val text = rootView.etCvsRespiratory.text.toString()
             addData("Respiratory",text)
@@ -264,22 +292,18 @@ class FragmentPhysicalExam1 : Fragment() {
             addData("Abnormal Breasts Findings",text)
         }
 
-        val systolicBp = rootView.etSystolicBp.text.toString()
-        val diastolicBp = rootView.etDiastolicBp.text.toString()
-        val pulseRate = rootView.etPulseRate.text.toString()
+        for (items in observationList){
 
-        val motherWeight = rootView.etMotherWeight.text.toString()
-        val gestation = rootView.etGestation.text.toString()
+            val key = items.key
+            val value = observationList.getValue(key)
 
-        if (!TextUtils.isEmpty(systolicBp)){
-            addData("Systolic Bp",systolicBp)
+            val data = DbDataList(key, value, "Blood pressure", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
         }
-        if (!TextUtils.isEmpty(diastolicBp)){
-            addData("Diastolic BP",diastolicBp)
-        }
-        if (!TextUtils.isEmpty(pulseRate)){
-            addData("Pulse Rate",pulseRate)
-        }
+        observationList.clear()
+
+
 
         if (!TextUtils.isEmpty(motherWeight) && !TextUtils.isEmpty(gestation)){
 
@@ -288,17 +312,17 @@ class FragmentPhysicalExam1 : Fragment() {
                 addData("Mother Weight",motherWeight)
                 addData("Gestation",gestation)
 
-                val dbDataList = ArrayList<DbDataList>()
-
                 for (items in observationList){
 
                     val key = items.key
                     val value = observationList.getValue(key)
 
-                    val data = DbDataList(key, value, "Physical Exam", DbResourceType.Observation.name)
+                    val data = DbDataList(key, value, "Weight Monitoring", DbResourceType.Observation.name)
                     dbDataList.add(data)
 
                 }
+                observationList.clear()
+
 
                 val dbDataDetailsList = ArrayList<DbDataDetails>()
                 val dbDataDetails = DbDataDetails(dbDataList)
@@ -324,6 +348,19 @@ class FragmentPhysicalExam1 : Fragment() {
 
 
 
+    }
+
+    private fun getListData(valueData: String): ArrayList<DbDataList> {
+        val dbDataList = ArrayList<DbDataList>()
+        for (items in observationList){
+            val key = items.key
+            val value = observationList.getValue(key)
+            val data = DbDataList(key, value, valueData, DbResourceType.Observation.name)
+            dbDataList.add(data)
+        }
+
+        observationList.clear()
+        return dbDataList
     }
     
 

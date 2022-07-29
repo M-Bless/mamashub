@@ -149,7 +149,7 @@ class FragmentPmtct3 : Fragment() {
                 val key = items.key
                 val value = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "Ifas", DbResourceType.Observation.name)
+                val data = DbDataList(key, value, "Viral Load(VL) sample", DbResourceType.Observation.name)
                 dbDataList.add(data)
 
             }
@@ -157,12 +157,18 @@ class FragmentPmtct3 : Fragment() {
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
-            val dbPatientData = DbPatientData(DbResourceViews.IFAS.name, dbDataDetailsList)
+            val dbPatientData = DbPatientData(DbResourceViews.PMTCT.name, dbDataDetailsList)
             kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PMTCT.name)
 
-            startActivity(Intent(requireContext(), PatientProfile::class.java))
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PMTCT.name))
+            ft.addToBackStack(null)
+            ft.commit()
+
+//            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PMTCT.name)
+//
+//            startActivity(Intent(requireContext(), PatientProfile::class.java))
 
         }else{
             Toast.makeText(requireContext(), "Please provide all fields.", Toast.LENGTH_SHORT).show()

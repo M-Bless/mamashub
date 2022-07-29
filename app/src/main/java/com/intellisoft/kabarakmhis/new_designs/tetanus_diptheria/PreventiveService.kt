@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,8 @@ import android.widget.RadioButton
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_preventive_service.*
 import kotlinx.android.synthetic.main.navigation.view.*
@@ -26,6 +29,7 @@ class PreventiveService : AppCompatActivity() {
     private  var month = 0
     private  var day = 0
     private lateinit var calendar : Calendar
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,7 @@ class PreventiveService : AppCompatActivity() {
         title = "Preventive Service"
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
+        kabarakViewModel = KabarakViewModel(application)
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -63,7 +68,7 @@ class PreventiveService : AppCompatActivity() {
 
     private fun handleNavigation() {
 
-        navigation.btnNext.text = "Save"
+        navigation.btnNext.text = "Confirm"
         navigation.btnPrevious.text = "Cancel"
 
         navigation.btnNext.setOnClickListener { saveData() }
@@ -166,7 +171,7 @@ class PreventiveService : AppCompatActivity() {
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Preventive Service", DbResourceType.Observation.name)
+            val data = DbDataList(key, value, "Tetanus Diphtheria", DbResourceType.Observation.name)
             dbDataList.add(data)
 
         }
@@ -179,10 +184,17 @@ class PreventiveService : AppCompatActivity() {
         val dbDataDetails = DbDataDetails(dbDataList)
         dbDataDetailsList.add(dbDataDetails)
         val dbPatientData = DbPatientData(DbResourceViews.PREVENTIVE_SERVICE.name, dbDataDetailsList)
+        kabarakViewModel.insertInfo(this, dbPatientData)
 
-        formatter.saveToFhir(dbPatientData, this, DbResourceViews.PREVENTIVE_SERVICE.name)
+        formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.PREVENTIVE_SERVICE.name)
 
-        startActivity(Intent(this, PatientProfile::class.java))
+        val intent = Intent(this, ConfirmPage::class.java)
+        startActivity(intent)
+
+
+//        formatter.saveToFhir(dbPatientData, this, DbResourceViews.PREVENTIVE_SERVICE.name)
+//
+//        startActivity(Intent(this, PatientProfile::class.java))
 
 
     }

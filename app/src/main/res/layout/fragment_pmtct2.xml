@@ -37,8 +37,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ART for life"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -50,10 +49,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Amount"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etDosageAmount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -75,10 +74,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Frequency"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etFrequency"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

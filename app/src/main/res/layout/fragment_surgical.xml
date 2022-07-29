@@ -53,6 +53,7 @@
                         android:text="No past surgeries" />
 
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkboxNoKnowledge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

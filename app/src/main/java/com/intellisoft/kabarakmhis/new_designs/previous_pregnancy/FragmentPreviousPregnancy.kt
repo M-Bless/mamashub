@@ -160,7 +160,6 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
 
-
             val ft = requireActivity().supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name))
             ft.addToBackStack(null)

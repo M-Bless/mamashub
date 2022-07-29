@@ -101,8 +101,8 @@ class BirthPlan : AppCompatActivity() {
             val dbDataDetails = DbDataDetails(birthPlanList)
             dbDataDetailsList.add(dbDataDetails)
 
-//            val dbPatientData = DbPatientData(DbResourceViews.BIRTH_PLAN.name, dbDataDetailsList)
-//            kabarakViewModel.insertInfo(this, dbPatientData)
+            val dbPatientData = DbPatientData(DbResourceViews.BIRTH_PLAN.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(this, dbPatientData)
 
             formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.BIRTH_PLAN.name)
 

@@ -489,6 +489,9 @@ class FormatterClass {
         return edittext.text.toString().trim()
     }
 
+    fun validateMuac(muac:String):Boolean{
+        return muac.toInt() in 23..30
+    }
     fun validateWeight(weight: String):Boolean{
         return weight.toInt() in 31..159
     }

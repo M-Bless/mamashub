@@ -182,11 +182,11 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
         if (rootView.linearSupplement.visibility == View.VISIBLE){
             val text = formatter.getRadioText(rootView.radioGrpDrugGvn)
-            addData("Supplementary drug",text)
-            addData("Supplements issued",text)
+            addData("If yes, specify the drug given drug",text)
+            addData("Was iron Supplements issued",text)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpIronSuppliment)
-            addData("Supplements issued",text)
+            addData("Was iron Supplements issued",text)
         }
 
         val text = formatter.getRadioText(rootView.radioGrpBenefits)
@@ -209,9 +209,18 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
         dbDataDetailsList.add(dbDataDetails)
         val dbPatientData = DbPatientData(DbResourceViews.IFAS.name, dbDataDetailsList)
 
-        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.IFAS.name)
+        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        startActivity(Intent(requireContext(), PatientProfile::class.java))
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
+
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.IFAS.name))
+        ft.addToBackStack(null)
+        ft.commit()
+
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.IFAS.name)
+//
+//        startActivity(Intent(requireContext(), PatientProfile::class.java))
 
     }
 

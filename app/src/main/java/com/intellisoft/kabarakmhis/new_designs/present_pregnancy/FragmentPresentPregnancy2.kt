@@ -116,7 +116,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
                 val key = items.key
                 val value = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "Present Pregnancy", DbResourceType.Observation.name)
+                val data = DbDataList(key, value, "Presentation", DbResourceType.Observation.name)
                 dbDataList.add(data)
 
             }

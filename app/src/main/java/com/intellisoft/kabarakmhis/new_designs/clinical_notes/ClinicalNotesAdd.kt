@@ -11,6 +11,8 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_clinical_notes_add.*
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
@@ -26,6 +28,7 @@ class ClinicalNotesAdd : AppCompatActivity() {
     private  var day = 0
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private val formatter = FormatterClass()
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,7 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
+        kabarakViewModel = KabarakViewModel(application)
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -62,22 +66,35 @@ class ClinicalNotesAdd : AppCompatActivity() {
         if (!TextUtils.isEmpty(clinicalNotes)){
 
             val todayDate = formatter.getTodayDateNoTime()
-            val dbObserveValueList = ArrayList<DbObserveValue>()
-            val dbClinicalValue = DbObserveValue("Clinical Note", clinicalNotes)
-            val dbNextValue = DbObserveValue("Next Appointment", appointmentDate)
-            val dbTodayValue = DbObserveValue("Date Collected", todayDate)
+            val dbObserveValueList = ArrayList<DbDataList>()
+
+            val dbClinicalValue = DbDataList("Clinical Note", clinicalNotes, "Clinical Note", DbResourceType.Observation.name)
+            val dbNextValue = DbDataList("Next Appointment", appointmentDate, "Clinical Note", DbResourceType.Observation.name)
+            val dbTodayValue = DbDataList("Date Collected", todayDate, "Clinical Note", DbResourceType.Observation.name)
 
             dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
 
-            val dbCode = formatter.createObservation(dbObserveValueList, DbResourceViews.CLINICAL_NOTES.name)
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbObserveValueList)
+            dbDataDetailsList.add(dbDataDetails)
 
-            val encounterId = formatter.retrieveSharedPreference(this, DbResourceViews.CLINICAL_NOTES.name)
-            if (encounterId != null){
-                retrofitCallsFhir.createObservation(encounterId,this, dbCode)
+            formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.CLINICAL_NOTES.name)
 
-            }else{
-                retrofitCallsFhir.createFhirEncounter(this, dbCode, DbResourceViews.CLINICAL_NOTES.name)
-            }
+            val dbPatientData = DbPatientData(DbResourceViews.CLINICAL_NOTES.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(this, dbPatientData)
+
+            val intent = Intent(this, ConfirmPage::class.java)
+            startActivity(intent)
+
+//            val dbCode = formatter.createObservation(dbObserveValueList, DbResourceViews.CLINICAL_NOTES.name)
+//
+//            val encounterId = formatter.retrieveSharedPreference(this, DbResourceViews.CLINICAL_NOTES.name)
+//            if (encounterId != null){
+//                retrofitCallsFhir.createObservation(encounterId,this, dbCode)
+//
+//            }else{
+//                retrofitCallsFhir.createFhirEncounter(this, dbCode, DbResourceViews.CLINICAL_NOTES.name)
+//            }
 
 
 

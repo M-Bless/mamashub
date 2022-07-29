@@ -122,19 +122,14 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
     private fun saveData() {
 
+        val dbDataList = ArrayList<DbDataList>()
+
         val systolic = rootView.etSystolicBp.text.toString()
         val diastolic = rootView.etDiastolicBp.text.toString()
         val gestation = rootView.etGestation.text.toString()
         val fundalHeight = rootView.etFundal.text.toString()
         val muac = rootView.etMuac.text.toString()
 
-        if (rootView.linearUrine.visibility == View.VISIBLE){
-            val text = rootView.etUrineResults.text.toString()
-            addData("Urine Results",text)
-        }else{
-            val text = formatter.getRadioText(rootView.radioGrpUrineResults)
-            addData("Urine Results",text)
-        }
 
         if (rootView.linearHbReading.visibility == View.VISIBLE){
             val text = rootView.etHbReading.text.toString()
@@ -152,40 +147,73 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac)
         ){
 
+            if (formatter.validateMuac(muac)){
 
-            addData("Pregnancy Contact",spinnerContactNumberValue)
+                if (rootView.linearUrine.visibility == View.VISIBLE){
+                    val text = rootView.etUrineResults.text.toString()
+                    addData("Urine Results",text)
+                }else{
+                    val text = formatter.getRadioText(rootView.radioGrpUrineResults)
+                    addData("Urine Results",text)
+                }
+                addData("MUAC",muac)
+                addData("Pregnancy Contact",spinnerContactNumberValue)
+                for (items in observationList){
 
-            addData("Systolic Blood Pressure",systolic)
-            addData("Diastolic Blood Pressure",diastolic)
-            addData("Gestation (Weeks)",gestation)
-            addData("Fundal Height",fundalHeight)
-            addData("Date",date)
-            addData("MUAC",muac)
+                    val key = items.key
+                    val value = observationList.getValue(key)
 
-            val dbDataList = ArrayList<DbDataList>()
+                    val data = DbDataList(key, value, "Current Pregnancy Details", DbResourceType.Observation.name)
+                    dbDataList.add(data)
 
-            for (items in observationList){
+                }
+                observationList.clear()
 
-                val key = items.key
-                val value = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "Present Pregnancy", DbResourceType.Observation.name)
-                dbDataList.add(data)
+                addData("Systolic Blood Pressure",systolic)
+                addData("Diastolic Blood Pressure",diastolic)
+                for (items in observationList){
 
+                    val key = items.key
+                    val value = observationList.getValue(key)
+
+                    val data = DbDataList(key, value, "Blood Pressure", DbResourceType.Observation.name)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+                addData("Gestation (Weeks)",gestation)
+                addData("Fundal Height",fundalHeight)
+                addData("Date",date)
+                for (items in observationList){
+
+                    val key = items.key
+                    val value = observationList.getValue(key)
+
+                    val data = DbDataList(key, value, "Hb Test", DbResourceType.Observation.name)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+
+                val dbDataDetailsList = ArrayList<DbDataDetails>()
+                val dbDataDetails = DbDataDetails(dbDataList)
+                dbDataDetailsList.add(dbDataDetails)
+                val dbPatientData = DbPatientData(DbResourceViews.PRESENT_PREGNANCY.name, dbDataDetailsList)
+                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+                val ft = requireActivity().supportFragmentManager.beginTransaction()
+                ft.replace(R.id.fragmentHolder, FragmentPresentPregnancy2())
+                ft.addToBackStack(null)
+                ft.commit()
+
+            }else{
+                Toast.makeText(requireContext(), "Please enter valid MUAC", Toast.LENGTH_SHORT).show()
             }
 
-            Log.e("---- ", spinnerContactNumberValue)
 
-            val dbDataDetailsList = ArrayList<DbDataDetails>()
-            val dbDataDetails = DbDataDetails(dbDataList)
-            dbDataDetailsList.add(dbDataDetails)
-            val dbPatientData = DbPatientData(DbResourceViews.PRESENT_PREGNANCY.name, dbDataDetailsList)
-            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
-
-            val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragmentHolder, FragmentPresentPregnancy2())
-            ft.addToBackStack(null)
-            ft.commit()
 
         }else{
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()

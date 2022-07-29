@@ -16,8 +16,9 @@ import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.*
 import kotlinx.android.synthetic.main.activity_maternal_serology.*
@@ -39,6 +40,7 @@ class MaternalSerology : AppCompatActivity() {
     private var year = 0
     private  var month = 0
     private  var day = 0
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,7 @@ class MaternalSerology : AppCompatActivity() {
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+        kabarakViewModel = KabarakViewModel(application)
 
         radioGrpRepeatSerology.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -206,18 +209,18 @@ class MaternalSerology : AppCompatActivity() {
         val repeatSerology = formatter.getRadioText(radioGrpRepeatSerology)
         if (repeatSerology != ""){
 
-            val birthPlanList = ArrayList<DbObserveValue>()
+            val birthPlanList = ArrayList<DbDataList>()
 
             if (linearRepeatNo.visibility == View.VISIBLE){
                val nextAppointment = tvNoNextAppointment.text.toString()
-                val valueName = DbObserveValue("Date of Next Appointment", nextAppointment)
+                val valueName = DbDataList("Date of Next Appointment", nextAppointment, "Maternal Serology Results", DbResourceType.Observation.name)
                 birthPlanList.add(valueName)
             }
 
 
             if (linearRepeatYes.visibility == View.VISIBLE){
                 val testDoneDate = tvDate.text.toString()
-                val valueName = DbObserveValue("Date Test was done", testDoneDate)
+                val valueName = DbDataList("Date Test was done", testDoneDate, "Maternal Serology Results", DbResourceType.Observation.name)
                 birthPlanList.add(valueName)
 
                 val radioGrpTestResults = formatter.getRadioText(radioGrpTestResults)
@@ -229,8 +232,8 @@ class MaternalSerology : AppCompatActivity() {
 
                         if (!TextUtils.isEmpty(pmtctClinic) && !TextUtils.isEmpty(partnerTested)){
 
-                            val valueName1 = DbObserveValue("Refer PMTCT Clinic", pmtctClinic)
-                            val valueName2 = DbObserveValue("Partner Test", partnerTested)
+                            val valueName1 = DbDataList("Refer PMTCT Clinic", pmtctClinic, "Reactive", DbResourceType.Observation.name)
+                            val valueName2 = DbDataList("Partner Test", partnerTested, "Reactive", DbResourceType.Observation.name)
 
                             birthPlanList.addAll(listOf(valueName1, valueName2))
 
@@ -246,9 +249,9 @@ class MaternalSerology : AppCompatActivity() {
 
                         if (!TextUtils.isEmpty(bookSerology) && !TextUtils.isEmpty(breastFeeding) && !TextUtils.isEmpty(nextVisit)){
 
-                            val valueName1 = DbObserveValue("Book Serology Test", bookSerology)
-                            val valueName2 = DbObserveValue("Complete Breastfeeding Cessation", breastFeeding)
-                            val valueName3 = DbObserveValue("Next appointment", nextVisit)
+                            val valueName1 = DbDataList("Book Serology Test", bookSerology, "Non-Reactive", DbResourceType.Observation.name)
+                            val valueName2 = DbDataList("Complete Breastfeeding Cessation", breastFeeding, "Non-Reactive", DbResourceType.Observation.name)
+                            val valueName3 = DbDataList("Next appointment", nextVisit, "Non-Reactive", DbResourceType.Observation.name)
 
                             birthPlanList.addAll(listOf(valueName1, valueName2, valueName3))
 
@@ -262,13 +265,25 @@ class MaternalSerology : AppCompatActivity() {
 
             }
 
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(birthPlanList)
+            dbDataDetailsList.add(dbDataDetails)
+
+            val dbPatientData = DbPatientData(DbResourceViews.MATERNAL_SEROLOGY.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(this, dbPatientData)
+
+            formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.MATERNAL_SEROLOGY.name)
+
+            val intent = Intent(this, ConfirmPage::class.java)
+            startActivity(intent)
 
 
-            val dbObservationValue = formatter.createObservation(birthPlanList,
-                DbResourceViews.MATERNAL_SEROLOGY.name)
 
-            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-                DbResourceViews.MATERNAL_SEROLOGY.name)
+//            val dbObservationValue = formatter.createObservation(birthPlanList,
+//                DbResourceViews.MATERNAL_SEROLOGY.name)
+//
+//            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+//                DbResourceViews.MATERNAL_SEROLOGY.name)
 
         }
 

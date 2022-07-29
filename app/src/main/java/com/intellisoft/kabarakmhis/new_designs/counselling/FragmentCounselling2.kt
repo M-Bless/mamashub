@@ -107,9 +107,14 @@ class FragmentCounselling2 : Fragment() {
         val dbPatientData = DbPatientData(DbResourceViews.COUNSELLING.name, dbDataDetailsList)
         kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.COUNSELLING.name)
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.COUNSELLING.name))
+        ft.addToBackStack(null)
+        ft.commit()
 
-        startActivity(Intent(requireContext(), PatientProfile::class.java))
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.COUNSELLING.name)
+//
+//        startActivity(Intent(requireContext(), PatientProfile::class.java))
 
 
     }
