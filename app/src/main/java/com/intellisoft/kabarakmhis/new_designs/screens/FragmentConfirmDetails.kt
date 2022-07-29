@@ -21,10 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.QuestionnaireFragment
+import com.intellisoft.kabarakmhis.MainActivity
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -163,9 +165,18 @@ class FragmentConfirmDetails : Fragment(){
 
                         kabarakViewModel.deleteTitleTable(requireContext())
 
-                        val intent = Intent(requireContext(), PatientProfile::class.java)
-                        startActivity(intent)
-                        activity?.finish()
+                        if (encounter == DbResourceViews.PATIENT_INFO.name){
+                            val intent = Intent(requireContext(), NewMainActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+
+                        }else{
+                            val intent = Intent(requireContext(), PatientProfile::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+                        }
+
+
 
                     }else{
                         CoroutineScope(Dispatchers.Main).launch {

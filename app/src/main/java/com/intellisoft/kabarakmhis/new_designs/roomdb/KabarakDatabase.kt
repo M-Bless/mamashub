@@ -39,7 +39,7 @@ public abstract class KabarakDatabase : RoomDatabase() {
                         context.applicationContext,
                         KabarakDatabase::class.java,
                         "kabarak_database"
-                )
+                ).allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance

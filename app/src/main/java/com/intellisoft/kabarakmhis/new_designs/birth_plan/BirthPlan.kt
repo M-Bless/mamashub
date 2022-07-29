@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.birth_plan
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +13,9 @@ import android.widget.Toast
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationData
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationValue
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_birth_plan.*
 
@@ -33,12 +33,14 @@ class BirthPlan : AppCompatActivity() {
     private  var month = 0
     private  var day = 0
     private lateinit var calendar : Calendar
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_birth_plan)
 
         title = "Birth Plan"
+        kabarakViewModel = KabarakViewModel(application)
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -79,25 +81,39 @@ class BirthPlan : AppCompatActivity() {
             !TextUtils.isEmpty(transport) && !TextUtils.isEmpty(bloodDonorName) &&
             !TextUtils.isEmpty(financialPlan) && !TextUtils.isEmpty(birthPlan)){
 
-            val birthPlanList = ArrayList<DbObserveValue>()
+            val birthPlanList = ArrayList<DbDataList>()
 
-            val valueFacName = DbObserveValue("Facility Name", facilityName)
-            val valueAttendant = DbObserveValue("Attendant Name", attendantName)
-            val valFacContact = DbObserveValue("Facility Contact", facilityContact)
-            val valueSupportPerson = DbObserveValue("Support Person", supportPerson)
-            val valueTransport = DbObserveValue("Transport", transport)
-            val valueBirthPlan = DbObserveValue("Birth Plan", birthPlan)
-            val valueBloodDonor = DbObserveValue("Blood Donor Name", bloodDonorName)
-            val valueFinancial = DbObserveValue("Financial Plan for Childbirth", financialPlan)
+            val valueFacName = DbDataList("Facility Name", facilityName, "Birth Plan", DbResourceType.Observation.name)
+            val valueAttendant = DbDataList("Attendant Name", attendantName, "Birth Plan", DbResourceType.Observation.name)
+            val valFacContact = DbDataList("Facility Contact", facilityContact, "Birth Plan", DbResourceType.Observation.name)
+            val valueSupportPerson = DbDataList("Support Person", supportPerson, "Birth Plan", DbResourceType.Observation.name)
+            val valueTransport = DbDataList("Transport", transport, "Birth Plan", DbResourceType.Observation.name)
+            val valueBirthPlan = DbDataList("Birth Plan", birthPlan, "Birth Plan", DbResourceType.Observation.name)
+            val valueBloodDonor = DbDataList("Blood Donor Name", bloodDonorName, "Birth Plan", DbResourceType.Observation.name)
+            val valueFinancial = DbDataList("Financial Plan for Childbirth", financialPlan, "Birth Plan", DbResourceType.Observation.name)
+
+
 
             birthPlanList.addAll(listOf(valueFacName, valueAttendant, valFacContact, valueSupportPerson,
                 valueTransport, valueBloodDonor, valueFinancial, valueBirthPlan))
 
-            val dbObservationValue = formatter.createObservation(birthPlanList,
-                DbResourceViews.BIRTH_PLAN.name)
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(birthPlanList)
+            dbDataDetailsList.add(dbDataDetails)
 
-            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-                DbResourceViews.BIRTH_PLAN.name)
+//            val dbPatientData = DbPatientData(DbResourceViews.BIRTH_PLAN.name, dbDataDetailsList)
+//            kabarakViewModel.insertInfo(this, dbPatientData)
+
+            formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.BIRTH_PLAN.name)
+
+            val intent = Intent(this, ConfirmPage::class.java)
+            startActivity(intent)
+
+//            val dbObservationValue = formatter.createObservation(birthPlanList,
+//                DbResourceViews.BIRTH_PLAN.name)
+
+//            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
+//                DbResourceViews.BIRTH_PLAN.name)
 
 
         }else{

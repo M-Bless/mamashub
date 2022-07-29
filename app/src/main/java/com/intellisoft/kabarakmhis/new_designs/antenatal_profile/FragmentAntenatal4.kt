@@ -190,12 +190,17 @@ class FragmentAntenatal4 : Fragment() {
         val dbDataDetails = DbDataDetails(dbDataList)
         dbDataDetailsList.add(dbDataDetails)
         val dbPatientData = DbPatientData(DbResourceViews.ANTENATAL_PROFILE.name, dbDataDetailsList)
+        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
+//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
 
+        val ft = requireActivity().supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.ANTENATAL_PROFILE.name))
+        ft.addToBackStack(null)
+        ft.commit()
 
-        val intent = Intent(requireContext(), PatientProfile::class.java)
-        startActivity(intent)
+//        val intent = Intent(requireContext(), PatientProfile::class.java)
+//        startActivity(intent)
 
     }
 
