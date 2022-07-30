@@ -1,6 +1,7 @@
 package com.intellisoft.kabarakmhis.new_designs.data_class
 
 import android.service.carrier.CarrierIdentifier
+import com.intellisoft.kabarakmhis.helperclass.ObservationItem
 import org.hl7.fhir.r4.model.Appointment
 
 data class DbPatient(
@@ -67,6 +68,14 @@ data class DbEncounter(
     val id : String,
     val subject : DbSubject,
     val reasonCode: List<DbReasonCode>
+)
+
+data class DbEncounterResult(
+    val id: String,
+    val value: String,
+    val lastUpdated: String,
+    val code: String,
+    val observationList: List<ObservationItem>
 )
 data class DbSubject(
     val reference: String

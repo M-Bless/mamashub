@@ -314,6 +314,7 @@
                              />
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etBloodRBSReading"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

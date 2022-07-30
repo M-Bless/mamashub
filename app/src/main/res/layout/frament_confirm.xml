@@ -16,7 +16,7 @@
             android:id="@+id/btnEditDetails"
             android:layout_gravity="end"
             android:textAllCaps="false"
-            android:text="Edit Value"
+            android:text="Edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

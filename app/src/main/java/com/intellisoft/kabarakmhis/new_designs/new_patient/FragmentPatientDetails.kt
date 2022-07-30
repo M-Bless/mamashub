@@ -20,6 +20,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.activity_password_reset.*
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_details.view.*
@@ -48,6 +49,10 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
     private lateinit var rootView: View
 
     private lateinit var kabarakViewModel: KabarakViewModel
+
+    private var isAnc = false
+
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -87,6 +92,8 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             }
 
             override fun afterTextChanged(p0: Editable?) {
+
+                isAnc = true
                 val ancValue = rootView.etAnc.text.toString()
                 rootView.etPnc.isEnabled = TextUtils.isEmpty(ancValue)
             }
@@ -102,6 +109,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             }
 
             override fun afterTextChanged(p0: Editable?) {
+                isAnc = false
                 val ancValue = rootView.etPnc.text.toString()
                 rootView.etAnc.isEnabled = TextUtils.isEmpty(ancValue)
             }
@@ -152,60 +160,75 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
             if (isWeight && isHeight && parity.toInt() < gravida.toInt()){
 
-                val ancCode = if (!TextUtils.isEmpty(anc)) {
-                    DbDataList("ANC Code", anc, "Patient Details", DbResourceType.Observation.name)
+                if (TextUtils.isEmpty(anc) && TextUtils.isEmpty(pnc)) {
+                    Toast.makeText(requireContext(), "Please enter anc or pnc", Toast.LENGTH_SHORT)
+                        .show()
                 }else{
-                    DbDataList("ANC Code", "", "Patient Details", DbResourceType.Observation.name)
+
+                    if (anc.length == 4){
+
+                        val ancCode = DbDataList("ANC Code", "", "Patient Details", DbResourceType.Observation.name)
+                        val pncNo =  DbDataList("PNC Code", "", "Patient Details", DbResourceType.Observation.name)
+
+                        if (isAnc){
+                            val ancCodeValue = "2022-08-${anc}"
+                            DbDataList("ANC Code", ancCodeValue, "Patient Details", DbResourceType.Observation.name)
+                        }else{
+                            DbDataList("PNC Code", pnc, "Patient Details", DbResourceType.Observation.name)
+                        }
+
+                        val fhirId = formatter.generateUuid()
+                        formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
+
+                        val dbDataList = ArrayList<DbDataList>()
+
+                        val dbDataFacName = DbDataList("Facility Name", facilityName, "Facility Details", DbResourceType.Observation.name)
+                        val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, "Facility Details", DbResourceType.Observation.name)
+
+
+                        val educationLevel = DbDataList("Level of Education", educationLevelValue, "Patient Details", DbResourceType.Observation.name)
+
+                        val nameClient = DbDataList("Client Name", clientName, "Patient Details", DbResourceType.Patient.name)
+                        val dateOfBirth = DbDataList("Date Of Birth", dob, "Patient Details", DbResourceType.Patient.name)
+                        val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, "Patient Details", DbResourceType.Patient.name)
+
+                        val gravidaData = DbDataList("Gravida", gravida, "Clinical Information", DbResourceType.Observation.name)
+                        val parityData = DbDataList("Parity", parity, "Clinical Information", DbResourceType.Observation.name)
+                        val heightData = DbDataList("Height", height, "Clinical Information", DbResourceType.Observation.name)
+                        val weightData = DbDataList("Weight", weight, "Clinical Information", DbResourceType.Observation.name)
+                        val eddData = DbDataList("Expected Date of Delivery", edd, "Clinical Information", DbResourceType.Observation.name)
+                        val lmpData = DbDataList("Last Menstrual Date", lmp, "Clinical Information", DbResourceType.Observation.name)
+
+                        dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
+                            gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage))
+
+                        val dbDataDetailsList = ArrayList<DbDataDetails>()
+                        val dbDataDetails = DbDataDetails(dbDataList)
+                        dbDataDetailsList.add(dbDataDetails)
+                        val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
+
+                        formatter.saveSharedPreference(requireContext(), "dob", dob)
+                        formatter.saveSharedPreference(requireContext(), "clientName", clientName)
+                        formatter.saveSharedPreference(requireContext(), "FHIRID", formatter.generateUuid())
+                        formatter.saveSharedPreference(requireContext(), "spinnerMaritalValue", spinnerMaritalValue)
+
+                        val ft = requireActivity().supportFragmentManager.beginTransaction()
+                        ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
+                            DbResourceViews.PATIENT_INFO.name))
+                        ft.addToBackStack(null)
+                        ft.commit()
+
+                        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+                    }else{
+                        Toast.makeText(requireContext(), "Please enter a valid anc", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+
                 }
 
-                val pncNo = if (!TextUtils.isEmpty(pnc)) {
-                    DbDataList("PNC Code", pnc, "Patient Details", DbResourceType.Observation.name)
-                }else{
-                    DbDataList("PNC Code", "", "Patient Details", DbResourceType.Observation.name)
-                }
 
-
-                val fhirId = formatter.generateUuid()
-                formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
-
-                val dbDataList = ArrayList<DbDataList>()
-
-                val dbDataFacName = DbDataList("Facility Name", facilityName, "Facility Details", DbResourceType.Observation.name)
-                val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, "Facility Details", DbResourceType.Observation.name)
-
-
-                val educationLevel = DbDataList("Level of Education", educationLevelValue, "Patient Details", DbResourceType.Observation.name)
-
-                val nameClient = DbDataList("Client Name", clientName, "Patient Details", DbResourceType.Patient.name)
-                val dateOfBirth = DbDataList("Date Of Birth", dob, "Patient Details", DbResourceType.Patient.name)
-                val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, "Patient Details", DbResourceType.Patient.name)
-
-                val gravidaData = DbDataList("Gravida", gravida, "Clinical Information", DbResourceType.Observation.name)
-                val parityData = DbDataList("Parity", parity, "Clinical Information", DbResourceType.Observation.name)
-                val heightData = DbDataList("Height", height, "Clinical Information", DbResourceType.Observation.name)
-                val weightData = DbDataList("Weight", weight, "Clinical Information", DbResourceType.Observation.name)
-                val eddData = DbDataList("Expected Date of Delivery", edd, "Clinical Information", DbResourceType.Observation.name)
-                val lmpData = DbDataList("Last Menstrual Date", lmp, "Clinical Information", DbResourceType.Observation.name)
-
-                dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
-                    gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage))
-
-                val dbDataDetailsList = ArrayList<DbDataDetails>()
-                val dbDataDetails = DbDataDetails(dbDataList)
-                dbDataDetailsList.add(dbDataDetails)
-                val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
-
-                formatter.saveSharedPreference(requireContext(), "dob", dob)
-                formatter.saveSharedPreference(requireContext(), "clientName", clientName)
-                formatter.saveSharedPreference(requireContext(), "FHIRID", formatter.generateUuid())
-
-                val ft = requireActivity().supportFragmentManager.beginTransaction()
-                ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
-                    DbResourceViews.PATIENT_INFO.name))
-                ft.addToBackStack(null)
-                ft.commit()
-
-                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
             }else{
 

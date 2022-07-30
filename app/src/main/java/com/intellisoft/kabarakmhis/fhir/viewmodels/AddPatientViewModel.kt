@@ -58,6 +58,8 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
             humanNameList.add(humanName)
             patient.name = humanNameList
 
+            Log.e("----ccc ", name)
+
             val birthDate = dbPatientFhirInformation.birthDate
             patient.birthDate = FormatterClass().convertStringToDate(birthDate)
 
@@ -79,6 +81,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 address.district = district
                 address.country = country
                 address.text = text
+
                 addressList.add(address)
 
             }

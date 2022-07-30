@@ -13,6 +13,8 @@ import com.google.android.fhir.search.Order
 import com.google.android.fhir.search.search
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.*
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbEncounter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbEncounterResult
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientData
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -80,53 +82,30 @@ class PatientDetailsViewModel(
         val kinPhone = if (patientResource.hasContact()) patientResource.contact[0].telecom[0].value else ""
         val phone = if (patientResource.hasTelecom()) patientResource.telecom[0].value else ""
 
-
-
         val encountersList = getEncounterDetails()
 
-//        val patientDetailList = mutableListOf<PatientProperty>()
+        val dbEncounterList = mutableListOf<DbEncounterResult>()
+        if (encountersList.isNotEmpty()) {
 
-//        patient.let {
-//
-//
-//
-//            val name = PatientProperty("Full name", it.name)
-//            val dob = PatientProperty("Date of birth", "it.dob.toString()")
-//            val gender = PatientProperty("Gender", "it.gender")
-//            val phone = PatientProperty("Phone", "it.phone")
-//            val city = PatientProperty("City", "it.city")
-//            val country = PatientProperty("Country", "it.country")
+            for (encounter in encountersList){
 
-//            patientDetailList.addAll(listOf(name, dob, gender, phone, city, country))
-//            val dbPatientData = DbPatientData(patientId, patientDetailList)
-//            dbPatientRecord.dbPatientData = dbPatientData
+                val encounterId = encounter.id
+                val lastUpdated = encounter.effective
+                val reasonCode = encounter.code
+                val value = encounter.value
+
+                FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
+                    value, encounterId)
+
+                val observationsList = getPatientObservations(encounterId)
+
+                val dbEncounter = DbEncounterResult(encounterId,value, lastUpdated, reasonCode, observationsList)
+                dbEncounterList.add(dbEncounter)
+
+            }
 
 
-//        }
-
-//        val dbEncounterList = mutableListOf<DbEncounter>()
-//
-//        if (encountersList.isNotEmpty()) {
-//
-//            for (encounter in encountersList){
-//
-//                val encounterId = encounter.id
-//                val lastUpdated = encounter.lastUpdated
-//                val reasonCode = encounter.reasonCode
-//                val text = encounter.text
-//                val observationsList = getPatientObservations(encounterId)
-//
-//                val dbEncounter = DbEncounter(encounterId,text, lastUpdated, reasonCode, observationsList)
-//                dbEncounterList.add(dbEncounter)
-//            }
-//
-//
-//        }
-//
-//        dbPatientRecord.dbEncounterList = dbEncounterList
-
-//        val dbPatientRecordLive = MutableLiveData<DbPatientRecord>()
-//        dbPatientRecordLive.value = dbPatientRecord
+        }
 
         return DbPatientRecord(
             id = patientId,
@@ -141,23 +120,54 @@ class PatientDetailsViewModel(
 
     }
 
+    fun getObservationsFromEncounter(encounterId: String) = runBlocking{
+        getPatientObservations(encounterId)
+    }
+
     //Get all observations for patient under the selected encounter
     private suspend fun getPatientObservations(encounterId: String): List<ObservationItem> {
 
         val observations = mutableListOf<ObservationItem>()
         fhirEngine
             .search<Observation> {
-                filter(
-                    Observation.ENCOUNTER,
-                    {value = "Encounter/$encounterId"}
-                )
+                filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
             }
             .take(Int.MAX_VALUE)
             .map { createObservationItem(it, getApplication<Application>().resources) }
             .let { observations.addAll(it) }
+
+//        Log.e("******* ", "*******")
+//        println("--patientId--$patientId")
+//        println(observations)
+
         return observations
     }
 
+    private suspend fun observationsPerCode(key: String): List<ObservationItem> {
+        val obs: MutableList<ObservationItem> = mutableListOf()
+        fhirEngine
+            .search<Observation> {
+                filter(
+                    Observation.CODE,
+                    {
+                        value = of(Coding().apply {
+                            system = "http://snomed.info/sct"
+                            code = key
+                        })
+                    })
+                filter(Observation.SUBJECT, { value = "Patient/$patientId" })
+                sort(Observation.DATE, Order.DESCENDING)
+            }
+            .take(5)
+            .map {
+                createObservationItem(
+                    it,
+                    getApplication<Application>().resources
+                )
+            }
+            .let { obs.addAll(it) }
+        return obs
+    }
 
     //Get all encounters under this patient
     private suspend fun getEncounterDetails():List<EncounterItem>{
@@ -171,10 +181,6 @@ class PatientDetailsViewModel(
             }
             .map { createEncounterItem(it, getApplication<Application>().resources) }
             .let { encounter.addAll(it) }
-
-//        Log.e("******* ", "*******")
-//        println("--patientId--$patientId")
-//        println(encounter)
 
         return encounter
     }
@@ -200,7 +206,9 @@ class PatientDetailsViewModel(
                     observation.valueQuantity.value.toString()
                 } else if (observation.hasValueCodeableConcept()) {
                     observation.valueCodeableConcept.coding.firstOrNull()?.display ?: ""
-                } else {
+                }else if (observation.hasValueStringType()) {
+                    observation.valueStringType.asStringValue().toString() ?: ""
+                }else {
                     ""
                 }
             val valueUnit =
@@ -211,11 +219,11 @@ class PatientDetailsViewModel(
                 }
             val valueString = "$value $valueUnit"
 
-//            Log.e("*_*_*_*_*","--------")
-//            Log.e("1",id)
-//            Log.e("2",code)
-//            Log.e("3",text)
-//            Log.e("4",valueString)
+//            Log.e("******* ", "*******")
+//            println("--id--$id")
+//            println("--code--$code")
+//            println("--text--$text")
+//            println("--valueString--$valueString")
 
             return ObservationItem(
                 id,
@@ -259,6 +267,11 @@ class PatientDetailsViewModel(
                 }else text ?: ""
 
             }
+
+            Log.e("*_*_*_*_*","--------")
+            Log.e("1",reasonCode)
+            Log.e("2",textValue)
+
 
 
 

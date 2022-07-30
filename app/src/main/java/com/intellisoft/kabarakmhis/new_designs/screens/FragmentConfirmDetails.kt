@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.os.bundleOf
@@ -55,16 +56,25 @@ class FragmentConfirmDetails : Fragment(){
     private val viewModel: AddPatientDetailsViewModel by viewModels()
     private lateinit var patientId : String
 
+    private lateinit var btnEditDetails: Button
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
 
+
         rootView = inflater.inflate(R.layout.frament_confirm, container, false)
+
+        btnEditDetails = rootView.findViewById(R.id.btnEditDetails)
 
         patientId = formatter.retrieveSharedPreference(requireContext(), "FHIRID").toString()
         fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        btnEditDetails.setOnClickListener {
+            fragmentManager?.popBackStack()
+        }
 
         updateArguments()
 

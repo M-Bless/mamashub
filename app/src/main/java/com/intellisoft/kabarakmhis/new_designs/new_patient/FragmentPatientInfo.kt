@@ -154,7 +154,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                     spinnerWardValue,
                     spinnerSubCountyValue,
                     spinnerCountyValue,
-                    "Kenya")
+                    "KENYA-KABARAK-MHIS")
                 addressList.add(address)
 
                 val kinContactList = ArrayList<DbKinDetails>()
@@ -169,6 +169,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                 val telecomList = ArrayList<DbTelecom>()
                 val dbTelecom1 = DbTelecom("phone", telephoneName)
                 telecomList.add(dbTelecom1)
+
+                Log.e("clientName", clientName)
 
                 val dbPatientFhirInformation = DbPatientFhirInformation(
                     clientName, telecomList,"female", dob, addressList,

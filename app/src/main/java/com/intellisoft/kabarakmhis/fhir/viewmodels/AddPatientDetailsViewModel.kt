@@ -171,11 +171,10 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         encounterReason: String
     ) {
 
+        Log.e("-----3 Obse ", dataCodeList.toString())
+
         viewModelScope.launch {
-            val bundle =
-                ResourceMapper.extract(
-                    questionnaireResource,
-                    questionnaireResponse)
+            val bundle = ResourceMapper.extract(questionnaireResource, questionnaireResponse)
 
             val questionnaireHelper = QuestionnaireHelper()
             dataCodeList.forEach {
@@ -188,8 +187,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                         )
                     )
                     .request.url = "Observation"
-
-                Log.e("-----1 Obse ", dataCodeList.toString())
             }
             dataQuantityList.forEach {
                 bundle.addEntry()
@@ -203,8 +200,10 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                         )
                     )
                     .request.url = "Observation"
-                Log.e("-----2 Obse ", dataQuantityList.toString())
             }
+
+            Log.e("-----1 Obse ", dataCodeList.toString())
+            Log.e("-----2 Obse ", dataQuantityList.toString())
 
             saveResources(bundle, patientReference, encounterId, encounterReason)
 

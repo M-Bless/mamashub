@@ -5,10 +5,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 
@@ -29,6 +34,10 @@ class AntenatalProfileView : AppCompatActivity() {
     private val formatter = FormatterClass()
     private val retrofitCallsFhir = RetrofitCallsFhir()
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_antenatal_profile_view)
@@ -36,6 +45,14 @@ class AntenatalProfileView : AppCompatActivity() {
         title = "Antenatal Profile Details"
 
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
+
 
         recyclerView = findViewById(R.id.patient_list);
         layoutManager = LinearLayoutManager(
@@ -68,8 +85,8 @@ class AntenatalProfileView : AppCompatActivity() {
             DbResourceViews.ANTENATAL_PROFILE.name)
         if (encounterId != null) {
 
-            val observationList = retrofitCallsFhir.getEncounterDetails(this@AntenatalProfileView,
-                encounterId, DbResourceViews.ANTENATAL_PROFILE.name)
+            val observationList =
+                patientDetailsViewModel.getObservationsFromEncounter(encounterId)
 
             CoroutineScope(Dispatchers.Main).launch {
                 if (!observationList.isNullOrEmpty()){
@@ -84,8 +101,14 @@ class AntenatalProfileView : AppCompatActivity() {
 
                 for(item in observationList){
 
-                    val code = item.title
+                    val code = item.text
                     val display = item.value
+
+
+                    Log.e("----code ", code.toString())
+                    Log.e("----display ", display.toString())
+
+
 
 //                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
 
