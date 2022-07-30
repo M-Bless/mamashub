@@ -3,6 +3,7 @@ package com.intellisoft.kabarakmhis.new_designs.roomdb
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientData
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.PatientData
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +27,14 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
 
     fun insertInfo(context: Context, dbPatientData: DbPatientData) {
         repository.insertPatientDataInfo(context, dbPatientData)
+    }
+
+    fun insertFhirEncounter(context: Context, dbFhirEncounter: DbFhirEncounter){
+        repository.insertFhirEncounter(context, dbFhirEncounter)
+    }
+
+    fun getFhirEncounter(context: Context, encounterType: String)= runBlocking {
+        repository.getFhirEncounter(context, encounterType)
     }
 
     fun insertCounty(context: Context) {

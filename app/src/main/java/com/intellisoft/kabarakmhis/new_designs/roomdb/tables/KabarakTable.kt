@@ -42,3 +42,17 @@ data class SubCounty(
         @PrimaryKey(autoGenerate = true)
         var id: Int? = null
 }
+@Entity(tableName = "fhir_encounter")
+data class FhirEncounter(
+
+        var encounterId: String ,
+        var encounterName: String ,
+        var encounterType: String ,
+        var fhirId: String ,
+        var loggedUserId: String ,
+
+        ){
+
+        @PrimaryKey(autoGenerate = true)
+        var id: Int? = null
+}

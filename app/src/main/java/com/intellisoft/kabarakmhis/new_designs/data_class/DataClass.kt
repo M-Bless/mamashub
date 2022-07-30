@@ -176,6 +176,8 @@ enum class DbResourceViews {
     PRESENT_PREGNANCY,
     WEIGHT_MONITORING,
 
+    TETENUS_DIPTHERIA,
+
     IFAS,
     IFAS1,
     IFAS2,
@@ -257,7 +259,11 @@ data class DbKinDetails(
     val telecom: List<DbTelecom>
 )
 
-
+data class DbFhirEncounter(
+    val id: String,
+    val encounterName: String,
+    val encounterType: String
+)
 
 
 

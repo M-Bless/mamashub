@@ -13,15 +13,16 @@ import com.google.android.fhir.search.Order
 import com.google.android.fhir.search.search
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.*
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbEncounter
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbEncounterResult
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientData
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.FhirEncounter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.hl7.fhir.r4.model.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 @RequiresApi(Build.VERSION_CODES.O)
 class PatientDetailsViewModel(
@@ -69,6 +70,7 @@ class PatientDetailsViewModel(
 
     private suspend fun getPatientDetailDataModel():DbPatientRecord{
 
+        val kabarakViewModel = KabarakViewModel(getApplication())
         val patientResource = getPatientResource()
 
         val patientId = if (patientResource.hasIdElement()) patientResource.idElement.idPart else ""
@@ -87,6 +89,8 @@ class PatientDetailsViewModel(
         val dbEncounterList = mutableListOf<DbEncounterResult>()
         if (encountersList.isNotEmpty()) {
 
+            val tetanusList = ArrayList<DbFhirEncounter>()
+
             for (encounter in encountersList){
 
                 val encounterId = encounter.id
@@ -101,6 +105,26 @@ class PatientDetailsViewModel(
 
                 val dbEncounter = DbEncounterResult(encounterId,value, lastUpdated, reasonCode, observationsList)
                 dbEncounterList.add(dbEncounter)
+
+                Log.e("encounterId", value)
+
+                if (value == DbResourceViews.TETENUS_DIPTHERIA.name){
+
+                    val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.TETENUS_DIPTHERIA.name)
+                    tetanusList.add(dbFhirEncounter)
+                }
+
+            }
+
+            tetanusList.forEachIndexed { index, dbFhirEncounter ->
+
+                val tetanusNo = "TT${index + 1}"
+                val encounterId = dbFhirEncounter.id
+                val encounterName = dbFhirEncounter.encounterName
+                val encounterType = dbFhirEncounter.encounterType
+
+                val dbFhirEncounterDetails = DbFhirEncounter(encounterId, tetanusNo, encounterType)
+                kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
 
             }
 
@@ -119,6 +143,7 @@ class PatientDetailsViewModel(
         )
 
     }
+
 
     fun getObservationsFromEncounter(encounterId: String) = runBlocking{
         getPatientObservations(encounterId)
@@ -184,6 +209,8 @@ class PatientDetailsViewModel(
 
         return encounter
     }
+
+
 
     companion object{
 
@@ -270,7 +297,6 @@ class PatientDetailsViewModel(
 
             Log.e("*_*_*_*_*","--------")
             Log.e("1",reasonCode)
-            Log.e("2",textValue)
 
 
 

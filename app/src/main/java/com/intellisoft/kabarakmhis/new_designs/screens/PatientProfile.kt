@@ -99,6 +99,11 @@ class PatientProfile : AppCompatActivity() {
         getPatientData()
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        getPatientData()
+    }
+
 
 
     private fun navigate() {

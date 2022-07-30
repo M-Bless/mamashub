@@ -183,10 +183,10 @@ class PreventiveService : AppCompatActivity() {
 
         val dbDataDetails = DbDataDetails(dbDataList)
         dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.PREVENTIVE_SERVICE.name, dbDataDetailsList)
+        val dbPatientData = DbPatientData(DbResourceViews.TETENUS_DIPTHERIA.name, dbDataDetailsList)
         kabarakViewModel.insertInfo(this, dbPatientData)
 
-        formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.PREVENTIVE_SERVICE.name)
+        formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.TETENUS_DIPTHERIA.name)
 
         val intent = Intent(this, ConfirmPage::class.java)
         startActivity(intent)

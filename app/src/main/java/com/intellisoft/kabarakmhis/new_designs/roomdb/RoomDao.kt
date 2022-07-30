@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.TypeConverters
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.County
+import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.FhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.PatientData
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.SubCounty
 
@@ -81,8 +82,14 @@ interface RoomDao {
     @Query("SELECT * from sub_county WHERE constituencyName =:constituencyName")
     fun getWards(constituencyName: String): List<SubCounty>
 
+    @Query("SELECT EXISTS (SELECT 1 FROM fhir_encounter WHERE loggedUserId =:userId AND fhirId =:fhirId AND encounterId =:encounterId )")
+    fun checkFhirEncounter(userId: String, encounterId: String, fhirId: String): Boolean
 
+    @Insert
+    fun addFhirEncounter(fhirEncounter: FhirEncounter)
 
+    @Query("SELECT * FROM fhir_encounter WHERE loggedUserId =:userId AND fhirId =:fhirId AND encounterType =:encounterType")
+    fun getFhirEncounters(userId: String, encounterType: String, fhirId: String): List<FhirEncounter>
 
 
 }

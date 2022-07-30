@@ -4,11 +4,9 @@ import android.content.Context
 import android.provider.SyncStateContract
 import android.util.Log
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbConfirmDetails
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientData
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbTypeDataValue
+import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.County
+import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.FhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.PatientData
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.SubCounty
 import kotlinx.coroutines.*
@@ -27,6 +25,43 @@ class KabarakRepository(private val roomDao: RoomDao) {
         return FormatterClass().retrieveSharedPreference(context, sharedKey)
     }
 
+    fun insertFhirEncounter(context: Context, dbFhirEncounter: DbFhirEncounter){
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val encounterId = dbFhirEncounter.id
+            val encounterName = dbFhirEncounter.encounterName
+            val encounterType = dbFhirEncounter.encounterType
+
+            val loggedInUser = getSharedPref(context, "USERID").toString()
+            val fhirId = getSharedPref(context, "FHIRID").toString()
+
+            val isFhirEncounter = roomDao.checkFhirEncounter(loggedInUser, encounterId, fhirId)
+
+            if (!isFhirEncounter){
+                val fhirEncounter = FhirEncounter(
+                    encounterId = encounterId,
+                    encounterName = encounterName,
+                    encounterType = encounterType,
+                    fhirId = fhirId,
+                    loggedUserId = loggedInUser
+                )
+                roomDao.addFhirEncounter(fhirEncounter)
+
+                Log.e("KabarakRepository", "FhirEncounter added")
+            }
+            Log.e("KabarakRepository", "FhirEncounter xxx")
+
+        }
+    }
+
+    suspend fun getFhirEncounter(context: Context, encounterType: String): List<FhirEncounter> {
+        return withContext(Dispatchers.IO) {
+            val loggedInUser = getSharedPref(context, "USERID").toString()
+            val fhirId = getSharedPref(context, "FHIRID").toString()
+            return@withContext roomDao.getFhirEncounters(loggedInUser,encounterType, fhirId)
+        }
+    }
 
     fun insertPatientDataInfo(context: Context, dbPatientData: DbPatientData){
 
