@@ -7,51 +7,55 @@
     tools:context=".new_designs.deworming.DewormingView">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btnAddDeworming"
-            android:layout_marginEnd="@dimen/_5dp"
-            android:layout_marginTop="@dimen/_5dp"
-            android:layout_gravity="end"
-            android:textAllCaps="false"
-            android:text="Add Deworming"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_marginEnd="@dimen/_5dp"
+            android:text="Add Deworming"
+            android:textAllCaps="false" />
 
         <View
-            android:layout_marginTop="10dp"
-            android:background="@color/primary"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/primary" />
 
         <LinearLayout
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                android:textStyle="bold"
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primary" />
+                android:textColor="@color/primary"
+                android:textStyle="bold" />
 
             <TextView
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:text=""
                 android:id="@+id/tvValue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/no_record"
+        layout="@layout/no_record" />
 
 </RelativeLayout>

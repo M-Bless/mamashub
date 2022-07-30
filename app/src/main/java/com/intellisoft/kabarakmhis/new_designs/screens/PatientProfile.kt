@@ -92,8 +92,11 @@ class PatientProfile : AppCompatActivity() {
         tvKinName.text = kinName
         tvKinDetails.text = kinPhone
 
+    }
 
-
+    override fun onResume() {
+        super.onResume()
+        getPatientData()
     }
 
 

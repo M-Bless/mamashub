@@ -54,4 +54,8 @@
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/no_record"
+        layout="@layout/no_record" />
+
 </RelativeLayout>
