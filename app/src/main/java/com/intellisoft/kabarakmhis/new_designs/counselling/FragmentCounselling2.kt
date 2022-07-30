@@ -54,7 +54,7 @@ class FragmentCounselling2 : Fragment() {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnNext.text = "Confirm"
         rootView.navigation.btnPrevious.text = "Cancel"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }

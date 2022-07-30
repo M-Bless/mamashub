@@ -156,6 +156,20 @@ class FormatterClass {
         val formattedDate = targetFormat.format(date)
         return formattedDate
     }
+    fun convertFhirDate(convertDate: String): String? {
+
+        Log.e("=======", "======")
+
+
+        val originalFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+        val targetFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date = originalFormat.parse(convertDate)
+
+        println(convertDate)
+        println(date)
+
+        return date?.let { targetFormat.format(it) }
+    }
 
     fun calculateGestation(lmpDate: String): String {
 

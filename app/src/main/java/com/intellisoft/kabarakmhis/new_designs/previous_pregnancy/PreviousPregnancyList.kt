@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.previous_pregnancy
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,7 +13,10 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.adapter.FhirEncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria.PreventiveService
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
@@ -25,7 +29,8 @@ class PreviousPregnancyList : AppCompatActivity() {
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private val formatter = FormatterClass()
-    
+    private lateinit var kabarakViewModel: KabarakViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_pregnancy_list)
@@ -36,6 +41,7 @@ class PreviousPregnancyList : AppCompatActivity() {
             startActivity(Intent(this, PreviousPregnancy::class.java))
         }
 
+        kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
 
         layoutManager = LinearLayoutManager(
@@ -53,24 +59,41 @@ class PreviousPregnancyList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
-            if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@PreviousPregnancyList, encounterId, DbResourceViews.PREVIOUS_PREGNANCY.name)
-                CoroutineScope(Dispatchers.Main).launch {
 
-                    if (!observationList.isNullOrEmpty()){
-                        no_record.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                    }else{
-                        no_record.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
-                    }
 
-                    val configurationListingAdapter = EncounterAdapter(
-                        observationList,this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
-                    recyclerView.adapter = configurationListingAdapter
+            val observationList = kabarakViewModel.getFhirEncounter(this@PreviousPregnancyList,
+                DbResourceViews.PREVIOUS_PREGNANCY.name)
+
+            CoroutineScope(Dispatchers.Main).launch {
+
+                if (observationList.isNotEmpty()){
+                    no_record.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }else{
+                    no_record.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
                 }
+
+                val encounterList = ArrayList<DbFhirEncounter>()
+                observationList.forEach {
+
+                    val id = it.encounterId.toString()
+                    val encounterName = it.encounterName
+                    val encounterType = it.encounterType
+
+                    val dbFhirEncounter = DbFhirEncounter(
+                        id = id,
+                        encounterName = encounterName,
+                        encounterType = encounterType
+                    )
+                    encounterList.add(dbFhirEncounter)
+                }
+
+                val configurationListingAdapter = FhirEncounterAdapter(
+                    encounterList,this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
+                recyclerView.adapter = configurationListingAdapter
             }
+
 
 
 

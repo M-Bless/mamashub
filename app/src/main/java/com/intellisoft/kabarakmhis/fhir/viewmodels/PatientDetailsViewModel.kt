@@ -90,6 +90,12 @@ class PatientDetailsViewModel(
         if (encountersList.isNotEmpty()) {
 
             val tetanusList = ArrayList<DbFhirEncounter>()
+            val physicalExamList = ArrayList<DbFhirEncounter>()
+            val previousPregList = ArrayList<DbFhirEncounter>()
+            val clinicalNoteList = ArrayList<DbFhirEncounter>()
+            val presentPregList = ArrayList<DbFhirEncounter>()
+            val malariaProphylaxisList = ArrayList<DbFhirEncounter>()
+            val ifasList = ArrayList<DbFhirEncounter>()
 
             for (encounter in encountersList){
 
@@ -97,6 +103,8 @@ class PatientDetailsViewModel(
                 val lastUpdated = encounter.effective
                 val reasonCode = encounter.code
                 val value = encounter.value
+
+                Log.e("lastUpdated", lastUpdated.toString())
 
                 FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
                     value, encounterId)
@@ -106,12 +114,43 @@ class PatientDetailsViewModel(
                 val dbEncounter = DbEncounterResult(encounterId,value, lastUpdated, reasonCode, observationsList)
                 dbEncounterList.add(dbEncounter)
 
-                Log.e("encounterId", value)
 
-                if (value == DbResourceViews.TETENUS_DIPTHERIA.name){
+                when (value) {
+                    DbResourceViews.TETENUS_DIPTHERIA.name -> {
+                        val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.TETENUS_DIPTHERIA.name)
+                        tetanusList.add(dbFhirEncounter)
+                    }
+                    DbResourceViews.PHYSICAL_EXAMINATION.name -> {
 
-                    val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.TETENUS_DIPTHERIA.name)
-                    tetanusList.add(dbFhirEncounter)
+                        val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.PHYSICAL_EXAMINATION.name)
+                        physicalExamList.add(dbFhirEncounter)
+                    }
+                    DbResourceViews.PREVIOUS_PREGNANCY.name -> {
+
+                        val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.PREVIOUS_PREGNANCY.name)
+                        previousPregList.add(dbFhirEncounter)
+                    }
+                    DbResourceViews.CLINICAL_NOTES.name -> {
+
+                        val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.CLINICAL_NOTES.name)
+                        clinicalNoteList.add(dbFhirEncounter)
+                    }
+                    DbResourceViews.PRESENT_PREGNANCY.name -> {
+
+                        val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.PRESENT_PREGNANCY.name)
+                        presentPregList.add(dbFhirEncounter)
+                    }
+                    DbResourceViews.MALARIA_PROPHYLAXIS.name -> {
+
+                        val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.MALARIA_PROPHYLAXIS.name)
+                        malariaProphylaxisList.add(dbFhirEncounter)
+                    }
+                    DbResourceViews.IFAS.name -> {
+
+                        val dbFhirEncounter = DbFhirEncounter(encounterId, value, DbResourceViews.IFAS.name)
+                        ifasList.add(dbFhirEncounter)
+                    }
+
                 }
 
             }
@@ -125,6 +164,186 @@ class PatientDetailsViewModel(
 
                 val dbFhirEncounterDetails = DbFhirEncounter(encounterId, tetanusNo, encounterType)
                 kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
+
+            }
+            physicalExamList.forEachIndexed { index, dbFhirEncounter ->
+
+                val encounterNameDetail = when (index + 1) {
+                    1 -> {
+                        "First Visit"
+                    }
+                    2 -> {
+                        "Second Visit"
+                    }
+                    3 -> {
+                        "Third Visit"
+                    }
+                    4 -> {
+                        "Fourth Visit"
+                    }
+                    5 -> {
+                        "Fifth Visit"
+                    }
+                    6 -> {
+                        "Sixth Visit"
+                    }
+                    7 -> {
+                        "Seventh Visit"
+                    }
+                    8 -> {
+                        "Eighth Visit"
+                    }
+                    9 -> {
+                        "Ninth Visit"
+                    }
+                    10 -> {
+                        "Tenth Visit"
+                    }
+                    else -> {
+                        "Nth Visit"
+                    }
+                }
+
+                val encounterId = dbFhirEncounter.id
+                val encounterName = dbFhirEncounter.encounterName
+                val encounterType = dbFhirEncounter.encounterType
+
+                val dbFhirEncounterDetails = DbFhirEncounter(encounterId, encounterNameDetail, encounterType)
+                kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
+
+            }
+            previousPregList.forEachIndexed { index, dbFhirEncounter ->
+
+                val encounterNameDetail = when (index + 1) {
+                    1 -> {
+                        "First pregnancy"
+                    }
+                    2 -> {
+                        "Second pregnancy"
+                    }
+                    3 -> {
+                        "Third pregnancy"
+                    }
+                    4 -> {
+                        "Fourth pregnancy"
+                    }
+                    5 -> {
+                        "Fifth pregnancy"
+                    }
+                    6 -> {
+                        "Sixth pregnancy"
+                    }
+                    7 -> {
+                        "Seventh pregnancy"
+                    }
+                    8 -> {
+                        "Eighth pregnancy"
+                    }
+                    9 -> {
+                        "Ninth pregnancy"
+                    }
+                    10 -> {
+                        "Tenth pregnancy"
+                    }
+                    else -> {
+                        "Nth pregnancy"
+                    }
+                }
+
+                val encounterId = dbFhirEncounter.id
+                val encounterName = dbFhirEncounter.encounterName
+                val encounterType = dbFhirEncounter.encounterType
+
+                val dbFhirEncounterDetails = DbFhirEncounter(encounterId, encounterNameDetail, encounterType)
+                kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
+
+            }
+            presentPregList.forEachIndexed { index, dbFhirEncounter ->
+
+                val encounterNameDetail = when (index + 1) {
+                    1 -> {
+                        "1st Contact"
+                    }
+                    2 -> {
+                        "2nd Contact"
+                    }
+                    3 -> {
+                        "3rd Contact"
+                    }
+                    4 -> {
+                        "4th Contact"
+                    }
+                    5 -> {
+                        "5th Contact"
+                    }
+                    6 -> {
+                        "6th Contact"
+                    }
+                    7 -> {
+                        "7th Contact"
+                    }
+                    8 -> {
+                        "8th Contact"
+                    }
+                    9 -> {
+                        "9th Contact"
+                    }
+                    10 -> {
+                        "10th Contact"
+                    }
+                    else -> {
+                        "Nth Contact"
+                    }
+                }
+
+                val encounterId = dbFhirEncounter.id
+                val encounterName = dbFhirEncounter.encounterName
+                val encounterType = dbFhirEncounter.encounterType
+
+                val dbFhirEncounterDetails = DbFhirEncounter(encounterId, encounterNameDetail, encounterType)
+                kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
+
+            }
+            malariaProphylaxisList.forEachIndexed { index, dbFhirEncounter ->
+
+                val encounterNameDetail = "ANC Contact ${index + 1}"
+
+                val encounterId = dbFhirEncounter.id
+                val encounterName = dbFhirEncounter.encounterName
+                val encounterType = dbFhirEncounter.encounterType
+
+                val dbFhirEncounterDetails = DbFhirEncounter(encounterId, encounterNameDetail, encounterType)
+                kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
+
+            }
+            ifasList.forEachIndexed { index, dbFhirEncounter ->
+
+                val encounterNameDetail = if (index == 0) {
+                     "First Contact Before ANC"
+                } else {
+                    "ANC Contact ${index + 1}"
+                }
+
+                val encounterId = dbFhirEncounter.id
+                val encounterName = dbFhirEncounter.encounterName
+                val encounterType = dbFhirEncounter.encounterType
+
+                val dbFhirEncounterDetails = DbFhirEncounter(encounterId, encounterNameDetail, encounterType)
+                kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
+
+            }
+            clinicalNoteList.forEachIndexed { index, dbFhirEncounter ->
+
+                val encounterNameDetail = "Clinical Note ${index + 1}"
+
+                val encounterId = dbFhirEncounter.id
+                val encounterName = dbFhirEncounter.encounterName
+                val encounterType = dbFhirEncounter.encounterType
+
+                val dbFhirEncounterDetails = DbFhirEncounter(encounterId, encounterNameDetail, encounterType)
+                kabarakViewModel.insertFhirEncounter(getApplication<Application>().applicationContext, dbFhirEncounterDetails)
+
+
 
             }
 
@@ -273,9 +492,7 @@ class PatientDetailsViewModel(
             val encounterLocation = encounter.location.firstOrNull()?.location?.display ?: ""
             val encounterStatus = encounter.status.display
 
-            var lastUpdatedValue = ""
-            val lastUpdated = encounter.meta.lastUpdated
-            lastUpdatedValue = lastUpdated?.toString() ?: ""
+            val lastUpdatedValue = encounter.meta
 
             val reasonCode = encounter.reasonCode.firstOrNull()?.text ?: ""
 
@@ -295,16 +512,11 @@ class PatientDetailsViewModel(
 
             }
 
-            Log.e("*_*_*_*_*","--------")
-            Log.e("1",reasonCode)
-
-
-
 
             return EncounterItem(
                 encounter.logicalId,
                 textValue,
-                lastUpdatedValue,
+                "lastUpdatedValue",
                 reasonCode
             )
         }

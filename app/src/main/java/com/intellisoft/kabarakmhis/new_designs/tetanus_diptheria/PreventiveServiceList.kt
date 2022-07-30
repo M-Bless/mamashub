@@ -77,7 +77,8 @@ class PreventiveServiceList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val observationList = kabarakViewModel.getFhirEncounter(this@PreventiveServiceList, DbResourceViews.TETENUS_DIPTHERIA.name)
+            val observationList = kabarakViewModel.getFhirEncounter(this@PreventiveServiceList,
+                DbResourceViews.TETENUS_DIPTHERIA.name)
 
             CoroutineScope(Dispatchers.Main).launch {
 
@@ -92,7 +93,7 @@ class PreventiveServiceList : AppCompatActivity() {
                 val encounterList = ArrayList<DbFhirEncounter>()
                 observationList.forEach {
 
-                    val id = it.id.toString()
+                    val id = it.encounterId.toString()
                     val encounterName = it.encounterName
                     val encounterType = it.encounterType
 

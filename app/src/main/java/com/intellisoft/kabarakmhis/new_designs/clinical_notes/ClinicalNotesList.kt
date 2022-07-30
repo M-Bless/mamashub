@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.clinical_notes
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,9 +13,15 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.adapter.FhirEncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_clinical_notes_list.*
+import kotlinx.android.synthetic.main.activity_clinical_notes_list.no_record
+import kotlinx.android.synthetic.main.activity_clinical_notes_list.recyclerView
+import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,6 +31,7 @@ class ClinicalNotesList : AppCompatActivity() {
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private val formatter = FormatterClass()
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,7 @@ class ClinicalNotesList : AppCompatActivity() {
             startActivity(Intent(this, ClinicalNotesAdd::class.java))
 
         }
+        kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         layoutManager = LinearLayoutManager(
             this,
@@ -51,23 +60,37 @@ class ClinicalNotesList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@ClinicalNotesList, DbResourceViews.CLINICAL_NOTES.name)
-            if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@ClinicalNotesList, encounterId, DbResourceViews.CLINICAL_NOTES.name)
-                CoroutineScope(Dispatchers.Main).launch {
+            val observationList = kabarakViewModel.getFhirEncounter(this@ClinicalNotesList,
+                DbResourceViews.CLINICAL_NOTES.name)
 
-                    if (!observationList.isNullOrEmpty()){
-                        no_record.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                    }else{
-                        no_record.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
-                    }
+            CoroutineScope(Dispatchers.Main).launch {
 
-                    val configurationListingAdapter = EncounterAdapter(
-                        observationList,this@ClinicalNotesList, DbResourceViews.CLINICAL_NOTES.name)
-                    recyclerView.adapter = configurationListingAdapter
+                if (observationList.isNotEmpty()){
+                    no_record.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }else{
+                    no_record.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
                 }
+
+                val encounterList = ArrayList<DbFhirEncounter>()
+                observationList.forEach {
+
+                    val id = it.encounterId.toString()
+                    val encounterName = it.encounterName
+                    val encounterType = it.encounterType
+
+                    val dbFhirEncounter = DbFhirEncounter(
+                        id = id,
+                        encounterName = encounterName,
+                        encounterType = encounterType
+                    )
+                    encounterList.add(dbFhirEncounter)
+                }
+
+                val configurationListingAdapter = FhirEncounterAdapter(
+                    encounterList,this@ClinicalNotesList, DbResourceViews.CLINICAL_NOTES.name)
+                recyclerView.adapter = configurationListingAdapter
             }
 
 

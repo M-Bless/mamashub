@@ -106,7 +106,7 @@ class FragmentAntenatal4 : Fragment() {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Next"
+        rootView.navigation.btnNext.text = "Confirm"
         rootView.navigation.btnPrevious.text = "Save"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }

@@ -109,7 +109,7 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
 
                     for (item in observationList) {
 
-                        val code = item.code
+                        val code = item.text
                         val display = item.value
 
                         Log.e("----code ", code.toString())

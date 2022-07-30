@@ -14,11 +14,15 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.adapter.FhirEncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis_list.*
+import kotlinx.android.synthetic.main.activity_malaria_prophylaxis_list.no_record
+import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,25 +63,38 @@ class MalariaProphylaxisList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@MalariaProphylaxisList, DbResourceViews.MALARIA_PROPHYLAXIS.name)
-            if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@MalariaProphylaxisList, encounterId, DbResourceViews.MALARIA_PROPHYLAXIS.name)
-                CoroutineScope(Dispatchers.Main).launch {
 
-                    if (!observationList.isNullOrEmpty()){
-                        no_record.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                    }else{
-                        no_record.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
-                    }
+            val observationList = kabarakViewModel.getFhirEncounter(this@MalariaProphylaxisList,
+                DbResourceViews.MALARIA_PROPHYLAXIS.name)
 
-                    Log.e("----- ", observationList.toString())
+            CoroutineScope(Dispatchers.Main).launch {
 
-                    val configurationListingAdapter = EncounterAdapter(
-                        observationList,this@MalariaProphylaxisList, DbResourceViews.MALARIA_PROPHYLAXIS.name)
-                    recyclerView.adapter = configurationListingAdapter
+                if (observationList.isNotEmpty()){
+                    no_record.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }else{
+                    no_record.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
                 }
+
+                val encounterList = ArrayList<DbFhirEncounter>()
+                observationList.forEach {
+
+                    val id = it.encounterId.toString()
+                    val encounterName = it.encounterName
+                    val encounterType = it.encounterType
+
+                    val dbFhirEncounter = DbFhirEncounter(
+                        id = id,
+                        encounterName = encounterName,
+                        encounterType = encounterType
+                    )
+                    encounterList.add(dbFhirEncounter)
+                }
+
+                val configurationListingAdapter = FhirEncounterAdapter(
+                    encounterList,this@MalariaProphylaxisList, DbResourceViews.MALARIA_PROPHYLAXIS.name)
+                recyclerView.adapter = configurationListingAdapter
             }
 
 

@@ -68,7 +68,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Save"
+        rootView.navigation.btnNext.text = "Confirm"
         rootView.navigation.btnPrevious.text = "Cancel"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }

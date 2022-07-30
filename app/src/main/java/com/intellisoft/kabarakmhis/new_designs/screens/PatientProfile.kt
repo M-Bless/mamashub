@@ -78,19 +78,27 @@ class PatientProfile : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getPatientData() {
 
-        val patientData = patientDetailsViewModel.getPatientData()
+        CoroutineScope(Dispatchers.IO).launch {
 
-        val patientName = patientData.name
-        val dob = patientData.dob
 
-        val kinName = patientData.kinData.name
-        val kinPhone = patientData.kinData.phone
+            val patientData = patientDetailsViewModel.getPatientData()
 
-        tvName.text = patientName
-        tvAge.text = dob
+            val patientName = patientData.name
+            val dob = patientData.dob
 
-        tvKinName.text = kinName
-        tvKinDetails.text = kinPhone
+            val kinName = patientData.kinData.name
+            val kinPhone = patientData.kinData.phone
+            CoroutineScope(Dispatchers.Main).launch {
+                tvName.text = patientName
+                tvAge.text = dob
+
+                tvKinName.text = kinName
+                tvKinDetails.text = kinPhone
+            }
+
+
+        }
+
 
     }
 

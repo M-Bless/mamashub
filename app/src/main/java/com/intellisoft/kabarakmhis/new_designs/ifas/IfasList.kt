@@ -14,10 +14,14 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.adapter.FhirEncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_ifas_list.*
+import kotlinx.android.synthetic.main.activity_ifas_list.no_record
+import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,28 +62,39 @@ class IfasList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@IfasList, DbResourceViews.IFAS.name)
-            if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@IfasList, encounterId, DbResourceViews.IFAS.name)
-                CoroutineScope(Dispatchers.Main).launch {
+            val observationList = kabarakViewModel.getFhirEncounter(this@IfasList,
+                DbResourceViews.IFAS.name)
 
-                    if (!observationList.isNullOrEmpty()){
-                        no_record.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
+            CoroutineScope(Dispatchers.Main).launch {
 
-                    }else{
-
-                        no_record.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
-                    }
-
-                    Log.e("----- ", observationList.toString())
-
-                    val configurationListingAdapter = EncounterAdapter(
-                        observationList,this@IfasList, DbResourceViews.IFAS.name)
-                    recyclerView.adapter = configurationListingAdapter
+                if (observationList.isNotEmpty()){
+                    no_record.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }else{
+                    no_record.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
                 }
+
+                val encounterList = ArrayList<DbFhirEncounter>()
+                observationList.forEach {
+
+                    val id = it.encounterId.toString()
+                     val encounterName = it.encounterName
+                    val encounterType = it.encounterType
+
+                    val dbFhirEncounter = DbFhirEncounter(
+                        id = id,
+                        encounterName = encounterName,
+                        encounterType = encounterType
+                    )
+                    encounterList.add(dbFhirEncounter)
+                }
+
+                val configurationListingAdapter = FhirEncounterAdapter(
+                    encounterList,this@IfasList, DbResourceViews.IFAS.name)
+                recyclerView.adapter = configurationListingAdapter
             }
+
 
 
 

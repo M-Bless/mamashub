@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.new_designs.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,7 @@ class FhirEncounterAdapter(private var entryList: ArrayList<DbFhirEncounter>,
             val pos = adapterPosition
             val id = entryList[pos].id
 
-            FormatterClass().saveSharedPreference(context, "observationId", id)
+            Log.e("xxxxx" , id)
 
             if (encounterType == DbResourceViews.PRESENT_PREGNANCY.name){
                 context.startActivity(Intent(context, PresentPregnancyView::class.java))
@@ -64,7 +65,7 @@ class FhirEncounterAdapter(private var entryList: ArrayList<DbFhirEncounter>,
             if (encounterType == DbResourceViews.IFAS.name){
                 context.startActivity(Intent(context, IfasView2::class.java))
             }
-
+            FormatterClass().saveSharedPreference(context, encounterType, id)
 
 
         }

@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.present_pregnancy
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,10 +13,16 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
+import com.intellisoft.kabarakmhis.new_designs.adapter.FhirEncounterAdapter
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesAdd
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_present_pregnancy_list.*
+import kotlinx.android.synthetic.main.activity_present_pregnancy_list.no_record
+import kotlinx.android.synthetic.main.activity_present_pregnancy_list.recyclerView
+import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +32,7 @@ class PresentPregnancyList : AppCompatActivity() {
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private val formatter = FormatterClass()
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +45,7 @@ class PresentPregnancyList : AppCompatActivity() {
             startActivity(Intent(this, PresentPregnancyAdd::class.java))
 
         }
+        kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         layoutManager = LinearLayoutManager(
             this,
@@ -52,23 +61,38 @@ class PresentPregnancyList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@PresentPregnancyList, DbResourceViews.PRESENT_PREGNANCY.name)
-            if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@PresentPregnancyList, encounterId, DbResourceViews.PRESENT_PREGNANCY.name)
-                CoroutineScope(Dispatchers.Main).launch {
 
-                    if (!observationList.isNullOrEmpty()){
-                        no_record.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                    }else{
-                        no_record.visibility = View.VISIBLE
-                        recyclerView.visibility = View.GONE
-                    }
+            val observationList = kabarakViewModel.getFhirEncounter(this@PresentPregnancyList,
+                DbResourceViews.PRESENT_PREGNANCY.name)
 
-                    val configurationListingAdapter = EncounterAdapter(
-                        observationList,this@PresentPregnancyList,DbResourceViews.PRESENT_PREGNANCY.name)
-                    recyclerView.adapter = configurationListingAdapter
+            CoroutineScope(Dispatchers.Main).launch {
+
+                if (observationList.isNotEmpty()){
+                    no_record.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }else{
+                    no_record.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
                 }
+
+                val encounterList = ArrayList<DbFhirEncounter>()
+                observationList.forEach {
+
+                    val id = it.encounterId.toString()
+                    val encounterName = it.encounterName
+                    val encounterType = it.encounterType
+
+                    val dbFhirEncounter = DbFhirEncounter(
+                        id = id,
+                        encounterName = encounterName,
+                        encounterType = encounterType
+                    )
+                    encounterList.add(dbFhirEncounter)
+                }
+
+                val configurationListingAdapter = FhirEncounterAdapter(
+                    encounterList,this@PresentPregnancyList, DbResourceViews.PRESENT_PREGNANCY.name)
+                recyclerView.adapter = configurationListingAdapter
             }
 
 

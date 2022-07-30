@@ -89,6 +89,7 @@ class MaternalSerologyView : AppCompatActivity() {
 
         val encounterId = formatter.retrieveSharedPreference(this@MaternalSerologyView,
             DbResourceViews.MATERNAL_SEROLOGY.name)
+
         if (encounterId != null) {
 
             val observationList =

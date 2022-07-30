@@ -48,9 +48,7 @@ class KabarakRepository(private val roomDao: RoomDao) {
                 )
                 roomDao.addFhirEncounter(fhirEncounter)
 
-                Log.e("KabarakRepository", "FhirEncounter added")
             }
-            Log.e("KabarakRepository", "FhirEncounter xxx")
 
         }
     }

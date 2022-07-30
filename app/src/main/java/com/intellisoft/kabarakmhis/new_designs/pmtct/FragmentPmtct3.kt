@@ -124,8 +124,8 @@ class FragmentPmtct3 : Fragment() {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Previous"
-        rootView.navigation.btnPrevious.text = "Save"
+        rootView.navigation.btnNext.text = "Confirm"
+        rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
         rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
