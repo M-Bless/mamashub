@@ -200,6 +200,9 @@ enum class DbResourceViews {
 
     BIRTH_PLAN,
 
+    BIRTH_PLAN_1,
+    BIRTH_PLAN_2,
+
     DEWORMING,
 
     PATIENT_INFO,

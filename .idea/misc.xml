@@ -15,7 +15,7 @@
         <entry key="app/src/main/res/drawable/search_round.xml" value="0.3545" />
         <entry key="app/src/main/res/layout/activity_antenatal_profile.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/activity_antenatal_profile_view.xml" value="0.33133817870884996" />
-        <entry key="app/src/main/res/layout/activity_birth_plan.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_birth_plan.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_birth_plan_view.xml" value="0.25977653631284914" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_add.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_list.xml" value="0.33133817870884996" />
@@ -74,6 +74,8 @@
         <entry key="app/src/main/res/layout/fragment_antenatal2.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_antenatal3.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_antenatal4.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_birthplan1.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_birthplan2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_chw1.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_chw2.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_confirm_patient.xml" value="0.2321504916631039" />
