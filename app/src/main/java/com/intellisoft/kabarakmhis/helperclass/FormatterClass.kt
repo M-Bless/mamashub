@@ -572,6 +572,42 @@ class FormatterClass {
 
     }
 
+    fun getCodes(value: String): String{
+
+        if (value.contains("weight")){
+            return "27113001"
+        }else if (value.contains("height")){
+            return "50373000"
+        }else if (value.contains("Gestation")){
+            return "77386006"
+        }else if (value.contains("BP")) {
+            return "75367002"
+        }else if (value.contains("Pulse")) {
+            return "78564009"
+        }else if (value.contains("Temperature")) {
+            return "Temperature"
+        }else if (value.contains("BMI")) {
+            return "BMI"
+        }else if (value.contains("Head")) {
+            return "Head"
+        }else if (value.contains("Hemoglobin")) {
+            return "Hemoglobin"
+        }else if (value.contains("Fundal")) {
+            return "Fundal"
+        }else if (value.contains("Dose")) {
+            return "Dose"
+        }else if (value.contains("Amount")) {
+            return "Amount"
+        }else if (value.contains("Duration")) {
+            return "Duration"
+        }else if (value.contains("MUAC")) {
+            return "MUAC"
+        }else{
+            return ""
+        }
+
+    }
+
     fun validate(edittextList: List<Any>) {
 
         edittextList.forEach {
@@ -584,6 +620,7 @@ class FormatterClass {
                 it.requestFocus()
                 it.error = "You cannot leave this field blank"
             }
+
 
         }
     }

@@ -26,10 +26,14 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.County
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
+import kotlinx.android.synthetic.main.fragment_info.*
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import kotlinx.android.synthetic.main.fragment_info.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
 import org.hl7.fhir.r4.model.QuestionnaireResponse
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 
 class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
@@ -98,9 +102,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     private fun saveData() {
 
-//        val countyName = rootView.etCounty.text.toString()
-//        val subCountyName = rootView.etSubCounty.text.toString()
-//        val wardName = rootView.etWard.text.toString()
         val townName = rootView.etTown.text.toString()
         val addressName = rootView.etAddress.text.toString()
         val estateName = rootView.etEstate.text.toString()
@@ -113,7 +114,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         if (!TextUtils.isEmpty(townName) &&
             !TextUtils.isEmpty(addressName) && !TextUtils.isEmpty(estateName) &&
             !TextUtils.isEmpty(telephoneName) && !TextUtils.isEmpty(kinName) &&
-            !TextUtils.isEmpty(kinPhone)){
+            !TextUtils.isEmpty(kinPhone) && spinnerCountyValue != "Please Select county" &&
+            spinnerSubCountyValue != "Please Select Sub county" && spinnerWardValue != "Please Select Ward"){
 
             val patientNo = PhoneNumberValidation().getStandardPhoneNumber(telephoneName)
             val kinNo = PhoneNumberValidation().getStandardPhoneNumber(kinPhone)
@@ -241,6 +243,20 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
 
         }else{
+
+            val validateFieldsList = ArrayList<Any>()
+            validateFieldsList.addAll(
+                listOf(
+                rootView.etTown, rootView.etAddress,rootView.etEstate, rootView.etTelePhone,
+                    rootView.etKinName,rootView.etTelePhonKin)
+            )
+            formatter.validate(validateFieldsList)
+
+            if (spinnerCountyValue == "Please Select county") Toast.makeText(requireContext(), "Please select county", Toast.LENGTH_SHORT).show()
+            if (spinnerSubCountyValue == "Please Select Sub-county") Toast.makeText(requireContext(), "Please select sub-county", Toast.LENGTH_SHORT).show()
+            if (spinnerWardValue == "Please Select Ward") Toast.makeText(requireContext(), "Please select ward", Toast.LENGTH_SHORT).show()
+
+
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
         }
 
@@ -251,7 +267,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         questionnaireResponse: QuestionnaireResponse
     ) {
 
-        Log.e("----1 ", dbPatientFhirInformation.toString())
 
         viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse)
 

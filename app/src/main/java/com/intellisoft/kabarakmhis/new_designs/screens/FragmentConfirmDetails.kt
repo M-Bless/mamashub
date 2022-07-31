@@ -130,12 +130,14 @@ class FragmentConfirmDetails : Fragment(){
                                 val code = it.title
                                 val value = it.value
 
+                                val codeValue = formatter.getCodes(code)
+
                                 val checkObservation = formatter.checkObservations(code)
                                 if (checkObservation == ""){
                                     //Save as a value string
 
                                     val codingObservation = CodingObservation(
-                                        "8338-6",
+                                        codeValue,
                                         code,
                                         value)
                                     dataCodeList.add(codingObservation)
@@ -143,7 +145,7 @@ class FragmentConfirmDetails : Fragment(){
                                 }else{
                                     //Save as a value quantity
                                     val quantityObservation = QuantityObservation(
-                                        "8338-6",
+                                        codeValue,
                                         code,
                                         value,
                                         checkObservation

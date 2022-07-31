@@ -154,7 +154,8 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(gravida) &&
             !TextUtils.isEmpty(parity) && !TextUtils.isEmpty(height) &&
             !TextUtils.isEmpty(weight) && !TextUtils.isEmpty(dob) &&
-            !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd)){
+            !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd) &&
+            spinnerMaritalValue != "" && educationLevelValue != "") {
 
             val isWeight = formatter.validateWeight(weight)
             val isHeight = formatter.validateHeight(height)
@@ -168,15 +169,18 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                     if (anc.length == 4){
 
-                        val ancCode = DbDataList("ANC Code", "", "Patient Details", DbResourceType.Observation.name)
-                        val pncNo =  DbDataList("PNC Code", "", "Patient Details", DbResourceType.Observation.name)
 
+                        var ancCodeValue = ""
                         if (isAnc){
-                            val ancCodeValue = "2022-08-${anc}"
-                            DbDataList("ANC Code", ancCodeValue, "Patient Details", DbResourceType.Observation.name)
-                        }else{
-                            DbDataList("PNC Code", pnc, "Patient Details", DbResourceType.Observation.name)
+                            ancCodeValue = "2022-08-${anc}"
                         }
+                        val ancCode = DbDataList("ANC Code", ancCodeValue, "Patient Details", DbResourceType.Observation.name)
+
+                        var pncCodeValue = ""
+                        if (!isAnc){
+                            pncCodeValue = pnc
+                        }
+                        val pncNo =  DbDataList("PNC Code", pncCodeValue, "Patient Details", DbResourceType.Observation.name)
 
                         val fhirId = formatter.generateUuid()
                         formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
@@ -211,7 +215,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         formatter.saveSharedPreference(requireContext(), "dob", dob)
                         formatter.saveSharedPreference(requireContext(), "clientName", clientName)
                         formatter.saveSharedPreference(requireContext(), "FHIRID", formatter.generateUuid())
-                        formatter.saveSharedPreference(requireContext(), "spinnerMaritalValue", spinnerMaritalValue)
+                        formatter.saveSharedPreference(requireContext(), "maritalStatus", spinnerMaritalValue)
 
                         val ft = requireActivity().supportFragmentManager.beginTransaction()
                         ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
@@ -251,6 +255,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             )
 
             formatter.validate(validationList)
+
+            if (spinnerMaritalValue == "") Toast.makeText(requireContext(), "Please select marital status", Toast.LENGTH_SHORT).show()
+            if (educationLevelValue == "") Toast.makeText(requireContext(), "Please select education level", Toast.LENGTH_SHORT).show()
 
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
         }
