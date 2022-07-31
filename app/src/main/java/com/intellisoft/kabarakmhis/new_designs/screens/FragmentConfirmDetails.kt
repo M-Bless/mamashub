@@ -173,19 +173,19 @@ class FragmentConfirmDetails : Fragment(){
                             progressDialog.dismiss()
                         }
 
+                        kabarakViewModel.deleteTitleTable(requireContext())
 
-//                        kabarakViewModel.deleteTitleTable(requireContext())
-//
-//                        if (encounter == DbResourceViews.PATIENT_INFO.name){
-//                            val intent = Intent(requireContext(), NewMainActivity::class.java)
-//                            startActivity(intent)
-//                            activity?.finish()
-//
-//                        }else{
-//                            val intent = Intent(requireContext(), PatientProfile::class.java)
-//                            startActivity(intent)
-//                            activity?.finish()
-//                        }
+                        if (encounter == DbResourceViews.PATIENT_INFO.name){
+                            val intent = Intent(requireContext(), NewMainActivity::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+
+                        }else{
+
+                            val intent = Intent(requireContext(), PatientProfile::class.java)
+                            startActivity(intent)
+                            activity?.finish()
+                        }
 
 
 

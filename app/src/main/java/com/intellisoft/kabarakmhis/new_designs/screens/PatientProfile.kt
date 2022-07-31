@@ -57,6 +57,15 @@ class PatientProfile : AppCompatActivity() {
 
         title = "Patient Details"
 
+        linearCall.setOnClickListener {
+            val txtCall = tvKinDetails.text.toString()
+            calluser(txtCall)
+        }
+        imgViewCall.setOnClickListener {
+            val txtCall = tvKinDetails.text.toString()
+            calluser(txtCall)
+        }
+
 
         navigate()
 

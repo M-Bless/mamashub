@@ -572,4 +572,20 @@ class FormatterClass {
 
     }
 
+    fun validate(edittextList: List<Any>) {
+
+        edittextList.forEach {
+            if (it is EditText) {
+                if (TextUtils.isEmpty(it.text.toString())) {
+                    it.error = "You cannot leave this field blank"
+                }
+            }
+            if (it is TextView){
+                it.requestFocus()
+                it.error = "You cannot leave this field blank"
+            }
+
+        }
+    }
+
 }

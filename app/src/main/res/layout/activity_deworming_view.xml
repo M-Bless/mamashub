@@ -7,24 +7,16 @@
     tools:context=".new_designs.deworming.DewormingView">
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/_50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnAddDeworming"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/_5dp"
-            android:layout_marginEnd="@dimen/_5dp"
-            android:text="Add Deworming"
-            android:textAllCaps="false" />
+
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
             android:background="@color/primary" />
 
         <LinearLayout
@@ -57,5 +49,24 @@
     <include
         android:id="@+id/no_record"
         layout="@layout/no_record" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnAddDeworming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_marginEnd="@dimen/_5dp"
+            android:text="Add Deworming"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
 
 </RelativeLayout>

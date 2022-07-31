@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -241,6 +242,16 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
 
         }else{
+
+            val validationList = ArrayList<Any>()
+            validationList.addAll(
+                listOf(rootView.etFacilityName, rootView.etKmhflCode,
+                rootView.etClientName, rootView.etGravida, rootView.etParity, rootView.etHeight,
+                rootView.etWeight, rootView.etDoB, rootView.etLmp, rootView.etEdd)
+            )
+
+            formatter.validate(validationList)
+
             Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
         }
 

@@ -130,24 +130,28 @@ class WeightMonitoringChart : AppCompatActivity() {
                 val encounterId = encounter.encounterId
                 val observationList = patientDetailsViewModel.getObservationsFromEncounter(encounterId)
 
-
-
                 observationList.forEach {
+
+                    var motherWeight = 0.0
+                    var gestation = 0.0
 
                     val text = it.text
                     val value = it.value
 
                     if (text == "Mother Weight"){
-
+                        motherWeight = value.toDouble()
                     }
                     if (value == "Gestation"){
-
+                        gestation = value.toDouble()
                     }
 
+                    val dbValue = DbObserveValue(motherWeight.toString(), gestation.toString())
+                    chartValueList.add(dbValue)
                 }
 
 
             }
+            setData(chartValueList)
 
 
         }

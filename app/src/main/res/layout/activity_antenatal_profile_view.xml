@@ -7,22 +7,12 @@
     tools:context=".new_designs.antenatal_profile.AntenatalProfileView">
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/_50dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnAddAntenatal"
-            android:layout_marginEnd="@dimen/_5dp"
-            android:layout_marginTop="@dimen/_5dp"
-            android:layout_gravity="end"
-            android:textAllCaps="false"
-            android:text="Add Antenatal Profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
         <View
-            android:layout_marginTop="10dp"
             android:background="@color/primary"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
@@ -57,6 +47,25 @@
     <include
         android:id="@+id/no_record"
         layout="@layout/no_record" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnAddAntenatal"
+            android:layout_marginEnd="@dimen/_5dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_gravity="end"
+            android:textAllCaps="false"
+            android:text="Add Antenatal Profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:visibility="gone"

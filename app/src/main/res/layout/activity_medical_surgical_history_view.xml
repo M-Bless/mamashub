@@ -12,21 +12,12 @@
 
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/_50dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:layout_gravity="end"
-            android:id="@+id/btnAddHistory"
-            android:textAllCaps="false"
-            android:layout_margin="@dimen/_15dp"
-            android:text="Add Medical History"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
         <View
-            android:layout_marginTop="10dp"
             android:background="@color/primary"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
@@ -68,7 +59,27 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_gravity="end"
+            android:id="@+id/btnAddHistory"
+            android:textAllCaps="false"
+            android:text="Add Medical History"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>
