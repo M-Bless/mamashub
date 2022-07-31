@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.weight_monitoring
 
+import android.app.Application
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -15,11 +17,15 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_weight_monitoring_chart.*
 import kotlinx.coroutines.CoroutineScope
@@ -33,6 +39,10 @@ class WeightMonitoringChart : AppCompatActivity() {
     private val retrofitCallsFhir = RetrofitCallsFhir()
 
     private lateinit var chart: LineChart
+    private lateinit var kabarakViewModel: KabarakViewModel
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +51,15 @@ class WeightMonitoringChart : AppCompatActivity() {
         title = "Weight Monitoring Chart"
 
         chart = findViewById(R.id.chart)
+
+        kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
 
     }
@@ -101,21 +120,34 @@ class WeightMonitoringChart : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val encounterId = formatter.retrieveSharedPreference(this@WeightMonitoringChart, DbResourceViews.PHYSICAL_EXAMINATION.name)
+            val chartValueList = ArrayList<DbObserveValue>()
 
-            if (encounterId != null) {
-                val observationList = retrofitCallsFhir.getEncounterDetails(this@WeightMonitoringChart, encounterId, DbResourceViews.WEIGHT_MONITORING.name)
-                if (observationList.isNotEmpty()){
+            val encounterList = kabarakViewModel.getFhirEncounter(this@WeightMonitoringChart,
+                DbResourceViews.PHYSICAL_EXAMINATION.name)
 
-                    setData(observationList)
+            encounterList.forEach { encounter ->
 
-                    Log.e("----- ", observationList.toString())
+                val encounterId = encounter.encounterId
+                val observationList = patientDetailsViewModel.getObservationsFromEncounter(encounterId)
+
+
+
+                observationList.forEach {
+
+                    val text = it.text
+                    val value = it.value
+
+                    if (text == "Mother Weight"){
+
+                    }
+                    if (value == "Gestation"){
+
+                    }
+
                 }
 
 
             }
-
-
 
 
         }

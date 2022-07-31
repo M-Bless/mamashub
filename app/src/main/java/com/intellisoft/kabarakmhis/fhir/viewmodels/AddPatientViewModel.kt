@@ -52,11 +52,9 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
             val patient = entry.resource as Patient
 
             val name = dbPatientFhirInformation.name
-            val humanNameList = ArrayList<HumanName>()
-            val humanName = HumanName()
-            humanName.family = name
-            humanNameList.add(humanName)
-            patient.name = humanNameList
+
+            val nameList = getNames(name, name)
+            patient.name = nameList
 
             Log.e("----ccc ", name)
 
@@ -97,10 +95,9 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 val kinPhoneList = it.telecom
 
                 val contact = Patient.ContactComponent()
-
-                val kinHumanName = HumanName()
+                val humanName = HumanName()
                 humanName.family = kinName
-                contact.name = kinHumanName
+                contact.name = humanName
 
                 val rshpList = ArrayList<CodeableConcept>()
                 val rshp = CodeableConcept()
@@ -143,12 +140,26 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
             patient.id = patientId
 
+            val xxx = patient.name
+            Log.e("_+_+_+_+_+_ ", xxx.toString())
+
             val id = fhirEngine.create(patient)
             Log.e("----xx ", id.toString())
 
             isPatientSaved.value = true
         }
 
+    }
+
+    fun getNames(
+        firstname: String,
+        other_name: String): List<HumanName> {
+        return listOf(
+            HumanName()
+                .addGiven(firstname)
+                .setFamily(other_name)
+                .setUse(HumanName.NameUse.OFFICIAL)
+        )
     }
 
     private fun getQuestionnaireJson():String{

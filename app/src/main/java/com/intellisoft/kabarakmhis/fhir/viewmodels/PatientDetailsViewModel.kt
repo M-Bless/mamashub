@@ -74,7 +74,7 @@ class PatientDetailsViewModel(
         val patientResource = getPatientResource()
 
         val patientId = if (patientResource.hasIdElement()) patientResource.idElement.idPart else ""
-        val name = if (patientResource.hasName()) patientResource.name[0].nameAsSingleString else ""
+        val name = if (patientResource.hasName()) patientResource.name[0].family else ""
         val dob =
             if (patientResource.hasBirthDateElement())
                 LocalDate.parse(patientResource.birthDateElement.valueAsString, DateTimeFormatter.ISO_DATE)

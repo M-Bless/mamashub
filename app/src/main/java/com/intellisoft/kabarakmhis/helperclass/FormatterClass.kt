@@ -42,7 +42,8 @@ class FormatterClass {
     private fun Patient.toPatientItem(position: Int): DbPatientDetails {
         // Show nothing if no values available for gender and date of birth.
         val patientId = if (hasIdElement()) idElement.idPart else ""
-        val name = if (hasName()) name[0].nameAsSingleString else ""
+        val name = if (hasName()) name[0].family else ""
+
 
 //        val gender = if (hasGenderElement()) genderElement.valueAsString else ""
 //        val dob =

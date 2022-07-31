@@ -64,6 +64,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
 
         }.mapIndexed { index, patient ->
 
+
             FormatterClass().patientData(patient, index + 1)}
             .let {
 

@@ -73,7 +73,8 @@ class FragmentConfirmDetails : Fragment(){
         fhirEngine = FhirApplication.fhirEngine(requireContext())
 
         btnEditDetails.setOnClickListener {
-            fragmentManager?.popBackStack()
+            //Go back to the previous activity
+            requireActivity().onBackPressed()
         }
 
         updateArguments()
@@ -173,18 +174,18 @@ class FragmentConfirmDetails : Fragment(){
                         }
 
 
-                        kabarakViewModel.deleteTitleTable(requireContext())
-
-                        if (encounter == DbResourceViews.PATIENT_INFO.name){
-                            val intent = Intent(requireContext(), NewMainActivity::class.java)
-                            startActivity(intent)
-                            activity?.finish()
-
-                        }else{
-                            val intent = Intent(requireContext(), PatientProfile::class.java)
-                            startActivity(intent)
-                            activity?.finish()
-                        }
+//                        kabarakViewModel.deleteTitleTable(requireContext())
+//
+//                        if (encounter == DbResourceViews.PATIENT_INFO.name){
+//                            val intent = Intent(requireContext(), NewMainActivity::class.java)
+//                            startActivity(intent)
+//                            activity?.finish()
+//
+//                        }else{
+//                            val intent = Intent(requireContext(), PatientProfile::class.java)
+//                            startActivity(intent)
+//                            activity?.finish()
+//                        }
 
 
 
