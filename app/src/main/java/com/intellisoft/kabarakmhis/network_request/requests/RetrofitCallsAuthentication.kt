@@ -180,6 +180,8 @@ class RetrofitCallsAuthentication {
                         val names = data.names
                         val email = data.email
 
+                        Log.e("----", "id: $id, names: $names, email: $email")
+
                         formatter.saveSharedPreference(context, "id", id)
                         formatter.saveSharedPreference(context, "USERID", id)
                         formatter.saveSharedPreference(context, "names", names)

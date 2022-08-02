@@ -92,7 +92,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Confirm"
+        rootView.navigation.btnNext.text = "Preview"
         rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
@@ -156,7 +156,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                     spinnerWardValue,
                     spinnerSubCountyValue,
                     spinnerCountyValue,
-                    "KENYA-KABARAK-MHIS")
+                    "KENYA-KABARAK-MHIS1")
                 addressList.add(address)
 
                 val kinContactList = ArrayList<DbKinDetails>()
@@ -171,8 +171,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                 val telecomList = ArrayList<DbTelecom>()
                 val dbTelecom1 = DbTelecom("phone", telephoneName)
                 telecomList.add(dbTelecom1)
-
-                Log.e("clientName", clientName)
 
                 val dbPatientFhirInformation = DbPatientFhirInformation(
                     clientName, telecomList,"female", dob, addressList,
@@ -269,6 +267,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
 
         viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse)
+
 
         //Insert Patient first then use id to insert other data
         val ft = requireActivity().supportFragmentManager.beginTransaction()

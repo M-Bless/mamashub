@@ -35,7 +35,7 @@ class PreventiveService : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preventive_service)
 
-        title = "Preventive Service"
+        title = "Tetanus Diphtheria"
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         kabarakViewModel = KabarakViewModel(application)
@@ -68,7 +68,7 @@ class PreventiveService : AppCompatActivity() {
 
     private fun handleNavigation() {
 
-        navigation.btnNext.text = "Confirm"
+        navigation.btnNext.text = "Preview"
         navigation.btnPrevious.text = "Cancel"
 
         navigation.btnNext.setOnClickListener { saveData() }

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbPatientDetails
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -41,6 +43,7 @@ class NewMainActivity : AppCompatActivity() {
     private lateinit var fhirEngine: FhirEngine
 
     private lateinit var etSearch : SearchView
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,10 +68,9 @@ class NewMainActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
-        patientListViewModel.liveSearchedPatients.observe(this) {
+        getData()
 
-            showPatients(it)
-        }
+
 
         btnRegisterPatient.setOnClickListener {
             startActivity(Intent(this, RegisterNewPatient::class.java))
@@ -101,9 +103,7 @@ class NewMainActivity : AppCompatActivity() {
 
         refreshLayout.setOnRefreshListener{
 
-            CoroutineScope(Dispatchers.IO).launch {  getData() }
-
-
+            getData()
             refreshLayout.isRefreshing = false
         }
 
@@ -129,42 +129,17 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
+        patientListViewModel.liveSearchedPatients.observe(this) {
+            showPatients(it)
+        }
 
-
-
-
-//        val patientData = retrofitCallsFhir.getPatients(this@NewMainActivity)
-//        val patientList = patientData.entry
-//        if (patientList != null){
-//
-//            CoroutineScope(Dispatchers.Main).launch {
-//
-//                if (!patientList.isNullOrEmpty()){
-//                    no_record.visibility = View.GONE
-//                    recyclerView.visibility = View.VISIBLE
-//                }else{
-//                    no_record.visibility = View.VISIBLE
-//                    recyclerView.visibility = View.GONE
-//                }
-//
-//                val configurationListingAdapter = PatientsAdapter(
-//                    patientList,this@NewMainActivity)
-//                recyclerView.adapter = configurationListingAdapter
-//
-//                FormatterClass().nukeEncounters(this@NewMainActivity)
-//            }
-//
-//
-//        }
+        viewModel.poll()
     }
-
-
 
     override fun onStart() {
         super.onStart()
 
-        CoroutineScope(Dispatchers.IO).launch { getData() }
-
+        getData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

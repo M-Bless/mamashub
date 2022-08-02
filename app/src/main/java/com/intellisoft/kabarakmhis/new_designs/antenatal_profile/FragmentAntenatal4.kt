@@ -106,7 +106,7 @@ class FragmentAntenatal4 : Fragment() {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Confirm"
+        rootView.navigation.btnNext.text = "Preview"
         rootView.navigation.btnPrevious.text = "Save"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
@@ -121,6 +121,7 @@ class FragmentAntenatal4 : Fragment() {
             999 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateIptDateGvnListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
                 datePickerDialog.show()
 
             }

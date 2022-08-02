@@ -93,7 +93,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Confirm"
+        rootView.navigation.btnNext.text = "Preview"
         rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
@@ -152,7 +152,8 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 //        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
 
         val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.MEDICAL_HISTORY.name))
+        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(),
+            DbResourceViews.MEDICAL_HISTORY.name))
         ft.addToBackStack(null)
         ft.commit()
 //        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.MEDICAL_HISTORY.name)

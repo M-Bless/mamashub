@@ -42,12 +42,8 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
             val entry = ResourceMapper.extract(questionnaireResource, questionnaireResponse).entryFirstRep
             if (entry.resource !is Patient){
-
-                Log.e("---- ", "4")
                 return@launch
             }
-
-            Log.e("---- ", "2")
 
             val patient = entry.resource as Patient
 
@@ -55,8 +51,6 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
             val nameList = getNames(name, name)
             patient.name = nameList
-
-            Log.e("----ccc ", name)
 
             val birthDate = dbPatientFhirInformation.birthDate
             patient.birthDate = FormatterClass().convertStringToDate(birthDate)
@@ -140,11 +134,9 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
             patient.id = patientId
 
-            val xxx = patient.name
-            Log.e("_+_+_+_+_+_ ", xxx.toString())
+            patient.name
 
             val id = fhirEngine.create(patient)
-            Log.e("----xx ", id.toString())
 
             isPatientSaved.value = true
         }

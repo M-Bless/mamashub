@@ -149,7 +149,7 @@ class FragmentPhysicalExam2 : Fragment() {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Confirm"
+        rootView.navigation.btnNext.text = "Preview"
         rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }

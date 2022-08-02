@@ -584,26 +584,60 @@ class FormatterClass {
             return "75367002"
         }else if (value.contains("Pulse")) {
             return "78564009"
-        }else if (value.contains("Temperature")) {
-            return "Temperature"
-        }else if (value.contains("BMI")) {
-            return "BMI"
-        }else if (value.contains("Head")) {
-            return "Head"
-        }else if (value.contains("Hemoglobin")) {
-            return "Hemoglobin"
-        }else if (value.contains("Fundal")) {
-            return "Fundal"
-        }else if (value.contains("Dose")) {
-            return "Dose"
-        }else if (value.contains("Amount")) {
-            return "Amount"
-        }else if (value.contains("Duration")) {
-            return "Duration"
+        }else if (value.contains("Diabetes")) {
+            return "44054006"
+        }else if (value.contains("Hypertension")) {
+            return "59621000"
+        }else if (value.contains("Epilepsy")) {
+            return "84757009"
+        }else if (value.contains("Blood Transfusion")) {
+            return "116859006"
+        }else if (value.contains("Tuberculosis") || value.contains("TB")) {
+            return "56717001"
+        }else if (value.contains("Allergies")) {
+            return "416098002"
+        }else if (value.contains("Twins")) {
+            return "28030000"
         }else if (value.contains("MUAC")) {
             return "MUAC"
+        }else if (value.contains("CVS")) {
+            return "49601007"
+        }else if (value.contains("Respiratory")) {
+            return "50043002"
+        }else if (value.contains("Inspection")) {
+            return "32750006"
+        }else if (value.contains("Palpation")) {
+            return "118242002"
+        }else if (value.contains("Auscultation")) {
+            return "118241009"
+        }else if (value.contains("Discharge")) {
+            return "Discharge"
+        }else if (value.contains("Female")) {
+            return "446141000124107"
+        }else if (value.contains("Outcome")) {
+            return "Outcome"
+        }else if (value.contains("Purperium")) {
+            return "47821001"
+        }else if (value.contains("Hb")) {
+            return "365845005"
+        }else if (value.contains("Rhesus")) {
+            return "165746003"
+        }else if (value.contains("Urinalysis")) {
+            return "27171005"
+        }else if (value.contains("Foetal heart rate")) {
+            return "289437007"
+        }else if (value.contains("Foetal movement")) {
+            return "32279003"
+        }else if (value.contains("Next Visit")) {
+            return "308817005"
+        }else if (value.contains("Tetanus")) {
+            return "127786006"
+        }else if (value.contains("Deworming")) {
+            return "101657003"
+        }else if (value.contains("Surgical History")) {
+            return "161615003"
         }else{
-            return ""
+            return value
         }
 
     }

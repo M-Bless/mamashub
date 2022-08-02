@@ -184,7 +184,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                 observationList.clear()
 
                 addData("Gestation (Weeks)",gestation)
-                addData("Fundal Height",fundalHeight)
+                addData("Fundal Height (cm)",fundalHeight)
                 addData("Date",date)
                 for (items in observationList){
 

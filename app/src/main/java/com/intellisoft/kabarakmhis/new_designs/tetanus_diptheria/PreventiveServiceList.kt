@@ -34,7 +34,7 @@ class PreventiveServiceList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preventive_service_list)
 
-        title = "Preventive Service"
+        title = "Tetanus Diphtheria"
 
         btnVisit.setOnClickListener {
             startActivity(Intent(this, PreventiveService::class.java))

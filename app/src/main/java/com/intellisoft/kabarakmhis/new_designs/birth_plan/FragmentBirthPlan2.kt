@@ -37,7 +37,7 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
     var designationList = arrayOf("","Midwife", "Obstetrician")
     private var spinnerDesignationValue1  = designationList[0]
 
-    var bloodGroupList = arrayOf("","A", "B", "AB", "O")
+    var bloodGroupList = arrayOf("","A", "AB", "B", "O")
     private var spinnerBloodGroupValue  = bloodGroupList[0]
 
 
@@ -68,7 +68,7 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
         rootView.spinnerCompanionDesignation!!.adapter = designation
         rootView.spinnerCompanionDesignation.onItemSelectedListener = this
 
-        val bloodGroup = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, designationList)
+        val bloodGroup = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, bloodGroupList)
         bloodGroup.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         rootView.spinnerDonorGroup!!.adapter = bloodGroup
         rootView.spinnerDonorGroup.onItemSelectedListener = this
@@ -95,7 +95,7 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Confirm"
+        rootView.navigation.btnNext.text = "Preview"
         rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }

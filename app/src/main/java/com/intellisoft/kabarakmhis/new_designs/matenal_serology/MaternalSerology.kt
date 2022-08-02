@@ -187,7 +187,7 @@ class MaternalSerology : AppCompatActivity() {
 
     private fun handleNavigation() {
 
-        navigation.btnNext.text = "Confirm"
+        navigation.btnNext.text = "Preview"
         navigation.btnPrevious.text = "Cancel"
 
         navigation.btnNext.setOnClickListener { saveData() }

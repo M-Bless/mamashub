@@ -171,7 +171,7 @@ class FragmentConfirmDetails : Fragment(){
                         )
 
                         CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(requireContext(), "The data has been collected successfully. PLease wait as its being saved.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "PLease wait as data is being saved.", Toast.LENGTH_SHORT).show()
                             progressDialog.dismiss()
                         }
 

@@ -15,7 +15,7 @@ interface Interface {
     @POST("auth/login/")
     fun loginUser(@Body user: UserLogin): Call<AuthResponse>
 
-    @GET("auth/me")
+    @GET("auth/me/")
     fun getUserData(@HeaderMap headers: Map<String, String>): Call<DbUserData>
 
 

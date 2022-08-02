@@ -162,6 +162,7 @@
                             />
 
                         <EditText
+                            android:maxLength="2"
                             android:inputType="number"
                             android:id="@+id/etMuac"
                             android:layout_width="match_parent"
@@ -252,7 +253,7 @@
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hp test"
+                        android:text="Hb test"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@color/black"
                          />
@@ -395,7 +396,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Fundal height"
+                            android:text="Fundal height (cm)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
