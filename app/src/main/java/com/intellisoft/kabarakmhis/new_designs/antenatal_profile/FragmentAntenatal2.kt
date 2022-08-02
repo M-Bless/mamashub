@@ -14,17 +14,16 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
-import kotlinx.android.synthetic.main.activity_register_new_patient.*
-import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
+import kotlinx.android.synthetic.main.fragment_antenatal2.*
 import kotlinx.android.synthetic.main.fragment_antenatal2.view.*
 import kotlinx.android.synthetic.main.fragment_antenatal2.view.navigation
-import kotlinx.android.synthetic.main.fragment_details.view.*
+import kotlinx.android.synthetic.main.fragment_birthplan2.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
 
 import java.util.*
 
 
-class FragmentAntenatal2 : Fragment() {
+class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
     private val formatter = FormatterClass()
 
@@ -36,6 +35,23 @@ class FragmentAntenatal2 : Fragment() {
     private var year = 0
     private  var month = 0
     private  var day = 0
+
+    var artEligibilityList = arrayOf("","I", "II", "III", "IV")
+    private var spinnerArtElligibilityValue  = artEligibilityList[0]
+
+    var partnerHivList = arrayOf("","Reactive", "Non-Reactive")
+    private var spinnerPartnerHivValue  = partnerHivList[0]
+
+    var arvBeforeFirstVisitList = arrayOf("","Y", "N", "NA", "Revisit")
+    private var spinnerBeforeFirstVisitValue  = arvBeforeFirstVisitList[0]
+
+    var startedHaartList = arrayOf("","Y", "N", "NA", "Revisit")
+    private var spinnerStartedHaartValue  = startedHaartList[0]
+
+    var cotrimoxazoleList = arrayOf("","Y", "B")
+    private var spinnerCotrimoxazoleValue  = cotrimoxazoleList[0]
+
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -111,15 +127,77 @@ class FragmentAntenatal2 : Fragment() {
             }
         }
 
+        rootView.radioGrpMultipleBaby.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearMultipleBaby, true)
+                } else {
+                    changeVisibility(rootView.linearMultipleBaby, false)
+                }
+            }
+        }
+
         rootView.tvIPTDateGiven.setOnClickListener { onCreateDialog(999) }
         rootView.tvIPTNextVisit.setOnClickListener { onCreateDialog(998) }
         rootView.tvUltraSound1.setOnClickListener { onCreateDialog(997) }
         rootView.tvUltraSound2.setOnClickListener { onCreateDialog(996) }
 
+        initSpinner()
 
         handleNavigation()
 
         return rootView
+    }
+
+    private fun initSpinner() {
+
+        val artEligibility = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, artEligibilityList)
+        val partnerHivStatus = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, partnerHivList)
+        val onArvBeforeFirstAnc = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arvBeforeFirstVisitList)
+        val startedHaartAnc = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, startedHaartList)
+        val cotrimoxazole = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, cotrimoxazoleList)
+
+        artEligibility.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        partnerHivStatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        onArvBeforeFirstAnc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        startedHaartAnc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        cotrimoxazole.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        rootView.spinnerEligibility!!.adapter = artEligibility
+        rootView.spinnerPartnerHIVStatus!!.adapter = partnerHivStatus
+        rootView.spinnerOnARVBeforeANCVisit!!.adapter = onArvBeforeFirstAnc
+        rootView.spinnerStartedHaartInANC!!.adapter = startedHaartAnc
+        rootView.spinnerCotrimoxazole!!.adapter = cotrimoxazole
+
+        rootView.spinnerEligibility.onItemSelectedListener = this
+        rootView.spinnerPartnerHIVStatus.onItemSelectedListener = this
+        rootView.spinnerOnARVBeforeANCVisit.onItemSelectedListener = this
+        rootView.spinnerStartedHaartInANC.onItemSelectedListener = this
+        rootView.spinnerCotrimoxazole.onItemSelectedListener = this
+
+
+
+    }
+
+    override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
+        when (arg0.id) {
+            R.id.spinnerEligibility -> { spinnerArtElligibilityValue = rootView.spinnerEligibility.selectedItem.toString() }
+            R.id.spinnerPartnerHIVStatus -> { spinnerPartnerHivValue = rootView.spinnerPartnerHIVStatus.selectedItem.toString() }
+            R.id.spinnerOnARVBeforeANCVisit -> { spinnerBeforeFirstVisitValue = rootView.spinnerOnARVBeforeANCVisit.selectedItem.toString() }
+            R.id.spinnerStartedHaartInANC -> { spinnerStartedHaartValue = rootView.spinnerStartedHaartInANC.selectedItem.toString() }
+            R.id.spinnerCotrimoxazole -> { spinnerCotrimoxazoleValue = rootView.spinnerCotrimoxazole.selectedItem.toString() }
+
+
+            else -> {}
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+
     }
 
     private fun handleNavigation() {
