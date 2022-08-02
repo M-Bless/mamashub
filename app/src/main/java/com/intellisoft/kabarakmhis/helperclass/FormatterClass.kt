@@ -642,7 +642,7 @@ class FormatterClass {
 
     }
 
-    fun validate(edittextList: List<Any>) {
+    fun validate(edittextList: List<Any>, context: Context) {
 
         edittextList.forEach {
             if (it is EditText) {
@@ -653,6 +653,9 @@ class FormatterClass {
             if (it is TextView){
                 it.requestFocus()
                 it.error = "You cannot leave this field blank"
+            }
+            if (it is RadioGroup){
+                Toast.makeText(context, "Please select an option from the radio buttons", Toast.LENGTH_SHORT).show()
             }
 
 

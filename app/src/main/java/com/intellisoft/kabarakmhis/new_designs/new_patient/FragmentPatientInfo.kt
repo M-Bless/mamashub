@@ -248,7 +248,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                 rootView.etTown, rootView.etAddress,rootView.etEstate, rootView.etTelePhone,
                     rootView.etKinName,rootView.etTelePhonKin)
             )
-            formatter.validate(validateFieldsList)
+            formatter.validate(validateFieldsList,requireContext())
 
             if (spinnerCountyValue == "Please Select county") Toast.makeText(requireContext(), "Please select county", Toast.LENGTH_SHORT).show()
             if (spinnerSubCountyValue == "Please Select Sub-county") Toast.makeText(requireContext(), "Please select sub-county", Toast.LENGTH_SHORT).show()

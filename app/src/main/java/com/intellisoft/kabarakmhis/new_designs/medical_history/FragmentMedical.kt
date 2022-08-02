@@ -3,6 +3,7 @@ package com.intellisoft.kabarakmhis.new_designs.medical_history
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -79,6 +80,26 @@ class FragmentMedical : Fragment(){
 
             }
         }
+        rootView.radioGrpOtherCondition.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.layoutOtherCondition, true)
+                } else {
+                    changeVisibility(rootView.layoutOtherCondition, false)
+                }
+
+            }
+        }
+        rootView.checkBoxOthers.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked){
+                rootView.layoutOthers.visibility = View.VISIBLE
+            }else{
+                rootView.layoutOthers.visibility = View.GONE
+            }
+        }
 
         formatter.saveCurrentPage("2", requireContext())
         getPageDetails()
@@ -101,6 +122,43 @@ class FragmentMedical : Fragment(){
 
     private fun saveData() {
 
+        val isErrorList = ArrayList<Any>()
+        val dbDataList = ArrayList<DbDataList>()
+
+        val diabetes = formatter.getRadioText(rootView.radioGrpDiabetes)
+        val hypertension = formatter.getRadioText(rootView.radioGrpDiabetes)
+        val tb = formatter.getRadioText(rootView.radioGrpDiabetes)
+        val bloodTransfusion = formatter.getRadioText(rootView.radioGrpTransfusion)
+
+        if (diabetes != "" && hypertension != "" && tb != "" && bloodTransfusion != ""){
+            addData("Diabetes",diabetes)
+            addData("Hypertension",hypertension)
+            addData("Tuberculosis",tb)
+            addData("Blood Transfusion",bloodTransfusion)
+
+        }else{
+            if (diabetes == "")isErrorList.add(rootView.radioGrpDiabetes)
+            if (hypertension == "")isErrorList.add(rootView.radioGrpDiabetes)
+            if (tb == "")isErrorList.add(rootView.radioGrpDiabetes)
+            if (bloodTransfusion == "")isErrorList.add(rootView.radioGrpTransfusion)
+        }
+        if (rootView.layoutOtherCondition.visibility == View.VISIBLE){
+
+            val otherConditionList = ArrayList<String>()
+            if (rootView.checkBoxEpilepsy.isChecked)otherConditionList.add("Epilepsy")
+            if (rootView.checkBoxMalariaPregnancy.isChecked)otherConditionList.add("Epilepsy")
+            if (rootView.layoutOthers.visibility == View.VISIBLE){
+
+                val otherText = rootView.etOtherConditions.text.toString()
+                if (!TextUtils.isEmpty(otherText)){
+                    otherConditionList.add(otherText)
+                }else{
+                    isErrorList.add(rootView.etOtherConditions)
+                }
+            }
+
+            addData("Other Medical History",otherConditionList.toString())
+        }
         if (rootView.linearBloodReaction.visibility == View.VISIBLE){
             val text = rootView.etClientName.text.toString()
             addData("Blood Transfusion Reaction",text)
@@ -108,6 +166,18 @@ class FragmentMedical : Fragment(){
             val text = formatter.getRadioText(rootView.radioGrpTransfusion)
             addData("Blood Transfusion Reaction",text)
         }
+
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Medical History", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
         if (rootView.linearDrug.visibility == View.VISIBLE){
             val text = rootView.etDrugAllergies.text.toString()
             addData("Drug Allergy",text)
@@ -119,41 +189,35 @@ class FragmentMedical : Fragment(){
             val text = rootView.etDrugOtherAllergies.text.toString()
             addData("Other non drug allergies",text)
         }
-
-        val diabetes = formatter.getRadioText(rootView.radioGrpDiabetes)
-        val hypertension = formatter.getRadioText(rootView.radioGrpDiabetes)
-        val tb = formatter.getRadioText(rootView.radioGrpDiabetes)
-        val bloodTransfusion = formatter.getRadioText(rootView.radioGrpBloodTransfer)
-
-        if (diabetes != "" && hypertension != "" && tb != "" && bloodTransfusion != ""){
-            addData("Diabetes",diabetes)
-            addData("Hypertension",hypertension)
-            addData("Tuberculosis",tb)
-            addData("Blood Transfusion",bloodTransfusion)
-        }
-
-        val dbDataList = ArrayList<DbDataList>()
-
         for (items in observationList){
 
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Medical History and Allergies", DbResourceType.Observation.name)
+            val data = DbDataList(key, value, "Drug Allergies", DbResourceType.Observation.name)
             dbDataList.add(data)
 
         }
+        observationList.clear()
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        if (isErrorList.size == 0){
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, FragmentFamily())
-        ft.addToBackStack(null)
-        ft.commit()
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentFamily())
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+
+            formatter.validate(isErrorList, requireContext())
+
+        }
 
     }
 

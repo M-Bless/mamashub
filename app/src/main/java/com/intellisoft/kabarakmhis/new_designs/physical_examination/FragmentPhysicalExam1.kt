@@ -228,17 +228,25 @@ class FragmentPhysicalExam1 : Fragment() {
     }
     private fun saveData() {
 
+        val errorList = ArrayList<Any>()
         val dbDataList = ArrayList<DbDataList>()
-        val systolicBp = rootView.etSystolicBp.text.toString()
-        val diastolicBp = rootView.etDiastolicBp.text.toString()
-        val pulseRate = rootView.etPulseRate.text.toString()
-
-        val motherWeight = rootView.etMotherWeight.text.toString()
-        val gestation = rootView.etGestation.text.toString()
 
         if(rootView.linearGeneralExam.visibility == View.VISIBLE){
+
+            val generalExam  = formatter.getRadioText(rootView.radioGrpGeneralExam)
+            if (generalExam != "") {
+                addData("General Examination",generalExam)
+            }else{
+                errorList.add(rootView.radioGrpGeneralExam)
+            }
+
             val text = rootView.etAbnomality.text.toString()
-            addData("General Examination",text)
+            if(!TextUtils.isEmpty(text)){
+                addData("If abnormal, specify",text)
+
+            }else{
+                errorList.add(rootView.etAbnomality)
+            }
         }else{
             val text = formatter.getRadioText(rootView.radioGrpGeneralExam)
             addData("General Examination",text)
@@ -255,41 +263,78 @@ class FragmentPhysicalExam1 : Fragment() {
         }
         observationList.clear()
 
+        val systolicBp = rootView.etSystolicBp.text.toString()
+        val diastolicBp = rootView.etDiastolicBp.text.toString()
+        val pulseRate = rootView.etPulseRate.text.toString()
+
+        val cvsText = formatter.getRadioText(rootView.radioGrpCVS)
+        if (cvsText != "") {
+            addData("CVS",cvsText)
+        } else{
+            errorList.add(rootView.radioGrpCVS)
+        }
         if(rootView.linearCvs.visibility == View.VISIBLE){
             val text = rootView.etCvsAbnormal.text.toString()
-            addData("CVS",text)
-        }else{
-            val text = formatter.getRadioText(rootView.radioGrpCVS)
-            addData("CVS",text)
+            if(!TextUtils.isEmpty(text)){
+                addData("If abnormal CVS, specify",text)
+            }else{
+                errorList.add(rootView.etCvsAbnormal)
+            }
+
         }
         if (!TextUtils.isEmpty(systolicBp)){
             addData("Systolic Bp",systolicBp)
+        }else{
+            errorList.add(rootView.etSystolicBp)
         }
         if (!TextUtils.isEmpty(diastolicBp)){
             addData("Diastolic BP",diastolicBp)
+        }else{
+            errorList.add(rootView.etDiastolicBp)
         }
         if (!TextUtils.isEmpty(pulseRate)){
             addData("Pulse Rate",pulseRate)
+        }else{
+            errorList.add(rootView.etPulseRate)
         }
 
+        val textValue = formatter.getRadioText(rootView.radioGrpRespiratory)
+        if (textValue != "") {
+            addData("Respiratory", textValue)
+        } else{
+            errorList.add(rootView.radioGrpRespiratory)
+        }
         if(rootView.linearResp.visibility == View.VISIBLE){
             val text = rootView.etCvsRespiratory.text.toString()
-            addData("Respiratory",text)
-        }else{
-            val text = formatter.getRadioText(rootView.radioGrpRespiratory)
-            addData("Respiratory",text)
+            if (!TextUtils.isEmpty(text)){
+                addData("If Abnormal Respiratory, specify",text)
+            }else{
+                errorList.add(rootView.etCvsRespiratory)
+            }
         }
-        if(rootView.linearResp.visibility == View.VISIBLE){
-            val text = rootView.etBreastFinding.text.toString()
-            addData("Breasts Exam",text)
+
+        val textValueBreast = formatter.getRadioText(rootView.radioGrpBreasts)
+        if (textValue != "") {
+            addData("Breast Exams", textValueBreast)
+        } else{
+            errorList.add(rootView.radioGrpRespiratory)
         }
+
         if(rootView.linearNormal.visibility == View.VISIBLE){
             val text = rootView.etBreastFinding.text.toString()
-            addData("Normal Breasts Findings",text)
+            if (!TextUtils.isEmpty(text)) {
+                addData("Normal Breasts Findings", text)
+            } else {
+                errorList.add(rootView.etBreastFinding)
+            }
         }
         if(rootView.linearAbnormal.visibility == View.VISIBLE){
             val text = rootView.etBreastAbnormal.text.toString()
-            addData("Abnormal Breasts Findings",text)
+            if (!TextUtils.isEmpty(text)) {
+                addData("Abnormal Breasts Findings", text)
+            } else {
+                errorList.add(rootView.etBreastAbnormal)
+            }
         }
 
         for (items in observationList){
@@ -304,13 +349,14 @@ class FragmentPhysicalExam1 : Fragment() {
         observationList.clear()
 
 
-
+        val motherWeight = rootView.etMotherWeight.text.toString()
+        val gestation = rootView.etGestation.text.toString()
         if (!TextUtils.isEmpty(motherWeight) && !TextUtils.isEmpty(gestation)){
 
             val isWeight = formatter.validateWeight(motherWeight)
             if (isWeight){
-                addData("Mother Weight",motherWeight)
-                addData("Gestation",gestation)
+                addData("Mother Weight (kgs)",motherWeight)
+                addData("Gestation (weeks)",gestation)
 
                 for (items in observationList){
 
@@ -324,24 +370,36 @@ class FragmentPhysicalExam1 : Fragment() {
                 observationList.clear()
 
 
-                val dbDataDetailsList = ArrayList<DbDataDetails>()
-                val dbDataDetails = DbDataDetails(dbDataList)
-                dbDataDetailsList.add(dbDataDetails)
-                val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
-                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
-
-                val ft = requireActivity().supportFragmentManager.beginTransaction()
-                ft.replace(R.id.fragmentHolder, FragmentPhysicalExam2())
-                ft.addToBackStack(null)
-                ft.commit()
-
             }else{
+                errorList.add(rootView.etMotherWeight)
                 Toast.makeText(requireContext(), "Invalid Weight", Toast.LENGTH_SHORT).show()
             }
 
 
         }else{
-            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+            if (TextUtils.isEmpty(motherWeight)){
+                errorList.add(rootView.etMotherWeight)
+            }
+            if (TextUtils.isEmpty(gestation)){
+                errorList.add(rootView.etGestation)
+            }
+        }
+
+        if (errorList.size == 0){
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentPhysicalExam2())
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+            formatter.validate(errorList, requireContext())
         }
 
 

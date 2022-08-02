@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -159,19 +160,41 @@ class FragmentPhysicalExam2 : Fragment() {
 
     private fun saveData() {
 
+        val errorList = ArrayList<Any>()
         val dbDataList = ArrayList<DbDataList>()
 
         if(rootView.linearInspection.visibility == View.VISIBLE){
             val text = rootView.etAbnomality.text.toString()
-            addData("Abdominal Examination",text)
+            if(!TextUtils.isEmpty(text)){
+                addData("Inspection Done","Yes")
+                addData("If yes, specify",text)
+            }else{
+                errorList.add(rootView.etAbnomality)
+            }
+        }else{
+            addData("Inspection Done","No")
         }
         if(rootView.linearPalp.visibility == View.VISIBLE){
             val text = rootView.etPalpation.text.toString()
-            addData("Palpation Done",text)
+            if(!TextUtils.isEmpty(text)){
+                addData("Palpation Done","Yes")
+                addData("If yes, specify",text)
+            }else{
+                errorList.add(rootView.etPalpation)
+            }
+        }else{
+            addData("Palpation Done","No")
         }
         if(rootView.linearAusc.visibility == View.VISIBLE){
             val text = rootView.etAuscalation.text.toString()
-            addData("Auscultation Done",text)
+            if(!TextUtils.isEmpty(text)){
+                addData("Auscultation Done","Yes")
+                addData("If yes, specify",text)
+            }else{
+                errorList.add(rootView.etAuscalation)
+            }
+        }else{
+            addData("Auscultation Done","No")
         }
         for (items in observationList){
 
@@ -187,20 +210,48 @@ class FragmentPhysicalExam2 : Fragment() {
 
         if(rootView.linearExternalInspection.visibility == View.VISIBLE){
             val text = rootView.etExternalAbnomality.text.toString()
-            addData("Inspection Done",text)
+            if(!TextUtils.isEmpty(text)){
+                addData("Inspection Done","Yes")
+                addData("If yes, specify",text)
+            }else{
+                errorList.add(rootView.etExternalAbnomality)
+            }
+        }else{
+            addData("Inspection Done","No")
         }
 
         if(rootView.linearExternalPalp.visibility == View.VISIBLE){
             val text = rootView.etExternalPalpation.text.toString()
-            addData("Palpation Done",text)
+            if(!TextUtils.isEmpty(text)){
+                addData("Palpation Done","Yes")
+                addData("If yes, specify",text)
+            }else{
+                errorList.add(rootView.etExternalPalpation)
+            }
+        }else{
+            addData("Palpation Done","No")
         }
         if(rootView.linearDischarge.visibility == View.VISIBLE){
             val text = rootView.etDischarge.text.toString()
-            addData("Discharge Present",text)
+            if(!TextUtils.isEmpty(text)) {
+                addData("Discharge Done", "Yes")
+                addData("If yes, specify", text)
+            }else{
+                errorList.add(rootView.etDischarge)
+            }
+        }else{
+            addData("Discharge Done","No")
         }
         if(rootView.linearGenital.visibility == View.VISIBLE){
             val text = rootView.etGenital.text.toString()
-            addData("Genital Ulcer Present",text)
+            if(!TextUtils.isEmpty(text)) {
+                addData("Genital Ulcer Present", "Yes")
+                addData("If yes, specify", text)
+            }else{
+                errorList.add(rootView.etGenital)
+            }
+        }else{
+            addData("Genital Ulcer Present","No")
         }
         for (items in observationList){
 
@@ -214,24 +265,27 @@ class FragmentPhysicalExam2 : Fragment() {
         observationList.clear()
 
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
+        if (errorList.size == 0){
 
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.PHYSICAL_EXAMINATION.name, dbDataDetailsList)
 
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PHYSICAL_EXAMINATION.name))
-        ft.addToBackStack(null)
-        ft.commit()
 
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PHYSICAL_EXAMINATION.name)
-//
-//
-//        startActivity(Intent(requireContext(), PatientProfile::class.java))
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PHYSICAL_EXAMINATION.name))
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+            formatter.validate(errorList, requireContext())
+        }
+
+
+
 
     }
 

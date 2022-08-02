@@ -254,7 +254,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 rootView.etWeight, rootView.etDoB, rootView.etLmp, rootView.etEdd)
             )
 
-            formatter.validate(validationList)
+            formatter.validate(validationList, requireContext())
 
             if (spinnerMaritalValue == "") Toast.makeText(requireContext(), "Please select marital status", Toast.LENGTH_SHORT).show()
             if (educationLevelValue == "") Toast.makeText(requireContext(), "Please select education level", Toast.LENGTH_SHORT).show()

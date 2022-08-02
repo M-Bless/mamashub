@@ -104,8 +104,12 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
     private fun saveData() {
 
         if (rootView.linearTwins.visibility == View.VISIBLE){
-            val text = formatter.getRadioText(rootView.radioGrpTwinHistory)
-            addData("Twins History",text)
+
+            var twins = ""
+            if (rootView.checkboxPreviousPregnancy.isChecked)twins = twins + "Previous Pregnancy" + ","
+            if (rootView.checkboxMotherSide.isChecked)twins = twins + "Mother's side" + ","
+            addData("Twins History",twins)
+
         }else{
             val text = formatter.getRadioText(rootView.radioGrpTwins)
             addData("Twins History",text)

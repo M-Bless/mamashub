@@ -90,27 +90,16 @@
                             android:layout_height="match_parent"
                             android:text="If yes, Specify"/>
 
-                        <RadioGroup
-                            android:id="@+id/radioGrpTwinHistory"
+                        <CheckBox
+                            android:id="@+id/checkboxPreviousPregnancy"
+                            android:text="Previous Pregancy"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioYesPreviousPregnancy"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Previous Pregnancy" />
-
-                            <RadioButton
-                                android:id="@+id/radioNoMotherSide"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Mother's Side" />
-
-                        </RadioGroup>
+                            android:layout_height="wrap_content"/>
+                        <CheckBox
+                            android:id="@+id/checkboxMotherSide"
+                            android:text="Mother's side"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
 
                     </LinearLayout>
 
