@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -68,9 +69,9 @@ class ClinicalNotesAdd : AppCompatActivity() {
             val todayDate = formatter.getTodayDateNoTime()
             val dbObserveValueList = ArrayList<DbDataList>()
 
-            val dbClinicalValue = DbDataList("Clinical Note", clinicalNotes, "Clinical Note", DbResourceType.Observation.name)
-            val dbNextValue = DbDataList("Next Appointment", appointmentDate, "Clinical Note", DbResourceType.Observation.name)
-            val dbTodayValue = DbDataList("Date Collected", todayDate, "Clinical Note", DbResourceType.Observation.name)
+            val dbClinicalValue = DbDataList("Clinical Note", clinicalNotes, "Clinical Note", DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES.name)
+            val dbNextValue = DbDataList("Next Appointment", appointmentDate, "Clinical Note", DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES_DATE.name)
+            val dbTodayValue = DbDataList("Date Collected", todayDate, "Clinical Note", DbResourceType.Observation.name , DbObservationValues.CLINICAL_NOTES_DATE.name)
 
             dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
 
@@ -86,15 +87,6 @@ class ClinicalNotesAdd : AppCompatActivity() {
             val intent = Intent(this, ConfirmPage::class.java)
             startActivity(intent)
 
-//            val dbCode = formatter.createObservation(dbObserveValueList, DbResourceViews.CLINICAL_NOTES.name)
-//
-//            val encounterId = formatter.retrieveSharedPreference(this, DbResourceViews.CLINICAL_NOTES.name)
-//            if (encounterId != null){
-//                retrofitCallsFhir.createObservation(encounterId,this, dbCode)
-//
-//            }else{
-//                retrofitCallsFhir.createFhirEncounter(this, dbCode, DbResourceViews.CLINICAL_NOTES.name)
-//            }
 
 
 

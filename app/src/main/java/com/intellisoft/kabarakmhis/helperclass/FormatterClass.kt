@@ -663,16 +663,16 @@ class FormatterClass {
         }
     }
 
-    fun changeStringCase(s: String): String? {
-        var DELIMITERS = " '-/"
-        var sb = StringBuilder()
-        var capNext = true
-        for (c in s.toCharArray()) {
-            c = if (capNext) c.uppercaseChar() else c.lowercaseChar()
-            sb.append(c)
-            capNext = DELIMITERS.indexOf(c.code.toChar()) >= 0
-        }
-        return sb.toString()
-    }
+//    fun changeStringCase(s: String): String? {
+//        val DELIMITERS = " '-/"
+//        val sb = StringBuilder()
+//        var capNext = true
+//        for (sc in s.toCharArray()) {
+//            sc = if (capNext) c.uppercaseChar() else c.lowercaseChar()
+//            sb.append(c)
+//            capNext = DELIMITERS.indexOf(c.code.toChar()) >= 0
+//        }
+//        return sb.toString()
+//    }
 
 }

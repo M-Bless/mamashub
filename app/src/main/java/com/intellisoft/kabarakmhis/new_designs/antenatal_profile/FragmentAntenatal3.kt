@@ -13,6 +13,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -34,7 +36,7 @@ class FragmentAntenatal3 : Fragment() {
     private val formatter = FormatterClass()
 
     private lateinit var rootView: View
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -236,7 +238,7 @@ class FragmentAntenatal3 : Fragment() {
 
         val hivTest = formatter.getRadioText(rootView.radioGrpHiv)
         if (hivTest != "") {
-            addData("HIV Testing", hivTest)
+            addData("HIV Testing", hivTest, DbObservationValues.HIV_TESTING.name)
         }else{
             errorList.add(rootView.radioGrpHiv)
         }
@@ -244,7 +246,7 @@ class FragmentAntenatal3 : Fragment() {
 
             val value = rootView.tvHivDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("HIV Test Date", value)
+                addData("HIV Test Date", value , DbObservationValues.HIV_RESULTS.name)
             } else {
                 errorList.add(rootView.tvHivDate)
             }
@@ -252,21 +254,21 @@ class FragmentAntenatal3 : Fragment() {
         if (rootView.linearNo.visibility == View.VISIBLE) {
             val value = rootView.etTb.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("HIV Further counselling", value)
+                addData("HIV Further counselling", value , DbObservationValues.HIV_TESTING.name)
             } else {
                 errorList.add(rootView.etTb)
             }
         }
         val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (hivStatus != "") {
-            addData("HIV Status", hivStatus)
+            addData("HIV Status", hivStatus , DbObservationValues.HIV_STATUS.name)
         }else{
             errorList.add(rootView.radioGrpHIVStatus)
         }
         if (rootView.linearNR.visibility == View.VISIBLE) {
             val value = rootView.tvHivTestDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("HIV Test Date", value)
+                addData("HIV Test Date", value , DbObservationValues.HIV_TESTING.name)
             } else {
                 errorList.add(rootView.tvHivTestDate)
             }
@@ -274,9 +276,12 @@ class FragmentAntenatal3 : Fragment() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "HIV Testing", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "HIV Testing", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -284,14 +289,14 @@ class FragmentAntenatal3 : Fragment() {
 
         val syphilisTesting = formatter.getRadioText(rootView.radioGrpSyphilis)
         if (syphilisTesting != "") {
-            addData("Syphilis Testing", syphilisTesting)
+            addData("Syphilis Testing", syphilisTesting , DbObservationValues.SYPHILIS_TESTING.name)
         }else{
             errorList.add(rootView.radioGrpSyphilis)
         }
         if (rootView.linearSyphTestDate.visibility == View.VISIBLE) {
             val value = rootView.tvSyphilisDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Syphilis Test Date", value)
+                addData("Syphilis Test Date", value , DbObservationValues.SYPHILIS_RESULTS.name)
             } else {
                 errorList.add(rootView.tvSyphilisDate)
             }
@@ -299,23 +304,26 @@ class FragmentAntenatal3 : Fragment() {
         if (rootView.linearSyphNo.visibility == View.VISIBLE) {
             val value = rootView.etSyphilisCounselling.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Syphilis Further counselling", value)
+                addData("Syphilis Further counselling", value , DbObservationValues.SYPHILIS_TESTING.name)
             } else {
                 errorList.add(rootView.etSyphilisCounselling)
             }
         }
         val syphilisStatus = formatter.getRadioText(rootView.radioGrpSyphilisStatus)
         if (syphilisStatus != "") {
-            addData("Syphilis Status", syphilisStatus)
+            addData("Syphilis Status", syphilisStatus , DbObservationValues.SYPHILIS_MOTHER_STATUS.name)
         }else{
             errorList.add(rootView.radioGrpSyphilisStatus)
         }
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Syphilis Testing", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Syphilis Testing", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -323,14 +331,14 @@ class FragmentAntenatal3 : Fragment() {
 
         val hepatitisB = formatter.getRadioText(rootView.radioGrpHepatitis)
         if (hepatitisB != "") {
-            addData("Hepatitis Status", hepatitisB)
+            addData("Hepatitis Status", hepatitisB, DbObservationValues.HEPATITIS_TESTING.name)
         }else{
             errorList.add(rootView.radioGrpHepatitis)
         }
         if (rootView.linearHepatitis.visibility == View.VISIBLE) {
             val value = rootView.tvHepatitisDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Hepatitis Test Date", value)
+                addData("Hepatitis Test Date", value , DbObservationValues.HEPATITIS_RESULTS.name)
             } else {
                 errorList.add(rootView.tvHepatitisDate)
             }
@@ -338,23 +346,26 @@ class FragmentAntenatal3 : Fragment() {
         if (rootView.linearHepaNo.visibility == View.VISIBLE) {
             val value = rootView.etHepatitisCounselling.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Hepatitis Further counselling", value)
+                addData("Hepatitis Further counselling", value , DbObservationValues.HEPATITIS_TESTING.name)
             } else {
                 errorList.add(rootView.etHepatitisCounselling)
             }
         }
         val hepatitisStatus = formatter.getRadioText(rootView.radioGrpHepatitisStatus)
         if (hepatitisStatus != "") {
-            addData("Hepatitis Status", hepatitisStatus)
+            addData("Hepatitis Status", hepatitisStatus , DbObservationValues.HEPATITIS_MOTHER_STATUS.name)
         }else{
             errorList.add(rootView.radioGrpHepatitisStatus)
         }
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Hepatitis B Testing", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Hepatitis B Testing", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -382,10 +393,10 @@ class FragmentAntenatal3 : Fragment() {
     }
 
 
+    private fun addData(key: String, value: String, codeLabel: String) {
 
-
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){

@@ -12,6 +12,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -24,7 +26,7 @@ import java.util.*
 class PreventiveService : AppCompatActivity() {
 
     private val formatter = FormatterClass()
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private var year = 0
     private  var month = 0
     private  var day = 0
@@ -152,14 +154,14 @@ class PreventiveService : AppCompatActivity() {
 
         val date = tvDate.text.toString()
         if (!TextUtils.isEmpty(date)){
-            addData("Next Visit",date)
+            addData("Next Visit",date, DbObservationValues.NEXT_VISIT_DATE.name)
         }
 
         val repeatSerology = formatter.getRadioText(radioGrpTD)
         if (repeatSerology != ""){
             val ttImmunization = tvTTDate.text. toString()
             if (!TextUtils.isEmpty(ttImmunization)){
-                addData("Immunization Date",ttImmunization)
+                addData("Immunization Date",ttImmunization, DbObservationValues.TT_PROVIDED.name)
             }
 
         }
@@ -169,9 +171,12 @@ class PreventiveService : AppCompatActivity() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Tetanus Diphtheria", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Tetanus Diphtheria", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -199,9 +204,12 @@ class PreventiveService : AppCompatActivity() {
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel: String) {
+
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

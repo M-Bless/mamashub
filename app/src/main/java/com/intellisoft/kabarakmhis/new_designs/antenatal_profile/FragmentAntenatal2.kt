@@ -13,6 +13,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -31,7 +33,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
     private val formatter = FormatterClass()
 
     private lateinit var rootView: View
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var calendar : Calendar
@@ -220,20 +222,20 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         val tbTest = formatter.getRadioText(rootView.radioGrpTb)
         if (tbTest != "") {
-            addData("Tb Test", tbTest)
+            addData("Tb Test", tbTest , DbObservationValues.TB_SCREENING.name)
         }else{
             errorList.add(rootView.radioGrpTb)
         }
         if (rootView.linearTB.visibility == View.VISIBLE){
             val text = formatter.getRadioText(rootView.radioGrpTbResults)
             if (text != "") {
-                addData("Tb Test Results", text)
+                addData("Tb Test Results", text, DbObservationValues.TB_RESULTS.name)
 
                 if (rootView.linearPositive.visibility == View.VISIBLE){
 
                     val data = rootView.etTb.text.toString()
                     if(!TextUtils.isEmpty(data)){
-                        addData("TB diagnosis",data)
+                        addData("TB diagnosis",data , DbObservationValues.TB_DIAGNOSIS.name)
                     }else{
                         errorList.add(rootView.etTb)
                     }
@@ -245,17 +247,17 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
                     val nextGive = rootView.tvIPTNextVisit.text.toString()
 
                     if (!TextUtils.isEmpty(iptGvn)) {
-                        addData("IPT Given", iptGvn)
+                        addData("IPT Given", iptGvn , DbObservationValues.IPT_ELIGIBILITY.name)
                     } else {
                         errorList.add(rootView.etIpt)
                     }
                     if (!TextUtils.isEmpty(dateGvn)) {
-                        addData("IPT Date Given", dateGvn)
+                        addData("IPT Date Given", dateGvn, DbObservationValues.IPT_DATE.name)
                     } else {
                         errorList.add(rootView.tvIPTDateGiven)
                     }
                     if (!TextUtils.isEmpty(nextGive)) {
-                        addData("IPT Next Visit", nextGive)
+                        addData("IPT Next Visit", nextGive, DbObservationValues.IPT_VISIT.name)
                     } else {
                         errorList.add(rootView.tvIPTNextVisit)
                     }
@@ -269,9 +271,12 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "TB Screening", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "TB Screening", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -279,14 +284,14 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         val multipleBabies = formatter.getRadioText(rootView.radioGrpMultipleBaby)
         if (multipleBabies != "") {
-            addData("Multiple babies", multipleBabies)
+            addData("Multiple babies", multipleBabies, DbObservationValues.MULTIPLE_BABIES.name)
         }else{
             errorList.add(rootView.radioGrpMultipleBaby)
         }
         if (rootView.linearMultipleBaby.visibility == View.VISIBLE){
             val text = rootView.etMultipleBaby.text.toString()
             if (!TextUtils.isEmpty(text)) {
-                addData("Multiple babies results", text)
+                addData("Multiple babies results", text , DbObservationValues.MULTIPLE_BABIES.name)
             }else{
                 errorList.add(rootView.etMultipleBaby)
             }
@@ -294,9 +299,12 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Multiple Babies", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Multiple Babies", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -304,28 +312,28 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         val obstetricUltraSound1 = formatter.getRadioText(rootView.radioGrpUltrasound1)
         if (obstetricUltraSound1 != "") {
-            addData("1st Obstetric Sound", obstetricUltraSound1)
+            addData("1st Obstetric Sound", obstetricUltraSound1 , DbObservationValues.OBSTERIC_ULTRASOUND_1.name)
         }else{
             errorList.add(rootView.radioGrpUltrasound1)
         }
         if (rootView.linearDate.visibility == View.VISIBLE){
             val text = rootView.tvUltraSound1.text.toString()
             if (!TextUtils.isEmpty(text)) {
-                addData("1st Obstetric Sound results", text)
+                addData("1st Obstetric Sound results", text , DbObservationValues.OBSTERIC_ULTRASOUND_1.name)
             }else{
                 errorList.add(rootView.tvUltraSound1)
             }
         }
         val obstetricUltraSound2 = formatter.getRadioText(rootView.radioGrpUltrasound2)
         if (obstetricUltraSound2 != "") {
-            addData("2nd Obstetric Sound", obstetricUltraSound2)
+            addData("2nd Obstetric Sound", obstetricUltraSound2, DbObservationValues.OBSTERIC_ULTRASOUND_2.name)
         }else{
             errorList.add(rootView.radioGrpUltrasound2)
         }
         if (rootView.linear2ndUltra.visibility == View.VISIBLE){
             val text = rootView.tvUltraSound2.text.toString()
             if (!TextUtils.isEmpty(text)) {
-                addData("2nd Obstetric Sound results", text)
+                addData("2nd Obstetric Sound results", text, DbObservationValues.OBSTERIC_ULTRASOUND_2.name)
             }else{
                 errorList.add(rootView.tvUltraSound2)
             }
@@ -334,9 +342,12 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Obstetric Ultrasound", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Obstetric Ultrasound", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -344,28 +355,31 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (hivStatus != "") {
-            addData("HIV status before 1st ANC", hivStatus)
+            addData("HIV status before 1st ANC", hivStatus, DbObservationValues.HIV_STATUS.name)
         }else{
             errorList.add(rootView.radioGrpHIVStatus)
         }
 
         if (spinnerArtElligibilityValue != "") {
-            addData("ART Eligibility (WHO Stage)", spinnerArtElligibilityValue)
+            addData("ART Eligibility (WHO Stage)", spinnerArtElligibilityValue, DbObservationValues.ART_ELIGIBILITY.name)
         }else{
             errorList.add(rootView.spinnerEligibility)
         }
 
         if(spinnerPartnerHivValue != "") {
-            addData("Partner HIV Status", spinnerPartnerHivValue)
+            addData("Partner HIV Status", spinnerPartnerHivValue, DbObservationValues.PARTNER_HIV_STATUS.name)
         }else{
             errorList.add(rootView.spinnerPartnerHIVStatus)
         }
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "HIV Status", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "HIV Status", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -374,26 +388,29 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
 
         if (spinnerBeforeFirstVisitValue != "") {
-            addData("On ARV before 1st ANC visit", spinnerBeforeFirstVisitValue)
+            addData("On ARV before 1st ANC visit", spinnerBeforeFirstVisitValue, DbObservationValues.ARV_ANC.name)
         }else{
             errorList.add(rootView.spinnerOnARVBeforeANCVisit)
         }
         if (spinnerStartedHaartValue != "") {
-            addData("Started HAART in ANC", spinnerStartedHaartValue)
+            addData("Started HAART in ANC", spinnerStartedHaartValue , DbObservationValues.HAART_ANC.name)
         }else{
             errorList.add(rootView.spinnerStartedHaartInANC)
         }
         if (spinnerCotrimoxazoleValue != "") {
-            addData("Cotrimoxazole Given", spinnerCotrimoxazoleValue)
+            addData("Cotrimoxazole Given", spinnerCotrimoxazoleValue, DbObservationValues.COTRIMOXAZOLE.name)
         }else{
             errorList.add(rootView.spinnerCotrimoxazole)
         }
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Maternal HAART", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Maternal HAART", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -521,11 +538,10 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
     }
 
 
- 
+    private fun addData(key: String, value: String, codeLabel: String) {
 
-
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){

@@ -15,6 +15,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -31,7 +33,7 @@ class FragmentPmtct1 : Fragment() {
 
     private val formatter = FormatterClass()
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -148,7 +150,7 @@ class FragmentPmtct1 : Fragment() {
 
         if (checkBox.isChecked){
             val value = checkBox.text.toString()
-            addData("Regimen Given",value)
+            addData("Regimen Given",value, DbObservationValues.REGIMEN.name)
         }
 
     }
@@ -159,13 +161,16 @@ class FragmentPmtct1 : Fragment() {
         val dbDataList = ArrayList<DbDataList>()
 
 
-        addData("ART for life", if (lifeART) "Yes" else "No")
+        addData("ART for life", if (lifeART) "Yes" else "No", DbObservationValues.INTERVENTION_GIVEN.name)
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Intervention Given", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Intervention Given", DbResourceType.Observation.name ,label)
             dbDataList.add(data)
 
         }
@@ -183,15 +188,18 @@ class FragmentPmtct1 : Fragment() {
             val otherRegimen = rootView.etOther.text.toString()
 
             if (!TextUtils.isEmpty(otherRegimen)){
-                addData("Other Regimen Applied",otherRegimen)
+                addData("Other Regimen Applied",otherRegimen, DbObservationValues.REGIMEN.name)
             }
 
             for (items in observationList){
 
                 val key = items.key
-                val value = observationList.getValue(key)
+                val dbObservationLabel = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "ART for life", DbResourceType.Observation.name)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, "ART for life", DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }
@@ -229,9 +237,10 @@ class FragmentPmtct1 : Fragment() {
 
 
 
-    private fun addData(key: String, value: String) {
+    private fun addData(key: String, value: String, codeLabel: String) {
         if (key != ""){
-            observationList[key] = value
+            val dbObservationLabel = DbObservationLabel(value, codeLabel)
+            observationList[key] = dbObservationLabel
         }
 
     }

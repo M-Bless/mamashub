@@ -14,6 +14,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -213,14 +214,16 @@ class MaternalSerology : AppCompatActivity() {
 
             if (linearRepeatNo.visibility == View.VISIBLE){
                val nextAppointment = tvNoNextAppointment.text.toString()
-                val valueName = DbDataList("Date of Next Appointment", nextAppointment, "Maternal Serology Results", DbResourceType.Observation.name)
+                val valueName = DbDataList("Date of Next Appointment", nextAppointment,
+                    "Maternal Serology Results", DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_RESULTS.name)
                 birthPlanList.add(valueName)
             }
 
 
             if (linearRepeatYes.visibility == View.VISIBLE){
                 val testDoneDate = tvDate.text.toString()
-                val valueName = DbDataList("Date Test was done", testDoneDate, "Maternal Serology Results", DbResourceType.Observation.name)
+                val valueName = DbDataList("Date Test was done", testDoneDate,
+                    "Maternal Serology Results", DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_DETAILS.name)
                 birthPlanList.add(valueName)
 
                 val radioGrpTestResults = formatter.getRadioText(radioGrpTestResults)
@@ -232,8 +235,10 @@ class MaternalSerology : AppCompatActivity() {
 
                         if (!TextUtils.isEmpty(pmtctClinic) && !TextUtils.isEmpty(partnerTested)){
 
-                            val valueName1 = DbDataList("Refer PMTCT Clinic", pmtctClinic, "Reactive", DbResourceType.Observation.name)
-                            val valueName2 = DbDataList("Partner Test", partnerTested, "Reactive", DbResourceType.Observation.name)
+                            val valueName1 = DbDataList("Refer PMTCT Clinic", pmtctClinic,
+                                "Reactive", DbResourceType.Observation.name, DbObservationValues.REACTIVE_MATERNAL_SEROLOGY.name)
+                            val valueName2 = DbDataList("Partner Test", partnerTested,
+                                "Reactive", DbResourceType.Observation.name, DbObservationValues.REACTIVE_MATERNAL_SEROLOGY.name)
 
                             birthPlanList.addAll(listOf(valueName1, valueName2))
 
@@ -249,9 +254,12 @@ class MaternalSerology : AppCompatActivity() {
 
                         if (!TextUtils.isEmpty(bookSerology) && !TextUtils.isEmpty(breastFeeding) && !TextUtils.isEmpty(nextVisit)){
 
-                            val valueName1 = DbDataList("Book Serology Test", bookSerology, "Non-Reactive", DbResourceType.Observation.name)
-                            val valueName2 = DbDataList("Complete Breastfeeding Cessation", breastFeeding, "Non-Reactive", DbResourceType.Observation.name)
-                            val valueName3 = DbDataList("Next appointment", nextVisit, "Non-Reactive", DbResourceType.Observation.name)
+                            val valueName1 = DbDataList("Book Serology Test", bookSerology,
+                                "Non-Reactive", DbResourceType.Observation.name,DbObservationValues.NON_REACTIVE_SEROLOGY.name)
+                            val valueName2 = DbDataList("Complete Breastfeeding Cessation", breastFeeding,
+                                "Non-Reactive", DbResourceType.Observation.name,DbObservationValues.NON_REACTIVE_SEROLOGY.name)
+                            val valueName3 = DbDataList("Next appointment", nextVisit,
+                                "Non-Reactive", DbResourceType.Observation.name, DbObservationValues.NON_REACTIVE_SEROLOGY.name)
 
                             birthPlanList.addAll(listOf(valueName1, valueName2, valueName3))
 

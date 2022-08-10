@@ -17,6 +17,8 @@ import android.widget.RadioGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -31,7 +33,7 @@ class FragmentAntenatal1 : Fragment() {
 
     private lateinit var rootView: View
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -198,14 +200,14 @@ class FragmentAntenatal1 : Fragment() {
 
         val hbTest = formatter.getRadioText(rootView.radioGrpHb)
         if (hbTest != ""){
-            addData(hbTest, "HB Test")
+            addData(hbTest, "HB Test", DbObservationValues.HB_TEST.name)
         }else{
             errorList.add(rootView.radioGrpHb)
         }
         if (rootView.linearHb.visibility == View.VISIBLE){
             val hbReading = rootView.etHb.text.toString()
             if (!TextUtils.isEmpty(hbReading)) {
-                addData("HB Reading",hbReading)
+                addData("HB Reading",hbReading, DbObservationValues.HB_TEST.name)
             }else{
                 errorList.add(rootView.etHb)
             }
@@ -213,14 +215,14 @@ class FragmentAntenatal1 : Fragment() {
 
         val bloodGroupTest = formatter.getRadioText(rootView.radioGrpBloodGrpTest)
         if (bloodGroupTest != ""){
-            addData("Blood Group Test", bloodGroupTest)
+            addData("Blood Group Test", bloodGroupTest, DbObservationValues.BLOOD_GROUP_TEST.name)
         }else{
             errorList.add(rootView.radioGrpHb)
         }
         if (rootView.linearBG.visibility == View.VISIBLE){
             val groupTypeResult = formatter.getRadioText(rootView.radioGrpType)
             if (groupTypeResult != "") {
-                addData("Blood Group Type", groupTypeResult)
+                addData("Blood Group Type", groupTypeResult ,DbObservationValues.BLOOD_GROUP_TEST.name)
             }else{
                 errorList.add(rootView.radioGrpType)
             }
@@ -229,14 +231,14 @@ class FragmentAntenatal1 : Fragment() {
 
         val rhesusTest = formatter.getRadioText(rootView.radioGrpRhesus)
         if (rhesusTest != "") {
-            addData("Rhesus Test", rhesusTest)
+            addData("Rhesus Test", rhesusTest ,DbObservationValues.RHESUS_TEST.name)
         }else{
             errorList.add(rootView.radioGrpRhesus)
         }
         if (rootView.linearRhesus.visibility == View.VISIBLE){
             val rhesusResult = formatter.getRadioText(rootView.radioGrpRhesusTest)
             if (rhesusResult != "") {
-                addData("Rhesus Test Result", rhesusResult)
+                addData("Rhesus Test Result", rhesusResult ,DbObservationValues.RHESUS_TEST.name)
             }else{
                 errorList.add(rootView.radioGrpRhesusTest)
             }
@@ -244,14 +246,14 @@ class FragmentAntenatal1 : Fragment() {
 
         val bloodRbs = formatter.getRadioText(rootView.radioGrpBloodRbs)
         if (bloodRbs != "") {
-            addData("Blood RBS", bloodRbs)
+            addData("Blood RBS", bloodRbs ,DbObservationValues.BLOOD_RBS_TEST.name)
         }else{
             errorList.add(rootView.radioGrpBloodRbs)
         }
         if (rootView.linearRBS.visibility == View.VISIBLE){
             val rbsReading = rootView.etBloodRBSReading.text.toString()
             if (!TextUtils.isEmpty(rbsReading)) {
-                addData("Blood RBS Reading", rbsReading)
+                addData("Blood RBS Reading", rbsReading, DbObservationValues.BLOOD_RBS_TEST.name)
             }else{
                 errorList.add(rootView.etBloodRBSReading)
             }
@@ -260,9 +262,12 @@ class FragmentAntenatal1 : Fragment() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Blood Test", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Blood Test", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -270,14 +275,14 @@ class FragmentAntenatal1 : Fragment() {
 
         val urineTest = formatter.getRadioText(rootView.radioGrpExternalExam)
         if (urineTest != "") {
-            addData("Urinalysis test", urineTest)
+            addData("Urinalysis test", urineTest ,DbObservationValues.URINALYSIS_TEST.name)
         }else{
             errorList.add(rootView.radioGrpExternalExam)
         }
         if (rootView.linearUrine.visibility == View.VISIBLE){
             val urineResult = formatter.getRadioText(rootView.radioGrpUrineResults)
             if (urineResult != "") {
-                addData("Urinalysis Result", urineResult)
+                addData("Urinalysis Result", urineResult ,DbObservationValues.URINALYSIS_RESULTS.name)
             }else{
                 errorList.add(rootView.radioGrpUrineResults)
             }
@@ -285,7 +290,7 @@ class FragmentAntenatal1 : Fragment() {
         if (rootView.linearAbnormal.visibility == View.VISIBLE){
             val abnormalResult = rootView.etAbnormalUrine.text.toString()
             if (!TextUtils.isEmpty(abnormalResult)) {
-                addData("Urinalysis Abnormal Result", abnormalResult)
+                addData("Urinalysis Abnormal Result", abnormalResult ,DbObservationValues.URINALYSIS_RESULTS.name)
             }else{
                 errorList.add(rootView.etAbnormalUrine)
             }
@@ -293,9 +298,12 @@ class FragmentAntenatal1 : Fragment() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Urine Tests", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Urine Tests", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -325,11 +333,11 @@ class FragmentAntenatal1 : Fragment() {
 
     }
 
-  
 
+    private fun addData(key: String, value: String, codeLabel: String) {
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){

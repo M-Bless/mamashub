@@ -12,6 +12,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -30,7 +32,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
     private var spinnerRshpValue  = relationshipList[0]
 
     private lateinit var rootView: View
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -108,30 +110,30 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
             var twins = ""
             if (rootView.checkboxPreviousPregnancy.isChecked)twins = twins + "Previous Pregnancy" + ","
             if (rootView.checkboxMotherSide.isChecked)twins = twins + "Mother's side" + ","
-            addData("Twins History",twins)
+            addData("Twins History",twins,DbObservationValues.TWINS.name)
 
         }else{
             val text = formatter.getRadioText(rootView.radioGrpTwins)
-            addData("Twins History",text)
+            addData("Twins History",text,DbObservationValues.TWINS.name)
         }
 
         if (rootView.linearTbRelation.visibility == View.VISIBLE){
             //Get Name of relative and relationship
             val text = rootView.etRelativeTbName.text.toString()
-            addData("Family Member with TB ",text)
-            addData("Family Member with TB Relationship",spinnerRshpValue)
+            addData("Family Member with TB ",text,DbObservationValues.TUBERCULOSIS.name)
+            addData("Family Member with TB Relationship",spinnerRshpValue, DbObservationValues.RELATIONSHIP.name)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpTb)
-            addData("Tuberculosis History",text)
+            addData("Tuberculosis History",text,DbObservationValues.TUBERCULOSIS.name)
         }
 
         if (rootView.linearReferTbScreening.visibility == View.VISIBLE){
             //Refer for TB Screening
             val text = rootView.etTbScreening.text.toString()
-            addData("Tuberculosis Screening",text)
+            addData("Tuberculosis Screening",text,DbObservationValues.TUBERCULOSIS.name)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpSameHouse)
-            addData("Was the patient sharing residence with TB person? ",text)
+            addData("Was the patient sharing residence with TB person? ",text ,DbObservationValues.TUBERCULOSIS.name)
         }
 
         val dbDataList = ArrayList<DbDataList>()
@@ -139,9 +141,12 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Family History", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Family History", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -166,11 +171,11 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
-    }
+    private fun addData(key: String, value: String, codeLabel: String) {
 
-    
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
+    }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
         if (showLinear){

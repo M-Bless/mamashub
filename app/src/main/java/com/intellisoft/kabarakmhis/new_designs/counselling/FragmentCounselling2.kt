@@ -15,6 +15,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -28,7 +30,7 @@ class FragmentCounselling2 : Fragment() {
 
     private val formatter = FormatterClass()
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -76,27 +78,29 @@ class FragmentCounselling2 : Fragment() {
         val swollenFace = formatter.getRadioText(rootView.radioGrpSwollenFace)
         val motherFever = formatter.getRadioText(rootView.radioGrpMotherFever)
 
-        addData("Was infant feeding counselling done",text1)
-        addData("Was counselling on exclusive breastfeeding and benefits of colostrum done",text2)
-
-        addData("Was the mother pale:",paleMother)
-        addData("Does the mother have severe headache:",headAche)
-        addData("Did the mother have vaginal bleeding:",vaginalBleeding)
-        addData("Did the mother have abdominal pain:",abdominalPain)
-        addData("Did the mother have reduced or no movement of the unborn baby:",babyMovement)
-        addData("Did the mother have convulsions/fits:",convulsions)
-        addData("Was the mother's water breaking:",waterBreaking)
-        addData("Did the mother have swollen face and hands:",swollenFace)
-        addData("Did the mother have a fever:",motherFever)
+        addData("Was infant feeding counselling done",text1, DbObservationValues.INFANT_FEEDING.name)
+        addData("Was counselling on exclusive breastfeeding and benefits of colostrum done",text2, DbObservationValues.EXCLUSIVE_BREASTFEEDING.name)
+        addData("Was the mother pale:",paleMother, DbObservationValues.MOTHER_PALE.name)
+        addData("Does the mother have severe headache:",headAche, DbObservationValues.SEVERE_HEADACHE.name)
+        addData("Did the mother have vaginal bleeding:",vaginalBleeding, DbObservationValues.VAGINAL_BLEEDING.name)
+        addData("Did the mother have abdominal pain:",abdominalPain, DbObservationValues.ABDOMINAL_PAIN.name)
+        addData("Did the mother have reduced or no movement of the unborn baby:",babyMovement, DbObservationValues.REDUCED_MOVEMENT.name)
+        addData("Did the mother have convulsions/fits:",convulsions, DbObservationValues.MOTHER_FITS.name)
+        addData("Was the mother's water breaking:",waterBreaking, DbObservationValues.WATER_BREAKING.name)
+        addData("Did the mother have swollen face and hands:",swollenFace, DbObservationValues.SWOLLEN_FACE.name)
+        addData("Did the mother have a fever:",motherFever, DbObservationValues.FEVER.name)
 
         val dbDataList = ArrayList<DbDataList>()
 
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Counselling", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Counselling", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -121,9 +125,10 @@ class FragmentCounselling2 : Fragment() {
 
 
 
-    private fun addData(key: String, value: String) {
+    private fun addData(key: String, value: String, codeLabel:String) {
         if (key != ""){
-            observationList[key] = value
+            val dbObservationLabel = DbObservationLabel(value, codeLabel)
+            observationList[key] = dbObservationLabel
         }
 
     }

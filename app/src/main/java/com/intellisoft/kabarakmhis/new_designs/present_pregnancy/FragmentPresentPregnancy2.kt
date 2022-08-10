@@ -14,6 +14,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -38,7 +40,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
         "Pelvic fetal presentation", "Transverse fetal presentation", "Other fetal presentation")
     private var spinnerPresentationValue  = presentationList[0]
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -101,12 +103,12 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
             lieText != "" && foetalHeartRate != "" && foetalMovement != "" && !TextUtils.isEmpty(date)
         ){
 
-            addData("Presentation",spinnerPresentationValue)
+            addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
 
-            addData("Lie",lieText)
-            addData("Foetal Heart Rate",foetalHeartRate)
-            addData("Foetal Movement",foetalMovement)
-            addData("Next Visit",date)
+            addData("Lie",lieText, DbObservationValues.LIE.name)
+            addData("Foetal Heart Rate",foetalHeartRate, DbObservationValues.FOETAL_HEART_RATE.name)
+            addData("Foetal Movement",foetalMovement, DbObservationValues.FOETAL_MOVEMENT.name)
+            addData("Next Visit",date, DbObservationValues.NEXT_VISIT_DATE.name)
 
 
             val dbDataList = ArrayList<DbDataList>()
@@ -114,9 +116,12 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
             for (items in observationList){
 
                 val key = items.key
-                val value = observationList.getValue(key)
+                val dbObservationLabel = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "Presentation", DbResourceType.Observation.name)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, "Presentation", DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }
@@ -142,9 +147,12 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
     }
 
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel: String) {
+
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun getPageDetails() {

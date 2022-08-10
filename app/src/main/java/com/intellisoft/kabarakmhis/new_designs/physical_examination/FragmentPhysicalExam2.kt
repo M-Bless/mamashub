@@ -16,6 +16,8 @@ import android.widget.RadioButton
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -30,7 +32,7 @@ class FragmentPhysicalExam2 : Fragment() {
 
     private val formatter = FormatterClass()
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
 
@@ -166,42 +168,45 @@ class FragmentPhysicalExam2 : Fragment() {
         if(rootView.linearInspection.visibility == View.VISIBLE){
             val text = rootView.etAbnomality.text.toString()
             if(!TextUtils.isEmpty(text)){
-                addData("Inspection Done","Yes")
-                addData("If yes, specify",text)
+                addData("Inspection Done","Yes", DbObservationValues.ABDOMINAL_INSPECTION.name)
+                addData("If yes, specify",text , DbObservationValues.ABDOMINAL_INSPECTION.name)
             }else{
                 errorList.add(rootView.etAbnomality)
             }
         }else{
-            addData("Inspection Done","No")
+            addData("Inspection Done","No", DbObservationValues.ABDOMINAL_INSPECTION.name)
         }
         if(rootView.linearPalp.visibility == View.VISIBLE){
             val text = rootView.etPalpation.text.toString()
             if(!TextUtils.isEmpty(text)){
-                addData("Palpation Done","Yes")
-                addData("If yes, specify",text)
+                addData("Palpation Done","Yes", DbObservationValues.ABDOMINAL_PALPATION.name)
+                addData("If yes, specify",text, DbObservationValues.ABDOMINAL_PALPATION.name)
             }else{
                 errorList.add(rootView.etPalpation)
             }
         }else{
-            addData("Palpation Done","No")
+            addData("Palpation Done","No", DbObservationValues.ABDOMINAL_PALPATION.name)
         }
         if(rootView.linearAusc.visibility == View.VISIBLE){
             val text = rootView.etAuscalation.text.toString()
             if(!TextUtils.isEmpty(text)){
-                addData("Auscultation Done","Yes")
-                addData("If yes, specify",text)
+                addData("Auscultation Done","Yes", DbObservationValues.ABDOMINAL_AUSCALATION.name)
+                addData("If yes, specify",text, DbObservationValues.ABDOMINAL_AUSCALATION.name)
             }else{
                 errorList.add(rootView.etAuscalation)
             }
         }else{
-            addData("Auscultation Done","No")
+            addData("Auscultation Done","No", DbObservationValues.ABDOMINAL_AUSCALATION.name)
         }
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Abdominal Examination", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Abdominal Examination", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -211,54 +216,57 @@ class FragmentPhysicalExam2 : Fragment() {
         if(rootView.linearExternalInspection.visibility == View.VISIBLE){
             val text = rootView.etExternalAbnomality.text.toString()
             if(!TextUtils.isEmpty(text)){
-                addData("Inspection Done","Yes")
-                addData("If yes, specify",text)
+                addData("Inspection Done","Yes", DbObservationValues.EXTERNAL_INSPECTION.name)
+                addData("If yes, specify",text, DbObservationValues.EXTERNAL_INSPECTION.name)
             }else{
                 errorList.add(rootView.etExternalAbnomality)
             }
         }else{
-            addData("Inspection Done","No")
+            addData("Inspection Done","No", DbObservationValues.EXTERNAL_INSPECTION.name)
         }
 
         if(rootView.linearExternalPalp.visibility == View.VISIBLE){
             val text = rootView.etExternalPalpation.text.toString()
             if(!TextUtils.isEmpty(text)){
-                addData("Palpation Done","Yes")
-                addData("If yes, specify",text)
+                addData("Palpation Done","Yes", DbObservationValues.EXTERNAL_PALPATION.name)
+                addData("If yes, specify",text, DbObservationValues.EXTERNAL_PALPATION.name)
             }else{
                 errorList.add(rootView.etExternalPalpation)
             }
         }else{
-            addData("Palpation Done","No")
+            addData("Palpation Done","No", DbObservationValues.EXTERNAL_PALPATION.name)
         }
         if(rootView.linearDischarge.visibility == View.VISIBLE){
             val text = rootView.etDischarge.text.toString()
             if(!TextUtils.isEmpty(text)) {
-                addData("Discharge Done", "Yes")
-                addData("If yes, specify", text)
+                addData("Discharge Done", "Yes", DbObservationValues.EXTERNAL_DISCHARGE.name)
+                addData("If yes, specify", text, DbObservationValues.EXTERNAL_DISCHARGE.name)
             }else{
                 errorList.add(rootView.etDischarge)
             }
         }else{
-            addData("Discharge Done","No")
+            addData("Discharge Done","No", DbObservationValues.EXTERNAL_DISCHARGE.name)
         }
         if(rootView.linearGenital.visibility == View.VISIBLE){
             val text = rootView.etGenital.text.toString()
             if(!TextUtils.isEmpty(text)) {
-                addData("Genital Ulcer Present", "Yes")
-                addData("If yes, specify", text)
+                addData("Genital Ulcer Present", "Yes", DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
+                addData("If yes, specify", text, DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
             }else{
                 errorList.add(rootView.etGenital)
             }
         }else{
-            addData("Genital Ulcer Present","No")
+            addData("Genital Ulcer Present","No", DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
         }
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "External Genitalia Examination", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "External Genitalia Examination", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -289,8 +297,10 @@ class FragmentPhysicalExam2 : Fragment() {
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel: String) {
+
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
 

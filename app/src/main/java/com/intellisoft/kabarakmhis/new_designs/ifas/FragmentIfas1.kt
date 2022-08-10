@@ -16,6 +16,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -40,7 +42,7 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val formatter = FormatterClass()
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -156,50 +158,53 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
         val tabletNo = rootView.tvTabletNo.text.toString()
 
         if (!TextUtils.isEmpty(timeContact) && !TextUtils.isEmpty(tabletNo)){
-            addData("Time of contact",timeContact)
-            addData("No of tablets",tabletNo)
+            addData("Time of contact",timeContact, DbObservationValues.ANC_CONTACT.name)
+            addData("No of tablets",tabletNo, DbObservationValues.TABLET_NUMBER.name)
         }
 
         val otherDrug = rootView.etOtherDrug.text.toString()
         if (!TextUtils.isEmpty(otherDrug)){
-            addData("Other Provided Supplementary Drug",otherDrug)
+            addData("Other Provided Supplementary Drug",otherDrug, DbObservationValues.DRUG_GIVEN.name)
         }
 
         val dosageAmnt = rootView.etDosageAmount.text.toString()
         if (!TextUtils.isEmpty(dosageAmnt)){
-            addData("Dosage Amount",dosageAmnt)
+            addData("Dosage Amount",dosageAmnt, DbObservationValues.DOSAGE_AMOUNT.name)
         }
 
         val frequency = rootView.etFrequency.text.toString()
         if (!TextUtils.isEmpty(frequency)){
-            addData("Dosage Frequency",frequency)
+            addData("Dosage Frequency",frequency, DbObservationValues.DOSAGE_FREQUENCY.name)
         }
 
         val dateGvn = rootView.tvDate.text.toString()
         if (!TextUtils.isEmpty(dateGvn)){
-            addData("Date Dosage Given",dateGvn)
+            addData("Date Dosage Given",dateGvn, DbObservationValues.DOSAGE_DATE_GIVEN.name)
         }
 
         if (rootView.linearSupplement.visibility == View.VISIBLE){
             val text = formatter.getRadioText(rootView.radioGrpDrugGvn)
-            addData("If yes, specify the drug given drug",text)
-            addData("Was iron Supplements issued",text)
+            addData("If yes, specify the drug given drug",text, DbObservationValues.DRUG_GIVEN.name)
+            addData("Was iron Supplements issued",text, DbObservationValues.IRON_SUPPLIMENTS.name)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpIronSuppliment)
-            addData("Was iron Supplements issued",text)
+            addData("Was iron Supplements issued",text, DbObservationValues.IRON_SUPPLIMENTS.name)
         }
 
         val text = formatter.getRadioText(rootView.radioGrpBenefits)
-        addData("Was IFAS Counselling Done",text)
+        addData("Was IFAS Counselling Done",text, DbObservationValues.IRON_AND_FOLIC_COUNSELLING.name)
 
         val dbDataList = ArrayList<DbDataList>()
 
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Ifas", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Ifas", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -225,9 +230,10 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
 
-    private fun addData(key: String, value: String) {
+    private fun addData(key: String, value: String, codeLabel: String) {
         if (key != ""){
-            observationList[key] = value
+            val dbObservationLabel = DbObservationLabel(value, codeLabel)
+            observationList[key] = dbObservationLabel
         }
 
     }

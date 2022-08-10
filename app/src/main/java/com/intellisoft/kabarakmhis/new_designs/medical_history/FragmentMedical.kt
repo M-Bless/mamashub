@@ -12,6 +12,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -29,7 +31,7 @@ class FragmentMedical : Fragment(){
     private var spinnerRshpValue  = relationshipList[0]
 
     private lateinit var rootView: View
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -131,10 +133,10 @@ class FragmentMedical : Fragment(){
         val bloodTransfusion = formatter.getRadioText(rootView.radioGrpTransfusion)
 
         if (diabetes != "" && hypertension != "" && tb != "" && bloodTransfusion != ""){
-            addData("Diabetes",diabetes)
-            addData("Hypertension",hypertension)
-            addData("Tuberculosis",tb)
-            addData("Blood Transfusion",bloodTransfusion)
+            addData("Diabetes",diabetes, DbObservationValues.DIABETES.name)
+            addData("Hypertension",hypertension, DbObservationValues.HYPERTENSION.name)
+            addData("Tuberculosis",tb, DbObservationValues.TUBERCULOSIS.name)
+            addData("Blood Transfusion",bloodTransfusion, DbObservationValues.BLOOD_TRANSFUSION.name)
 
         }else{
             if (diabetes == "")isErrorList.add(rootView.radioGrpDiabetes)
@@ -157,22 +159,25 @@ class FragmentMedical : Fragment(){
                 }
             }
 
-            addData("Other Medical History",otherConditionList.toString())
+            addData("Other Medical History",otherConditionList.toString(), DbObservationValues.MEDICAL_HISTORY.name)
         }
         if (rootView.linearBloodReaction.visibility == View.VISIBLE){
             val text = rootView.etClientName.text.toString()
-            addData("Blood Transfusion Reaction",text)
+            addData("Blood Transfusion Reaction",text, DbObservationValues.BLOOD_TRANSFUSION.name)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpTransfusion)
-            addData("Blood Transfusion Reaction",text)
+            addData("Blood Transfusion Reaction",text, DbObservationValues.BLOOD_TRANSFUSION.name)
         }
 
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Medical History", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Medical History", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -180,21 +185,24 @@ class FragmentMedical : Fragment(){
 
         if (rootView.linearDrug.visibility == View.VISIBLE){
             val text = rootView.etDrugAllergies.text.toString()
-            addData("Drug Allergy",text)
+            addData("Drug Allergy",text, DbObservationValues.DRUG_ALLERGY.name)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpDrugAllergies)
-            addData("Drug Allergy",text)
+            addData("Drug Allergy",text, DbObservationValues.DRUG_ALLERGY.name)
         }
         if (rootView.linearOtherNonDrugAllergy.visibility == View.VISIBLE){
             val text = rootView.etDrugOtherAllergies.text.toString()
-            addData("Other non drug allergies",text)
+            addData("Other non drug allergies",text, DbObservationValues.DRUG_ALLERGY.name)
         }
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Drug Allergies", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Drug Allergies", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -221,8 +229,10 @@ class FragmentMedical : Fragment(){
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel: String) {
+
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
     

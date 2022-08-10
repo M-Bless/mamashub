@@ -15,6 +15,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -28,7 +30,7 @@ class FragmentPmtct2 : Fragment() {
 
     private val formatter = FormatterClass()
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -78,7 +80,7 @@ class FragmentPmtct2 : Fragment() {
 
         if (checkBox.isChecked){
             val value = checkBox.text.toString()
-            addData("Reason for regiment change",value)
+            addData("Reason for regiment change",value, DbObservationValues.REGIMENT_CHANGE.name)
         }
 
     }
@@ -92,19 +94,19 @@ class FragmentPmtct2 : Fragment() {
             val otherRegimen = rootView.etOther.text.toString()
 
             if (!TextUtils.isEmpty(otherRegimen)){
-                addData("Other Regimen Applied",otherRegimen)
+                addData("Other Regimen Applied",otherRegimen, DbObservationValues.REGIMEN.name)
             }
         }
 
         val artAmount = rootView.etDosageAmount.text.toString()
 
         if (!TextUtils.isEmpty(artAmount)){
-            addData("ART Amount",artAmount)
+            addData("ART Amount",artAmount, DbObservationValues.ART_DOSAGE.name)
         }
         val frequency = rootView.etFrequency.text.toString()
 
         if (!TextUtils.isEmpty(frequency)){
-            addData("ART Frequency",frequency)
+            addData("ART Frequency",frequency, DbObservationValues.ART_FREQUENCY.name)
         }
 
 
@@ -114,9 +116,12 @@ class FragmentPmtct2 : Fragment() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Dosage", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Dosage", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -142,9 +147,10 @@ class FragmentPmtct2 : Fragment() {
 
 
 
-    private fun addData(key: String, value: String) {
+    private fun addData(key: String, value: String, codeLabel: String) {
         if (key != ""){
-            observationList[key] = value
+            val dbObservationLabel = DbObservationLabel(value, codeLabel)
+            observationList[key] = dbObservationLabel
         }
 
     }

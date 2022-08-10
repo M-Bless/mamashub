@@ -10,6 +10,7 @@ data class PatientData(
         var code: String ,
         var value: String ,
         var type: String ,
+        var codeLabel: String ,
         var identifier: String ,
         var title: String ,
         var fhirId: String ,

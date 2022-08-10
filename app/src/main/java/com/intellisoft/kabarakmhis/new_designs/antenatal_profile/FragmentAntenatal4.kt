@@ -13,6 +13,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -36,7 +38,7 @@ class FragmentAntenatal4 : Fragment() {
     private lateinit var rootView: View
     private val antenatal4 = DbResourceViews.ANTENATAL_4.name
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var calendar : Calendar
@@ -171,20 +173,20 @@ class FragmentAntenatal4 : Fragment() {
 
         val coupleCounselling = formatter.getRadioText(rootView.radioGrpHiv)
         if (coupleCounselling != ""){
-            addData("Couple Counselling", coupleCounselling)
+            addData("Couple Counselling", coupleCounselling, DbObservationValues.COUPLE_HIV_TESTING.name)
         }else{
             errorList.add(rootView.radioGrpHiv)
         }
         val partnerHivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (partnerHivStatus != ""){
-            addData("Partner HIV status", partnerHivStatus)
+            addData("Partner HIV status", partnerHivStatus, DbObservationValues.PARTNER_HIV_STATUS.name)
         }else{
             errorList.add(rootView.radioGrpHIVStatus)
         }
         if (rootView.linearReactive.visibility == View.VISIBLE){
             val reactive = formatter.getRadioText(rootView.radioGrpReactive)
             if (reactive != ""){
-                addData("Was the partner referred for HIV care", reactive)
+                addData("Was the partner referred for HIV care", reactive, DbObservationValues.PARTNER_HIV_RESULTS.name)
             }else{
                 errorList.add(rootView.radioGrpReactive)
             }
@@ -192,7 +194,7 @@ class FragmentAntenatal4 : Fragment() {
         if (rootView.linearReferral.visibility == View.VISIBLE){
             val referral = rootView.tvHivTestDate.text.toString()
             if (!TextUtils.isEmpty(referral)){
-                addData("Referral Date", referral)
+                addData("Referral Date", referral , DbObservationValues.NEXT_VISIT_DATE.name)
             }else{
                 errorList.add(rootView.tvHivTestDate)
             }
@@ -203,9 +205,12 @@ class FragmentAntenatal4 : Fragment() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Couple Counselling", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Couple Counselling", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -236,12 +241,12 @@ class FragmentAntenatal4 : Fragment() {
 
     }
 
+    private fun addData(key: String, value: String, codeLabel: String) {
 
-
-
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
+
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
         if (showLinear){

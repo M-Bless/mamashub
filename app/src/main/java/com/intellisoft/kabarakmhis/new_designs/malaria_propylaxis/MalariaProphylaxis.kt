@@ -10,6 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -25,7 +27,7 @@ import kotlin.collections.ArrayList
 class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListener  {
 
     private val formatter = FormatterClass()
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
 
     var contactNumberList = arrayOf("","ANC Contact 1", "ANC Contact 2", "ANC Contact 3", "ANC Contact 4", "ANC Contact 5", "ANC Contact 6", "ANC Contact 7")
     private var spinnerContactNumberValue  = contactNumberList[0]
@@ -200,15 +202,18 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         val repeatSerology = formatter.getRadioText(radioGrpLLTIN)
         if (repeatSerology != ""){
             val netInsecticide = tvNetDate.text. toString()
-            addData("LLITN Given Date", netInsecticide)
+            addData("LLITN Given Date", netInsecticide, DbObservationValues.LLITN_GIVEN.name)
         }
 
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Long Lasting Insecticide Treated Net", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Long Lasting Insecticide Treated Net", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -217,16 +222,20 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         observationList.clear()
 
         if (spinnerContactNumberValue != "" && !TextUtils.isEmpty(dose)){
-            addData("ANC Contact", spinnerContactNumberValue)
-            addData("Dose Date", dose)
-            addData("Next Appointment", visitNext)
+            addData("ANC Contact", spinnerContactNumberValue, DbObservationValues.ANC_CONTACT.name)
+            addData("Dose Date", dose, DbObservationValues.DOSAGE_DATE_GIVEN.name)
+            addData("Next Appointment", visitNext, DbObservationValues.NEXT_VISIT_DATE.name)
 
             for (items in observationList){
 
                 val key = items.key
-                val value = observationList.getValue(key)
+                val dbObservationLabel = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "ANC Visit", DbResourceType.Observation.name)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, "ANC Visit",
+                    DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }
@@ -257,8 +266,9 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel:String) {
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){

@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -28,7 +30,7 @@ class FragmentSurgical : Fragment() {
     private val formatter = FormatterClass()
 
     private lateinit var rootView: View
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -96,16 +98,16 @@ class FragmentSurgical : Fragment() {
         if (rootView.checkboxSalpi.isChecked) surgicalHistoryList.add(rootView.checkboxSalpi.text.toString())
         if (rootView.checkboxCervical.isChecked) surgicalHistoryList.add(rootView.checkboxCervical.text.toString())
 
-        addData("Surgical History", surgicalHistoryList.toString())
+        addData("Surgical History", surgicalHistoryList.toString(), DbObservationValues.SURGICAL_HISTORY.name)
 
         val otherGyna = rootView.etOtherGyna.text.toString()
         val otherSurgeries = rootView.etOtherSurgery.text.toString()
 
         if (!TextUtils.isEmpty(otherGyna)){
-            addData("Other Gynecological Procedures",otherGyna)
+            addData("Other Gynecological Procedures",otherGyna, DbObservationValues.SURGICAL_HISTORY.name)
         }
         if (!TextUtils.isEmpty(otherSurgeries)){
-            addData("Other Surgeries",otherSurgeries)
+            addData("Other Surgeries",otherSurgeries, DbObservationValues.SURGICAL_HISTORY.name)
         }
 
         val dbDataList = ArrayList<DbDataList>()
@@ -113,9 +115,12 @@ class FragmentSurgical : Fragment() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Medical and Surgical History", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Medical and Surgical History", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -133,8 +138,10 @@ class FragmentSurgical : Fragment() {
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel: String) {
+
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
 

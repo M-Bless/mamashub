@@ -14,6 +14,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal1
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
@@ -36,7 +38,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
     var contactNumberList = arrayOf("","1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
     private var spinnerContactNumberValue  = contactNumberList[0]
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -133,10 +135,10 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
         if (rootView.linearHbReading.visibility == View.VISIBLE){
             val text = rootView.etHbReading.text.toString()
-            addData("Hb Testing Done",text)
+            addData("Hb Testing Done",text, DbObservationValues.HB_TEST.name)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpHb)
-            addData("Hb Testing Done",text)
+            addData("Hb Testing Done",text, DbObservationValues.HB_TEST.name)
         }
         val date = rootView.tvDate.text.toString()
 
@@ -151,47 +153,56 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
                 if (rootView.linearUrine.visibility == View.VISIBLE){
                     val text = rootView.etUrineResults.text.toString()
-                    addData("Urine Results",text)
+                    addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
                 }else{
                     val text = formatter.getRadioText(rootView.radioGrpUrineResults)
-                    addData("Urine Results",text)
+                    addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
                 }
-                addData("MUAC",muac)
-                addData("Pregnancy Contact",spinnerContactNumberValue)
+                addData("MUAC",muac, DbObservationValues.MUAC.name)
+                addData("Pregnancy Contact",spinnerContactNumberValue, DbObservationValues.CONTACT_NUMBER.name)
                 for (items in observationList){
 
                     val key = items.key
-                    val value = observationList.getValue(key)
+                    val dbObservationLabel = observationList.getValue(key)
 
-                    val data = DbDataList(key, value, "Current Pregnancy Details", DbResourceType.Observation.name)
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, "Current Pregnancy Details", DbResourceType.Observation.name, label)
                     dbDataList.add(data)
 
                 }
                 observationList.clear()
 
 
-                addData("Systolic Blood Pressure",systolic)
-                addData("Diastolic Blood Pressure",diastolic)
+                addData("Systolic Blood Pressure",systolic, DbObservationValues.SYSTOLIC_BP.name)
+                addData("Diastolic Blood Pressure",diastolic, DbObservationValues.DIASTOLIC_BP.name)
                 for (items in observationList){
 
                     val key = items.key
-                    val value = observationList.getValue(key)
+                    val dbObservationLabel = observationList.getValue(key)
 
-                    val data = DbDataList(key, value, "Blood Pressure", DbResourceType.Observation.name)
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, "Blood Pressure", DbResourceType.Observation.name, label)
                     dbDataList.add(data)
 
                 }
                 observationList.clear()
 
-                addData("Gestation (Weeks)",gestation)
-                addData("Fundal Height (cm)",fundalHeight)
-                addData("Date",date)
+                addData("Gestation (Weeks)",gestation, DbObservationValues.GESTATION.name)
+                addData("Fundal Height (cm)",fundalHeight, DbObservationValues.FUNDAL_HEIGHT.name)
+                addData("Date",date, DbObservationValues.NEXT_VISIT_DATE.name)
                 for (items in observationList){
 
                     val key = items.key
-                    val value = observationList.getValue(key)
+                    val dbObservationLabel = observationList.getValue(key)
 
-                    val data = DbDataList(key, value, "Hb Test", DbResourceType.Observation.name)
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, "Hb Test", DbResourceType.Observation.name, label)
                     dbDataList.add(data)
 
                 }
@@ -221,8 +232,10 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel: String) {
+
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

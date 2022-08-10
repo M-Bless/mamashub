@@ -163,8 +163,8 @@ class FragmentIfas2 : Fragment() , AdapterView.OnItemSelectedListener {
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Ifas", DbResourceType.Observation.name)
-            dbDataList.add(data)
+//            val data = DbDataList(key, value, "Ifas", DbResourceType.Observation.name)
+//            dbDataList.add(data)
 
         }
 

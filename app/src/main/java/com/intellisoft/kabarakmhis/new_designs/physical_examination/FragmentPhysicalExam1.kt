@@ -14,6 +14,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -27,7 +29,7 @@ class FragmentPhysicalExam1 : Fragment() {
 
     private val formatter = FormatterClass()
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -235,29 +237,32 @@ class FragmentPhysicalExam1 : Fragment() {
 
             val generalExam  = formatter.getRadioText(rootView.radioGrpGeneralExam)
             if (generalExam != "") {
-                addData("General Examination",generalExam)
+                addData("General Examination",generalExam, DbObservationValues.GENERAL_EXAMINATION.name)
             }else{
                 errorList.add(rootView.radioGrpGeneralExam)
             }
 
             val text = rootView.etAbnomality.text.toString()
             if(!TextUtils.isEmpty(text)){
-                addData("If abnormal, specify",text)
-
+                addData("If abnormal, specify",text, DbObservationValues.GENERAL_EXAMINATION.name)
             }else{
                 errorList.add(rootView.etAbnomality)
             }
+
         }else{
             val text = formatter.getRadioText(rootView.radioGrpGeneralExam)
-            addData("General Examination",text)
+            addData("General Examination",text, DbObservationValues.GENERAL_EXAMINATION.name)
         }
 
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Physical Examination", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Physical Examination", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -269,45 +274,45 @@ class FragmentPhysicalExam1 : Fragment() {
 
         val cvsText = formatter.getRadioText(rootView.radioGrpCVS)
         if (cvsText != "") {
-            addData("CVS",cvsText)
+            addData("CVS",cvsText, DbObservationValues.CVS.name)
         } else{
             errorList.add(rootView.radioGrpCVS)
         }
         if(rootView.linearCvs.visibility == View.VISIBLE){
             val text = rootView.etCvsAbnormal.text.toString()
             if(!TextUtils.isEmpty(text)){
-                addData("If abnormal CVS, specify",text)
+                addData("If abnormal CVS, specify",text, DbObservationValues.CVS.name)
             }else{
                 errorList.add(rootView.etCvsAbnormal)
             }
 
         }
         if (!TextUtils.isEmpty(systolicBp)){
-            addData("Systolic Bp",systolicBp)
+            addData("Systolic Bp",systolicBp, DbObservationValues.SYSTOLIC_BP.name)
         }else{
             errorList.add(rootView.etSystolicBp)
         }
         if (!TextUtils.isEmpty(diastolicBp)){
-            addData("Diastolic BP",diastolicBp)
+            addData("Diastolic BP",diastolicBp, DbObservationValues.DIASTOLIC_BP.name)
         }else{
             errorList.add(rootView.etDiastolicBp)
         }
         if (!TextUtils.isEmpty(pulseRate)){
-            addData("Pulse Rate",pulseRate)
+            addData("Pulse Rate",pulseRate, DbObservationValues.PULSE_RATE.name)
         }else{
             errorList.add(rootView.etPulseRate)
         }
 
         val textValue = formatter.getRadioText(rootView.radioGrpRespiratory)
         if (textValue != "") {
-            addData("Respiratory", textValue)
+            addData("Respiratory", textValue, DbObservationValues.RESPIRATORY_MONITORING.name)
         } else{
             errorList.add(rootView.radioGrpRespiratory)
         }
         if(rootView.linearResp.visibility == View.VISIBLE){
             val text = rootView.etCvsRespiratory.text.toString()
             if (!TextUtils.isEmpty(text)){
-                addData("If Abnormal Respiratory, specify",text)
+                addData("If Abnormal Respiratory, specify",text, DbObservationValues.RESPIRATORY_MONITORING.name)
             }else{
                 errorList.add(rootView.etCvsRespiratory)
             }
@@ -315,7 +320,7 @@ class FragmentPhysicalExam1 : Fragment() {
 
         val textValueBreast = formatter.getRadioText(rootView.radioGrpBreasts)
         if (textValue != "") {
-            addData("Breast Exams", textValueBreast)
+            addData("Breast Exams", textValueBreast, DbObservationValues.BREAST_EXAM.name)
         } else{
             errorList.add(rootView.radioGrpRespiratory)
         }
@@ -323,7 +328,7 @@ class FragmentPhysicalExam1 : Fragment() {
         if(rootView.linearNormal.visibility == View.VISIBLE){
             val text = rootView.etBreastFinding.text.toString()
             if (!TextUtils.isEmpty(text)) {
-                addData("Normal Breasts Findings", text)
+                addData("Normal Breasts Findings", text, DbObservationValues.BREAST_EXAM.name)
             } else {
                 errorList.add(rootView.etBreastFinding)
             }
@@ -331,7 +336,7 @@ class FragmentPhysicalExam1 : Fragment() {
         if(rootView.linearAbnormal.visibility == View.VISIBLE){
             val text = rootView.etBreastAbnormal.text.toString()
             if (!TextUtils.isEmpty(text)) {
-                addData("Abnormal Breasts Findings", text)
+                addData("Abnormal Breasts Findings", text, DbObservationValues.BREAST_EXAM.name)
             } else {
                 errorList.add(rootView.etBreastAbnormal)
             }
@@ -340,9 +345,12 @@ class FragmentPhysicalExam1 : Fragment() {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "Blood pressure", DbResourceType.Observation.name)
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Blood pressure", DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
@@ -355,15 +363,18 @@ class FragmentPhysicalExam1 : Fragment() {
 
             val isWeight = formatter.validateWeight(motherWeight)
             if (isWeight){
-                addData("Mother Weight (kgs)",motherWeight)
-                addData("Gestation (weeks)",gestation)
+                addData("Mother Weight (kgs)",motherWeight, DbObservationValues.WEIGHT.name)
+                addData("Gestation (weeks)",gestation, DbObservationValues.GESTATION.name)
 
                 for (items in observationList){
 
                     val key = items.key
-                    val value = observationList.getValue(key)
+                    val dbObservationLabel = observationList.getValue(key)
 
-                    val data = DbDataList(key, value, "Weight Monitoring", DbResourceType.Observation.name)
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, "Weight Monitoring", DbResourceType.Observation.name , label)
                     dbDataList.add(data)
 
                 }
@@ -412,8 +423,11 @@ class FragmentPhysicalExam1 : Fragment() {
         val dbDataList = ArrayList<DbDataList>()
         for (items in observationList){
             val key = items.key
-            val value = observationList.getValue(key)
-            val data = DbDataList(key, value, valueData, DbResourceType.Observation.name)
+            val dbObservationLabel = observationList.getValue(key)
+
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+            val data = DbDataList(key, value, valueData, DbResourceType.Observation.name , label)
             dbDataList.add(data)
         }
 
@@ -423,9 +437,10 @@ class FragmentPhysicalExam1 : Fragment() {
     
 
 
-    private fun addData(key: String, value: String) {
+    private fun addData(key: String, value: String, codeLabel: String) {
         if (key != ""){
-            observationList[key] = value
+            val dbObservationLabel = DbObservationLabel(value, codeLabel)
+            observationList[key] = dbObservationLabel
         }
         
     }

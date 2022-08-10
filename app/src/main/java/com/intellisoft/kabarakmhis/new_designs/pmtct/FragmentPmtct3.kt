@@ -16,6 +16,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -32,7 +34,7 @@ class FragmentPmtct3 : Fragment() {
 
     private val formatter = FormatterClass()
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -139,17 +141,20 @@ class FragmentPmtct3 : Fragment() {
 
         if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(vrResults)){
 
-            addData("Date VL was taken",date)
-            addData("Results",vrResults)
+            addData("Date VL was taken",date, DbObservationValues.VIRAL_LOAD_CHANGE.name)
+            addData("Results",vrResults, DbObservationValues.VIRAL_LOAD_RESULTS.name)
 
             val dbDataList = ArrayList<DbDataList>()
 
             for (items in observationList){
 
                 val key = items.key
-                val value = observationList.getValue(key)
+                val dbObservationLabel = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "Viral Load(VL) sample", DbResourceType.Observation.name)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, "Viral Load(VL) sample", DbResourceType.Observation.name , label)
                 dbDataList.add(data)
 
             }
@@ -182,9 +187,10 @@ class FragmentPmtct3 : Fragment() {
 
 
 
-    private fun addData(key: String, value: String) {
+    private fun addData(key: String, value: String, codeLabel: String) {
         if (key != ""){
-            observationList[key] = value
+            val dbObservationLabel = DbObservationLabel(value, codeLabel)
+            observationList[key] = dbObservationLabel
         }
 
     }

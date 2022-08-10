@@ -3,12 +3,28 @@ package com.intellisoft.kabarakmhis.helperclass
 
 enum class DbObservationValues{
 
+    ANC_PNC_CODE,
+    KMHFL_CODE,
+    EDUCATION_LEVEL,
+    CLIENT_NAME,
+    DATE_OF_BIRTH,
+    MARITAL_STATUS,
+
+    COUNTY_NAME,
+    SUB_COUNTY_NAME,
+    WARD_NAME,
+    VILLAGE_NAME,
+    PHONE_NUMBER,
+
+
     GRAVIDA,
     PARITY,
     HEIGHT,
     WEIGHT,
     LMP,
     EDD,
+    RELATIONSHIP,
+    GESTATION,
 
     SURGICAL_HISTORY,
     DIABETES,
@@ -74,7 +90,7 @@ enum class DbObservationValues{
 
     ARV_ANC,
     HAART_ANC,
-    CONTRIMOXAZOLE,
+    COTRIMOXAZOLE,
 
     HIV_TESTING,
     HIV_RESULTS,
@@ -174,6 +190,7 @@ enum class DbObservationValues{
 
     EAT_ONE_MEAL,
     EAT_MORE_MEALS,
+    DRINK_WATER,
     TAKE_IFAS,
     AVOID_HEAVY_WORK,
     SLEEP_UNDER_LLIN,
@@ -201,3 +218,4 @@ enum class DbObservationValues{
 
 
 }
+

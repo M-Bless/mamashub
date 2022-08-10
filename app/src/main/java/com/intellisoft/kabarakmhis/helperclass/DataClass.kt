@@ -170,3 +170,7 @@ data class DbKinData(
     val name: String,
     val phone: String
 )
+data class DbObservationLabel(
+    val value: String,
+    val label: String
+)

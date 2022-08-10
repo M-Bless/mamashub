@@ -14,6 +14,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -88,13 +89,16 @@ class Deworming : AppCompatActivity() {
         if (deworming != ""){
 
             if (deworming == "No"){
-                val value = DbDataList("Deworming given in the 2nd trimester", deworming, "Deworming", DbResourceType.Observation.name)
+                val value = DbDataList("Deworming given in the 2nd trimester", deworming,
+                    "Deworming", DbResourceType.Observation.name,
+                    DbObservationValues.DEWORMING.name)
                 dewormingList.add(value)
             }
             if (deworming == "Yes"){
 
                 if (!TextUtils.isEmpty(dateGvn)){
-                    val value1 = DbDataList("Date deworming was given", dateGvn, "Deworming", DbResourceType.Observation.name)
+                    val value1 = DbDataList("Date deworming was given", dateGvn,
+                        "Deworming", DbResourceType.Observation.name, DbObservationValues.DEWORMING.name)
                     dewormingList.add(value1)
                 }else{
                     Toast.makeText(this, "Please enter date", Toast.LENGTH_SHORT).show()
@@ -116,15 +120,11 @@ class Deworming : AppCompatActivity() {
                 val intent = Intent(this, ConfirmPage::class.java)
                 startActivity(intent)
 
+            }else{
+                Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
             }
 
-//            val dbObservationValue = formatter.createObservation(dewormingList,
-//                DbResourceViews.DEWORMING.name)
-//
-//            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-//                DbResourceViews.DEWORMING.name)
 
-//            startActivity(Intent(this, PatientProfile::class.java))
 
         }else{
             Toast.makeText(this, "Please make a selection", Toast.LENGTH_SHORT).show()

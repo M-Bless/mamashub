@@ -11,6 +11,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -27,7 +29,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
     var pregnancyOrderList = arrayOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
     private var spinnerPregnancyValue  = pregnancyOrderList[0]
 
-    private var observationList = mutableMapOf<String, String>()
+    private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
@@ -101,10 +103,10 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
         if (rootView.linearPurperium.visibility == View.VISIBLE){
             val text = rootView.etAbnormal.text.toString()
-            addData("Purperium",text)
+            addData("Purperium",text, DbObservationValues.BABY_PURPERIUM.name)
         }else{
             val text = formatter.getRadioText(rootView.radioGrpPurperium)
-            addData("Purperium",text)
+            addData("Purperium",text, DbObservationValues.BABY_PURPERIUM.name)
         }
 
         if (
@@ -114,41 +116,47 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
             val dbDataList = ArrayList<DbDataList>()
 
-            addData("Pregnancy Order",spinnerPregnancyValue)
-            addData("Year",year)
-            addData("ANC Time",ancTime)
-            addData("Birth Place",birthPlace)
-            addData("Gestation",gestation)
-            addData("Duration",duration)
+            addData("Pregnancy Order",spinnerPregnancyValue, DbObservationValues.PREGNANCY_ORDER.name)
+            addData("Year",year, DbObservationValues.YEAR.name)
+            addData("ANC Time",ancTime, DbObservationValues.ANC_NO.name)
+            addData("Birth Place",birthPlace, DbObservationValues.CHILDBIRTH_PLACE.name)
+            addData("Gestation",gestation, DbObservationValues.GESTATION.name)
+            addData("Duration",duration, DbObservationValues.LABOUR_DURATION.name)
             val deliveryMode = formatter.getRadioText(rootView.deliveryMode)
-            addData("Delivery Mode",deliveryMode)
+            addData("Delivery Mode",deliveryMode, DbObservationValues.DELIVERY_MODE.name)
 
             for (items in observationList){
 
                 val key = items.key
-                val value = observationList.getValue(key)
+                val dbObservationLabel = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "Previous Pregnancy", DbResourceType.Observation.name)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, "Previous Pregnancy", DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }
 
             observationList.clear()
 
-            addData("Baby Weight",babyWeight)
+            addData("Baby Weight",babyWeight, DbObservationValues.BABY_WEIGHT.name)
             val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
-            addData("Baby's Sex",radioGrpBabySex)
+            addData("Baby's Sex",radioGrpBabySex, DbObservationValues.BABY_SEX.name)
             val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
-            addData("Outcome",radioGrpOutcome)
+            addData("Outcome",radioGrpOutcome, DbObservationValues.BABY_OUTCOME.name)
             val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
-            addData("Purperium",radioGrpPurperium)
+            addData("Purperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
 
             for (items in observationList){
 
                 val key = items.key
-                val value = observationList.getValue(key)
+                val dbObservationLabel = observationList.getValue(key)
 
-                val data = DbDataList(key, value, "Baby Details", DbResourceType.Observation.name)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, "Baby Details", DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }
@@ -172,8 +180,10 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
     }
 
-    private fun addData(key: String, value: String) {
-        observationList[key] = value
+    private fun addData(key: String, value: String, codeLabel: String) {
+
+        val dbObservationLabel = DbObservationLabel(value, codeLabel)
+        observationList[key] = dbObservationLabel
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
