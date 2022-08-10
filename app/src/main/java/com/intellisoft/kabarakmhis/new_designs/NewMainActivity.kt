@@ -2,9 +2,7 @@ package com.intellisoft.kabarakmhis.new_designs
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -29,9 +27,7 @@ import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_new_main.no_record
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.util.stream.Collectors
 
 
 class NewMainActivity : AppCompatActivity() {
@@ -121,7 +117,20 @@ class NewMainActivity : AppCompatActivity() {
         } else {
             no_record.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
-            val adapter = PatientsListAdapter(patientList, this@NewMainActivity)
+
+            val filteredList: Collection<DbPatientDetails> = patientList.stream()
+                .collect(
+                    Collectors.toMap(
+                        DbPatientDetails::name, { p -> p }) { p1, p2 -> p2 })
+                .values
+
+            val list = ArrayList<DbPatientDetails>()
+            if (filteredList.isNotEmpty()) {
+                list.addAll(filteredList)
+            }
+
+
+            val adapter = PatientsListAdapter(list, this@NewMainActivity)
             recyclerView.adapter = adapter
         }
 

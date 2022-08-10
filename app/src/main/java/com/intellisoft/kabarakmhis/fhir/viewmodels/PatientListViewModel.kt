@@ -49,6 +49,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
         val patients: MutableList<DbPatientDetails> = mutableListOf()
 
 
+
         fhirEngine.search<Patient> {
 
             if (nameQuery.isNotEmpty()){

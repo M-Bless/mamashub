@@ -123,6 +123,8 @@ enum class ViewType {
     }
 
 }
+
+
 /**
  * Encounter
  */

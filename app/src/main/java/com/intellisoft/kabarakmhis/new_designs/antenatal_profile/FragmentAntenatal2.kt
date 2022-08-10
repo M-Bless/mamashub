@@ -4,6 +4,8 @@ import android.app.Application
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_birthplan2.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
@@ -212,51 +215,210 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
     private fun saveData() {
 
+        val dbDataList = ArrayList<DbDataList>()
+        val errorList = ArrayList<Any>()
+
+        val tbTest = formatter.getRadioText(rootView.radioGrpTb)
+        if (tbTest != "") {
+            addData("Tb Test", tbTest)
+        }else{
+            errorList.add(rootView.radioGrpTb)
+        }
         if (rootView.linearTB.visibility == View.VISIBLE){
-            val text = getRadioText(rootView.radioGrpTbResults)
-            addData("TB test",text)
+            val text = formatter.getRadioText(rootView.radioGrpTbResults)
+            if (text != "") {
+                addData("Tb Test Results", text)
+
+                if (rootView.linearPositive.visibility == View.VISIBLE){
+
+                    val data = rootView.etTb.text.toString()
+                    if(!TextUtils.isEmpty(data)){
+                        addData("TB diagnosis",data)
+                    }else{
+                        errorList.add(rootView.etTb)
+                    }
+
+                }
+                if (rootView.linearNegative.visibility == View.VISIBLE){
+                    val iptGvn = rootView.etIpt.text.toString()
+                    val dateGvn = rootView.tvIPTDateGiven.text.toString()
+                    val nextGive = rootView.tvIPTNextVisit.text.toString()
+
+                    if (!TextUtils.isEmpty(iptGvn)) {
+                        addData("IPT Given", iptGvn)
+                    } else {
+                        errorList.add(rootView.etIpt)
+                    }
+                    if (!TextUtils.isEmpty(dateGvn)) {
+                        addData("IPT Date Given", dateGvn)
+                    } else {
+                        errorList.add(rootView.tvIPTDateGiven)
+                    }
+                    if (!TextUtils.isEmpty(nextGive)) {
+                        addData("IPT Next Visit", nextGive)
+                    } else {
+                        errorList.add(rootView.tvIPTNextVisit)
+                    }
+
+                }
+
+            }else{
+                errorList.add(rootView.radioGrpTbResults)
+            }
         }
-        if (rootView.linearPositive.visibility == View.VISIBLE){
-            val data = rootView.etTb.text.toString()
-            addData("TB diagnosis",data)
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "TB Screening", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
         }
-        if (rootView.linearNegative.visibility == View.VISIBLE){
-            val data = rootView.etIpt.text.toString()
-            addData("Negative IPT",data)
+        observationList.clear()
+
+        val multipleBabies = formatter.getRadioText(rootView.radioGrpMultipleBaby)
+        if (multipleBabies != "") {
+            addData("Multiple babies", multipleBabies)
+        }else{
+            errorList.add(rootView.radioGrpMultipleBaby)
+        }
+        if (rootView.linearMultipleBaby.visibility == View.VISIBLE){
+            val text = rootView.etMultipleBaby.text.toString()
+            if (!TextUtils.isEmpty(text)) {
+                addData("Multiple babies results", text)
+            }else{
+                errorList.add(rootView.etMultipleBaby)
+            }
+        }
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Multiple Babies", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
+        val obstetricUltraSound1 = formatter.getRadioText(rootView.radioGrpUltrasound1)
+        if (obstetricUltraSound1 != "") {
+            addData("1st Obstetric Sound", obstetricUltraSound1)
+        }else{
+            errorList.add(rootView.radioGrpUltrasound1)
         }
         if (rootView.linearDate.visibility == View.VISIBLE){
-            val data = rootView.tvUltraSound1.text.toString()
-            addData("1st Obstetric Ultrasound",data)
+            val text = rootView.tvUltraSound1.text.toString()
+            if (!TextUtils.isEmpty(text)) {
+                addData("1st Obstetric Sound results", text)
+            }else{
+                errorList.add(rootView.tvUltraSound1)
+            }
+        }
+        val obstetricUltraSound2 = formatter.getRadioText(rootView.radioGrpUltrasound2)
+        if (obstetricUltraSound2 != "") {
+            addData("2nd Obstetric Sound", obstetricUltraSound2)
+        }else{
+            errorList.add(rootView.radioGrpUltrasound2)
         }
         if (rootView.linear2ndUltra.visibility == View.VISIBLE){
-            val data = rootView.tvUltraSound2.text.toString()
-            addData("2nd Obstetric Ultrasound",data)
+            val text = rootView.tvUltraSound2.text.toString()
+            if (!TextUtils.isEmpty(text)) {
+                addData("2nd Obstetric Sound results", text)
+            }else{
+                errorList.add(rootView.tvUltraSound2)
+            }
         }
-
-        val dbDataList = ArrayList<DbDataList>()
 
         for (items in observationList){
 
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "TB Screening & Obstetric Ultrasound", DbResourceType.Observation.name)
+            val data = DbDataList(key, value, "Obstetric Ultrasound", DbResourceType.Observation.name)
             dbDataList.add(data)
 
         }
+        observationList.clear()
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.ANTENATAL_PROFILE.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
+        if (hivStatus != "") {
+            addData("HIV status before 1st ANC", hivStatus)
+        }else{
+            errorList.add(rootView.radioGrpHIVStatus)
+        }
+
+        if (spinnerArtElligibilityValue != "") {
+            addData("ART Eligibility (WHO Stage)", spinnerArtElligibilityValue)
+        }else{
+            errorList.add(rootView.spinnerEligibility)
+        }
+
+        if(spinnerPartnerHivValue != "") {
+            addData("Partner HIV Status", spinnerPartnerHivValue)
+        }else{
+            errorList.add(rootView.spinnerPartnerHIVStatus)
+        }
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "HIV Status", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
 
 
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, FragmentAntenatal3())
-        ft.addToBackStack(null)
-        ft.commit()
+        if (spinnerBeforeFirstVisitValue != "") {
+            addData("On ARV before 1st ANC visit", spinnerBeforeFirstVisitValue)
+        }else{
+            errorList.add(rootView.spinnerOnARVBeforeANCVisit)
+        }
+        if (spinnerStartedHaartValue != "") {
+            addData("Started HAART in ANC", spinnerStartedHaartValue)
+        }else{
+            errorList.add(rootView.spinnerStartedHaartInANC)
+        }
+        if (spinnerCotrimoxazoleValue != "") {
+            addData("Cotrimoxazole Given", spinnerCotrimoxazoleValue)
+        }else{
+            errorList.add(rootView.spinnerCotrimoxazole)
+        }
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Maternal HAART", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
+        if (errorList.size == 0){
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.ANTENATAL_PROFILE.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentAntenatal3())
+            ft.addToBackStack(null)
+            ft.commit()
+        }else{
+            Log.e("1111", errorList.toString())
+
+            formatter.validate(errorList, requireContext())
+        }
+
+
 
     }
 
@@ -359,13 +521,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
     }
 
 
-    private fun getRadioText(radioGroup: RadioGroup): String {
-
-        val checkedId = radioGroup.checkedRadioButtonId
-        val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-        return checkedRadioButton.text.toString()
-
-    }
+ 
 
 
     private fun addData(key: String, value: String) {

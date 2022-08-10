@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
+    android:background="@color/background"
     android:layout_height="match_parent"
-    android:background="@drawable/logo"
     tools:context=".Splash">
 
     <LinearLayout
-        android:visibility="gone"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -18,17 +17,11 @@
         <ImageView
             android:layout_gravity="center"
             android:id="@+id/maternityButton"
-            android:layout_width="@dimen/dashboard_icon_height_width"
-            android:layout_height="@dimen/dashboard_icon_height_width"
-            android:layout_marginTop="@dimen/dashboard_icon_margin"
-            android:src="@drawable/ic_action_patients"
-            app:tint="@color/primary" />
-
-        <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:text="Kabarak MHIS"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dashboard_icon_margin"
+            android:src="@drawable/logo" />
+
 
     </LinearLayout>
 

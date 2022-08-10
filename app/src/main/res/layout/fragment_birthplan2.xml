@@ -122,7 +122,6 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
-                            android:inputType="phone"
                             android:id="@+id/etTransportMeans"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

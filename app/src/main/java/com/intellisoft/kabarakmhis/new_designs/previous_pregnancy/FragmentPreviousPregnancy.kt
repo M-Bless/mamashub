@@ -135,7 +135,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
             observationList.clear()
 
-            addData("Baby Weigt",babyWeight)
+            addData("Baby Weight",babyWeight)
             val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
             addData("Baby's Sex",radioGrpBabySex)
             val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
@@ -161,7 +161,8 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
 
             val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PREVIOUS_PREGNANCY.name))
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(),
+                DbResourceViews.PREVIOUS_PREGNANCY.name))
             ft.addToBackStack(null)
             ft.commit()
 

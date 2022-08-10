@@ -60,7 +60,7 @@
         <entry key="app/src/main/res/layout/activity_previous_pregnancy_list.xml" value="0.2543822146216332" />
         <entry key="app/src/main/res/layout/activity_previous_pregnancy_view.xml" value="0.2767210144927536" />
         <entry key="app/src/main/res/layout/activity_register_new_patient.xml" value="0.2545289855072464" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_weight_monitoring_chart.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/clinical_notes.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/confirm_children_details.xml" value="0.3304831124412142" />
@@ -71,9 +71,9 @@
         <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/encounter_view.xml" value="0.16193063100710406" />
         <entry key="app/src/main/res/layout/fragment_antenatal1.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_antenatal2.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_antenatal2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_antenatal3.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_antenatal4.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_antenatal4.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_birthplan1.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_birthplan2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_chw1.xml" value="0.33133817870884996" />

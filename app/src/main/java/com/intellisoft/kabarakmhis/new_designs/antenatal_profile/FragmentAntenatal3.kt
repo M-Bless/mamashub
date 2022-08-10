@@ -4,6 +4,8 @@ import android.app.Application
 import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +17,11 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_antenatal3.view.*
+import kotlinx.android.synthetic.main.fragment_antenatal3.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentAntenatal3 : Fragment() {
@@ -226,52 +230,154 @@ class FragmentAntenatal3 : Fragment() {
 
     private fun saveData() {
 
-        if (rootView.linearTestDate.visibility == View.VISIBLE){
-            val data = rootView.tvHivDate.text.toString()
-            addData("HIV Date Test",data)
-        }
-
-        if (rootView.linearSyphTestDate.visibility == View.VISIBLE){
-            val data = rootView.tvSyphilisDate.text.toString()
-            addData("Syphilis Date Test",data)
-        }
-        if (rootView.linearHepatitis.visibility == View.VISIBLE){
-            val data = rootView.tvHepatitisDate.text.toString()
-            addData("Hepatitis B Date Test",data)
-        }
-
-
-        val text = formatter.getRadioText(rootView.radioGrpHIVStatus)
-        addData("Mother HIV Status",text)
-
-        val text1 = formatter.getRadioText(rootView.radioGrpSyphilisStatus)
-        addData("Mother Syphilis Status",text1)
-
-        val text2 = formatter.getRadioText(rootView.radioGrpHepatitisStatus)
-        addData("Mother Hepatitis B Status",text2)
-
         val dbDataList = ArrayList<DbDataList>()
 
+        val errorList = ArrayList<Any>()
+
+        val hivTest = formatter.getRadioText(rootView.radioGrpHiv)
+        if (hivTest != "") {
+            addData("HIV Testing", hivTest)
+        }else{
+            errorList.add(rootView.radioGrpHiv)
+        }
+        if (rootView.linearTestDate.visibility == View.VISIBLE) {
+
+            val value = rootView.tvHivDate.text.toString()
+            if (!TextUtils.isEmpty(value)) {
+                addData("HIV Test Date", value)
+            } else {
+                errorList.add(rootView.tvHivDate)
+            }
+        }
+        if (rootView.linearNo.visibility == View.VISIBLE) {
+            val value = rootView.etTb.text.toString()
+            if (!TextUtils.isEmpty(value)) {
+                addData("HIV Further counselling", value)
+            } else {
+                errorList.add(rootView.etTb)
+            }
+        }
+        val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
+        if (hivStatus != "") {
+            addData("HIV Status", hivStatus)
+        }else{
+            errorList.add(rootView.radioGrpHIVStatus)
+        }
+        if (rootView.linearNR.visibility == View.VISIBLE) {
+            val value = rootView.tvHivTestDate.text.toString()
+            if (!TextUtils.isEmpty(value)) {
+                addData("HIV Test Date", value)
+            } else {
+                errorList.add(rootView.tvHivTestDate)
+            }
+        }
         for (items in observationList){
 
             val key = items.key
             val value = observationList.getValue(key)
 
-            val data = DbDataList(key, value, "HIV, Syphilis & Hepatitis B Test", DbResourceType.Observation.name)
+            val data = DbDataList(key, value, "HIV Testing", DbResourceType.Observation.name)
             dbDataList.add(data)
 
         }
+        observationList.clear()
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.ANTENATAL_PROFILE.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        val syphilisTesting = formatter.getRadioText(rootView.radioGrpSyphilis)
+        if (syphilisTesting != "") {
+            addData("Syphilis Testing", syphilisTesting)
+        }else{
+            errorList.add(rootView.radioGrpSyphilis)
+        }
+        if (rootView.linearSyphTestDate.visibility == View.VISIBLE) {
+            val value = rootView.tvSyphilisDate.text.toString()
+            if (!TextUtils.isEmpty(value)) {
+                addData("Syphilis Test Date", value)
+            } else {
+                errorList.add(rootView.tvSyphilisDate)
+            }
+        }
+        if (rootView.linearSyphNo.visibility == View.VISIBLE) {
+            val value = rootView.etSyphilisCounselling.text.toString()
+            if (!TextUtils.isEmpty(value)) {
+                addData("Syphilis Further counselling", value)
+            } else {
+                errorList.add(rootView.etSyphilisCounselling)
+            }
+        }
+        val syphilisStatus = formatter.getRadioText(rootView.radioGrpSyphilisStatus)
+        if (syphilisStatus != "") {
+            addData("Syphilis Status", syphilisStatus)
+        }else{
+            errorList.add(rootView.radioGrpSyphilisStatus)
+        }
+        for (items in observationList){
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, FragmentAntenatal4())
-        ft.addToBackStack(null)
-        ft.commit()
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Syphilis Testing", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
+        val hepatitisB = formatter.getRadioText(rootView.radioGrpHepatitis)
+        if (hepatitisB != "") {
+            addData("Hepatitis Status", hepatitisB)
+        }else{
+            errorList.add(rootView.radioGrpHepatitis)
+        }
+        if (rootView.linearHepatitis.visibility == View.VISIBLE) {
+            val value = rootView.tvHepatitisDate.text.toString()
+            if (!TextUtils.isEmpty(value)) {
+                addData("Hepatitis Test Date", value)
+            } else {
+                errorList.add(rootView.tvHepatitisDate)
+            }
+        }
+        if (rootView.linearHepaNo.visibility == View.VISIBLE) {
+            val value = rootView.etHepatitisCounselling.text.toString()
+            if (!TextUtils.isEmpty(value)) {
+                addData("Hepatitis Further counselling", value)
+            } else {
+                errorList.add(rootView.etHepatitisCounselling)
+            }
+        }
+        val hepatitisStatus = formatter.getRadioText(rootView.radioGrpHepatitisStatus)
+        if (hepatitisStatus != "") {
+            addData("Hepatitis Status", hepatitisStatus)
+        }else{
+            errorList.add(rootView.radioGrpHepatitisStatus)
+        }
+        for (items in observationList){
+
+            val key = items.key
+            val value = observationList.getValue(key)
+
+            val data = DbDataList(key, value, "Hepatitis B Testing", DbResourceType.Observation.name)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
+        if (errorList.size == 0){
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.ANTENATAL_PROFILE.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentAntenatal4())
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+            Log.e("1111", errorList.toString())
+            formatter.validate(errorList, requireContext())
+        }
+
 
     }
 

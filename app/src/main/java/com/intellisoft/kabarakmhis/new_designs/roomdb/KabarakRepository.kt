@@ -185,6 +185,28 @@ class KabarakRepository(private val roomDao: RoomDao) {
 
     }
 
+    suspend fun getAllObservations(context: Context): ArrayList<DbObserveValue>{
+
+        val dbConfirmDetailsList = ArrayList<DbObserveValue>()
+
+        val fhirId = getSharedPref(context, "FHIRID").toString()
+        val loggedInUser = getSharedPref(context, "USERID").toString()
+        val encounterTitle = getSharedPref(context, "encounterTitle").toString()
+
+        val detailsList = roomDao.getPatientDataTitle(loggedInUser, encounterTitle, fhirId)
+        detailsList.forEach {
+            val type = it.type
+            val id = it.id
+            val code = it.code
+            val value = it.value
+
+            val dbConfirmDetails = DbObserveValue(code, value)
+            dbConfirmDetailsList.add(dbConfirmDetails)
+        }
+        return dbConfirmDetailsList
+
+    }
+
     suspend fun getConfirmDetails(context: Context):ArrayList<DbConfirmDetails>{
 
         val dbConfirmDetailsList = ArrayList<DbConfirmDetails>()

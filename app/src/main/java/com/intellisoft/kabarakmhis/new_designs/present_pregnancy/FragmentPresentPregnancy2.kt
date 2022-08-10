@@ -126,10 +126,14 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
             dbDataDetailsList.add(dbDataDetails)
             val dbPatientData = DbPatientData(DbResourceViews.PRESENT_PREGNANCY.name, dbDataDetailsList)
 
-            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PRESENT_PREGNANCY.name)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-            startActivity(Intent(requireContext(), PatientProfile::class.java))
 
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(),
+                DbResourceViews.PRESENT_PREGNANCY.name))
+            ft.addToBackStack(null)
+            ft.commit()
 
         }else{
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()

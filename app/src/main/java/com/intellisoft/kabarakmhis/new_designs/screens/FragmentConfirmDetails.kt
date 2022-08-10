@@ -122,41 +122,36 @@ class FragmentConfirmDetails : Fragment(){
                         val dataQuantityList = ArrayList<QuantityObservation>()
                         val dataCodeList = ArrayList<CodingObservation>()
 
-                        encounterDetailsList.forEach {observation ->
+                        val observationList = kabarakViewModel.getAllObservations(requireContext())
+                        observationList.forEach {
 
-                            val observationList = observation.detailsList
-                            observationList.forEach {
+                            val code = it.title
+                            val value = it.value
 
-                                val code = it.title
-                                val value = it.value
+                            val codeValue = formatter.getCodes(code)
 
-                                val codeValue = formatter.getCodes(code)
+                            val checkObservation = formatter.checkObservations(code)
+                            if (checkObservation == ""){
+                                //Save as a value string
 
-                                val checkObservation = formatter.checkObservations(code)
-                                if (checkObservation == ""){
-                                    //Save as a value string
+                                val codingObservation = CodingObservation(
+                                    codeValue,
+                                    code,
+                                    value)
+                                dataCodeList.add(codingObservation)
 
-                                    val codingObservation = CodingObservation(
-                                        codeValue,
-                                        code,
-                                        value)
-                                    dataCodeList.add(codingObservation)
-
-                                }else{
-                                    //Save as a value quantity
-                                    val quantityObservation = QuantityObservation(
-                                        codeValue,
-                                        code,
-                                        value,
-                                        checkObservation
-                                    )
-                                    dataQuantityList.add(quantityObservation)
-
-                                }
-
-
+                            }else{
+                                //Save as a value quantity
+                                val quantityObservation = QuantityObservation(
+                                    codeValue,
+                                    code,
+                                    value,
+                                    checkObservation
+                                )
+                                dataQuantityList.add(quantityObservation)
 
                             }
+
 
 
                         }
