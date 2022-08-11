@@ -13,7 +13,9 @@ enum class DbObservationValues{
     COUNTY_NAME,
     SUB_COUNTY_NAME,
     WARD_NAME,
-    VILLAGE_NAME,
+    TOWN_NAME,
+    ADDRESS_NAME,
+    ESTATE_NAME,
     PHONE_NUMBER,
 
 

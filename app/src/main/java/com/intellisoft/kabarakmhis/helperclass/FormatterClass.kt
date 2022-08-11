@@ -337,7 +337,18 @@ class FormatterClass {
             DbResourceViews.MEDICAL_DRUG_HISTORY.name,
             DbResourceViews.FAMILY_HISTORY.name,
             DbResourceViews.PRESENT_PREGNANCY.name,
-            DbResourceViews.ANTENATAL_PROFILE.name))
+            DbResourceViews.ANTENATAL_PROFILE.name,
+
+            DbObservationValues.COUNTY_NAME.name,
+            DbObservationValues.SUB_COUNTY_NAME.name,
+            DbObservationValues.WARD_NAME.name,
+            DbObservationValues.TOWN_NAME.name,
+            DbObservationValues.ADDRESS_NAME.name,
+            DbObservationValues.ESTATE_NAME.name,
+            DbObservationValues.PHONE_NUMBER.name,
+            DbObservationValues.COMPANION_NUMBER.name,
+            DbObservationValues.COMPANION_RELATIONSHIP.name,
+            DbObservationValues.COMPANION_NAME.name))
 
         for (items in encounterList){
             deleteSharedPreference(context, items)

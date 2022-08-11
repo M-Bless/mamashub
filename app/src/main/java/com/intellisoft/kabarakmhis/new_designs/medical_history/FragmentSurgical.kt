@@ -89,8 +89,16 @@ class FragmentSurgical : Fragment() {
 
         val surgicalHistoryList = ArrayList<String>()
 
-        if (rootView.checkboxNoPast.isChecked) surgicalHistoryList.add(rootView.checkboxNoPast.text.toString())
-        if (rootView.checkboxNoKnowledge.isChecked) surgicalHistoryList.add(rootView.checkboxNoKnowledge.text.toString())
+        if (rootView.checkboxNoPast.isChecked){
+            surgicalHistoryList.clear()
+            surgicalHistoryList.add(rootView.checkboxNoPast.text.toString())
+        }
+
+
+        if (rootView.checkboxNoKnowledge.isChecked){
+            surgicalHistoryList.clear()
+            surgicalHistoryList.add(rootView.checkboxNoKnowledge.text.toString())
+        }
         if (rootView.checkboxDilation.isChecked) surgicalHistoryList.add(rootView.checkboxDilation.text.toString())
         if (rootView.checkboxMyomectomy.isChecked) surgicalHistoryList.add(rootView.checkboxMyomectomy.text.toString())
         if (rootView.checkboxRemoval.isChecked) surgicalHistoryList.add(rootView.checkboxRemoval.text.toString())

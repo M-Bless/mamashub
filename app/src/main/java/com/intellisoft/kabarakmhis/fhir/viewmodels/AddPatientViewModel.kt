@@ -21,7 +21,7 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.data_class.QuantityObservation
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentConfirmPatient
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentPatientInfo
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.hl7.fhir.r4.model.*
 import java.time.LocalDate
 import java.util.*
@@ -51,119 +51,131 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 return@launch
             }
 
-            val patient = entry.resource as Patient
+            CoroutineScope(Dispatchers.IO).launch {
 
-            val name = dbPatientFhirInformation.name
+                val patientId = dbPatientFhirInformation.id
 
-            val nameList = getNames(name, name)
-            patient.name = nameList
+                val job = Job()
+                CoroutineScope(Dispatchers.IO + job).launch {
 
-            val birthDate = dbPatientFhirInformation.birthDate
-            patient.birthDate = FormatterClass().convertStringToDate(birthDate)
+                    val patient = entry.resource as Patient
 
-            val addressList = ArrayList<Address>()
+                    val name = dbPatientFhirInformation.name
 
-            val dbAddressList = dbPatientFhirInformation.addressList
-            dbAddressList.forEach {
+                    val nameList = getNames(name, name)
+                    patient.name = nameList
 
-                val text = it.text
-                val line = it.line
-                val city = it.city
-                val district = it.district
-                val state = it.state
-                val country = it.country
+                    val birthDate = dbPatientFhirInformation.birthDate
+                    patient.birthDate = FormatterClass().convertStringToDate(birthDate)
 
-                val address = Address()
-                address.state = state
-                address.city = city
-                address.district = district
-                address.country = country
-                address.text = text
+                    val addressList = ArrayList<Address>()
 
-                addressList.add(address)
+                    val dbAddressList = dbPatientFhirInformation.addressList
+                    dbAddressList.forEach {
+
+                        val text = it.text
+                        val line = it.line
+                        val city = it.city
+                        val district = it.district
+                        val state = it.state
+                        val country = it.country
+
+                        val address = Address()
+                        address.state = state
+                        address.city = city
+                        address.district = district
+                        address.country = country
+                        address.text = text
+
+                        addressList.add(address)
+
+                    }
+
+                    patient.address = addressList
+
+                    val kinDetailsList = ArrayList<Patient.ContactComponent>()
+                    val dbKinList = dbPatientFhirInformation.kinList
+                    dbKinList.forEach {
+
+                        val relationShp = it.relationship
+                        val kinName = it.name
+                        val kinPhoneList = it.telecom
+
+                        val contact = Patient.ContactComponent()
+                        val humanName = HumanName()
+                        humanName.family = kinName
+                        contact.name = humanName
+
+                        val rshpList = ArrayList<CodeableConcept>()
+                        val rshp = CodeableConcept()
+                        rshp.text = relationShp
+                        rshpList.add(rshp)
+                        contact.relationship = rshpList
+
+                        val phoneList = ArrayList<ContactPoint>()
+                        kinPhoneList.forEach {kinNo ->
+                            val phone = ContactPoint()
+                            phone.value = kinNo.value
+                            phoneList.add(phone)
+                        }
+                        contact.telecom = phoneList
+                        kinDetailsList.add(contact)
+
+                    }
+
+                    patient.contact = kinDetailsList
+
+                    val userContactList = dbPatientFhirInformation.telecomList
+                    val contactList = ArrayList<ContactPoint>()
+                    userContactList.forEach {
+
+                        val contact = ContactPoint()
+                        contact.value = it.value
+                        contact.system = ContactPoint.ContactPointSystem.PHONE
+                        contactList.add(contact)
+                    }
+
+                    patient.telecom = contactList
+
+                    val dbMaritalStatus = dbPatientFhirInformation.maritalStatus
+                    val maritalStatus = CodeableConcept()
+                    maritalStatus.text = dbMaritalStatus
+                    patient.maritalStatus = maritalStatus
+
+                    patient.id = patientId
+
+                    val ancCode = dbPatientFhirInformation.identifier
+
+                    val identifierList = ArrayList<Identifier>()
+                    val identifier = Identifier()
+                    identifier.id = ancCode
+                    identifier.value = ancCode
+                    identifierList.add(identifier)
+
+                    patient.identifier = identifierList
+
+                    fhirEngine.create(patient)
+
+                }.join()
+                delay(2000)
+
+                val patientReference = Reference("Patient/$patientId")
+                val encounterId = FormatterClass().generateUuid()
+
+                val dataCodeList = dbPatientFhirInformation.dataCodeList
+                val dataQuantityList = dbPatientFhirInformation.dataQuantityList
+
+                createEncounter(
+                    patientReference,
+                    encounterId,
+                    questionnaireResponse,
+                    dataCodeList,
+                    dataQuantityList,
+                    DbResourceViews.PATIENT_INFO.name
+                )
 
             }
 
-            patient.address = addressList
-
-            val kinDetailsList = ArrayList<Patient.ContactComponent>()
-            val dbKinList = dbPatientFhirInformation.kinList
-            dbKinList.forEach {
-
-                val relationShp = it.relationship
-                val kinName = it.name
-                val kinPhoneList = it.telecom
-
-                val contact = Patient.ContactComponent()
-                val humanName = HumanName()
-                humanName.family = kinName
-                contact.name = humanName
-
-                val rshpList = ArrayList<CodeableConcept>()
-                val rshp = CodeableConcept()
-                rshp.text = relationShp
-                rshpList.add(rshp)
-                contact.relationship = rshpList
-
-                val phoneList = ArrayList<ContactPoint>()
-                kinPhoneList.forEach {kinNo ->
-                    val phone = ContactPoint()
-                    phone.value = kinNo.value
-                    phoneList.add(phone)
-                }
-                contact.telecom = phoneList
-                kinDetailsList.add(contact)
-
-            }
-
-            patient.contact = kinDetailsList
-
-            val userContactList = dbPatientFhirInformation.telecomList
-            val contactList = ArrayList<ContactPoint>()
-            userContactList.forEach {
-
-                val contact = ContactPoint()
-                contact.value = it.value
-                contact.system = ContactPoint.ContactPointSystem.PHONE
-                contactList.add(contact)
-            }
-
-            patient.telecom = contactList
-
-            val dbMaritalStatus = dbPatientFhirInformation.maritalStatus
-            val maritalStatus = CodeableConcept()
-            maritalStatus.text = dbMaritalStatus
-            patient.maritalStatus = maritalStatus
-
-            val patientId = dbPatientFhirInformation.id
-            patient.id = patientId
-
-            val ancCode = dbPatientFhirInformation.identifier
-
-            val identifierList = ArrayList<Identifier>()
-            val identifier = Identifier()
-            identifier.id = ancCode
-            identifier.value = ancCode
-            identifierList.add(identifier)
-
-            patient.identifier = identifierList
-
-            fhirEngine.create(patient)
-
-            val patientReference = Reference("Patient/$patientId")
-            val encounterId = FormatterClass().generateUuid()
-
-            val dataCodeList = dbPatientFhirInformation.dataCodeList
-            val dataQuantityList = dbPatientFhirInformation.dataQuantityList
-
-            createEncounter(
-                patientReference,
-                encounterId,
-                questionnaireResponse,
-                dataCodeList,
-                dataQuantityList,
-                DbResourceViews.PATIENT_INFO.name
-            )
 
             isPatientSaved.value = true
         }

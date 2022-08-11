@@ -5,7 +5,9 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +23,10 @@ import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenat
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
-import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.*
+import kotlinx.android.synthetic.main.fragment_present_preg_1.view.etDiastolicBp
+import kotlinx.android.synthetic.main.fragment_present_preg_1.view.etGestation
+import kotlinx.android.synthetic.main.fragment_present_preg_1.view.etSystolicBp
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.linearUrine
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.navigation
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.radioGrpHb
@@ -95,10 +99,152 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             }
         }
 
+        rootView.etMuac.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etMuac.text.toString()
+
+                if (!TextUtils.isEmpty(value)){
+                    try {
+                        validateMuac(rootView.etMuac, value.toInt())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+
+        })
+
+        rootView.etSystolicBp.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etSystolicBp.text.toString()
+                if (!TextUtils.isEmpty(value)){
+                    try {
+                        validateSystolicBloodPressure(rootView.etSystolicBp, value.toInt())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+
+        })
+        rootView.etDiastolicBp.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etDiastolicBp.text.toString()
+                if (!TextUtils.isEmpty(value)){
+                    try {
+                        validateDiastolicBloodPressure(rootView.etDiastolicBp, value.toInt())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+
+        })
+        rootView.etHbReading.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etHbReading.text.toString()
+                if (!TextUtils.isEmpty(value)){
+                    try {
+                        validateHbReading(rootView.etHbReading, value.toInt())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+
+        })
+
 
         handleNavigation()
 
         return rootView
+    }
+    private fun validateHbReading(editText: EditText, value: Int){
+
+        if (value < 11){
+            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+        }else if (value >= 11.5 && value <= 13){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        } else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
+
+
+    }
+    private fun validateSystolicBloodPressure(editText: EditText, value: Int){
+
+        if (value <= 70){
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }else if (value <= 80){
+            editText.setBackgroundColor(resources.getColor(R.color.orange))
+        }else if (value <= 110){
+            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+        }else if (value <= 130)
+            editText.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
+        else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
+
+
+    }
+    private fun validateDiastolicBloodPressure(editText: EditText, value: Int){
+
+        if (value <= 60){
+            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+        }else if (value <= 90){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        }else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
+    }
+    private fun validateMuac(editText: EditText, value: Int){
+
+        if (value < 23){
+            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+        }else if (value in 24..30){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        }else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
     }
 
     private fun handleNavigation() {
@@ -149,80 +295,88 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac)
         ){
 
-            if (formatter.validateMuac(muac)){
+            if (gestation.toInt() in 33..42) {
 
-                if (rootView.linearUrine.visibility == View.VISIBLE){
-                    val text = rootView.etUrineResults.text.toString()
-                    addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
+                if (formatter.validateMuac(muac)){
+
+                    if (rootView.linearUrine.visibility == View.VISIBLE){
+                        val text = rootView.etUrineResults.text.toString()
+                        addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
+                    }else{
+                        val text = formatter.getRadioText(rootView.radioGrpUrineResults)
+                        addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
+                    }
+                    addData("MUAC",muac, DbObservationValues.MUAC.name)
+                    addData("Pregnancy Contact",spinnerContactNumberValue, DbObservationValues.CONTACT_NUMBER.name)
+                    for (items in observationList){
+
+                        val key = items.key
+                        val dbObservationLabel = observationList.getValue(key)
+
+                        val value = dbObservationLabel.value
+                        val label = dbObservationLabel.label
+
+                        val data = DbDataList(key, value, "Current Pregnancy Details", DbResourceType.Observation.name, label)
+                        dbDataList.add(data)
+
+                    }
+                    observationList.clear()
+
+
+                    addData("Systolic Blood Pressure",systolic, DbObservationValues.SYSTOLIC_BP.name)
+                    addData("Diastolic Blood Pressure",diastolic, DbObservationValues.DIASTOLIC_BP.name)
+                    for (items in observationList){
+
+                        val key = items.key
+                        val dbObservationLabel = observationList.getValue(key)
+
+                        val value = dbObservationLabel.value
+                        val label = dbObservationLabel.label
+
+                        val data = DbDataList(key, value, "Blood Pressure", DbResourceType.Observation.name, label)
+                        dbDataList.add(data)
+
+                    }
+                    observationList.clear()
+
+                    addData("Gestation (Weeks)",gestation, DbObservationValues.GESTATION.name)
+                    addData("Fundal Height (cm)",fundalHeight, DbObservationValues.FUNDAL_HEIGHT.name)
+                    addData("Date",date, DbObservationValues.NEXT_VISIT_DATE.name)
+                    for (items in observationList){
+
+                        val key = items.key
+                        val dbObservationLabel = observationList.getValue(key)
+
+                        val value = dbObservationLabel.value
+                        val label = dbObservationLabel.label
+
+                        val data = DbDataList(key, value, "Hb Test", DbResourceType.Observation.name, label)
+                        dbDataList.add(data)
+
+                    }
+                    observationList.clear()
+
+
+                    val dbDataDetailsList = ArrayList<DbDataDetails>()
+                    val dbDataDetails = DbDataDetails(dbDataList)
+                    dbDataDetailsList.add(dbDataDetails)
+                    val dbPatientData = DbPatientData(DbResourceViews.PRESENT_PREGNANCY.name, dbDataDetailsList)
+                    kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+                    val ft = requireActivity().supportFragmentManager.beginTransaction()
+                    ft.replace(R.id.fragmentHolder, FragmentPresentPregnancy2())
+                    ft.addToBackStack(null)
+                    ft.commit()
+
                 }else{
-                    val text = formatter.getRadioText(rootView.radioGrpUrineResults)
-                    addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
+                    Toast.makeText(requireContext(), "Please enter valid MUAC", Toast.LENGTH_SHORT).show()
                 }
-                addData("MUAC",muac, DbObservationValues.MUAC.name)
-                addData("Pregnancy Contact",spinnerContactNumberValue, DbObservationValues.CONTACT_NUMBER.name)
-                for (items in observationList){
-
-                    val key = items.key
-                    val dbObservationLabel = observationList.getValue(key)
-
-                    val value = dbObservationLabel.value
-                    val label = dbObservationLabel.label
-
-                    val data = DbDataList(key, value, "Current Pregnancy Details", DbResourceType.Observation.name, label)
-                    dbDataList.add(data)
-
-                }
-                observationList.clear()
-
-
-                addData("Systolic Blood Pressure",systolic, DbObservationValues.SYSTOLIC_BP.name)
-                addData("Diastolic Blood Pressure",diastolic, DbObservationValues.DIASTOLIC_BP.name)
-                for (items in observationList){
-
-                    val key = items.key
-                    val dbObservationLabel = observationList.getValue(key)
-
-                    val value = dbObservationLabel.value
-                    val label = dbObservationLabel.label
-
-                    val data = DbDataList(key, value, "Blood Pressure", DbResourceType.Observation.name, label)
-                    dbDataList.add(data)
-
-                }
-                observationList.clear()
-
-                addData("Gestation (Weeks)",gestation, DbObservationValues.GESTATION.name)
-                addData("Fundal Height (cm)",fundalHeight, DbObservationValues.FUNDAL_HEIGHT.name)
-                addData("Date",date, DbObservationValues.NEXT_VISIT_DATE.name)
-                for (items in observationList){
-
-                    val key = items.key
-                    val dbObservationLabel = observationList.getValue(key)
-
-                    val value = dbObservationLabel.value
-                    val label = dbObservationLabel.label
-
-                    val data = DbDataList(key, value, "Hb Test", DbResourceType.Observation.name, label)
-                    dbDataList.add(data)
-
-                }
-                observationList.clear()
-
-
-                val dbDataDetailsList = ArrayList<DbDataDetails>()
-                val dbDataDetails = DbDataDetails(dbDataList)
-                dbDataDetailsList.add(dbDataDetails)
-                val dbPatientData = DbPatientData(DbResourceViews.PRESENT_PREGNANCY.name, dbDataDetailsList)
-                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
-
-                val ft = requireActivity().supportFragmentManager.beginTransaction()
-                ft.replace(R.id.fragmentHolder, FragmentPresentPregnancy2())
-                ft.addToBackStack(null)
-                ft.commit()
 
             }else{
-                Toast.makeText(requireContext(), "Please enter valid MUAC", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Gestation is not in range of 34 - 42 weeks", Toast.LENGTH_SHORT).show()
             }
+
+
 
 
 

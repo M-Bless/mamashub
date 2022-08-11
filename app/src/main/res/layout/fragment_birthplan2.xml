@@ -76,13 +76,13 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
+                            android:hint="+254XXXXX"
                             android:inputType="phone"
                             android:id="@+id/etCompanionPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
+                            android:background="@drawable/edit_outline_trans" />
 
 
 

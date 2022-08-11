@@ -116,7 +116,11 @@ class FragmentConfirmPatient : Fragment(){
                     var spinnerCountyValue = ""
                     var spinnerSubCountyValue = ""
                     var spinnerWardValue = ""
+
+                    var townName = ""
                     var addressName = ""
+                    var estateName = ""
+
                     var kinPhone = ""
                     var spinnerRshpValue = ""
                     var kinName = ""
@@ -141,7 +145,9 @@ class FragmentConfirmPatient : Fragment(){
                             DbObservationValues.COUNTY_NAME.name -> { spinnerCountyValue = value }
                             DbObservationValues.SUB_COUNTY_NAME.name -> { spinnerSubCountyValue = value }
                             DbObservationValues.WARD_NAME.name -> { spinnerWardValue = value }
-                            DbObservationValues.VILLAGE_NAME.name -> { addressName = value }
+                            DbObservationValues.TOWN_NAME.name -> { townName = value }
+                            DbObservationValues.ADDRESS_NAME.name -> { addressName = value }
+                            DbObservationValues.ESTATE_NAME.name -> { estateName = value }
                             DbObservationValues.RELATIONSHIP.name -> { spinnerRshpValue = value }
                             DbObservationValues.COMPANION_NAME.name -> { kinName = value }
                             DbObservationValues.PHONE_NUMBER.name -> {
@@ -196,10 +202,14 @@ class FragmentConfirmPatient : Fragment(){
 
                     }
 
+                    val lineString = ArrayList<String>()
+                    lineString.add(townName)
+                    lineString.add(estateName)
+
                     val addressList = ArrayList<DbAddress>()
                     val address = DbAddress(
                         addressName,
-                        ArrayList(),
+                        lineString,
                         spinnerWardValue,
                         spinnerSubCountyValue,
                         spinnerCountyValue,
@@ -233,7 +243,10 @@ class FragmentConfirmPatient : Fragment(){
 
                 }.join()
 
+                delay(7000)
+
                 progressDialog.dismiss()
+
                 val intent = Intent(requireContext(), NewMainActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()

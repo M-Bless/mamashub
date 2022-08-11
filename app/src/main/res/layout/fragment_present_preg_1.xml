@@ -163,7 +163,7 @@
 
                         <EditText
                             android:maxLength="2"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:id="@+id/etMuac"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -308,12 +308,12 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="If yes, hb reading"
+                            android:text="If yes, hb reading (g/dl)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             />
 
                         <EditText
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:id="@+id/etHbReading"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -378,6 +378,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
+                            android:maxEms="2"
                             android:inputType="number"
                             android:id="@+id/etGestation"
                             android:layout_width="match_parent"

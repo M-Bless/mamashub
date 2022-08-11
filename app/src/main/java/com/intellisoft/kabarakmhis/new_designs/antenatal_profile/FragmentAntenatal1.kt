@@ -158,7 +158,12 @@ class FragmentAntenatal1 : Fragment() {
                 val value = rootView.etHb.text.toString()
 
                 if (!TextUtils.isEmpty(value)){
-                    validateHB(rootView.etHb, value.toInt())
+                    try {
+                        validateHB(rootView.etHb, value.toInt())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
                 }
 
             }

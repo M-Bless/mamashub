@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.dave.validations.PhoneNumberValidation
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
@@ -171,10 +172,12 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
     private fun saveData() {
 
         val dbDataList = ArrayList<DbDataList>()
+        val errorList = ArrayList<String>()
 
         val edd = rootView.etEdd.text.toString()
         val facilityName = rootView.etFacilityName.text.toString()
         val facilityContact = rootView.etFacilityContact.text.toString()
+
         addData("Expected date of childbirth",edd, DbObservationValues.EDD.name)
         addData("Health facility name",facilityName ,DbObservationValues.FACILITY_NAME.name)
         addData("Health facility contact",facilityContact, DbObservationValues.FACILITY_NUMBER.name)
@@ -254,19 +257,45 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         }
         observationList.clear()
 
+        val facilityContactNo = PhoneNumberValidation().getStandardPhoneNumber(facilityContact)
+        val attendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(attendantPhone)
+        val alternativeAttendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(alternativeAttendantPhone)
+        val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
+
+        if (facilityContactNo != null && attendantPhoneNo != null && alternativeAttendantPhoneNo != null && companionPhoneNo != null) {
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.BIRTH_PLAN.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentBirthPlan2())
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+
+            if (facilityContactNo == null) errorList.add("Enter a valid health facility contact")
+            if (attendantPhoneNo == null) errorList.add("Enter a valid attendant phone number")
+            if (alternativeAttendantPhoneNo == null) errorList.add("Enter a valid alternative attendant phone number")
+            if (companionPhoneNo == null) errorList.add("Enter a valid companion phone number")
+
+            errorList.forEach {
+
+                Toast.makeText(requireContext(), "$it \n", Toast.LENGTH_LONG).show()
+
+            }
 
 
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.BIRTH_PLAN.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        }
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, FragmentBirthPlan2())
-        ft.addToBackStack(null)
-        ft.commit()
+
+
+
+
 
     }
 

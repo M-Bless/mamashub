@@ -60,6 +60,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     var countyDataList = ArrayList<County>()
     private val viewModel: AddPatientViewModel by viewModels()
+    val subCountyDataList = HashSet<String>()
+    val wardDataList = ArrayList<String>()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -84,6 +86,65 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         handleNavigation()
 
         return rootView
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        val county = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.COUNTY_NAME.name)
+        val subCounty = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.SUB_COUNTY_NAME.name)
+        val ward = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.WARD_NAME.name)
+        val town = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.TOWN_NAME.name)
+        val address = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.ADDRESS_NAME.name)
+        val estate = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.ESTATE_NAME.name)
+        val phone = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.PHONE_NUMBER.name)
+        val companionPhone = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.COMPANION_NUMBER.name)
+        val companionRelationship = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.COMPANION_RELATIONSHIP.name)
+        val companionName = formatter.retrieveSharedPreference(requireContext(), DbObservationValues.COMPANION_NAME.name)
+
+        if(!TextUtils.isEmpty(county)) {
+            rootView.spinnerCounty.setSelection(countyList.indexOf(county))
+            spinnerCountyValue = county.toString()
+
+            initSubCounty(spinnerCountyValue)
+
+            if(!TextUtils.isEmpty(subCounty)) {
+                rootView.spinnerSubCounty.setSelection(subCountyDataList.indexOf(subCounty))
+                spinnerSubCountyValue = subCounty.toString()
+
+                Log.e("spinnerSubCountyValue", subCountyDataList.toString())
+                Log.e("subCounty", subCounty.toString())
+
+                initWard()
+
+                if(!TextUtils.isEmpty(ward)) rootView.spinnerWard.setSelection(wardDataList.indexOf(ward))
+
+            }
+
+        }
+
+
+
+
+        if(!TextUtils.isEmpty(town)) rootView.etTown.setText(town)
+        if(!TextUtils.isEmpty(address)) rootView.etAddress.setText(address)
+        if(!TextUtils.isEmpty(estate)) rootView.etEstate.setText(estate)
+        if(!TextUtils.isEmpty(phone)) rootView.etTelePhone.setText(phone)
+        if(!TextUtils.isEmpty(companionPhone)) rootView.etTelePhonKin.setText(companionPhone)
+        if(!TextUtils.isEmpty(companionRelationship)) rootView.spinnerRshp.setSelection(relationshipList.indexOf(companionRelationship))
+        if(!TextUtils.isEmpty(companionName)) rootView.etKinName.setText(companionName)
+
     }
 
     private fun handleNavigation() {
@@ -118,23 +179,32 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
             if (patientNo != null && kinNo != null){
 
-                val clientName = formatter.retrieveSharedPreference(requireContext(), "clientName").toString()
-                val dob = formatter.retrieveSharedPreference(requireContext(), "dob").toString()
-                val maritalStatus = formatter.retrieveSharedPreference(requireContext(), "maritalStatus").toString()
-
                 val dbDataList = ArrayList<DbDataList>()
 
                 val countyData = DbDataList("County Name", spinnerCountyValue, "Residential Information", DbResourceType.Patient.name, DbObservationValues.COUNTY_NAME.name)
                 val subCountyData = DbDataList("Sub county Name", spinnerSubCountyValue, "Residential Information", DbResourceType.Patient.name, DbObservationValues.SUB_COUNTY_NAME.name)
                 val wardData = DbDataList("Ward Name", spinnerWardValue, "Residential Information", DbResourceType.Patient.name, DbObservationValues.WARD_NAME.name)
-                val townData = DbDataList("Town Name", townName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.VILLAGE_NAME.name)
-                val addressData = DbDataList("Address Name", addressName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.VILLAGE_NAME.name)
-                val estateData = DbDataList("Estate Name", estateName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.VILLAGE_NAME.name)
+                val townData = DbDataList("Town Name", townName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.TOWN_NAME.name)
+                val addressData = DbDataList("Address Name", addressName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.ADDRESS_NAME.name)
+                val estateData = DbDataList("Estate Name", estateName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.ESTATE_NAME.name)
 
                 val telephoneData = DbDataList("Telephone", telephoneName, "Contact Details", DbResourceType.Patient.name, DbObservationValues.PHONE_NUMBER.name)
                 val kinNameData = DbDataList("Next of Kin Name", kinName, "Next of Kin Details", DbResourceType.Patient.name, DbObservationValues.COMPANION_NAME.name)
-                val kinPhoneData = DbDataList("Next of Kin Phone", kinPhone, "Next of Kin Details", DbResourceType.Patient.name, DbObservationValues.PHONE_NUMBER.name)
+                val kinPhoneData = DbDataList("Next of Kin Phone", kinPhone, "Next of Kin Details", DbResourceType.Patient.name, DbObservationValues.COMPANION_NUMBER.name)
                 val rshpValueData = DbDataList("Next Of Kin Relationship", spinnerRshpValue, "Next of Kin Details", DbResourceType.Patient.name, DbObservationValues.RELATIONSHIP.name)
+
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.COUNTY_NAME.name, spinnerCountyValue)
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.SUB_COUNTY_NAME.name, spinnerSubCountyValue)
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.WARD_NAME.name, spinnerWardValue)
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.TOWN_NAME.name, townName)
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.ADDRESS_NAME.name, addressName)
+
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.ESTATE_NAME.name, estateName)
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.PHONE_NUMBER.name, telephoneName)
+
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.COMPANION_NUMBER.name, kinPhone)
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.COMPANION_RELATIONSHIP.name, spinnerRshpValue)
+                formatter.saveSharedPreference(requireContext(), DbObservationValues.COMPANION_NAME.name, kinName)
 
                 dbDataList.addAll(listOf(countyData, subCountyData, wardData, townData, addressData, estateData, telephoneData, kinNameData, kinPhoneData, rshpValueData))
                 val dbDataDetailsList = ArrayList<DbDataDetails>()
@@ -269,16 +339,17 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         rootView.spinnerCounty!!.adapter = countyData
         rootView.spinnerCounty.onItemSelectedListener = this
 
-        initSubCounty()
+        initSubCounty(spinnerCountyValue)
 
     }
 
     override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
         when (arg0.id) {
+
             R.id.spinnerRshp -> { spinnerRshpValue = rootView.spinnerRshp.selectedItem.toString() }
             R.id.spinnerCounty -> {
                 spinnerCountyValue = rootView.spinnerCounty.selectedItem.toString()
-                initSubCounty()
+                initSubCounty(spinnerCountyValue)
             }
             R.id.spinnerSubCounty -> {
                 spinnerSubCountyValue = rootView.spinnerSubCounty.selectedItem.toString()
@@ -293,8 +364,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
     }
 
     private fun initWard() {
-
-        val wardDataList = ArrayList<String>()
 
         wardDataList.add("")
 
@@ -314,11 +383,9 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     }
 
-    private fun initSubCounty() {
+    private fun initSubCounty(countyName: String) {
 
-        val subCountyDataList = HashSet<String>()
-
-        val countyData = kabarakViewModel.getCountyNameData(spinnerCountyValue)
+        val countyData = kabarakViewModel.getCountyNameData(countyName)
         if (countyData != null){
             val countyId = countyData.id
             if (countyId != null){

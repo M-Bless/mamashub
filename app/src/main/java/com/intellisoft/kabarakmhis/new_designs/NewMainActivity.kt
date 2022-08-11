@@ -41,6 +41,8 @@ class NewMainActivity : AppCompatActivity() {
     private lateinit var etSearch : SearchView
     private val viewModel: MainActivityViewModel by viewModels()
 
+    private var formatter = FormatterClass()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_main)
@@ -111,6 +113,7 @@ class NewMainActivity : AppCompatActivity() {
 
         FormatterClass().nukeEncounters(this@NewMainActivity)
 
+
         if (patientList.isEmpty()) {
             no_record.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
@@ -141,6 +144,9 @@ class NewMainActivity : AppCompatActivity() {
         patientListViewModel.liveSearchedPatients.observe(this) {
             showPatients(it)
         }
+
+        formatter.saveSharedPreference(this@NewMainActivity, "patientName", "")
+        formatter.saveSharedPreference(this@NewMainActivity, "identifier", "")
 
         viewModel.poll()
     }

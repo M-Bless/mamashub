@@ -228,6 +228,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         formatter.saveSharedPreference(requireContext(), "FHIRID", formatter.generateUuid())
                         formatter.saveSharedPreference(requireContext(), "maritalStatus", spinnerMaritalValue)
 
+                        formatter.saveSharedPreference(requireContext(), "dob", dob)
+                        formatter.saveSharedPreference(requireContext(), "LMP", lmp)
+
+                        formatter.saveSharedPreference(requireContext(), "patientName", clientName)
+                        formatter.saveSharedPreference(requireContext(), "identifier", ancCodeValue)
+
 //                        val ft = requireActivity().supportFragmentManager.beginTransaction()
 //                        ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
 //                            DbResourceViews.PATIENT_INFO.name))
@@ -263,14 +269,24 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
         }else{
 
-            val validationList = ArrayList<Any>()
-            validationList.addAll(
-                listOf(rootView.etFacilityName, rootView.etKmhflCode,
-                rootView.etClientName, rootView.etGravida, rootView.etParity, rootView.etHeight,
-                rootView.etWeight, rootView.etDoB, rootView.etLmp, rootView.etEdd)
-            )
+            if (TextUtils.isEmpty(rootView.etFacilityName.text.toString())) rootView.etFacilityName.error = "Please enter a valid facility name"
+            if (TextUtils.isEmpty(rootView.etKmhflCode.text.toString())) rootView.etKmhflCode.error = "Please enter a valid KMHFL code"
+            if (TextUtils.isEmpty(rootView.etClientName.text.toString())) rootView.etClientName.error = "Please enter a valid client name"
+            if (TextUtils.isEmpty(rootView.etHeight.text.toString())) rootView.etHeight.error = "Please enter a valid height"
+            if (TextUtils.isEmpty(rootView.etWeight.text.toString())) rootView.etWeight.error = "Please enter a valid weight"
+            if (TextUtils.isEmpty(rootView.etLmp.text.toString())) rootView.etLmp.error = "Please enter a valid lmp"
+            if (TextUtils.isEmpty(rootView.etEdd.text.toString())) rootView.etEdd.error = "Please enter a valid edd"
+            if (TextUtils.isEmpty(rootView.etGravida.text.toString())) rootView.etGravida.error = "Please enter a valid gravida"
+            if (TextUtils.isEmpty(rootView.etParity.text.toString())) rootView.etParity.error = "Please enter a valid parity"
+            if (TextUtils.isEmpty(rootView.etDoB.text.toString())) rootView.etDoB.error = "Please enter a valid date of birth"
 
-            formatter.validate(validationList, requireContext())
+            val ancCode = rootView.etAnc.text.toString()
+            val pncNo = rootView.etPnc.text.toString()
+
+            if (ancCode =="" && pncNo ==""){
+                rootView.etAnc.error = "Please enter a valid anc code"
+                rootView.etPnc.error = "Please enter a valid pnc code"
+            }
 
             if (spinnerMaritalValue == "") Toast.makeText(requireContext(), "Please select marital status", Toast.LENGTH_SHORT).show()
             if (educationLevelValue == "") Toast.makeText(requireContext(), "Please select education level", Toast.LENGTH_SHORT).show()
@@ -292,6 +308,23 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             formatter.progressBarFun(requireContext(), currentPage.toInt(), totalPages.toInt(), rootView)
 
         }
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getPastData()
+    }
+
+    private fun getPastData() {
+
+        val dob = formatter.retrieveSharedPreference(requireContext(), "dob")
+        val lmp = formatter.retrieveSharedPreference(requireContext(), "LMP")
+
+        if (dob != null) rootView.etDoB.text = dob
+        if (lmp != null) rootView.etLmp.text = lmp
 
 
     }
