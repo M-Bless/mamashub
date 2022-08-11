@@ -18,6 +18,7 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.activity_clinical_notes_add.*
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -115,6 +116,16 @@ class PreventiveServiceList : AppCompatActivity() {
 
         }
 
+        getUserData()
     }
 
+    private fun getUserData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
+
+    }
 }

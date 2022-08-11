@@ -64,6 +64,8 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
+        formatter.saveCurrentPage("1", requireContext())
+
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
 
@@ -145,7 +147,7 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun handleNavigation() {
 
-        rootView.navigation.btnNext.text = "Save"
+        rootView.navigation.btnNext.text = "Preview"
         rootView.navigation.btnPrevious.text = "Back"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
@@ -323,4 +325,24 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        getPageDetails()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun getPageDetails() {
+
+        val totalPages = formatter.retrieveSharedPreference(requireContext(), "totalPages")
+        val currentPage = formatter.retrieveSharedPreference(requireContext(), "currentPage")
+
+        if (totalPages != null && currentPage != null){
+
+            formatter.progressBarFun(requireContext(), currentPage.toInt(), totalPages.toInt(), rootView)
+
+        }
+
+
+    }
 }

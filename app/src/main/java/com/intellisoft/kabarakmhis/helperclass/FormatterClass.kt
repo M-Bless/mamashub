@@ -320,8 +320,6 @@ class FormatterClass {
         val sharedPreferences = context.getSharedPreferences(appName, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
-        Log.e("++++++remove ", sharedKey)
-
         editor.remove(sharedKey)
         editor.apply()
 
@@ -389,18 +387,28 @@ class FormatterClass {
         val progressStatus = ( currentPos.toDouble() / finaPos.toDouble() ) * 100
         progressBar.setProgress(progressStatus.toInt(), true)
 
-        val tvPatient :TextView = progress.findViewById(R.id.tvPatient)
-        val tvAncId :TextView = progress.findViewById(R.id.tvAncId)
+        setUserDetails(context, rootView)
+
+
+
+    }
+
+    fun setUserDetails(context: Context, rootView: View){
+
+        val userView = rootView.findViewById<View>(R.id.userView)
+
+        val tvPatient :TextView = userView.findViewById(R.id.tvPatient)
+        val tvAncId :TextView = userView.findViewById(R.id.tvAncId)
 
         val identifier = retrieveSharedPreference(context, "identifier")
         val patientName = retrieveSharedPreference(context, "patientName")
 
         tvPatient.text = patientName
         tvAncId.text = identifier
-
-
-
     }
+
+
+
 
     fun saveCurrentPage(currentPage: String,context: Context) {
         saveSharedPreference(context, "currentPage", currentPage)

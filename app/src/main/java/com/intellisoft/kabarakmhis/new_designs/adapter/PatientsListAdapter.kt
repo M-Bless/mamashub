@@ -109,8 +109,6 @@ class PatientsListAdapter(private var entryList: List<DbPatientDetails>,
         val id = entryList[position].id
         val name = entryList[position].name
 
-        Log.e("******* ", entryList[position].name)
-
         val pos = "${position + 1}"
 
         holder.tvId.text = pos

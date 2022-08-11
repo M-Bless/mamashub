@@ -59,6 +59,22 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        getUserData()
+    }
+
+    private fun getUserData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
+
+    }
+
     private fun saveData() {
 
         val clinicalNotes = etClinicalNotes.text.toString()

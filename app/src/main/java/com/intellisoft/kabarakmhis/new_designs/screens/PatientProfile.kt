@@ -116,8 +116,10 @@ class PatientProfile : AppCompatActivity() {
                     tvKinDetails.text = kinPhone
 
                     formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
-                    formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier)
                     formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
+
+                    formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier.toString())
+
                 }
 
             }catch (e: Exception){

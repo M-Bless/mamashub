@@ -17,8 +17,12 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.activity_clinical_notes_add.*
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.*
+import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.navigation
+import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.tvAncId
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.tvDate
+import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.tvPatient
 
 import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
@@ -263,6 +267,22 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
 
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getUserData()
+    }
+
+    private fun getUserData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
 
     }
 

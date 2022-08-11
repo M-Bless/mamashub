@@ -130,6 +130,10 @@ class WeightMonitoringChart : AppCompatActivity() {
                 val encounterId = encounter.encounterId
                 val observationList = patientDetailsViewModel.getObservationsFromEncounter(encounterId)
 
+                Log.e("-----1", "encounterId: $encounterId")
+
+
+
                 observationList.forEach {
 
                     var motherWeight = 0.0
@@ -137,16 +141,45 @@ class WeightMonitoringChart : AppCompatActivity() {
 
                     val text = it.text
                     val value = it.value
+                    val code = it.code
 
-                    if (text == "Mother Weight"){
+                    if (code == "77386006"){
+                        //Gestation
+
+                        try {
+
+                            val newValue = value.reversed()
+                            val reversedValue = newValue.substring(6, newValue.length)
+
+                            gestation = reversedValue.toDouble()
+
+                            Log.e("-----", "-------")
+                            Log.e("-----", "gestation: $gestation")
+
+                        }catch (e: Exception){
+                            e.printStackTrace()
+                        }
+
+
+                    }
+                    if (code == "726527001"){
+                        //Mother Weight
                         motherWeight = value.toDouble()
-                    }
-                    if (value == "Gestation"){
-                        gestation = value.toDouble()
+
+                        Log.e("-----", "motherWeight: $motherWeight")
+
+
                     }
 
-                    val dbValue = DbObserveValue(motherWeight.toString(), gestation.toString())
-                    chartValueList.add(dbValue)
+
+                    if (motherWeight != 0.0 && gestation != 0.0){
+                        val dbValue = DbObserveValue(gestation.toString(), motherWeight.toString())
+                        chartValueList.add(dbValue)
+
+                    }
+
+
+
                 }
 
 
@@ -168,17 +201,12 @@ class WeightMonitoringChart : AppCompatActivity() {
         val patientName = formatter.retrieveSharedPreference(this, "patientName")
         val dob = formatter.retrieveSharedPreference(this, "dob")
 
-
-
-        if (identifier != null) tvPatientName.text = identifier
-        if (patientName != null) tvAncId.text = patientName
+        if (identifier != null) tvAncId.text = identifier
+        if (patientName != null) tvPatientName.text = patientName
         if (dob != null){
             val age = "${formatter.calculateAge(dob)} years"
             tvAge.text = age
         }
-
-
-
 
     }
 

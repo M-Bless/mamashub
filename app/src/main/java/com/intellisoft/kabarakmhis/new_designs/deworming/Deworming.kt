@@ -21,7 +21,11 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
+import kotlinx.android.synthetic.main.activity_clinical_notes_add.*
 import kotlinx.android.synthetic.main.activity_deworming.*
+import kotlinx.android.synthetic.main.activity_deworming.navigation
+import kotlinx.android.synthetic.main.activity_deworming.tvAncId
+import kotlinx.android.synthetic.main.activity_deworming.tvPatient
 import kotlinx.android.synthetic.main.fragment_antenatal2.view.*
 import kotlinx.android.synthetic.main.fragment_pmtct1.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
@@ -76,6 +80,22 @@ class Deworming : AppCompatActivity() {
 
         navigation.btnNext.setOnClickListener { saveData() }
         navigation.btnPrevious.setOnClickListener { onBackPressed() }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getUserData()
+    }
+
+    private fun getUserData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
 
     }
 

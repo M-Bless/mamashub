@@ -90,7 +90,12 @@ class PatientDetailsViewModel(
         } else ""
         val phone = if (patientResource.hasTelecom()) patientResource.telecom[0].value else ""
 
-        val identifier = if (patientResource.hasIdentifier()) patientResource.identifier[0].value else ""
+        val identifier = if (patientResource.hasIdentifier()){
+            if (patientResource.identifier[0].hasValue())
+                patientResource.identifier[0].value
+            else
+                ""
+        } else ""
 
         val encountersList = getEncounterDetails()
 
@@ -398,22 +403,41 @@ class PatientDetailsViewModel(
 
     suspend fun observationsPerCode(key: String): String{
 
-        fhirEngine
-            .search<Observation> {
-                filter(Observation.CODE, { value = of(Coding().apply {
-                            system = "http://snomed.info/sct"
-                            code = key
-                        })
-                    })
-                filter(Observation.SUBJECT, { value = "Patient/$patientId" })
-                sort(Observation.DATE, Order.DESCENDING)
-            }
-            .take(5)
-            .map {
-                it.value
+        fhirEngine.search<Observation>{
 
-            }
-            .let { return it.toString() }
+            filter(Observation.SUBJECT, { value = "Patient/$patientId" })
+            filter(Observation.CODE, { value = of(Coding().apply {
+                code = key
+            }) })
+
+            sort(Observation.DATE, Order.DESCENDING)
+        }.map { it.toString() }.let {
+            Log.e("******* ", "*******")
+            println("--patientId-2-$patientId")
+            println(it)
+        }
+        return "test"
+
+//        fhirEngine
+//            .search<Observation> {
+//                filter(Observation.CODE, { value = of(Coding().apply {
+//                            system = "http://snomed.info/sct"
+//                            code = key
+//                        })
+//                    })
+//                filter(Observation.SUBJECT, { value = "Patient/$patientId" })
+//                sort(Observation.DATE, Order.DESCENDING)
+//            }
+//            .take(5)
+//            .map {
+//                it.value
+//
+//            }
+//            .let {
+//                Log.e("----", "----")
+//                println(it)
+//                println(patientId)
+//                return it.toString() }
 
     }
 
@@ -431,19 +455,7 @@ class PatientDetailsViewModel(
             .let { encounter.addAll(it) }
 
 
-//        fhirEngine.search<Observation>{
-//
-//            filter(Observation.SUBJECT, { value = "Patient/$patientId" })
-//            filter(Observation.ENCOUNTER, { value = "Encounter/${encounter[0].id}" })
-//            filter(Observation.CODE, { value = of(Coding().apply {
-//                system = "http://snomed.info/sct"
-//                code = "413521009"
-//            }) })
-//
-//            sort(Observation.DATE, Order.DESCENDING)
-//        }.map { createEncounterItem(it, getApplication<Application>().resources) }
-//            .let { encounter.addAll(it)
-//        }
+
 
         return encounter
     }

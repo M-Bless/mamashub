@@ -21,12 +21,10 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmPage
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.*
 import kotlinx.android.synthetic.main.activity_maternal_serology.*
 import kotlinx.android.synthetic.main.activity_maternal_serology.navigation
 import kotlinx.android.synthetic.main.activity_maternal_serology.tvDate
-import kotlinx.android.synthetic.main.fragment_details.view.*
-import kotlinx.android.synthetic.main.fragment_medical.view.*
+import kotlinx.android.synthetic.main.activity_maternal_serology.tvNextVisit
 import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -183,6 +181,22 @@ class MaternalSerology : AppCompatActivity() {
             .append(monthDate).append("-").append(dayDate)
 
         return date.toString()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getUserData()
+    }
+
+    private fun getUserData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
 
     }
 

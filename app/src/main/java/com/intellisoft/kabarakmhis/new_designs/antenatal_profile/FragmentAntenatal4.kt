@@ -113,7 +113,7 @@ class FragmentAntenatal4 : Fragment() {
     private fun handleNavigation() {
 
         rootView.navigation.btnNext.text = "Preview"
-        rootView.navigation.btnPrevious.text = "Save"
+        rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
         rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }

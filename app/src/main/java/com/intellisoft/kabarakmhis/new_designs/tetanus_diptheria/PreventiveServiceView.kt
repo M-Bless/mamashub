@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_physical_examination_view.*
 import kotlinx.android.synthetic.main.activity_physical_examination_view.btnAdd
 import kotlinx.android.synthetic.main.activity_physical_examination_view.no_record
 import kotlinx.android.synthetic.main.activity_physical_examination_view.tvValue
+import kotlinx.android.synthetic.main.activity_preventive_service_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -137,10 +138,18 @@ class PreventiveServiceView : AppCompatActivity() {
         }
 
 
-
-
+        getUserData()
     }
 
+    private fun getUserData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
+
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

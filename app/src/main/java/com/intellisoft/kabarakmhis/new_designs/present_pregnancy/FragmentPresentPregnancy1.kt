@@ -61,7 +61,6 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
         calendar = Calendar.getInstance();

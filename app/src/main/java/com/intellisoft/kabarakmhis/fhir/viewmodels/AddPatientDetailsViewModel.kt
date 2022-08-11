@@ -213,12 +213,10 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         reason: String,
     ) {
 
-        Log.e("-----3 ", bundle.toString())
 
         val encounterReference = Reference("Encounter/$encounterId")
 
         bundle.entry.forEach {
-            Log.e("-----4 ", it.resource.toString())
 
             when (val resource = it.resource) {
                 is Observation -> {
