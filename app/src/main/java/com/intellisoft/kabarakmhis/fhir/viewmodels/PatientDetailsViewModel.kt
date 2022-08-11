@@ -84,6 +84,8 @@ class PatientDetailsViewModel(
         val kinPhone = if (patientResource.hasContact()) patientResource.contact[0].telecom[0].value else ""
         val phone = if (patientResource.hasTelecom()) patientResource.telecom[0].value else ""
 
+        val identifier = if (patientResource.hasIdentifier()) patientResource.identifier[0].value else ""
+
         val encountersList = getEncounterDetails()
 
         val dbEncounterList = mutableListOf<DbEncounterResult>()
@@ -358,7 +360,8 @@ class PatientDetailsViewModel(
             kinData = DbKinData(
                 name = kinName,
                 phone = kinPhone
-            )
+            ),
+            identifier = identifier
         )
 
     }

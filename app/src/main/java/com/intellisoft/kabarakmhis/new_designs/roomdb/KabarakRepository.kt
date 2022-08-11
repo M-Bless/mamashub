@@ -114,8 +114,10 @@ class KabarakRepository(private val roomDao: RoomDao) {
     }
     suspend fun deleteTitleTable(context: Context){
 
-        val encounterTitle = getSharedPref(context, "encounterTitle").toString()
-        return roomDao.deleteTitleTable(encounterTitle)
+        val encounterTitle = getSharedPref(context, "encounterTitle")
+        if (encounterTitle != null){
+            roomDao.deleteTitleTable(encounterTitle)
+        }
     }
 
     suspend fun getTittlePatientData(title:String, context: Context):ArrayList<DbTypeDataValue>{
@@ -186,9 +188,9 @@ class KabarakRepository(private val roomDao: RoomDao) {
 
     }
 
-    suspend fun getAllObservations(context: Context): ArrayList<DbObserveValue>{
+    suspend fun getAllObservations(context: Context): ArrayList<DbObservationValueData>{
 
-        val dbConfirmDetailsList = ArrayList<DbObserveValue>()
+        val dbConfirmDetailsList = ArrayList<DbObservationValueData>()
 
         val fhirId = getSharedPref(context, "FHIRID").toString()
         val loggedInUser = getSharedPref(context, "USERID").toString()
@@ -196,13 +198,16 @@ class KabarakRepository(private val roomDao: RoomDao) {
 
         val detailsList = roomDao.getPatientDataTitle(loggedInUser, encounterTitle, fhirId)
         detailsList.forEach {
-            val type = it.type
-            val id = it.id
-            val code = it.code
-            val value = it.value
 
-            val dbConfirmDetails = DbObserveValue(code, value)
-            dbConfirmDetailsList.add(dbConfirmDetails)
+            val display = it.code
+            val value = it.value
+            val codeLabel = it.codeLabel
+
+            if (display != "" && value != "" && codeLabel != ""){
+                val codingObservation = DbObservationValueData(display, value, codeLabel)
+                dbConfirmDetailsList.add(codingObservation)
+            }
+
         }
         return dbConfirmDetailsList
 

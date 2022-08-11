@@ -21,6 +21,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.FragmentPhysicalExam2
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.activity_password_reset.*
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
@@ -164,9 +165,13 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             if (isWeight && isHeight && parity.toInt() < gravida.toInt()){
 
                 if (TextUtils.isEmpty(anc) && TextUtils.isEmpty(pnc)) {
+
                     Toast.makeText(requireContext(), "Please enter anc or pnc", Toast.LENGTH_SHORT)
                         .show()
                 }else{
+
+
+
 
                     if (anc.length == 4){
 
@@ -223,13 +228,18 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         formatter.saveSharedPreference(requireContext(), "FHIRID", formatter.generateUuid())
                         formatter.saveSharedPreference(requireContext(), "maritalStatus", spinnerMaritalValue)
 
-                        val ft = requireActivity().supportFragmentManager.beginTransaction()
-                        ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
-                            DbResourceViews.PATIENT_INFO.name))
-                        ft.addToBackStack(null)
-                        ft.commit()
+//                        val ft = requireActivity().supportFragmentManager.beginTransaction()
+//                        ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
+//                            DbResourceViews.PATIENT_INFO.name))
+//                        ft.addToBackStack(null)
+//                        ft.commit()
 
                         kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+                        val ft = requireActivity().supportFragmentManager.beginTransaction()
+                        ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
+                        ft.addToBackStack(null)
+                        ft.commit()
 
                     }else{
                         Toast.makeText(requireContext(), "Please enter a valid anc", Toast.LENGTH_SHORT)

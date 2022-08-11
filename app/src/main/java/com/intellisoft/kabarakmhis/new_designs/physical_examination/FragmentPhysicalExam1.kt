@@ -363,6 +363,7 @@ class FragmentPhysicalExam1 : Fragment() {
 
             val isWeight = formatter.validateWeight(motherWeight)
             if (isWeight){
+
                 addData("Mother Weight (kgs)",motherWeight, DbObservationValues.WEIGHT.name)
                 addData("Gestation (weeks)",gestation, DbObservationValues.GESTATION.name)
 

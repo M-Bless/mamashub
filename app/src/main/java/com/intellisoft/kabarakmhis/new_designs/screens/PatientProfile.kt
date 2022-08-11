@@ -30,6 +30,7 @@ import com.intellisoft.kabarakmhis.new_designs.pmtct.PMTCTInterventionsView
 import com.intellisoft.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceList
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 import kotlinx.coroutines.CoroutineScope
@@ -43,6 +44,7 @@ class PatientProfile : AppCompatActivity() {
     private lateinit var patientId: String
     private lateinit var fhirEngine: FhirEngine
     private val formatterClass = FormatterClass()
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,9 @@ class PatientProfile : AppCompatActivity() {
 
         patientId = formatterClass.retrieveSharedPreference(this, "patientId").toString()
         fhirEngine = FhirApplication.fhirEngine(this)
+
+        kabarakViewModel = KabarakViewModel(this.application)
+
 
         patientDetailsViewModel = ViewModelProvider(this,
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
@@ -97,13 +102,19 @@ class PatientProfile : AppCompatActivity() {
 
             val kinName = patientData.kinData.name
             val kinPhone = patientData.kinData.phone
+            val identifier = patientData.identifier
             CoroutineScope(Dispatchers.Main).launch {
                 tvName.text = patientName
                 tvAge.text = dob
 
                 tvKinName.text = kinName
                 tvKinDetails.text = kinPhone
+
+                formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
+                formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier)
             }
+
+//            kabarakViewModel.deleteTitleTable(this@PatientProfile)
 
 
         }

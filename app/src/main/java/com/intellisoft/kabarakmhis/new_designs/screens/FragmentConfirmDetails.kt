@@ -123,36 +123,37 @@ class FragmentConfirmDetails : Fragment(){
                         val dataCodeList = ArrayList<CodingObservation>()
 
                         val observationList = kabarakViewModel.getAllObservations(requireContext())
-                        observationList.forEach {
 
-                            val code = it.title
-                            val value = it.value
+                        for (observation in observationList){
 
-                            val codeValue = formatter.getCodes(code)
+                            val codeLabel = observation.codeLabel
+                            val value = observation.value
+                            val display = observation.title
 
-                            val checkObservation = formatter.checkObservations(code)
+                            val codeValue = formatter.getCodes(codeLabel)
+                            val checkObservation = formatter.checkObservations(display)
+
                             if (checkObservation == ""){
                                 //Save as a value string
 
                                 val codingObservation = CodingObservation(
                                     codeValue,
-                                    code,
+                                    display,
                                     value)
                                 dataCodeList.add(codingObservation)
+
 
                             }else{
                                 //Save as a value quantity
                                 val quantityObservation = QuantityObservation(
                                     codeValue,
-                                    code,
+                                    display,
                                     value,
                                     checkObservation
                                 )
                                 dataQuantityList.add(quantityObservation)
 
                             }
-
-
 
                         }
 
@@ -165,12 +166,12 @@ class FragmentConfirmDetails : Fragment(){
                             encounter
                         )
 
+                        delay(7000)
+
                         CoroutineScope(Dispatchers.Main).launch {
                             Toast.makeText(requireContext(), "PLease wait as data is being saved.", Toast.LENGTH_SHORT).show()
                             progressDialog.dismiss()
                         }
-
-                        kabarakViewModel.deleteTitleTable(requireContext())
 
                         if (encounter == DbResourceViews.PATIENT_INFO.name){
                             val intent = Intent(requireContext(), NewMainActivity::class.java)
@@ -183,6 +184,9 @@ class FragmentConfirmDetails : Fragment(){
                             startActivity(intent)
                             activity?.finish()
                         }
+
+
+
 
 
 
@@ -233,8 +237,6 @@ class FragmentConfirmDetails : Fragment(){
 
         //Get the data from the previous screen
         //Use fhirId, loggedIn User, and title
-
-
 
         encounterDetailsList = kabarakViewModel.getConfirmDetails(requireContext())
         val confirmParentAdapter = ConfirmParentAdapter(encounterDetailsList,requireContext())

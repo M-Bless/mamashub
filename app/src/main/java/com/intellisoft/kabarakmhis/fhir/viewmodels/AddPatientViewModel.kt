@@ -12,8 +12,14 @@ import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.mapping.ResourceMapper
 import com.google.android.fhir.datacapture.validation.QuestionnaireResponseValidator
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.helperclass.QuestionnaireHelper
+import com.intellisoft.kabarakmhis.new_designs.data_class.CodingObservation
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientFhirInformation
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.data_class.QuantityObservation
+import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentConfirmPatient
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentPatientInfo
 import kotlinx.coroutines.launch
 import org.hl7.fhir.r4.model.*
@@ -129,17 +135,133 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
             maritalStatus.text = dbMaritalStatus
             patient.maritalStatus = maritalStatus
 
-            val patientId = FormatterClass().retrieveSharedPreference(
-                getApplication<Application>().applicationContext, "FHIRID")
-
+            val patientId = dbPatientFhirInformation.id
             patient.id = patientId
 
-            patient.name
+            val ancCode = dbPatientFhirInformation.identifier
 
-            val id = fhirEngine.create(patient)
+            val identifierList = ArrayList<Identifier>()
+            val identifier = Identifier()
+            identifier.id = ancCode
+            identifier.value = ancCode
+            identifierList.add(identifier)
+
+            patient.identifier = identifierList
+
+            fhirEngine.create(patient)
+
+            val patientReference = Reference("Patient/$patientId")
+            val encounterId = FormatterClass().generateUuid()
+
+            val dataCodeList = dbPatientFhirInformation.dataCodeList
+            val dataQuantityList = dbPatientFhirInformation.dataQuantityList
+
+            createEncounter(
+                patientReference,
+                encounterId,
+                questionnaireResponse,
+                dataCodeList,
+                dataQuantityList,
+                DbResourceViews.PATIENT_INFO.name
+            )
 
             isPatientSaved.value = true
         }
+
+    }
+
+
+    private fun createEncounter(
+        patientReference: Reference,
+        encounterId: String,
+        questionnaireResponse: QuestionnaireResponse,
+        dataCodeList: ArrayList<CodingObservation>,
+        dataQuantityList: ArrayList<QuantityObservation>,
+        encounterReason: String
+    ) {
+
+        viewModelScope.launch {
+
+            val bundle = ResourceMapper.extract(questionnaireResource, questionnaireResponse)
+            val questionnaireHelper = QuestionnaireHelper()
+
+            dataCodeList.forEach {
+                bundle.addEntry()
+                    .setResource(
+                        questionnaireHelper.codingQuestionnaire(
+                            it.code,
+                            it.display,
+                            it.value
+                        )
+                    )
+                    .request.url = "Observation"
+            }
+
+            dataQuantityList.forEach {
+                bundle.addEntry()
+                    .setResource(
+                        questionnaireHelper.quantityQuestionnaire(
+                            it.code,
+                            it.display,
+                            it.display,
+                            it.value,
+                            it.unit,
+                        )
+                    )
+                    .request.url = "Observation"
+            }
+
+            saveResources(bundle, patientReference, encounterId, encounterReason)
+
+        }
+
+    }
+
+    private suspend fun saveResources(
+        bundle: Bundle,
+        subjectReference: Reference,
+        encounterId: String,
+        reason: String,
+    ) {
+
+        val encounterReference = Reference("Encounter/$encounterId")
+
+        bundle.entry.forEach {
+
+            when (val resource = it.resource) {
+                is Observation -> {
+                    if (resource.hasCode()) {
+                        resource.id = FormatterClass().generateUuid()
+                        resource.subject = subjectReference
+                        resource.encounter = encounterReference
+                        resource.issued = Date()
+                        saveResourceToDatabase(resource)
+
+                        Log.e("++++ ", "1")
+                    }else{
+                        Log.e("++++ ", "2")
+                    }
+
+                }
+                is Encounter -> {
+                    resource.subject = subjectReference
+                    resource.id = encounterId
+                    resource.reasonCodeFirstRep.text = reason
+                    resource.reasonCodeFirstRep.codingFirstRep.code = reason
+                    resource.status = Encounter.EncounterStatus.INPROGRESS
+                    saveResourceToDatabase(resource)
+
+                    Log.e("++++ ", "3")
+                }
+
+            }
+        }
+    }
+
+    private suspend fun saveResourceToDatabase(resource: Resource) {
+        Log.e("++++ ", "4")
+        val saved = fhirEngine.create(resource)
+        Log.e("****Observations ", saved.toString())
 
     }
 
@@ -157,7 +279,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
     private fun getQuestionnaireJson():String{
         questionnaireJson?.let { return it!! }
 
-        questionnaireJson = readFileFromAssets(state[FragmentPatientInfo.QUESTIONNAIRE_FILE_PATH_KEY]!!)
+        questionnaireJson = readFileFromAssets(state[FragmentConfirmPatient.QUESTIONNAIRE_FILE_PATH_KEY]!!)
         return questionnaire!!
     }
 

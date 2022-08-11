@@ -237,10 +237,15 @@ data class DbObserveValue(
     val title: String,
     val value : String
 )
+data class DbObservationValueData(
+    val title: String,
+    val value : String,
+    val codeLabel: String
+)
 data class CodingObservation(
     val code: String,
     val display: String,
-    val value: String,
+    val value: String
 )
 data class QuantityObservation(
     val code: String,
@@ -249,13 +254,19 @@ data class QuantityObservation(
     val unit: String,
 )
 data class DbPatientFhirInformation(
+    val id: String,
     val name: String,
     val telecomList: List<DbTelecom>,
     val gender: String,
     val birthDate: String,
     val addressList: List<DbAddress>,
     val kinList: List<DbKinDetails>,
-    val maritalStatus: String
+    val maritalStatus: String,
+    val identifier: String,
+
+    val dataCodeList: ArrayList<CodingObservation>,
+    val dataQuantityList: ArrayList<QuantityObservation>,
+
 )
 data class DbKinDetails(
     val relationship:String,

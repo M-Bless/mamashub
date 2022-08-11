@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.helperclass
 
 import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
+import org.hl7.fhir.r4.model.Identifier
 import java.time.LocalDate
 
 enum class UrlData(var message: Int) {
@@ -165,6 +166,7 @@ data class DbPatientRecord(
     val dob: String,
     val phone: String?,
     val kinData: DbKinData,
+    val identifier: String
 )
 data class DbKinData(
     val name: String,

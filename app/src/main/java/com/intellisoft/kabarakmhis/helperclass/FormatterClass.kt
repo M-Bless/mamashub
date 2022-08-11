@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentConfirmPatient
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentPatientInfo
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
@@ -372,8 +373,15 @@ class FormatterClass {
         val progressStatus = ( currentPos.toDouble() / finaPos.toDouble() ) * 100
         progressBar.setProgress(progressStatus.toInt(), true)
 
-        Log.e("-------current ", currentPos.toString())
-        Log.e("-------final ", finaPos.toString())
+        val tvPatient :TextView = progress.findViewById(R.id.tvPatient)
+        val tvAncId :TextView = progress.findViewById(R.id.tvAncId)
+
+        val identifier = retrieveSharedPreference(context, "identifier")
+        val patientName = retrieveSharedPreference(context, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
+
 
 
     }
@@ -525,12 +533,12 @@ class FormatterClass {
         return frag
     }
 
-    fun startFragmentPatient(context: Context, encounterName: String): FragmentPatientInfo {
+    fun startFragmentPatient(context: Context, encounterName: String): FragmentConfirmPatient {
 
         saveSharedPreference(context, "encounterTitle", encounterName)
-        val frag = FragmentPatientInfo()
+        val frag = FragmentConfirmPatient()
         val bundle = Bundle()
-        bundle.putString(FragmentPatientInfo.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
+        bundle.putString(FragmentConfirmPatient.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
         frag.arguments = bundle
         return frag
     }
@@ -574,71 +582,445 @@ class FormatterClass {
 
     fun getCodes(value: String): String{
 
-        if (value.contains("weight")){
-            return "27113001"
-        }else if (value.contains("height")){
-            return "50373000"
-        }else if (value.contains("Gestation")){
-            return "77386006"
-        }else if (value.contains("BP")) {
-            return "75367002"
-        }else if (value.contains("Pulse")) {
-            return "78564009"
-        }else if (value.contains("Diabetes")) {
-            return "44054006"
-        }else if (value.contains("Hypertension")) {
-            return "59621000"
-        }else if (value.contains("Epilepsy")) {
-            return "84757009"
-        }else if (value.contains("Blood Transfusion")) {
-            return "116859006"
-        }else if (value.contains("Tuberculosis") || value.contains("TB")) {
-            return "56717001"
-        }else if (value.contains("Allergies")) {
-            return "416098002"
-        }else if (value.contains("Twins")) {
-            return "28030000"
-        }else if (value.contains("MUAC")) {
-            return "MUAC"
-        }else if (value.contains("CVS")) {
-            return "49601007"
-        }else if (value.contains("Respiratory")) {
-            return "50043002"
-        }else if (value.contains("Inspection")) {
-            return "32750006"
-        }else if (value.contains("Palpation")) {
-            return "118242002"
-        }else if (value.contains("Auscultation")) {
-            return "118241009"
-        }else if (value.contains("Discharge")) {
-            return "Discharge"
-        }else if (value.contains("Female")) {
-            return "446141000124107"
-        }else if (value.contains("Outcome")) {
-            return "Outcome"
-        }else if (value.contains("Purperium")) {
-            return "47821001"
-        }else if (value.contains("Hb")) {
-            return "365845005"
-        }else if (value.contains("Rhesus")) {
-            return "165746003"
-        }else if (value.contains("Urinalysis")) {
-            return "27171005"
-        }else if (value.contains("Foetal heart rate")) {
-            return "289437007"
-        }else if (value.contains("Foetal movement")) {
-            return "32279003"
-        }else if (value.contains("Next Visit")) {
-            return "308817005"
-        }else if (value.contains("Tetanus")) {
-            return "127786006"
-        }else if (value.contains("Deworming")) {
-            return "101657003"
-        }else if (value.contains("Surgical History")) {
-            return "161615003"
-        }else{
-            return value
+        return when (value) {
+            DbObservationValues.GRAVIDA.name -> { "161732006" }
+            DbObservationValues.PARITY.name -> { "364325004" }
+            DbObservationValues.HEIGHT.name -> { "1153637007" }
+            DbObservationValues.WEIGHT.name -> { "726527001" }
+            DbObservationValues.LMP.name -> {
+                "21840007"
+            }
+            DbObservationValues.EDD.name -> {
+                "161714006"
+            }
+
+            DbObservationValues.RELATIONSHIP.name -> {
+                "263498003"
+            }
+            DbObservationValues.GESTATION.name -> {
+                "77386006"
+            }
+            DbObservationValues.SURGICAL_HISTORY.name -> {
+                "161615003"
+            }
+
+
+            DbObservationValues.DIABETES.name -> {
+                "405751000"
+            }
+            DbObservationValues.HYPERTENSION.name -> {
+                "38341003"
+            }
+            DbObservationValues.MEDICAL_HISTORY.name -> {
+                "417662000"
+            }
+
+            DbObservationValues.BLOOD_TRANSFUSION.name -> {
+                "116859006"
+            }
+            DbObservationValues.TUBERCULOSIS.name -> {
+                "371569005"
+            }
+            DbObservationValues.DRUG_ALLERGY.name -> {
+                "416098002"
+            }
+
+
+            DbObservationValues.TWINS.name -> {
+                "169828005"
+            }
+            DbObservationValues.GENERAL_EXAMINATION.name -> {
+                "25656009"
+            }
+            DbObservationValues.SYSTOLIC_BP.name -> {
+                "271649006"
+            }
+
+            DbObservationValues.DIASTOLIC_BP.name -> {
+                "271650006"
+            }
+            DbObservationValues.PULSE_RATE.name -> {
+                "78564009"
+            }
+            DbObservationValues.CVS.name -> {
+                "267037003"
+            }
+
+            DbObservationValues.RESPIRATORY_MONITORING.name -> {
+                "267037003"
+            }
+            DbObservationValues.BREAST_EXAM.name -> {
+                "185712006"
+            }
+            DbObservationValues.ABDOMINAL_INSPECTION.name -> {
+                "163133003"
+            }
+
+            DbObservationValues.ABDOMINAL_PALPATION.name -> {
+                "113011001"
+            }
+            DbObservationValues.ABDOMINAL_AUSCALATION.name -> {
+                "37931006"
+            }
+            DbObservationValues.EXTERNAL_INSPECTION.name -> {
+                "77142006"
+            }
+
+
+            DbObservationValues.EXTERNAL_PALPATION.name -> {
+                "731273008"
+            }
+            DbObservationValues.EXTERNAL_DISCHARGE.name -> {
+                "271939006"
+            }
+            DbObservationValues.EXTERNAL_GENITAL_ULCER.name -> {
+                "427788009"
+            }
+            DbObservationValues.PREGNANCY_ORDER.name -> {
+                "818602026"
+            }
+            DbObservationValues.YEAR.name -> {
+                "258707000"
+            }
+            DbObservationValues.ANC_NO.name -> {
+                "424525001"
+            }
+
+            DbObservationValues.CHILDBIRTH_PLACE.name -> {
+                "257557008"
+            }
+            DbObservationValues.LABOUR_DURATION.name -> {
+                "289248003"
+            }
+            DbObservationValues.DELIVERY_MODE.name -> {
+                "386216000"
+            }
+            DbObservationValues.BABY_WEIGHT.name -> {
+                "47340003"
+            }
+            DbObservationValues.BABY_SEX.name -> {
+                "268476009"
+            }
+            DbObservationValues.BABY_OUTCOME.name -> {
+                "364587008"
+            }
+            DbObservationValues.BABY_PURPERIUM.name -> {
+                "289910000"
+            }
+            DbObservationValues.HB_TEST.name -> {
+                "302763003"
+            }
+            DbObservationValues.BLOOD_GROUP_TEST.name -> {
+                "365636006"
+            }
+            DbObservationValues.RHESUS_TEST.name -> {
+                "169676009"
+            }
+            DbObservationValues.BLOOD_RBS_TEST.name -> {
+                "33747003"
+            }
+            DbObservationValues.URINALYSIS_TEST.name -> {
+                "27171005"
+            }
+
+            DbObservationValues.URINALYSIS_RESULTS.name -> {
+                "45295008"
+            }
+            DbObservationValues.TB_SCREENING.name -> {
+                "171126009"
+            }
+            DbObservationValues.TB_RESULTS.name -> {
+                "371569005"
+            }
+            DbObservationValues.TB_DIAGNOSIS.name -> {
+                "148264888"
+            }
+            DbObservationValues.IPT_ELIGIBILITY.name -> {
+                "521195552"
+            }
+            DbObservationValues.IPT_DATE.name -> {
+                "384813511"
+            }
+
+            DbObservationValues.IPT_VISIT.name -> {
+                "423337059"
+            }
+            DbObservationValues.MULTIPLE_BABIES.name -> {
+                "45384004"
+            }
+            DbObservationValues.OBSTERIC_ULTRASOUND_1.name -> {
+                "268445003-1"
+            }
+            DbObservationValues.OBSTERIC_ULTRASOUND_2.name -> {
+                "268445003-2"
+            }
+            DbObservationValues.ART_ELIGIBILITY.name -> {
+                "860046068"
+            }
+            DbObservationValues.ARV_ANC.name -> {
+                "120841000"
+            }
+            DbObservationValues.HAART_ANC.name -> {
+                "416234007"
+            }
+            DbObservationValues.COTRIMOXAZOLE.name -> {
+                "5111197"
+            }
+            DbObservationValues.HIV_TESTING.name -> {
+                "31676001"
+            }
+            DbObservationValues.HIV_RESULTS.name -> {
+                "31676001-R"
+            }
+            DbObservationValues.HIV_STATUS.name -> {
+                "278977008"
+            }
+            DbObservationValues.SYPHILIS_TESTING.name -> {
+                "76272004"
+            }
+
+            DbObservationValues.SYPHILIS_RESULTS.name -> {
+                "406115008"
+            }
+            DbObservationValues.SYPHILIS_MOTHER_STATUS.name -> {
+                "10759921000119107"
+            }
+            DbObservationValues.HEPATITIS_TESTING.name -> {
+                "128241005"
+            }
+            DbObservationValues.HEPATITIS_RESULTS.name -> {
+                "128241005-R"
+            }
+            DbObservationValues.HEPATITIS_MOTHER_STATUS.name -> {
+                "10759151000119101"
+            }
+            DbObservationValues.COUPLE_HIV_TESTING.name -> {
+                "31676001"
+            }
+            DbObservationValues.PARTNER_HIV_STATUS.name -> {
+                "31676001-S"
+            }
+            DbObservationValues.PARTNER_HIV_RESULTS.name -> {
+                "31676001-R"
+            }
+            DbObservationValues.FACILITY_NAME.name -> {
+                "257622000"
+            }
+            DbObservationValues.FACILITY_NUMBER.name -> {
+                "257622000-N"
+            }
+            DbObservationValues.ATTENDANT_NAME.name -> {
+                "308210000"
+            }
+            DbObservationValues.ATTENDANT_NUMBER.name -> {
+                "308210000-N"
+            }
+            DbObservationValues.ATTENDANT_DESIGNATION.name -> {
+                "308210000-D"
+            }
+            DbObservationValues.COMPANION_NAME.name -> {
+                "62071000"
+            }
+            DbObservationValues.COMPANION_NUMBER.name -> {
+                "359993007"
+            }
+            DbObservationValues.COMPANION_RELATIONSHIP.name -> {
+                "263498003"
+            }
+            DbObservationValues.COMPANION_TRANSPORT.name -> {
+                "360300001"
+            }
+            DbObservationValues.DONOR_NAME.name -> {
+                "308210000"
+            }
+
+            DbObservationValues.DONOR_NUMBER.name -> {
+                "359993007"
+            }
+            DbObservationValues.DONOR_BLOOD_GROUP.name -> {
+                "365636006"
+            }
+            DbObservationValues.FINANCIAL_PLAN.name -> {
+                "224164009"
+            }
+            DbObservationValues.CLINICAL_NOTES_DATE.name -> {
+                "410671006"
+            }
+            DbObservationValues.CLINICAL_NOTES.name -> {
+                "371524004"
+            }
+            DbObservationValues.CONTACT_NUMBER.name -> {
+                "390840006"
+            }
+
+            DbObservationValues.MUAC.name -> {
+                "284473002"
+            }
+            DbObservationValues.FUNDAL_HEIGHT.name -> {
+                "249016007"
+            }
+            DbObservationValues.PRESENTATION.name -> {
+                "246105001"
+            }
+            DbObservationValues.LIE.name -> {
+                "249062004"
+            }
+            DbObservationValues.FOETAL_HEART_RATE.name -> {
+                "289438002"
+            }
+            DbObservationValues.FOETAL_MOVEMENT.name -> {
+                "169731002"
+            }
+            DbObservationValues.NEXT_VISIT_DATE.name -> {
+                "390840006"
+            }
+            DbObservationValues.TT_PROVIDED.name -> {
+                "73152006"
+            }
+            DbObservationValues.LLITN_GIVEN.name -> {
+                "412894909"
+            }
+            DbObservationValues.REPEAT_SEROLOGY_RESULTS.name -> {
+                "412690006"
+            }
+            DbObservationValues.REPEAT_SEROLOGY_DETAILS.name -> {
+                "412690006-D"
+            }
+            DbObservationValues.REACTIVE_MATERNAL_SEROLOGY.name -> {
+                "412690006-RR"
+            }
+
+            DbObservationValues.NON_REACTIVE_SEROLOGY.name -> {
+                "412690006-NR"
+            }
+            DbObservationValues.DEWORMING.name -> {
+                "14369007"
+            }
+            DbObservationValues.IRON_SUPPLIMENTS.name -> {
+                "74935093"
+            }
+            DbObservationValues.DRUG_GIVEN.name -> {
+                "6709950"
+            }
+            DbObservationValues.ANC_CONTACT.name -> {
+                "46645665"
+            }
+            DbObservationValues.TABLET_NUMBER.name -> {
+                "76449731"
+            }
+            DbObservationValues.DOSAGE_AMOUNT.name -> {
+                "14420047"
+            }
+            DbObservationValues.DOSAGE_FREQUENCY.name -> {
+                "20726931"
+            }
+            DbObservationValues.DOSAGE_DATE_GIVEN.name -> {
+                "39234792"
+            }
+            DbObservationValues.IRON_AND_FOLIC_COUNSELLING.name -> {
+                "70346388"
+            }
+
+
+            DbObservationValues.INTERVENTION_GIVEN.name -> {
+                "82261064"
+            }
+            DbObservationValues.REGIMEN.name -> {
+                "54840574"
+            }
+            DbObservationValues.ART_DOSAGE.name -> {
+                "48668776"
+            }
+            DbObservationValues.ART_FREQUENCY.name -> {
+                "73670926"
+            }
+            DbObservationValues.REGIMENT_CHANGE.name -> {
+                "69335547"
+            }
+            DbObservationValues.VIRAL_LOAD_CHANGE.name -> {
+                "98046364"
+            }
+            DbObservationValues.VIRAL_LOAD_RESULTS.name -> {
+                "93778367"
+            }
+            DbObservationValues.DANGER_SIGNS.name -> {
+                "50206362"
+            }
+            DbObservationValues.DENTAL_HEALTH.name -> {
+                "69475666"
+            }
+            DbObservationValues.BIRTH_PLAN.name -> {
+                "97129423"
+            }
+
+            DbObservationValues.RH_NEGATIVE.name -> {
+                "87392289"
+            }
+            DbObservationValues.EAT_ONE_MEAL.name -> {
+                "22723167"
+            }
+            DbObservationValues.EAT_MORE_MEALS.name -> {
+                "43183900"
+            }
+            DbObservationValues.DRINK_WATER.name -> {
+                "96204638"
+            }
+            DbObservationValues.TAKE_IFAS.name -> {
+                "30822033"
+            }
+            DbObservationValues.AVOID_HEAVY_WORK.name -> {
+                "55268779"
+            }
+            DbObservationValues.SLEEP_UNDER_LLIN.name -> {
+                "51049855"
+            }
+
+            DbObservationValues.GO_FOR_ANC.name -> {
+                "96888625"
+            }
+            DbObservationValues.NON_STRENUOUS_ACTIVITY.name -> {
+                "1528937"
+            }
+            DbObservationValues.INFANT_FEEDING.name -> {
+                "91232116"
+            }
+            DbObservationValues.EXCLUSIVE_BREASTFEEDING.name -> {
+                "80142304"
+            }
+            DbObservationValues.MOTHER_PALE.name -> {
+                "16673572"
+            }
+            DbObservationValues.SEVERE_HEADACHE.name -> {
+                "5745006"
+            }
+            DbObservationValues.VAGINAL_BLEEDING.name -> {
+                "55623893"
+            }
+
+            DbObservationValues.ABDOMINAL_PAIN.name -> {
+                "46209251"
+            }
+            DbObservationValues.REDUCED_MOVEMENT.name -> {
+                "83359346"
+            }
+            DbObservationValues.MOTHER_FITS.name -> {
+                "25865687"
+            }
+            DbObservationValues.WATER_BREAKING.name -> {
+                "15859810"
+            }
+            DbObservationValues.SWOLLEN_FACE.name -> {
+                "77178232"
+            }
+            DbObservationValues.FEVER.name -> {
+                "35317232"
+            }
+
+            else -> {
+                ""
+            }
         }
+
 
     }
 

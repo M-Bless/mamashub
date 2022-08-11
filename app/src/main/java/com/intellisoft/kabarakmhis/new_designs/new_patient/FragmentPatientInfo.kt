@@ -70,11 +70,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
         rootView = inflater.inflate(R.layout.fragment_info, container, false)
 
-        updateArguments()
-
-        if (savedInstanceState == null){
-            addQuestionnaireFragment()
-        }
 
 //        allCountyList = CountyData().getCountyData(requireContext())
 
@@ -157,7 +152,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                     spinnerWardValue,
                     spinnerSubCountyValue,
                     spinnerCountyValue,
-                    "KENYA-KABARAK-MHIS1")
+                    "KENYA-KABARAK-MHIS2")
                 addressList.add(address)
 
                 val kinContactList = ArrayList<DbKinDetails>()
@@ -173,65 +168,21 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                 val dbTelecom1 = DbTelecom("phone", telephoneName)
                 telecomList.add(dbTelecom1)
 
-                val dbPatientFhirInformation = DbPatientFhirInformation(
-                    clientName, telecomList,"female", dob, addressList,
-                    kinContactList, maritalStatus
-                )
+                val ft = requireActivity().supportFragmentManager.beginTransaction()
+                ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
+                    DbResourceViews.PATIENT_INFO.name))
+                ft.addToBackStack(null)
+                ft.commit()
 
-                val questionnaireFragment = childFragmentManager.findFragmentByTag(
-                    QUESTIONNAIRE_FRAGMENT_TAG
-                ) as QuestionnaireFragment
-                savePatient(dbPatientFhirInformation, questionnaireFragment.getQuestionnaireResponse())
+//                val dbPatientFhirInformation = DbPatientFhirInformation(
+//                    clientName, telecomList,"female", dob, addressList,
+//                    kinContactList, maritalStatus
+//                )
 
-
-//                CoroutineScope(Dispatchers.IO).launch {
-//
-//                    val clientName = formatter.retrieveSharedPreference(requireContext(), "clientName").toString()
-//                    val dob = formatter.retrieveSharedPreference(requireContext(), "dob").toString()
-//
-//                    //Save to FHIR
-//                    val nameList = java.util.ArrayList<DbName>()
-//                    val givenNameList = java.util.ArrayList<String>()
-//                    givenNameList.add(clientName)
-//                    val dbName = DbName(clientName, givenNameList)
-//                    nameList.add(dbName)
-//
-//                    val telecomList = java.util.ArrayList<DbTelecom>()
-//                    val dbTelecom = DbTelecom("phone", telephoneName)
-//                    telecomList.add(dbTelecom)
-//
-//                    val addressList = java.util.ArrayList<DbAddress>()
-//                    val addressData1 = DbAddress(spinnerCountyValue, java.util.ArrayList(), spinnerSubCountyValue, spinnerWardValue, SYNC_VALUE, "Ke")
-//                    addressList.add(addressData1)
-//
-//                    val contactList = java.util.ArrayList<DbContact>()
-//                    val relationship = java.util.ArrayList<DbRshp>()
-//                    val dbRshp = DbRshp(spinnerRshpValue)
-//                    relationship.add(dbRshp)
-//
-//                    val givenKinNameList = java.util.ArrayList<String>()
-//                    givenKinNameList.add(kinName)
-//                    val dbKinName = DbName(kinName, givenKinNameList)
-//
-//                    val kinTelecomList = java.util.ArrayList<DbTelecom>()
-//                    val kinDbTelecom = DbTelecom("phone", kinPhone)
-//                    kinTelecomList.add(kinDbTelecom)
-//
-//                    val dbContact = DbContact(relationship, dbKinName, kinTelecomList)
-//                    contactList.add(dbContact)
-//
-//                    val dbPatient = DbPatient(
-//                        DbResourceType.Patient.name, FormatterClass().generateUuid(), true,
-//                        nameList, telecomList, "female", dob, addressList, contactList)
-//
-////                    retrofitCallsFhir.createPatient(requireContext(), dbPatient)
-//
-//                }
-//
-//
-//
-//
-//                startActivity(Intent(requireContext(), PatientDetailsView::class.java))
+//                val questionnaireFragment = childFragmentManager.findFragmentByTag(
+//                    QUESTIONNAIRE_FRAGMENT_TAG
+//                ) as QuestionnaireFragment
+//                savePatient(dbPatientFhirInformation, questionnaireFragment.getQuestionnaireResponse())
 
             }else{
 
@@ -267,7 +218,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
     ) {
 
 
-        viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse)
+//        viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse)
 
 
         //Insert Patient first then use id to insert other data
@@ -393,26 +344,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         TODO("Not yet implemented")
     }
 
-    private fun updateArguments(){
-        requireArguments()
-            .putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
-    }
 
-    private fun addQuestionnaireFragment(){
-        val fragment = QuestionnaireFragment()
-        fragment.arguments =
-            bundleOf(QuestionnaireFragment.EXTRA_QUESTIONNAIRE_JSON_STRING to viewModel.questionnaire)
-        childFragmentManager.commit {
-            add(R.id.add_patient_container, fragment,
-                FragmentConfirmDetails.QUESTIONNAIRE_FRAGMENT_TAG
-            )
-        }
-    }
-
-
-    companion object {
-        const val QUESTIONNAIRE_FILE_PATH_KEY = "questionnaire-file-path-key"
-        const val QUESTIONNAIRE_FRAGMENT_TAG = "questionnaire-fragment-tag"
-    }
 
 }

@@ -106,8 +106,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                         )
                     )
                     .request.url = "Observation"
-
-                Log.e("-----1 Obse ", dataCodeList.toString())
             }
             dataQuantityList.forEach {
                 bundle.addEntry()
@@ -121,7 +119,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                         )
                     )
                     .request.url = "Observation"
-                Log.e("-----2 Obse ", dataQuantityList.toString())
             }
 
             updateEncounterResource(
@@ -171,12 +168,12 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         encounterReason: String
     ) {
 
-        Log.e("-----3 Obse ", dataCodeList.toString())
-
         viewModelScope.launch {
+
             val bundle = ResourceMapper.extract(questionnaireResource, questionnaireResponse)
 
             val questionnaireHelper = QuestionnaireHelper()
+
             dataCodeList.forEach {
                 bundle.addEntry()
                     .setResource(
@@ -188,6 +185,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     )
                     .request.url = "Observation"
             }
+
             dataQuantityList.forEach {
                 bundle.addEntry()
                     .setResource(
@@ -202,9 +200,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     .request.url = "Observation"
             }
 
-            Log.e("-----1 Obse ", dataCodeList.toString())
-            Log.e("-----2 Obse ", dataQuantityList.toString())
-
             saveResources(bundle, patientReference, encounterId, encounterReason)
 
         }
@@ -218,9 +213,13 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         reason: String,
     ) {
 
+        Log.e("-----3 ", bundle.toString())
+
         val encounterReference = Reference("Encounter/$encounterId")
 
         bundle.entry.forEach {
+            Log.e("-----4 ", it.resource.toString())
+
             when (val resource = it.resource) {
                 is Observation -> {
                     if (resource.hasCode()) {
@@ -230,6 +229,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                         resource.issued = Date()
                         saveResourceToDatabase(resource)
                     }
+
                 }
                 is Encounter -> {
                     resource.subject = subjectReference
@@ -246,7 +246,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
 
     private suspend fun saveResourceToDatabase(resource: Resource) {
 
-        Log.e("****resource ", resource.toString())
+        Log.e("-----5 ", resource.toString())
 
         val saved = fhirEngine.create(resource)
         Log.e("****Observations ", saved.toString())

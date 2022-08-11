@@ -212,6 +212,7 @@
                             />
 
                         <EditText
+                            android:maxEms="10"
                             android:hint="+254XXXXXX"
                             android:inputType="phone"
                             android:id="@+id/etTelePhone"
@@ -298,6 +299,7 @@
                                  />
 
                             <EditText
+                                android:maxEms="10"
                                 android:hint="+254XXXXXX"
                                 android:inputType="phone"
                                 android:id="@+id/etTelePhonKin"

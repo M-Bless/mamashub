@@ -76,7 +76,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
     }
 
     private fun filterCity(search: Search) {
-        search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS1" })
+        search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS2" })
     }
 
     class FhirFormatterClassViewModelFactory(
