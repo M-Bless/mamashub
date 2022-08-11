@@ -150,41 +150,46 @@ class FragmentConfirmPatient : Fragment(){
                             DbObservationValues.ESTATE_NAME.name -> { estateName = value }
                             DbObservationValues.RELATIONSHIP.name -> { spinnerRshpValue = value }
                             DbObservationValues.COMPANION_NAME.name -> { kinName = value }
-                            DbObservationValues.PHONE_NUMBER.name -> {
-                                if (title == "Telephone"){ telephoneName = value }
-                                if (title == "Next of Kin Phone"){ kinPhone = value }
-                            }
+                            DbObservationValues.COMPANION_NUMBER.name -> { kinPhone = value }
+                            DbObservationValues.PHONE_NUMBER.name -> { telephoneName = value }
                             //Patient Observation resource
                             else ->{
 
-                                Log.e("*****3 ", "+++++")
 
                                 val codeValue = formatter.getCodes(codeLabel)
                                 val checkObservation = formatter.checkObservations(title)
-                                if (checkObservation == ""){
-                                    //Save as a value string
+                                if (codeValue != ""){
 
-                                    val codingObservation = CodingObservation(
-                                        codeValue,
-                                        title,
-                                        value)
-                                    dataCodeList.add(codingObservation)
+                                    Log.e("*****3 ", codeLabel)
 
-                                    Log.e("*****1 ", "$codeValue $title $value")
+                                    if (checkObservation == ""){
+                                        //Save as a value string
 
-                                }else{
-                                    //Save as a value quantity
-                                    val quantityObservation = QuantityObservation(
-                                        codeValue,
-                                        title,
-                                        value,
-                                        checkObservation
-                                    )
-                                    dataQuantityList.add(quantityObservation)
+                                        val codingObservation = CodingObservation(
+                                            codeValue,
+                                            title,
+                                            value)
+                                        dataCodeList.add(codingObservation)
 
-                                    Log.e("*****2 ", "$codeValue $title $value")
+                                        Log.e("*****1 ", "$codeValue $title $value")
+
+                                    }else{
+                                        //Save as a value quantity
+                                        val quantityObservation = QuantityObservation(
+                                            codeValue,
+                                            title,
+                                            value,
+                                            checkObservation
+                                        )
+                                        dataQuantityList.add(quantityObservation)
+
+                                        Log.e("*****2 ", "$codeValue $title $value")
+
+                                    }
 
                                 }
+
+
 
                             }
 
@@ -213,7 +218,7 @@ class FragmentConfirmPatient : Fragment(){
                         spinnerWardValue,
                         spinnerSubCountyValue,
                         spinnerCountyValue,
-                        "KENYA-KABARAK-MHIS2")
+                        "KENYA-KABARAK-MHIS5")
                     addressList.add(address)
 
                     val telecomList = ArrayList<DbTelecom>()

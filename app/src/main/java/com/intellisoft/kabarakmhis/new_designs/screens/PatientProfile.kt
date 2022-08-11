@@ -13,6 +13,7 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
@@ -94,31 +95,50 @@ class PatientProfile : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
+            try {
 
-            val patientData = patientDetailsViewModel.getPatientData()
+                val patientData = patientDetailsViewModel.getPatientData()
 
-            val patientName = patientData.name
-            val dob = patientData.dob
+                val patientName = patientData.name
+                val dob = patientData.dob
 
-            val kinName = patientData.kinData.name
-            val kinPhone = patientData.kinData.phone
-            val identifier = patientData.identifier
-            CoroutineScope(Dispatchers.Main).launch {
-                tvName.text = patientName
+                val kinName = patientData.kinData.name
+                val kinPhone = patientData.kinData.phone
+                val identifier = patientData.identifier
+                CoroutineScope(Dispatchers.Main).launch {
+                    tvName.text = patientName
 
-                val age = "${formatter.calculateAge(dob)} years"
+                    val age = "${formatter.calculateAge(dob)} years"
 
-                tvAge.text = age
+                    tvAge.text = age
 
-                tvKinName.text = kinName
-                tvKinDetails.text = kinPhone
+                    tvKinName.text = kinName
+                    tvKinDetails.text = kinPhone
 
-                formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
-                formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier)
-                formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
+                    formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
+                    formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier)
+                    formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
+                }
+
+            }catch (e: Exception){
+                Log.e("Error", e.message.toString())
             }
 
-//            kabarakViewModel.deleteTitleTable(this@PatientProfile)
+            //Expected date of delivery
+
+            try {
+
+                val edd = patientDetailsViewModel.observationsPerCode("161714006")
+                formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.EDD.name, edd.toString())
+
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    tvEdd.text = edd.toString()
+                }
+
+            }catch (e: Exception){
+                Log.e("Error", e.message.toString())
+            }
 
 
         }

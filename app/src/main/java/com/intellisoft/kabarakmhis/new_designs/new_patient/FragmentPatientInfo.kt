@@ -222,7 +222,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                     spinnerWardValue,
                     spinnerSubCountyValue,
                     spinnerCountyValue,
-                    "KENYA-KABARAK-MHIS2")
+                    "KENYA-KABARAK-MHIS5")
                 addressList.add(address)
 
                 val kinContactList = ArrayList<DbKinDetails>()

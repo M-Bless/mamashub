@@ -606,6 +606,14 @@ class FormatterClass {
             DbObservationValues.LMP.name -> {
                 "21840007"
             }
+            DbObservationValues.KMHFL_CODE.name -> {
+                "76967697"
+            }DbObservationValues.ANC_NO.name -> {
+                "9889789"
+            }
+            DbObservationValues.EDUCATION_LEVEL.name -> {
+                "276031006"
+            }
             DbObservationValues.EDD.name -> {
                 "161714006"
             }

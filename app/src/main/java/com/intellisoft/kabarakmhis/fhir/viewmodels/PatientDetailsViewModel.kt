@@ -396,14 +396,11 @@ class PatientDetailsViewModel(
         return observations
     }
 
-    private suspend fun observationsPerCode(key: String): List<ObservationItem> {
-        val obs: MutableList<ObservationItem> = mutableListOf()
+    suspend fun observationsPerCode(key: String): String{
+
         fhirEngine
             .search<Observation> {
-                filter(
-                    Observation.CODE,
-                    {
-                        value = of(Coding().apply {
+                filter(Observation.CODE, { value = of(Coding().apply {
                             system = "http://snomed.info/sct"
                             code = key
                         })
@@ -413,13 +410,11 @@ class PatientDetailsViewModel(
             }
             .take(5)
             .map {
-                createObservationItem(
-                    it,
-                    getApplication<Application>().resources
-                )
+                it.value
+
             }
-            .let { obs.addAll(it) }
-        return obs
+            .let { return it.toString() }
+
     }
 
     //Get all encounters under this patient
