@@ -178,92 +178,144 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         val facilityName = rootView.etFacilityName.text.toString()
         val facilityContact = rootView.etFacilityContact.text.toString()
 
-        addData("Expected date of childbirth",edd, DbObservationValues.EDD.name)
-        addData("Health facility name",facilityName ,DbObservationValues.FACILITY_NAME.name)
-        addData("Health facility contact",facilityContact, DbObservationValues.FACILITY_NUMBER.name)
 
-        for (items in observationList){
+        if (!TextUtils.isEmpty(edd) && !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(facilityContact)){
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
+            val facilityContactNo = PhoneNumberValidation().getStandardPhoneNumber(facilityContact)
+            if (facilityContactNo != null){
 
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
-            val data = DbDataList(key, value, "Birth Plan", DbResourceType.Observation.name, label)
-            dbDataList.add(data)
+                addData("Expected date of childbirth",edd, DbObservationValues.EDD.name)
+                addData("Health facility name",facilityName ,DbObservationValues.FACILITY_NAME.name)
+                addData("Health facility contact",facilityContact, DbObservationValues.FACILITY_NUMBER.name)
 
+                for (items in observationList){
+
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
+
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+                    val data = DbDataList(key, value, "Birth Plan", DbResourceType.Observation.name, label)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+            }else{
+                errorList.add("Invalid facility phone number")
+            }
+
+        }else{
+            errorList.add("Please fill all the fields under the facility details")
         }
-        observationList.clear()
+
+
 
         val attendantName = rootView.etAttendantName.text.toString()
         val attendantPhone = rootView.etAttendantPhone.text.toString()
-        addData("Name",attendantName, DbObservationValues.ATTENDANT_NAME.name)
-        addData("Telephone Number",attendantPhone ,DbObservationValues.ATTENDANT_NUMBER.name)
-        addData("Designation",spinnerDesignationValue1, DbObservationValues.ATTENDANT_DESIGNATION.name)
 
-        for (items in observationList){
+        if (!TextUtils.isEmpty(attendantName) && !TextUtils.isEmpty(attendantPhone)) {
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
+            val attendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(attendantPhone)
+            if (attendantPhoneNo != null){
 
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
+                addData("Name",attendantName, DbObservationValues.ATTENDANT_NAME.name)
+                addData("Telephone Number",attendantPhone ,DbObservationValues.ATTENDANT_NUMBER.name)
+                addData("Designation",spinnerDesignationValue1, DbObservationValues.ATTENDANT_DESIGNATION.name)
 
-            val data = DbDataList(key, value, "Birth Attendant", DbResourceType.Observation.name ,label)
-            dbDataList.add(data)
+                for (items in observationList){
 
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
+
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, "Birth Attendant", DbResourceType.Observation.name ,label)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+            }else{
+                errorList.add("Attendant phone number is not valid")
+            }
+
+        }else{
+            errorList.add("Attendant name and phone number are required")
         }
-        observationList.clear()
+
 
         val alternativeAttendantName = rootView.etAlternativeAttendantName.text.toString()
         val alternativeAttendantPhone = rootView.etAlternativeAttendantPhone.text.toString()
-        addData("Name",alternativeAttendantName, DbObservationValues.ATTENDANT_NAME.name)
-        addData("Telephone Number",alternativeAttendantPhone, DbObservationValues.ATTENDANT_NUMBER.name)
-        addData("Designation",spinnerDesignationValue2 ,DbObservationValues.ATTENDANT_DESIGNATION.name)
 
-        for (items in observationList){
+        if (!TextUtils.isEmpty(alternativeAttendantName) && !TextUtils.isEmpty(alternativeAttendantPhone)) {
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
+            val alternativeAttendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(alternativeAttendantPhone)
+            if (alternativeAttendantPhoneNo != null){
 
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
+                addData("Name",alternativeAttendantName, DbObservationValues.ATTENDANT_NAME.name)
+                addData("Telephone Number",alternativeAttendantPhone, DbObservationValues.ATTENDANT_NUMBER.name)
+                addData("Designation",spinnerDesignationValue2 ,DbObservationValues.ATTENDANT_DESIGNATION.name)
 
-            val data = DbDataList(key, value, "Alternative Birth Attendant", DbResourceType.Observation.name, label)
-            dbDataList.add(data)
+                for (items in observationList){
+
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
+
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, "Alternative Birth Attendant", DbResourceType.Observation.name, label)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+            }else{
+                errorList.add("Alternative attendant phone number is not valid")
+            }
 
         }
-        observationList.clear()
 
         val companionName = rootView.etCompanionName.text.toString()
         val companionPhone = rootView.etCompanionPhone.text.toString()
         val companionMeans = rootView.etTransportMeans.text.toString()
-        addData("Name",companionName, DbObservationValues.COMPANION_NAME.name)
-        addData("Telephone Number",companionPhone, DbObservationValues.COMPANION_NUMBER.name)
-        addData("Transport",companionMeans ,DbObservationValues.COMPANION_TRANSPORT.name)
-        addData("Relationship",spinnerRshpValue ,DbObservationValues.COMPANION_RELATIONSHIP.name)
 
-        for (items in observationList){
+        if (!TextUtils.isEmpty(companionName) && !TextUtils.isEmpty(companionMeans) && !TextUtils.isEmpty(companionPhone)){
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
+            val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
+            if (companionPhoneNo != null){
 
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
+                addData("Name",companionName, DbObservationValues.COMPANION_NAME.name)
+                addData("Telephone Number",companionPhone, DbObservationValues.COMPANION_NUMBER.name)
+                addData("Transport",companionMeans ,DbObservationValues.COMPANION_TRANSPORT.name)
+                addData("Relationship",spinnerRshpValue ,DbObservationValues.COMPANION_RELATIONSHIP.name)
 
-            val data = DbDataList(key, value, "Birth Companion", DbResourceType.Observation.name, label)
-            dbDataList.add(data)
+                for (items in observationList){
 
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
+
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, "Birth Companion", DbResourceType.Observation.name, label)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+            }else{
+                errorList.add("Invalid companion phone number")
+            }
+
+
+        }else{
+            errorList.add("Companion name, phone number and transport are required")
         }
-        observationList.clear()
 
-        val facilityContactNo = PhoneNumberValidation().getStandardPhoneNumber(facilityContact)
-        val attendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(attendantPhone)
-        val alternativeAttendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(alternativeAttendantPhone)
-        val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
-
-        if (facilityContactNo != null && attendantPhoneNo != null && alternativeAttendantPhoneNo != null && companionPhoneNo != null) {
-
+        if (errorList.size == 0) {
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
@@ -276,24 +328,8 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
             ft.commit()
 
         }else{
-
-            if (facilityContactNo == null) errorList.add("Enter a valid health facility contact")
-            if (attendantPhoneNo == null) errorList.add("Enter a valid attendant phone number")
-            if (alternativeAttendantPhoneNo == null) errorList.add("Enter a valid alternative attendant phone number")
-            if (companionPhoneNo == null) errorList.add("Enter a valid companion phone number")
-
-            errorList.forEach {
-
-                Toast.makeText(requireContext(), "$it \n", Toast.LENGTH_LONG).show()
-
-            }
-
-
-
+            formatter.showErrorDialog(errorList, requireContext())
         }
-
-
-
 
 
 

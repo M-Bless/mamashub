@@ -47,9 +47,6 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
         viewModelScope.launch {
 
             val entry = ResourceMapper.extract(questionnaireResource, questionnaireResponse).entryFirstRep
-            if (entry.resource !is Patient){
-                return@launch
-            }
 
             CoroutineScope(Dispatchers.IO).launch {
 
@@ -58,8 +55,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 val job = Job()
                 CoroutineScope(Dispatchers.IO + job).launch {
 
-                    val patient = entry.resource as Patient
-
+                    val patient = Patient()
                     val name = dbPatientFhirInformation.name
 
                     val nameList = getNames(name, name)
@@ -148,7 +144,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
                     val identifierList = ArrayList<Identifier>()
                     val identifier = Identifier()
-                    identifier.id = ancCode
+                    identifier.id = "ANC_NUMBER"
                     identifier.value = ancCode
                     identifierList.add(identifier)
 
@@ -248,10 +244,6 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                         resource.encounter = encounterReference
                         resource.issued = Date()
                         saveResourceToDatabase(resource)
-
-                        Log.e("++++ ", "1")
-                    }else{
-                        Log.e("++++ ", "2")
                     }
 
                 }
@@ -263,7 +255,6 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     resource.status = Encounter.EncounterStatus.INPROGRESS
                     saveResourceToDatabase(resource)
 
-                    Log.e("++++ ", "3")
                 }
 
             }

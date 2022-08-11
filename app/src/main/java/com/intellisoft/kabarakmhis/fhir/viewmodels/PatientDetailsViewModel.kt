@@ -81,7 +81,13 @@ class PatientDetailsViewModel(
             else null
 
         val kinName = if (patientResource.hasContact()) patientResource.contact[0].name.nameAsSingleString else ""
-        val kinPhone = if (patientResource.hasContact()) patientResource.contact[0].telecom[0].value else ""
+        val kinPhone = if (patientResource.hasContact()){
+
+            if (patientResource.contact[0].hasTelecom())
+                patientResource.contact[0].telecom[0].value
+            else
+                ""
+        } else ""
         val phone = if (patientResource.hasTelecom()) patientResource.telecom[0].value else ""
 
         val identifier = if (patientResource.hasIdentifier()) patientResource.identifier[0].value else ""
@@ -428,6 +434,21 @@ class PatientDetailsViewModel(
             }
             .map { createEncounterItem(it, getApplication<Application>().resources) }
             .let { encounter.addAll(it) }
+
+
+//        fhirEngine.search<Observation>{
+//
+//            filter(Observation.SUBJECT, { value = "Patient/$patientId" })
+//            filter(Observation.ENCOUNTER, { value = "Encounter/${encounter[0].id}" })
+//            filter(Observation.CODE, { value = of(Coding().apply {
+//                system = "http://snomed.info/sct"
+//                code = "413521009"
+//            }) })
+//
+//            sort(Observation.DATE, Order.DESCENDING)
+//        }.map { createEncounterItem(it, getApplication<Application>().resources) }
+//            .let { encounter.addAll(it)
+//        }
 
         return encounter
     }

@@ -231,7 +231,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Multiple Babies"/>
+                        android:text="Multiple pregnancy"/>
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -244,7 +244,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="Multiple babies"/>
+                            android:text="Multiple pregnancy"/>
 
                         <RadioGroup
                             android:id="@+id/radioGrpMultipleBaby"

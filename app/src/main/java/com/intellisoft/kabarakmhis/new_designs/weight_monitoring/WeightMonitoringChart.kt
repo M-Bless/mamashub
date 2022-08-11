@@ -153,7 +153,28 @@ class WeightMonitoringChart : AppCompatActivity() {
             }
             setData(chartValueList)
 
+            getPersonalData()
 
+        }
+
+
+
+
+    }
+
+    private fun getPersonalData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+        val dob = formatter.retrieveSharedPreference(this, "dob")
+
+
+
+        if (identifier != null) tvPatientName.text = identifier
+        if (patientName != null) tvAncId.text = patientName
+        if (dob != null){
+            val age = "${formatter.calculateAge(dob)} years"
+            tvAge.text = age
         }
 
 

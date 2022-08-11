@@ -255,6 +255,7 @@ data class QuantityObservation(
 )
 data class DbPatientFhirInformation(
     val id: String,
+
     val name: String,
     val telecomList: List<DbTelecom>,
     val gender: String,

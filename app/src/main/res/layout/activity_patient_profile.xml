@@ -826,13 +826,13 @@
                             </androidx.cardview.widget.CardView>
 
                             <TextView
-                                android:textColor="@color/headerColor"
-                                android:layout_marginTop="@dimen/_5dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="Weight Monitoring Chart"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:gravity="center"
+                                android:text="Weight Monitoring "
+                                android:textColor="@color/headerColor" />
 
                         </LinearLayout>
 

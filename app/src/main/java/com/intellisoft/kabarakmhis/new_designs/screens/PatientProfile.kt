@@ -105,13 +105,17 @@ class PatientProfile : AppCompatActivity() {
             val identifier = patientData.identifier
             CoroutineScope(Dispatchers.Main).launch {
                 tvName.text = patientName
-                tvAge.text = dob
+
+                val age = "${formatter.calculateAge(dob)} years"
+
+                tvAge.text = age
 
                 tvKinName.text = kinName
                 tvKinDetails.text = kinPhone
 
                 formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
                 formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier)
+                formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
             }
 
 //            kabarakViewModel.deleteTitleTable(this@PatientProfile)

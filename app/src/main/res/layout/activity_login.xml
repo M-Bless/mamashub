@@ -20,11 +20,19 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
-            android:scaleType="centerCrop"
-            android:background="@drawable/logo"
-            android:layout_width="@dimen/_100dp"
-            android:layout_height="130dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:background="@drawable/logo_bac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="match_parent"

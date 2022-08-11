@@ -25,11 +25,11 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:textAllCaps="false"
             android:id="@+id/fab"
-            android:text="Add a visit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Add a contact"
+            android:textAllCaps="false" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:visibility="gone"

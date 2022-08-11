@@ -3,6 +3,7 @@ package com.intellisoft.kabarakmhis.helperclass
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
@@ -12,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -28,6 +30,7 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class FormatterClass {
 
@@ -348,7 +351,9 @@ class FormatterClass {
             DbObservationValues.PHONE_NUMBER.name,
             DbObservationValues.COMPANION_NUMBER.name,
             DbObservationValues.COMPANION_RELATIONSHIP.name,
-            DbObservationValues.COMPANION_NAME.name))
+            DbObservationValues.COMPANION_NAME.name,
+            "dob", "LMP"
+            ))
 
         for (items in encounterList){
             deleteSharedPreference(context, items)
@@ -1056,16 +1061,27 @@ class FormatterClass {
         }
     }
 
-//    fun changeStringCase(s: String): String? {
-//        val DELIMITERS = " '-/"
-//        val sb = StringBuilder()
-//        var capNext = true
-//        for (sc in s.toCharArray()) {
-//            sc = if (capNext) c.uppercaseChar() else c.lowercaseChar()
-//            sb.append(c)
-//            capNext = DELIMITERS.indexOf(c.code.toChar()) >= 0
-//        }
-//        return sb.toString()
-//    }
+    fun changeStringCase(s: String): String {
+        return s.capitalize()
+    }
+
+    fun showErrorDialog(errorList:ArrayList<String>, context: Context){
+
+        var errors = "Please Resolve the following errors \n"
+        errorList.forEach {
+            errors += it + "\n"
+        }
+
+        val dialogBuilder = AlertDialog.Builder(context)
+
+        dialogBuilder.setMessage(errors)
+            .setCancelable(false)
+            .setPositiveButton("Ok") { dialog, _ -> dialog.cancel() }
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+        val alert = dialogBuilder.create()
+        alert.setTitle("Errors")
+        alert.show()
+
+    }
 
 }
