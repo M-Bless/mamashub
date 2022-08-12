@@ -42,10 +42,11 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:id="@+id/tvUsername"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/black"
-                android:text="David Njau"
+                android:text=""
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

@@ -3,32 +3,120 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1486810551558753" />
         <entry key="app/src/main/res/drawable/bac_outline_trans.xml" value="0.22" />
         <entry key="app/src/main/res/drawable/bottom_round.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/button_round.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/dotted.xml" value="0.364" />
         <entry key="app/src/main/res/drawable/edit_outline1.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/edit_outline_trans.xml" value="0.1915" />
+        <entry key="app/src/main/res/drawable/layout_dotted.xml" value="0.364" />
         <entry key="app/src/main/res/drawable/round_edittext.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/search_round.xml" value="0.3545" />
+        <entry key="app/src/main/res/layout/activity_antenatal_profile.xml" value="0.19630192502532928" />
+        <entry key="app/src/main/res/layout/activity_antenatal_profile_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_birth_plan.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_birth_plan_view.xml" value="0.25977653631284914" />
+        <entry key="app/src/main/res/layout/activity_clinical_notes_add.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_clinical_notes_list.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_clinical_notes_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_community_health_worker_form.xml" value="0.31979478409576745" />
+        <entry key="app/src/main/res/layout/activity_confirm_page.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_counselling.xml" value="0.14792646430098333" />
+        <entry key="app/src/main/res/layout/activity_counselling_view.xml" value="0.242973708068903" />
+        <entry key="app/src/main/res/layout/activity_deworming.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_deworming_view.xml" value="0.16193063100710406" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3049119555143652" />
+        <entry key="app/src/main/res/layout/activity_ifas.xml" value="0.14792646430098333" />
+        <entry key="app/src/main/res/layout/activity_ifas_list.xml" value="0.242973708068903" />
+        <entry key="app/src/main/res/layout/activity_ifas_view2.xml" value="0.242973708068903" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3129315710371467" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_malaria_prophylaxis.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_malaria_prophylaxis_list.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_malaria_prophylaxis_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_maternal_serology.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_maternal_serology_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_medical_history.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_medical_surgical_history_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_my_profile.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_new_main.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_password_reset.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/activity_patient_details_view.xml" value="0.16193063100710406" />
+        <entry key="app/src/main/res/layout/activity_patient_list.xml" value="0.2692307692307692" />
+        <entry key="app/src/main/res/layout/activity_patient_profile.xml" value="0.2616822429906542" />
+        <entry key="app/src/main/res/layout/activity_physical_examination.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_physical_examination_list.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_physical_examination_view.xml" value="0.2767210144927536" />
+        <entry key="app/src/main/res/layout/activity_pmtctinterventions.xml" value="0.14792646430098333" />
+        <entry key="app/src/main/res/layout/activity_pmtctinterventions_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_present_pregnancy_add.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_present_pregnancy_list.xml" value="0.242973708068903" />
+        <entry key="app/src/main/res/layout/activity_present_pregnancy_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_preventive_service.xml" value="0.31979478409576745" />
+        <entry key="app/src/main/res/layout/activity_preventive_service_list.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_preventive_service_view.xml" value="0.31979478409576745" />
+        <entry key="app/src/main/res/layout/activity_previous_pregnancy.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_previous_pregnancy_list.xml" value="0.2543822146216332" />
+        <entry key="app/src/main/res/layout/activity_previous_pregnancy_view.xml" value="0.2767210144927536" />
+        <entry key="app/src/main/res/layout/activity_register_new_patient.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_weight_monitoring_chart.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/clinical_notes.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/confirm_children_details.xml" value="0.3304831124412142" />
+        <entry key="app/src/main/res/layout/confirm_details.xml" value="0.23129542539546816" />
+        <entry key="app/src/main/res/layout/confirm_parent_details.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/confrim_details_child.xml" value="0.23129542539546816" />
+        <entry key="app/src/main/res/layout/details_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/encounter_view.xml" value="0.16193063100710406" />
+        <entry key="app/src/main/res/layout/fragment_antenatal1.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_antenatal2.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_antenatal3.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_antenatal4.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_birthplan1.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_birthplan2.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_chw1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_chw2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_confirm_patient.xml" value="0.2321504916631039" />
+        <entry key="app/src/main/res/layout/fragment_couselling1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_couselling2.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_details.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_family.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_ifas1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_ifas2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_info.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_medical.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_medical_history.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_observations.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_patient_list.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/fragment_physical_exam.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_physical_exam_2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_physical_examination.xml" value="0.26268115942028986" />
+        <entry key="app/src/main/res/layout/fragment_pmtct1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_pmtct2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_pmtct3.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_present_preg_1.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_present_preg_2.xml" value="0.35542428335085413" />
+        <entry key="app/src/main/res/layout/fragment_prev_pregnancy.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_previous_pregnancy.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/fragment_surgical.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/frament_confirm.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/navigation.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/no_record.xml" value="0.3304831124412142" />
+        <entry key="app/src/main/res/layout/observation_view.xml" value="0.223731884057971" />
         <entry key="app/src/main/res/layout/patient_detail.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/patient_details_card_view.xml" value="0.25769927536231885" />
         <entry key="app/src/main/res/layout/patient_details_header.xml" value="0.25769927536231885" />
         <entry key="app/src/main/res/layout/patient_list_item_view.xml" value="0.30117753623188404" />
         <entry key="app/src/main/res/layout/patient_list_view.xml" value="0.30117753623188404" />
+        <entry key="app/src/main/res/layout/progress_bar.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/screener_encounter_fragment.xml" value="0.23777173913043478" />
+        <entry key="app/src/main/res/layout/user_details.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/menu/details_options_menu.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/menu/profile_menu.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/menu/screen_encounter_fragment_menu.xml" value="0.4036458333333333" />
       </map>
     </option>
@@ -37,6 +125,6 @@
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
-    <option name="id" value="Android" />
+    <option name="id" value="jpab" />
   </component>
 </project>

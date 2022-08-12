@@ -2,10 +2,12 @@ package com.intellisoft.kabarakmhis.helperclass
 
 import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
-import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailData
+import org.hl7.fhir.r4.model.Identifier
+import java.time.LocalDate
 
 enum class UrlData(var message: Int) {
-    BASE_URL(R.string.base_url)
+    BASE_URL(R.string.base_url),
+    FHIR_URL(R.string.fhir_url)
 }
 data class SuccessLogin(
     val details: String
@@ -30,20 +32,22 @@ data class PatientItem(
     val resourceId: String,
     val name: String,
     val gender: String,
-    val dob: String,
+    val dob: LocalDate? = null,
     val phone: String,
     val city: String,
     val country: String,
     val isActive: Boolean,
     val html: String,
     var risk: String? = "",
-    var riskItem: RiskAssessmentItem? = null,
-    var state: String,
-    var district: String,
-    var region: String
 ) {
     override fun toString(): String = name
 }
+
+data class DbPatientDetails(
+    val id : String,
+    val name : String,
+)
+
 data class RiskAssessmentItem(
     var riskStatusColor: Int,
     var riskStatus: String,
@@ -62,7 +66,7 @@ data class RelatedPersonItem(
 data class ObservationItem(
     val id: String,
     val code: String,
-    val effective: String,
+    val text: String,
     val value: String
 ) {
     override fun toString(): String = code
@@ -120,14 +124,12 @@ enum class ViewType {
     }
 
 }
+
+
 /**
  * Encounter
  */
-data class PatientDetailEncounter(
-    val encounter: EncounterItem,
-    override val firstInGroup: Boolean = false,
-    override val lastInGroup: Boolean = false
-) : PatientDetailData
+
 
 enum class ObservationViewTypes {
     OBSERVATION,
@@ -140,3 +142,37 @@ enum class ObservationViewTypes {
     }
 
 }
+
+enum class Navigation{
+    FRAGMENT,
+    ACTIVITY
+}
+
+
+
+data class DbUserData(
+    val data: DbData,
+    val status: String
+)
+data class DbData(
+    val id: String,
+    val names: String,
+    val email: String,
+    val role: String
+)
+data class DbPatientRecord(
+    val id: String,
+    val name: String,
+    val dob: String,
+    val phone: String?,
+    val kinData: DbKinData,
+    val identifier: String
+)
+data class DbKinData(
+    val name: String,
+    val phone: String
+)
+data class DbObservationLabel(
+    val value: String,
+    val label: String
+)

@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
-
+    id 'kotlin-android'
 }
 
 android {
@@ -40,8 +40,16 @@ android {
         resources {
             pickFirsts += ['META-INF/ASL-2.0.txt', 'META-INF/LGPL-3.0.txt' ]
         }
+        resources.excludes.add("META-INF/*")
     }
+//    buildscript {
+//        ext{
+//            kotlinVersion = '1.4.20'
+//        }
+//    }
+
 }
+
 
 dependencies {
 
@@ -56,8 +64,6 @@ dependencies {
     //Network
     implementation 'com.squareup.retrofit2:retrofit:2.6.3'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.3'
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
-    implementation 'io.reactivex:rxandroid:1.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.0'
@@ -67,10 +73,16 @@ dependencies {
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+    implementation "androidx.room:room-rxjava2:$rootProject.roomVersion"
+
 
     /*FHIR */
     implementation("com.google.android.fhir:engine:0.1.0-beta01")
-    implementation("com.google.android.fhir:data-capture:0.1.0-beta02")
+    implementation("com.google.android.fhir:data-capture:0.1.0-beta03")
+//    implementation 'ca.uhn.hapi.fhir:hapi-fhir-client:5.6.2'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
@@ -82,8 +94,15 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
 
     //Circular ImageView
-    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+
+    implementation 'com.github.davidnjau:DavidLibrary:v2.0.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
 
 }

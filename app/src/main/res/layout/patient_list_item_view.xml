@@ -6,40 +6,43 @@
     android:paddingVertical="@dimen/fab_margin">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <TextView
+            android:textColor="@color/textColor"
             android:id="@+id/id"
-            android:text="01"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="01" />
 
         <TextView
-            android:layout_weight="1"
-            android:layout_marginStart="15dp"
+            android:textColor="@color/textColor"
             android:id="@+id/name"
-            android:text="John"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_weight="1"
+            android:text="John" />
 
         <TextView
-            android:layout_marginStart="10dp"
+            android:textColor="@color/textColor"
             android:id="@+id/field_name"
-            android:text="50 years"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="50 years"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textColor="@android:color/holo_blue_light"
             android:gravity="end"
             android:text="@string/view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+            android:textColor="@android:color/holo_blue_light" />
 
 
     </LinearLayout>

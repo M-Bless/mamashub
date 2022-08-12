@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
+    <color name="purple_200">#75296D</color>
+    <color name="purple_500">#75296D</color>
+    <color name="purple_700">#75296D</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="background">#642166</color>
     <color name="main_bgColor">#F4F2FF</color>
-    <color name="main_color">#8A5EB5</color>
-    <color name="main_color_dark">#5C3681</color>
+    <color name="main_color">#75296D</color>
+    <color name="main_color_dark">#75296D</color>
     <color name="text_color">#151EEE</color>
 
 
@@ -24,7 +25,7 @@
 
     <color name="primary">@color/main_color</color>
     <color name="primary_dark">@color/main_color_dark</color>
-    <color name="accent">@color/pink_A200</color>
+    <color name="accent">#BFA6EE</color>
 
     <color name="low_risk">#388e3c</color>
     <color name="low_risk_background">#e8f5e9</color>
@@ -34,8 +35,19 @@
     <color name="high_risk_background">#ffebee</color>
     <color name="unknown_risk_background">#10156125</color>
     <color name="unknown_risk">#ffffff</color>
+    <color name="orange">#FFA500</color>
+    <color name="yellow">#FFFF00</color>
 
-    <color name="inactive1">#94C4C4C4</color>
+    <color name="inactive1">#34C4C4C4</color>
+    <color name="display">#FFB1A2</color>
+
+    <color name="save">#BF3ACC6C</color>
+    <color name="cancel">#D9D9D9</color>
+
+    <color name="textColor">@color/black</color>
+    <color name="headerColor">@color/black</color>
+    <color name="contentColor">@color/black</color>
+
 
 
 

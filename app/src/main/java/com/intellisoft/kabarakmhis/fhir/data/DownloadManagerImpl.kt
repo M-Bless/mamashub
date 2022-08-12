@@ -10,15 +10,14 @@ import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.r4.model.*
 
 const val MAX_RESOURCE_COUNT = 40
-const val SYNC_VALUE = "Kabarak Maternal"
+const val SYNC_VALUE = "KENYA-KABARAK-MHIS5"
 const val USER_ADDRESS = "NAIROBI"
 const val USER_COUNTRY = "KE"
-const val SYNC_PARAM = "address-state"
+const val SYNC_PARAM = "address-country"
 
 class DownloadManagerImpl : DownloadWorkManager {
     private val resourceTypeList = ResourceType.values().map { it.name }
     private val urls = LinkedList(listOf("Patient?$SYNC_PARAM=$SYNC_VALUE"))
-  //  private val urls = LinkedList(listOf("Patient"))
 
     override suspend fun getNextRequestUrl(context: SyncDownloadContext): String? {
         var url = urls.poll() ?: return null
@@ -90,13 +89,15 @@ private fun affixLastUpdatedTimestamp(url: String, lastUpdated: String): String 
     // Affix lastUpdate to a $everything query using _since as per:
     // https://hl7.org/fhir/operation-patient-everything.html
     if (downloadUrl.contains("\$everything")) {
-        downloadUrl = "$downloadUrl?_since=$lastUpdated"
+//        downloadUrl = "$downloadUrl?_since=$lastUpdated"
+        downloadUrl = "$downloadUrl"
     }
 
     // Affix lastUpdate to non-$everything queries as per:
     // https://hl7.org/fhir/operation-patient-everything.html
     if (!downloadUrl.contains("\$everything")) {
-        downloadUrl = "$downloadUrl&_lastUpdated=gt$lastUpdated"
+//        downloadUrl = "$downloadUrl&_lastUpdated=gt$lastUpdated"
+        downloadUrl = "$downloadUrl"
     }
 
     // Do not modify any URL set by a server that specifies the token of the page to return.
