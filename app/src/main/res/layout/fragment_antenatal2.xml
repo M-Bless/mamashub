@@ -524,26 +524,6 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="ART eligibility (WHO Stage)"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                        <Spinner
-                            android:id="@+id/spinnerEligibility"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:spinnerMode="dialog" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_marginTop="@dimen/_5dp"
@@ -566,11 +546,36 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearARTEligibility"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="ART eligibility (WHO Stage)"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Spinner
+                            android:id="@+id/spinnerEligibility"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:spinnerMode="dialog" />
+
+                    </LinearLayout>
+
 
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearMaternalHAART"
                     android:background="@drawable/layout_dotted"
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical"

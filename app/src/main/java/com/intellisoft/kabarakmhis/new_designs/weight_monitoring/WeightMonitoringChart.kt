@@ -130,19 +130,14 @@ class WeightMonitoringChart : AppCompatActivity() {
                 val encounterId = encounter.encounterId
                 val observationList = patientDetailsViewModel.getObservationsFromEncounter(encounterId)
 
-                Log.e("-----1", "encounterId: $encounterId")
-
-
-
                 observationList.forEach {
 
-                    var motherWeight = 0.0
-                    var gestation = 0.0
+                    var motherWeight = ""
+                    var gestation = ""
 
                     val text = it.text
                     val value = it.value
                     val code = it.code
-
                     if (code == "77386006"){
                         //Gestation
 
@@ -151,10 +146,7 @@ class WeightMonitoringChart : AppCompatActivity() {
                             val newValue = value.reversed()
                             val reversedValue = newValue.substring(6, newValue.length)
 
-                            gestation = reversedValue.toDouble()
-
-                            Log.e("-----", "-------")
-                            Log.e("-----", "gestation: $gestation")
+                            gestation = reversedValue.toString()
 
                         }catch (e: Exception){
                             e.printStackTrace()
@@ -164,15 +156,15 @@ class WeightMonitoringChart : AppCompatActivity() {
                     }
                     if (code == "726527001"){
                         //Mother Weight
-                        motherWeight = value.toDouble()
-
-                        Log.e("-----", "motherWeight: $motherWeight")
-
-
+                        motherWeight = value
                     }
 
+                    if (motherWeight != "" && gestation != ""){
 
-                    if (motherWeight != 0.0 && gestation != 0.0){
+                        Log.d("-----", "-----")
+                        Log.e("motherWeight", motherWeight.toString())
+                        Log.e("gestation", gestation.toString())
+
                         val dbValue = DbObserveValue(gestation.toString(), motherWeight.toString())
                         chartValueList.add(dbValue)
 

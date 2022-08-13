@@ -43,6 +43,19 @@ class FragmentMedical : Fragment(){
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
 
+        rootView.radioGrpBloodTransfusion.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Yes") {
+                    changeVisibility(rootView.linearBloodTransfusionReaction, true)
+                } else {
+                    changeVisibility(rootView.linearBloodTransfusionReaction, false)
+                }
+
+            }
+        }
         rootView.radioGrpTransfusion.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
             val isChecked = checkedRadioButton.isChecked

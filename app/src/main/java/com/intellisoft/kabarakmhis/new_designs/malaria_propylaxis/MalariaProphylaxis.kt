@@ -225,7 +225,11 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
         observationList.clear()
 
-        if (spinnerContactNumberValue != "" && !TextUtils.isEmpty(dose)){
+        val iptpValue = formatter.getRadioText(radioGrpIPTp)
+
+
+
+        if (spinnerContactNumberValue != "" && !TextUtils.isEmpty(dose) && iptpValue != "") {
             addData("ANC Contact", spinnerContactNumberValue, DbObservationValues.ANC_CONTACT.name)
             addData("Dose Date", dose, DbObservationValues.DOSAGE_DATE_GIVEN.name)
             addData("Next Appointment", visitNext, DbObservationValues.NEXT_VISIT_DATE.name)
@@ -243,7 +247,24 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
                 dbDataList.add(data)
 
             }
+            observationList.clear()
 
+            addData("IPTp", iptpValue, DbObservationValues.IPTP_DATE.name)
+
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, "ANC Visit",
+                    DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
 
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)

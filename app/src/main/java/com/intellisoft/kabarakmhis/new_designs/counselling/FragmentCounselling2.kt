@@ -65,6 +65,8 @@ class FragmentCounselling2 : Fragment() {
     }
     private fun saveData() {
 
+        val dbDataList = ArrayList<DbDataList>()
+
         val text1 = formatter.getRadioText(rootView.radioGrpInfantFeeding)
         val text2 = formatter.getRadioText(rootView.radioGrpColostrum)
 
@@ -80,6 +82,20 @@ class FragmentCounselling2 : Fragment() {
 
         addData("Was infant feeding counselling done",text1, DbObservationValues.INFANT_FEEDING.name)
         addData("Was counselling on exclusive breastfeeding and benefits of colostrum done",text2, DbObservationValues.EXCLUSIVE_BREASTFEEDING.name)
+        for (items in observationList){
+
+            val key = items.key
+            val dbObservationLabel = observationList.getValue(key)
+
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Infant Feeding Counselling", DbResourceType.Observation.name, label)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
         addData("Was the mother pale:",paleMother, DbObservationValues.MOTHER_PALE.name)
         addData("Does the mother have severe headache:",headAche, DbObservationValues.SEVERE_HEADACHE.name)
         addData("Did the mother have vaginal bleeding:",vaginalBleeding, DbObservationValues.VAGINAL_BLEEDING.name)
@@ -89,9 +105,6 @@ class FragmentCounselling2 : Fragment() {
         addData("Was the mother's water breaking:",waterBreaking, DbObservationValues.WATER_BREAKING.name)
         addData("Did the mother have swollen face and hands:",swollenFace, DbObservationValues.SWOLLEN_FACE.name)
         addData("Did the mother have a fever:",motherFever, DbObservationValues.FEVER.name)
-
-        val dbDataList = ArrayList<DbDataList>()
-
         for (items in observationList){
 
             val key = items.key
@@ -100,10 +113,11 @@ class FragmentCounselling2 : Fragment() {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Counselling", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, "Pregnancy Care Counselling Done", DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
+        observationList.clear()
 
         val dbDataDetailsList = ArrayList<DbDataDetails>()
         val dbDataDetails = DbDataDetails(dbDataList)

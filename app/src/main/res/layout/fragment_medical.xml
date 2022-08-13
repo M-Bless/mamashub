@@ -220,6 +220,44 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:text="Blood Transfusion"/>
+
+                        <RadioGroup
+                            android:id="@+id/radioGrpBloodTransfusion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioYesBloodTransfusion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Yes" />
+
+                            <RadioButton
+                                android:id="@+id/radioNoBloodTransfusion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="No" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearBloodTransfusionReaction"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="Blood Transfusion Reaction"/>
 
                         <RadioGroup

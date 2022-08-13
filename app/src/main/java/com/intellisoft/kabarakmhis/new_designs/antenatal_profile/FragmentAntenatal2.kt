@@ -75,6 +75,20 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        rootView.radioGrpHIVStatus.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "P" || checkedBtn == "Kp") {
+                    changeVisibility(rootView.linearARTEligibility, true)
+                    changeVisibility(rootView.linearMaternalHAART, true)
+                } else {
+                    changeVisibility(rootView.linearARTEligibility, false)
+                    changeVisibility(rootView.linearMaternalHAART, false)
+                }
+            }
+        }
         rootView.radioGrpTb.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
             val isChecked = checkedRadioButton.isChecked

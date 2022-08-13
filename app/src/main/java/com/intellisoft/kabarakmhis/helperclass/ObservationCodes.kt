@@ -176,6 +176,8 @@ enum class DbObservationValues{
     DOSAGE_DATE_GIVEN,
     IRON_AND_FOLIC_COUNSELLING,
 
+    IPTP_DATE,
+
     INTERVENTION_GIVEN,
     DATE_STARTED,
     REGIMEN,

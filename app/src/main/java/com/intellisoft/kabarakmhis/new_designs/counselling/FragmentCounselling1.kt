@@ -62,6 +62,7 @@ class FragmentCounselling1 : Fragment() {
 
     }
     private fun saveData() {
+        val dbDataList = ArrayList<DbDataList>()
 
         val text12 = formatter.getRadioText(rootView.radioGrpDanger)
         val text11 = formatter.getRadioText(rootView.radioGrpDental)
@@ -80,17 +81,6 @@ class FragmentCounselling1 : Fragment() {
         addData("Dental health for mother",text11, DbObservationValues.DENTAL_HEALTH.name)
         addData("Birth plan counselling",text10, DbObservationValues.BIRTH_PLAN.name)
         addData("Rh negative counselling",text9, DbObservationValues.RH_NEGATIVE.name)
-        addData("Advised to eat one extra meal a day",text8, DbObservationValues.EAT_ONE_MEAL.name)
-        addData("Advised to eat at least 5 of the 10 food groups everyday",text7, DbObservationValues.EAT_MORE_MEALS.name)
-        addData("Advised to drink plenty of water",text6, DbObservationValues.DRINK_WATER.name)
-        addData("Advised to take IFAS",text5, DbObservationValues.TAKE_IFAS.name)
-        addData("Advised to avoid heavy work, rest more",text4, DbObservationValues.AVOID_HEAVY_WORK.name)
-        addData("advised to sleep under a long lasting insecticidal net (LLIN)",text3, DbObservationValues.SLEEP_UNDER_LLIN.name)
-        addData("Advised to go for ANC visit as soon as possible and attend 8 times during pregnancy",text2, DbObservationValues.GO_FOR_ANC.name)
-        addData("Advised against no-strenuous exercise",text1, DbObservationValues.NON_STRENUOUS_ACTIVITY.name)
-
-        val dbDataList = ArrayList<DbDataList>()
-
         for (items in observationList){
 
             val key = items.key
@@ -99,10 +89,35 @@ class FragmentCounselling1 : Fragment() {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Counselling", DbResourceType.Observation.name ,label)
+            val data = DbDataList(key, value, "Counselling Done", DbResourceType.Observation.name ,label)
             dbDataList.add(data)
 
         }
+        observationList.clear()
+
+        addData("Advised to eat one extra meal a day",text8, DbObservationValues.EAT_ONE_MEAL.name)
+        addData("Advised to eat at least 5 of the 10 food groups everyday",text7, DbObservationValues.EAT_MORE_MEALS.name)
+        addData("Advised to drink plenty of water",text6, DbObservationValues.DRINK_WATER.name)
+        addData("Advised to take IFAS",text5, DbObservationValues.TAKE_IFAS.name)
+        addData("Advised to avoid heavy work, rest more",text4, DbObservationValues.AVOID_HEAVY_WORK.name)
+        addData("advised to sleep under a long lasting insecticidal net (LLIN)",text3, DbObservationValues.SLEEP_UNDER_LLIN.name)
+        addData("Advised to go for ANC visit as soon as possible and attend 8 times during pregnancy",text2, DbObservationValues.GO_FOR_ANC.name)
+        addData("Advised against no-strenuous exercise",text1, DbObservationValues.NON_STRENUOUS_ACTIVITY.name)
+        for (items in observationList){
+
+            val key = items.key
+            val dbObservationLabel = observationList.getValue(key)
+
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, "Pregnancy care counselling done", DbResourceType.Observation.name ,label)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
+
 
         val dbDataDetailsList = ArrayList<DbDataDetails>()
         val dbDataDetails = DbDataDetails(dbDataList)
