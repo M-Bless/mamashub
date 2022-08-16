@@ -79,8 +79,8 @@
         <entry key="app/src/main/res/layout/fragment_chw1.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_chw2.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_confirm_patient.xml" value="0.2321504916631039" />
-        <entry key="app/src/main/res/layout/fragment_couselling1.xml" value="0.33133817870884996" />
-        <entry key="app/src/main/res/layout/fragment_couselling2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_couselling1.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_couselling2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_family.xml" value="0.33" />

@@ -45,6 +45,10 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
         repository.getTittlePatientData(title, context)
     }
 
+    fun deleteTypeTable(type: String, context: Context) = runBlocking {
+        repository.deleteTypeTable(context, type)
+    }
+
     fun getConfirmDetails(context: Context) = runBlocking {
         repository.getConfirmDetails(context)
     }

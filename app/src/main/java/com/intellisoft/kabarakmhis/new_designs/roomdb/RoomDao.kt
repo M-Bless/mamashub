@@ -44,6 +44,9 @@ interface RoomDao {
     @Query("DELETE FROM patient_data WHERE title =:title")
     fun deleteTitleTable(title: String)
 
+    @Query("DELETE FROM patient_data WHERE type =:type AND fhirId =:fhirId AND loggedUserId =:userId")
+    fun deleteTypeTable(type: String, fhirId: String, userId: String)
+
     @Query("UPDATE patient_data SET value =:value WHERE id =:id")
     fun updatePatientRecords(value: String, id: Int)
 

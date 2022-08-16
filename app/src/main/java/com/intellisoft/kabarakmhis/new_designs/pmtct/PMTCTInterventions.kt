@@ -23,6 +23,7 @@ class PMTCTInterventions : AppCompatActivity() {
         setContentView(R.layout.activity_pmtctinterventions)
 
         title = "PMTCT Interventions"
+        formatter.saveSharedPreference(this, "totalPages", "2")
 
         if (savedInstanceState == null){
             val ft = supportFragmentManager.beginTransaction()

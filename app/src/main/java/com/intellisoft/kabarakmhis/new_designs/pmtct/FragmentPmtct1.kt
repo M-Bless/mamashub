@@ -147,14 +147,6 @@ class FragmentPmtct1 : Fragment() {
 
     }
 
-    private fun checkedText(checkBox: CheckBox){
-
-        if (checkBox.isChecked){
-            val value = checkBox.text.toString()
-            addData("Regimen Given",value, DbObservationValues.REGIMEN.name)
-        }
-
-    }
 
 
     private fun saveData() {
@@ -183,15 +175,22 @@ class FragmentPmtct1 : Fragment() {
         }
         observationList.clear()
 
+        val checkBoxList = ArrayList<String>()
         if(rootView.linearART.visibility == View.VISIBLE){
-            checkedText(rootView.checkboxDolutegravir)
-            checkedText(rootView.checkboxEmtricitabine)
-            checkedText(rootView.checkboxTenofovir)
-            checkedText(rootView.checkboxOvarian)
-            checkedText(rootView.checkboxZidovudine)
-            checkedText(rootView.checkboxLamivudine)
-            checkedText(rootView.checkboxNevirapine)
-            checkedText(rootView.checkboxEfavirenz)
+
+            if(rootView.checkboxDolutegravir.isChecked) checkBoxList.add(rootView.checkboxDolutegravir.text.toString())
+            if(rootView.checkboxEmtricitabine.isChecked) checkBoxList.add(rootView.checkboxEmtricitabine.text.toString())
+            if(rootView.checkboxTenofovir.isChecked) checkBoxList.add(rootView.checkboxTenofovir.text.toString())
+            if(rootView.checkboxOvarian.isChecked) checkBoxList.add(rootView.checkboxOvarian.text.toString())
+            if(rootView.checkboxZidovudine.isChecked) checkBoxList.add(rootView.checkboxZidovudine.text.toString())
+            if(rootView.checkboxLamivudine.isChecked) checkBoxList.add(rootView.checkboxLamivudine.text.toString())
+            if(rootView.checkboxNevirapine.isChecked) checkBoxList.add(rootView.checkboxNevirapine.text.toString())
+            if(rootView.checkboxEfavirenz.isChecked) checkBoxList.add(rootView.checkboxEfavirenz.text.toString())
+
+            if (checkBoxList.isNotEmpty()){
+                addData("Regimen Given", checkBoxList.joinToString(separator = ", "), DbObservationValues.REGIMEN.name)
+            }
+
             val otherRegimen = rootView.etOther.text.toString()
 
             val artDate = rootView.tvDate.text.toString()
@@ -231,12 +230,16 @@ class FragmentPmtct1 : Fragment() {
 
             if (lifeART){
 
+                kabarakViewModel.deleteTypeTable(DbSummaryTitle.D_VL_SAMPLE.name, requireContext())
+
                 val ft = requireActivity().supportFragmentManager.beginTransaction()
                 ft.replace(R.id.fragmentHolder, FragmentPmtct2())
                 ft.addToBackStack(null)
                 ft.commit()
 
             }else{
+
+                kabarakViewModel.deleteTypeTable(DbSummaryTitle.B_ART_FOR_LIFE.name, requireContext())
 
                 val ft = requireActivity().supportFragmentManager.beginTransaction()
                 ft.replace(R.id.fragmentHolder, FragmentPmtct3())
