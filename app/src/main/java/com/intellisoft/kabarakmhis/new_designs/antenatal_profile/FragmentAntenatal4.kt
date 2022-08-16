@@ -170,26 +170,26 @@ class FragmentAntenatal4 : Fragment() {
 
     private fun saveData() {
 
-        val errorList = ArrayList<Any>()
+        val errorList = ArrayList<String>()
 
         val coupleCounselling = formatter.getRadioText(rootView.radioGrpHiv)
         if (coupleCounselling != ""){
             addData("Couple Counselling", coupleCounselling, DbObservationValues.COUPLE_HIV_TESTING.name)
         }else{
-            errorList.add(rootView.radioGrpHiv)
+            errorList.add("Please select couple counselling")
         }
         val partnerHivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (partnerHivStatus != ""){
             addData("Partner HIV status", partnerHivStatus, DbObservationValues.PARTNER_HIV_STATUS.name)
         }else{
-            errorList.add(rootView.radioGrpHIVStatus)
+            errorList.add("Please select partner HIV status")
         }
         if (rootView.linearReactive.visibility == View.VISIBLE){
             val reactive = formatter.getRadioText(rootView.radioGrpReactive)
             if (reactive != ""){
                 addData("Was the partner referred for HIV care", reactive, DbObservationValues.PARTNER_HIV_RESULTS.name)
             }else{
-                errorList.add(rootView.radioGrpReactive)
+                errorList.add("Please select partner HIV results")
             }
         }
         if (rootView.linearReferral.visibility == View.VISIBLE){
@@ -197,7 +197,7 @@ class FragmentAntenatal4 : Fragment() {
             if (!TextUtils.isEmpty(referral)){
                 addData("Referral Date", referral , DbObservationValues.NEXT_VISIT_DATE.name)
             }else{
-                errorList.add(rootView.tvHivTestDate)
+                errorList.add("Please select referral date")
             }
         }
 
@@ -224,21 +224,16 @@ class FragmentAntenatal4 : Fragment() {
             val dbPatientData = DbPatientData(DbResourceViews.ANTENATAL_PROFILE.name, dbDataDetailsList)
             kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
-
             val ft = requireActivity().supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.ANTENATAL_PROFILE.name))
             ft.addToBackStack(null)
             ft.commit()
 
         }else{
-            formatter.validate(errorList, requireContext())
+            formatter.showErrorDialog(errorList, requireContext())
         }
 
 
-
-//        val intent = Intent(requireContext(), PatientProfile::class.java)
-//        startActivity(intent)
 
     }
 

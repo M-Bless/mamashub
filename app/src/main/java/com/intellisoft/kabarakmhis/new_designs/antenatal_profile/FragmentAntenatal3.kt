@@ -235,13 +235,13 @@ class FragmentAntenatal3 : Fragment() {
 
         val dbDataList = ArrayList<DbDataList>()
 
-        val errorList = ArrayList<Any>()
+        val errorList = ArrayList<String>()
 
         val hivTest = formatter.getRadioText(rootView.radioGrpHiv)
         if (hivTest != "") {
             addData("HIV Testing", hivTest, DbObservationValues.HIV_TESTING.name)
         }else{
-            errorList.add(rootView.radioGrpHiv)
+            errorList.add("Please select HIV Testing")
         }
         if (rootView.linearTestDate.visibility == View.VISIBLE) {
 
@@ -249,7 +249,7 @@ class FragmentAntenatal3 : Fragment() {
             if (!TextUtils.isEmpty(value)) {
                 addData("HIV Test Date", value , DbObservationValues.HIV_RESULTS.name)
             } else {
-                errorList.add(rootView.tvHivDate)
+                errorList.add("Please select HIV Test Date")
             }
         }
         if (rootView.linearNo.visibility == View.VISIBLE) {
@@ -257,21 +257,21 @@ class FragmentAntenatal3 : Fragment() {
             if (!TextUtils.isEmpty(value)) {
                 addData("HIV Further counselling", value , DbObservationValues.HIV_TESTING.name)
             } else {
-                errorList.add(rootView.etTb)
+                errorList.add("Please enter HIV Further counselling")
             }
         }
         val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (hivStatus != "") {
             addData("HIV Status", hivStatus , DbObservationValues.HIV_STATUS.name)
         }else{
-            errorList.add(rootView.radioGrpHIVStatus)
+            errorList.add("Please select HIV Status")
         }
         if (rootView.linearNR.visibility == View.VISIBLE) {
             val value = rootView.tvHivTestDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
                 addData("HIV Test Date", value , DbObservationValues.HIV_TESTING.name)
             } else {
-                errorList.add(rootView.tvHivTestDate)
+                errorList.add("Please select HIV Test Date")
             }
         }
         for (items in observationList){
@@ -292,14 +292,14 @@ class FragmentAntenatal3 : Fragment() {
         if (syphilisTesting != "") {
             addData("Syphilis Testing", syphilisTesting , DbObservationValues.SYPHILIS_TESTING.name)
         }else{
-            errorList.add(rootView.radioGrpSyphilis)
+            errorList.add("Please select Syphilis Testing")
         }
         if (rootView.linearSyphTestDate.visibility == View.VISIBLE) {
             val value = rootView.tvSyphilisDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
                 addData("Syphilis Test Date", value , DbObservationValues.SYPHILIS_RESULTS.name)
             } else {
-                errorList.add(rootView.tvSyphilisDate)
+                errorList.add("Please select Syphilis Test Date")
             }
         }
         if (rootView.linearSyphNo.visibility == View.VISIBLE) {
@@ -307,14 +307,14 @@ class FragmentAntenatal3 : Fragment() {
             if (!TextUtils.isEmpty(value)) {
                 addData("Syphilis Further counselling", value , DbObservationValues.SYPHILIS_TESTING.name)
             } else {
-                errorList.add(rootView.etSyphilisCounselling)
+                errorList.add("Please enter Syphilis Further counselling")
             }
         }
         val syphilisStatus = formatter.getRadioText(rootView.radioGrpSyphilisStatus)
         if (syphilisStatus != "") {
             addData("Syphilis Status", syphilisStatus , DbObservationValues.SYPHILIS_MOTHER_STATUS.name)
         }else{
-            errorList.add(rootView.radioGrpSyphilisStatus)
+            errorList.add("Please select Syphilis Status")
         }
         for (items in observationList){
 
@@ -334,14 +334,14 @@ class FragmentAntenatal3 : Fragment() {
         if (hepatitisB != "") {
             addData("Hepatitis Status", hepatitisB, DbObservationValues.HEPATITIS_TESTING.name)
         }else{
-            errorList.add(rootView.radioGrpHepatitis)
+            errorList.add("Please select Hepatitis Status")
         }
         if (rootView.linearHepatitis.visibility == View.VISIBLE) {
             val value = rootView.tvHepatitisDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
                 addData("Hepatitis Test Date", value , DbObservationValues.HEPATITIS_RESULTS.name)
             } else {
-                errorList.add(rootView.tvHepatitisDate)
+                errorList.add("Please select Hepatitis Test Date")
             }
         }
         if (rootView.linearHepaNo.visibility == View.VISIBLE) {
@@ -349,14 +349,14 @@ class FragmentAntenatal3 : Fragment() {
             if (!TextUtils.isEmpty(value)) {
                 addData("Hepatitis Further counselling", value , DbObservationValues.HEPATITIS_TESTING.name)
             } else {
-                errorList.add(rootView.etHepatitisCounselling)
+                errorList.add("Please enter Hepatitis Further counselling")
             }
         }
         val hepatitisStatus = formatter.getRadioText(rootView.radioGrpHepatitisStatus)
         if (hepatitisStatus != "") {
             addData("Hepatitis Status", hepatitisStatus , DbObservationValues.HEPATITIS_MOTHER_STATUS.name)
         }else{
-            errorList.add(rootView.radioGrpHepatitisStatus)
+            errorList.add("Please select Hepatitis Status")
         }
         for (items in observationList){
 
@@ -386,8 +386,7 @@ class FragmentAntenatal3 : Fragment() {
             ft.commit()
 
         }else{
-            Log.e("1111", errorList.toString())
-            formatter.validate(errorList, requireContext())
+            formatter.showErrorDialog(errorList, requireContext())
         }
 
 

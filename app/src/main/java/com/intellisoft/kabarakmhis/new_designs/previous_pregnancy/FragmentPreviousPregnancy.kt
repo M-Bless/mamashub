@@ -19,7 +19,7 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
-import java.util.ArrayList
+
 
 
 class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener {
@@ -93,6 +93,9 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
     private fun saveData() {
 
+        val errorList = ArrayList<String>()
+        val dbDataList = ArrayList<DbDataList>()
+
         val year = rootView.etYear.text.toString()
         val ancTime = rootView.etVisitTime.text.toString()
         val birthPlace = rootView.etPlaceOfChildBirth.text.toString()
@@ -101,20 +104,9 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
         val babyWeight = rootView.etBabyWeight.text.toString()
 
-        if (rootView.linearPurperium.visibility == View.VISIBLE){
-            val text = rootView.etAbnormal.text.toString()
-            addData("Purperium",text, DbObservationValues.BABY_PURPERIUM.name)
-        }else{
-            val text = formatter.getRadioText(rootView.radioGrpPurperium)
-            addData("Purperium",text, DbObservationValues.BABY_PURPERIUM.name)
-        }
+        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(ancTime) && !TextUtils.isEmpty(birthPlace) &&
+            !TextUtils.isEmpty(gestation) && !TextUtils.isEmpty(duration) && !TextUtils.isEmpty(babyWeight)){
 
-        if (
-            !TextUtils.isEmpty(year) && !TextUtils.isEmpty(ancTime) && !TextUtils.isEmpty(birthPlace) &&
-            !TextUtils.isEmpty(gestation) && !TextUtils.isEmpty(duration) && !TextUtils.isEmpty(babyWeight)
-        ){
-
-            val dbDataList = ArrayList<DbDataList>()
 
             addData("Pregnancy Order",spinnerPregnancyValue, DbObservationValues.PREGNANCY_ORDER.name)
             addData("Year",year, DbObservationValues.YEAR.name)
@@ -146,7 +138,22 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
             addData("Outcome",radioGrpOutcome, DbObservationValues.BABY_OUTCOME.name)
             val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
-            addData("Purperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
+            if (radioGrpPurperium != ""){
+                addData("Purperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
+
+                if (rootView.linearPurperium.visibility == View.VISIBLE){
+                    val text = rootView.etAbnormal.text.toString()
+                    if (!TextUtils.isEmpty(text)){
+                        addData("If Purperium is Abnormal, ",text, DbObservationValues.BABY_PURPERIUM.name)
+                    }else{
+                        errorList.add("If purperium is abnormal, please enter abnormal details")
+                    }
+
+                }
+
+            }else{
+                errorList.add("Please select purperium")
+            }
 
             for (items in observationList){
 
@@ -160,6 +167,19 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
                 dbDataList.add(data)
 
             }
+            observationList.clear()
+
+        }else{
+
+            if (TextUtils.isEmpty(year)) errorList.add("Please provide an year")
+            if (TextUtils.isEmpty(ancTime)) errorList.add("Please provide an ANC Time")
+            if (TextUtils.isEmpty(birthPlace)) errorList.add("Please provide an Birth Place")
+            if (TextUtils.isEmpty(gestation)) errorList.add("Please provide an Gestation")
+            if (TextUtils.isEmpty(duration)) errorList.add("Please provide an Duration")
+            if (TextUtils.isEmpty(babyWeight)) errorList.add("Please provide an Baby Weight")
+        }
+
+        if (errorList.size == 0) {
 
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
@@ -175,7 +195,9 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             ft.commit()
 
         }else{
-            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+
+            formatter.showErrorDialog(errorList, requireContext())
+
         }
 
     }
