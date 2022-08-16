@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -121,7 +122,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
                 val value = dbObservationLabel.value
                 val label = dbObservationLabel.label
 
-                val data = DbDataList(key, value, "Presentation", DbResourceType.Observation.name, label)
+                val data = DbDataList(key, value, DbSummaryTitle.D_PRESENTATION.name, DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }

@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -110,7 +111,7 @@ class Deworming : AppCompatActivity() {
 
             if (deworming == "No"){
                 val value = DbDataList("Deworming given in the 2nd trimester", deworming,
-                    "Deworming", DbResourceType.Observation.name,
+                    DbSummaryTitle.DEWORMING.name, DbResourceType.Observation.name,
                     DbObservationValues.DEWORMING.name)
                 dewormingList.add(value)
             }
@@ -118,7 +119,7 @@ class Deworming : AppCompatActivity() {
 
                 if (!TextUtils.isEmpty(dateGvn)){
                     val value1 = DbDataList("Date deworming was given", dateGvn,
-                        "Deworming", DbResourceType.Observation.name, DbObservationValues.DEWORMING.name)
+                        DbSummaryTitle.DEWORMING.name, DbResourceType.Observation.name, DbObservationValues.DEWORMING.name)
                     dewormingList.add(value1)
                 }else{
                     Toast.makeText(this, "Please enter date", Toast.LENGTH_SHORT).show()

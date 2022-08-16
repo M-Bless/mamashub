@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -90,7 +91,7 @@ class FragmentCounselling2 : Fragment() {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Infant Feeding Counselling", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.C_INFANT_COUNSELLING.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -113,7 +114,7 @@ class FragmentCounselling2 : Fragment() {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Pregnancy Care Counselling Done", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.D_PREGNANCY_COUNSELLING_DETAILS.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }

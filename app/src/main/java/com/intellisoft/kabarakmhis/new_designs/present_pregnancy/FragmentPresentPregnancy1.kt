@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal1
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.FragmentAntenatal2
@@ -315,7 +316,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                         val value = dbObservationLabel.value
                         val label = dbObservationLabel.label
 
-                        val data = DbDataList(key, value, "Current Pregnancy Details", DbResourceType.Observation.name, label)
+                        val data = DbDataList(key, value, DbSummaryTitle.A_CURRENT_PREGNANCY.name, DbResourceType.Observation.name, label)
                         dbDataList.add(data)
 
                     }
@@ -332,7 +333,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                         val value = dbObservationLabel.value
                         val label = dbObservationLabel.label
 
-                        val data = DbDataList(key, value, "Blood Pressure", DbResourceType.Observation.name, label)
+                        val data = DbDataList(key, value, DbSummaryTitle.B_PRESENT_BLOOD_PRESSURE.name, DbResourceType.Observation.name, label)
                         dbDataList.add(data)
 
                     }
@@ -349,7 +350,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                         val value = dbObservationLabel.value
                         val label = dbObservationLabel.label
 
-                        val data = DbDataList(key, value, "Hb Test", DbResourceType.Observation.name, label)
+                        val data = DbDataList(key, value, DbSummaryTitle.C_HB_TEST.name, DbResourceType.Observation.name, label)
                         dbDataList.add(data)
 
                     }

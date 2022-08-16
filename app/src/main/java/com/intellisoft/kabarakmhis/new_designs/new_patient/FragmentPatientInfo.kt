@@ -21,6 +21,7 @@ import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -122,10 +123,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
             if(!TextUtils.isEmpty(subCounty)) {
                 rootView.spinnerSubCounty.setSelection(subCountyDataList.indexOf(subCounty))
                 spinnerSubCountyValue = subCounty.toString()
-
-                Log.e("spinnerSubCountyValue", subCountyDataList.toString())
-                Log.e("subCounty", subCounty.toString())
-
+                
                 initWard()
 
                 if(!TextUtils.isEmpty(ward)) rootView.spinnerWard.setSelection(wardDataList.indexOf(ward))
@@ -181,17 +179,17 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
                 val dbDataList = ArrayList<DbDataList>()
 
-                val countyData = DbDataList("County Name", spinnerCountyValue, "Residential Information", DbResourceType.Patient.name, DbObservationValues.COUNTY_NAME.name)
-                val subCountyData = DbDataList("Sub county Name", spinnerSubCountyValue, "Residential Information", DbResourceType.Patient.name, DbObservationValues.SUB_COUNTY_NAME.name)
-                val wardData = DbDataList("Ward Name", spinnerWardValue, "Residential Information", DbResourceType.Patient.name, DbObservationValues.WARD_NAME.name)
-                val townData = DbDataList("Town Name", townName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.TOWN_NAME.name)
-                val addressData = DbDataList("Address Name", addressName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.ADDRESS_NAME.name)
-                val estateData = DbDataList("Estate Name", estateName, "Residential Information", DbResourceType.Patient.name, DbObservationValues.ESTATE_NAME.name)
+                val countyData = DbDataList("County Name", spinnerCountyValue, DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, DbResourceType.Patient.name, DbObservationValues.COUNTY_NAME.name)
+                val subCountyData = DbDataList("Sub county Name", spinnerSubCountyValue, DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, DbResourceType.Patient.name, DbObservationValues.SUB_COUNTY_NAME.name)
+                val wardData = DbDataList("Ward Name", spinnerWardValue, DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, DbResourceType.Patient.name, DbObservationValues.WARD_NAME.name)
+                val townData = DbDataList("Town Name", townName, DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, DbResourceType.Patient.name, DbObservationValues.TOWN_NAME.name)
+                val addressData = DbDataList("Address Name", addressName, DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, DbResourceType.Patient.name, DbObservationValues.ADDRESS_NAME.name)
+                val estateData = DbDataList("Estate Name", estateName, DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, DbResourceType.Patient.name, DbObservationValues.ESTATE_NAME.name)
 
-                val telephoneData = DbDataList("Telephone", telephoneName, "Contact Details", DbResourceType.Patient.name, DbObservationValues.PHONE_NUMBER.name)
-                val kinNameData = DbDataList("Next of Kin Name", kinName, "Next of Kin Details", DbResourceType.Patient.name, DbObservationValues.COMPANION_NAME.name)
-                val kinPhoneData = DbDataList("Next of Kin Phone", kinPhone, "Next of Kin Details", DbResourceType.Patient.name, DbObservationValues.COMPANION_NUMBER.name)
-                val rshpValueData = DbDataList("Next Of Kin Relationship", spinnerRshpValue, "Next of Kin Details", DbResourceType.Patient.name, DbObservationValues.RELATIONSHIP.name)
+                val telephoneData = DbDataList("Telephone", telephoneName, DbSummaryTitle.E_CONTACT_INFORMATION.name, DbResourceType.Patient.name, DbObservationValues.PHONE_NUMBER.name)
+                val kinNameData = DbDataList("Next of Kin Name", kinName, DbSummaryTitle.F_NEXT_OF_KIN.name, DbResourceType.Patient.name, DbObservationValues.COMPANION_NAME.name)
+                val kinPhoneData = DbDataList("Next of Kin Phone", kinPhone, DbSummaryTitle.F_NEXT_OF_KIN.name, DbResourceType.Patient.name, DbObservationValues.COMPANION_NUMBER.name)
+                val rshpValueData = DbDataList("Next Of Kin Relationship", spinnerRshpValue, DbSummaryTitle.F_NEXT_OF_KIN.name, DbResourceType.Patient.name, DbObservationValues.RELATIONSHIP.name)
 
                 formatter.saveSharedPreference(requireContext(), DbObservationValues.COUNTY_NAME.name, spinnerCountyValue)
                 formatter.saveSharedPreference(requireContext(), DbObservationValues.SUB_COUNTY_NAME.name, spinnerSubCountyValue)

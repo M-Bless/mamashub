@@ -12,6 +12,7 @@ import android.widget.*
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -217,7 +218,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Long Lasting Insecticide Treated Net", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.B_LLITN_GIVEN.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -242,7 +243,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
                 val value = dbObservationLabel.value
                 val label = dbObservationLabel.label
 
-                val data = DbDataList(key, value, "ANC Visit",
+                val data = DbDataList(key, value, DbSummaryTitle.A_ANC_VISIT.name,
                     DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
@@ -259,7 +260,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
                 val value = dbObservationLabel.value
                 val label = dbObservationLabel.label
 
-                val data = DbDataList(key, value, "ANC Visit",
+                val data = DbDataList(key, value, DbSummaryTitle.A_ANC_VISIT.name,
                     DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 

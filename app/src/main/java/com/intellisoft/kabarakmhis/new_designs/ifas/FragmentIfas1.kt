@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -206,7 +207,7 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Ifas", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.A_IRON_SUPPLIMENTS.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }

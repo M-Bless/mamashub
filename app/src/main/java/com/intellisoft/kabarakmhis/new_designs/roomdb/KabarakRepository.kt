@@ -221,8 +221,8 @@ class KabarakRepository(private val roomDao: RoomDao) {
         val loggedInUser = getSharedPref(context, "USERID").toString()
         val encounterTitle = getSharedPref(context, "encounterTitle").toString()
 
-        Log.e("----", "fhirId:$fhirId")
-        Log.e("----", "loggedInUser:$loggedInUser")
+        Log.e("----KabarakRepository", "fhirId:$fhirId")
+        Log.e("----KabarakRepository", "loggedInUser:$loggedInUser")
 
 
         val typeSetList = getTypes(context)
@@ -244,6 +244,8 @@ class KabarakRepository(private val roomDao: RoomDao) {
             val dbConfirmDetails =  DbConfirmDetails(type, dbObserveValueList)
             dbConfirmDetailsList.add(dbConfirmDetails)
         }
+
+        dbConfirmDetailsList.sortBy { it.titleData }
 
         return dbConfirmDetailsList
 

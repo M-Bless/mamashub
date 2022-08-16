@@ -223,3 +223,94 @@ enum class DbObservationValues{
 
 }
 
+enum class DbSummaryTitle{
+
+    //Patient Details
+    A_FACILITY_DETAILS,
+    B_PATIENT_DETAILS,
+    C_CLINICAL_INFORMATION,
+    D_RESIDENTIAL_INFORMATION,
+    E_CONTACT_INFORMATION,
+    F_NEXT_OF_KIN,
+
+    //Medical and Surgical History
+    A_SURGICAL_HISTORY,
+    B_MEDICAL_HISTORY,
+    C_DRUG_ALLERGIES,
+    D_FAMILY_HISTORY,
+
+    //Preview Physical Exam
+    A_PHYSICAL_EXAMINATION,
+    B_PHYSICAL_BLOOD_PRESSURE,
+    C_WEIGHT_MONITORING,
+    D_ABDOMINAL_EXAMINATION,
+    E_EXTERNAL_GENITALIA_EXAM,
+
+    //Antenatal Profile
+    A_BLOOD_TESTS,
+    B_URINE_TESTS,
+    C_TB_SCREEN,
+    D_OBSTETRIC_ULTRASOUND,
+    E_HIV_STATUS,
+    F_MATERNAL_HAART,
+    G_HIV_TESTING,
+    H_SYPHILIS_TESTING,
+    I_HEPATITIS_TESTING,
+    J_COUPLE_COUNSELLING_TESTING,
+
+    //Birth Plan
+    A_BIRTH_PLAN,
+    B_BIRTH_ATTENDANT,
+    C_ALTERNATIVE_BIRTH_ATTENDANT,
+    D_BIRTH_COMPANION,
+    E_ALTERNATIVE_BIRTH_COMPANION,
+    F_BLOOD_DONOR,
+    E_FINANCIAL_PLAN,
+
+    //Clinical Notes
+    CLINICAL_NOTES,
+
+    //Present Pregnancy
+    A_CURRENT_PREGNANCY,
+    B_PRESENT_BLOOD_PRESSURE,
+    C_HB_TEST,
+    D_PRESENTATION,
+
+    //Tetanus Diphtheria
+    TETANUS_DIPHTHERIA,
+
+    //Malaria Prophylaxis
+    A_ANC_VISIT,
+    B_LLITN_GIVEN,
+
+    //Maternal Serology
+    A_MATERNAL_SEROLOGY,
+    B_REACTIVE,
+    C_NON_REACTIVE,
+
+    //Deworming
+    DEWORMING,
+
+    //Iron and Folic Suppliments
+    A_IRON_SUPPLIMENTS,
+    B_FIRST_CONTACT_BEFORE_ANC,
+    C_IFAS_DOSAGE,
+    D_ANC_CONTACT,
+
+    //PMTCT
+    A_INTERVENTION_GIVEN,
+    B_ART_FOR_LIFE,
+    C_PMTCT_DOSAGE,
+    D_VL_SAMPLE,
+
+    //Counselling
+    A_COUNSELLING_DONE,
+    B_PREGNANCY_COUNSELLING,
+    C_INFANT_COUNSELLING,
+    D_PREGNANCY_COUNSELLING_DETAILS,
+
+
+
+
+
+}

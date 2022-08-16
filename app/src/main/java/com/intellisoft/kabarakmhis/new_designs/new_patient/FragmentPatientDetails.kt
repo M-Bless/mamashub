@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.FragmentPhysicalExam2
@@ -179,41 +180,42 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         var ancCodeValue = ""
                         if (isAnc){
 
+                            
                             /**
                              * GET YEAR AND MONTH FROM System.currentTimeMillis()
                              */
                             ancCodeValue = "2022-08-${anc}"
                         }
-                        val ancCode = DbDataList("ANC Code", ancCodeValue, "Patient Details",
+                        val ancCode = DbDataList("ANC Code", ancCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name,
                             DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
 
                         var pncCodeValue = ""
                         if (!isAnc){
                             pncCodeValue = pnc
                         }
-                        val pncNo =  DbDataList("PNC Code", pncCodeValue, "Patient Details", DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
+                        val pncNo =  DbDataList("PNC Code", pncCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
 
                         val fhirId = formatter.generateUuid()
                         formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
 
                         val dbDataList = ArrayList<DbDataList>()
 
-                        val dbDataFacName = DbDataList("Facility Name", facilityName, "Facility Details", DbResourceType.Observation.name, DbObservationValues.FACILITY_NAME.name)
-                        val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, "Facility Details", DbResourceType.Observation.name, DbObservationValues.KMHFL_CODE.name)
+                        val dbDataFacName = DbDataList("Facility Name", facilityName, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.FACILITY_NAME.name)
+                        val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.KMHFL_CODE.name)
 
 
-                        val educationLevel = DbDataList("Level of Education", educationLevelValue, "Patient Details", DbResourceType.Observation.name, DbObservationValues.EDUCATION_LEVEL.name)
+                        val educationLevel = DbDataList("Level of Education", educationLevelValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.EDUCATION_LEVEL.name)
 
-                        val nameClient = DbDataList("Client Name", clientName, "Patient Details", DbResourceType.Patient.name, DbObservationValues.CLIENT_NAME.name)
-                        val dateOfBirth = DbDataList("Date Of Birth", dob, "Patient Details", DbResourceType.Patient.name, DbObservationValues.DATE_OF_BIRTH.name)
-                        val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, "Patient Details", DbResourceType.Patient.name,DbObservationValues.MARITAL_STATUS.name )
+                        val nameClient = DbDataList("Client Name", clientName, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.CLIENT_NAME.name)
+                        val dateOfBirth = DbDataList("Date Of Birth", dob, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.DATE_OF_BIRTH.name)
+                        val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.MARITAL_STATUS.name )
 
-                        val gravidaData = DbDataList("Gravida", gravida, "Clinical Information", DbResourceType.Observation.name,DbObservationValues.GRAVIDA.name)
-                        val parityData = DbDataList("Parity", parity, "Clinical Information", DbResourceType.Observation.name, DbObservationValues.PARITY.name)
-                        val heightData = DbDataList("Height", height, "Clinical Information", DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
-                        val weightData = DbDataList("Weight", weight, "Clinical Information", DbResourceType.Observation.name, DbObservationValues.WEIGHT.name)
-                        val eddData = DbDataList("Expected Date of Delivery", edd, "Clinical Information", DbResourceType.Observation.name,DbObservationValues.EDD.name)
-                        val lmpData = DbDataList("Last Menstrual Date", lmp, "Clinical Information", DbResourceType.Observation.name, DbObservationValues.LMP.name)
+                        val gravidaData = DbDataList("Gravida", gravida, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.GRAVIDA.name)
+                        val parityData = DbDataList("Parity", parity, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.PARITY.name)
+                        val heightData = DbDataList("Height", height, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
+                        val weightData = DbDataList("Weight", weight, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.WEIGHT.name)
+                        val eddData = DbDataList("Expected Date of Delivery", edd, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.EDD.name)
+                        val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
 
                         dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
                             gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage))

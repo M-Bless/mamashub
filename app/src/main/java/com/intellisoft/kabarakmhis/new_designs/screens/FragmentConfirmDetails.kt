@@ -203,9 +203,6 @@ class FragmentConfirmDetails : Fragment(){
 
             }
 
-
-
-
         }
 
 

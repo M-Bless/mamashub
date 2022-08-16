@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -85,9 +86,9 @@ class ClinicalNotesAdd : AppCompatActivity() {
             val todayDate = formatter.getTodayDateNoTime()
             val dbObserveValueList = ArrayList<DbDataList>()
 
-            val dbClinicalValue = DbDataList("Clinical Note", clinicalNotes, "Clinical Note", DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES.name)
-            val dbNextValue = DbDataList("Next Appointment", appointmentDate, "Clinical Note", DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES_DATE.name)
-            val dbTodayValue = DbDataList("Date Collected", todayDate, "Clinical Note", DbResourceType.Observation.name , DbObservationValues.CLINICAL_NOTES_DATE.name)
+            val dbClinicalValue = DbDataList("Clinical Note", clinicalNotes, DbSummaryTitle.CLINICAL_NOTES.name, DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES.name)
+            val dbNextValue = DbDataList("Next Appointment", appointmentDate, DbSummaryTitle.CLINICAL_NOTES.name, DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES_DATE.name)
+            val dbTodayValue = DbDataList("Date Collected", todayDate, DbSummaryTitle.CLINICAL_NOTES.name, DbResourceType.Observation.name , DbObservationValues.CLINICAL_NOTES_DATE.name)
 
             dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
 

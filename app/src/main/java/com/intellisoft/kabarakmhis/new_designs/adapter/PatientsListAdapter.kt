@@ -47,43 +47,6 @@ class PatientsListAdapter(private var entryList: List<DbPatientDetails>,
             FormatterClass().saveSharedPreference(context, "patientId", id)
             FormatterClass().saveSharedPreference(context, "FHIRID", id)
 
-//            val dob = entryList[pos].resource.birthDate
-//            val name = entryList[pos].resource.name[0].family
-//
-//            CoroutineScope(Dispatchers.IO).launch {
-//                coroutineScope {
-//                    launch(Dispatchers.IO) {
-//
-//                        val contactList = entryList[position].resource.contact
-//                        if (contactList != null) {
-//                            for (items in contactList){
-//
-//                                val relationShip = items.relationship?.get(0)?.text
-//                                val kinName = items.name.family
-//                                val phoneNumber = items.telecom[0].value
-//
-//                                if (relationShip != null) {
-//                                    FormatterClass().saveSharedPreference(context, "kinRelationShip", relationShip)
-//                                }
-//                                FormatterClass().saveSharedPreference(context, "kinName", kinName)
-//                                FormatterClass().saveSharedPreference(context, "kinPhoneNumber", phoneNumber)
-//
-//                            }
-//                        }
-//
-//                        FormatterClass().saveSharedPreference(context, "patientId", id)
-//                        FormatterClass().saveSharedPreference(context, "FHIRID", id)
-//
-//                        FormatterClass().saveSharedPreference(context, "dob", dob)
-//                        FormatterClass().saveSharedPreference(context, "name", name)
-//
-//                        RetrofitCallsFhir().getPatientEncounters(context)
-//
-//                    }
-//                }
-//            }
-
-
             context.startActivity(Intent(context, PatientProfile::class.java))
 
         }

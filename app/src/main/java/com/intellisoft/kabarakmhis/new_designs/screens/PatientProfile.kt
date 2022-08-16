@@ -1,6 +1,5 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
-import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -15,7 +14,6 @@ import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
-import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfileView
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
@@ -130,7 +128,10 @@ class PatientProfile : AppCompatActivity() {
 
             try {
 
+                val name = formatter.retrieveSharedPreference(this@PatientProfile, "patientName")
                 val edd = patientDetailsViewModel.observationsPerCode("161714006")
+                Log.e("EDD*****", edd.toString())
+
                 formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.EDD.name, edd.toString())
 
                 CoroutineScope(Dispatchers.Main).launch {

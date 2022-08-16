@@ -1,6 +1,7 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbConfirmDetails
+import java.util.*
 
 class ConfirmParentAdapter(private var entryList: List<DbConfirmDetails>?,
                            private val context: Context
@@ -53,7 +55,13 @@ class ConfirmParentAdapter(private var entryList: List<DbConfirmDetails>?,
         val titleData = entryList?.get(position)?.titleData
         val detailsList = entryList?.get(position)?.detailsList
 
-        holder.tvTitle.text = titleData
+        val titleValue = titleData?.drop(2).toString().lowercase(Locale.getDefault())
+            .replaceFirstChar {
+                if (it.isLowerCase())
+                    it.titlecase(Locale.getDefault())
+                else it.toString() }.replace("_", " ")
+
+        holder.tvTitle.text = titleValue
 
         val confirmParentAdapter = ConfirmChildAdapter(detailsList,context)
         holder.recyclerView.adapter = confirmParentAdapter

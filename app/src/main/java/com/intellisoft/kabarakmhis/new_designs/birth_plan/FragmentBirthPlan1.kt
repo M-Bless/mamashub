@@ -18,6 +18,7 @@ import com.dave.validations.PhoneNumberValidation
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -195,7 +196,7 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
 
                     val value = dbObservationLabel.value
                     val label = dbObservationLabel.label
-                    val data = DbDataList(key, value, "Birth Plan", DbResourceType.Observation.name, label)
+                    val data = DbDataList(key, value, DbSummaryTitle.A_BIRTH_PLAN.name, DbResourceType.Observation.name, label)
                     dbDataList.add(data)
 
                 }
@@ -231,7 +232,7 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
                     val value = dbObservationLabel.value
                     val label = dbObservationLabel.label
 
-                    val data = DbDataList(key, value, "Birth Attendant", DbResourceType.Observation.name ,label)
+                    val data = DbDataList(key, value, DbSummaryTitle.B_BIRTH_ATTENDANT.name, DbResourceType.Observation.name ,label)
                     dbDataList.add(data)
 
                 }
@@ -266,7 +267,7 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
                     val value = dbObservationLabel.value
                     val label = dbObservationLabel.label
 
-                    val data = DbDataList(key, value, "Alternative Birth Attendant", DbResourceType.Observation.name, label)
+                    val data = DbDataList(key, value, DbSummaryTitle.C_ALTERNATIVE_BIRTH_ATTENDANT.name, DbResourceType.Observation.name, label)
                     dbDataList.add(data)
 
                 }
@@ -300,7 +301,7 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
                     val value = dbObservationLabel.value
                     val label = dbObservationLabel.label
 
-                    val data = DbDataList(key, value, "Birth Companion", DbResourceType.Observation.name, label)
+                    val data = DbDataList(key, value, DbSummaryTitle.D_BIRTH_COMPANION.name, DbResourceType.Observation.name, label)
                     dbDataList.add(data)
 
                 }

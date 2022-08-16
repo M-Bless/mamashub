@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -190,7 +191,7 @@ class FragmentMedical : Fragment(){
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Medical History", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.B_MEDICAL_HISTORY.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -215,7 +216,7 @@ class FragmentMedical : Fragment(){
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Drug Allergies", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.C_DRUG_ALLERGIES.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }

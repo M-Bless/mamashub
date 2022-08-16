@@ -403,40 +403,47 @@ class PatientDetailsViewModel(
 
     suspend fun observationsPerCode(key: String): String{
 
-        fhirEngine.search<Observation>{
 
-            filter(Observation.SUBJECT, { value = "Patient/$patientId" })
-            filter(Observation.CODE, { value = of(Coding().apply {
-                code = key
-            }) })
+        return ""
 
-            sort(Observation.DATE, Order.DESCENDING)
-        }.map { it.toString() }.let {
-            Log.e("******* ", "*******")
-            println("--patientId-2-$patientId")
-            println(it)
-        }
-        return "test"
+//        val observations = mutableListOf<ObservationItem>()
+//        fhirEngine
+//            .search<Observation> {
+//                filter(Observation.CODE, {value = of(Coding().apply { code = key } )})
+//            }
+//            .take(Int.MAX_VALUE)
+//            .map { createObservationItem(it, getApplication<Application>().resources) }
+//            .let { observations.addAll(it) }
+//        return observations.toString()
+
+
+//        fhirEngine.search<Observation>{
+//
+//            filter(Observation.SUBJECT, { value = "Patient/$patientId" })
+//            filter(Observation.CODE, { value = of(Coding().apply {
+//                code = key
+//            }) })
+//
+//            sort(Observation.DATE, Order.DESCENDING)
+//        }.map { it.toString() }.let {
+//            Log.e("******* ", "*******")
+//            println("--patientId-2-$patientId")
+//            println(it)
+//        }
+//        return "test"
 
 //        fhirEngine
 //            .search<Observation> {
-//                filter(Observation.CODE, { value = of(Coding().apply {
-//                            system = "http://snomed.info/sct"
-//                            code = key
-//                        })
-//                    })
+//                filter(Observation.CODE, { value = of(Coding().apply { code = key }) })
 //                filter(Observation.SUBJECT, { value = "Patient/$patientId" })
+//                filter(Observation.ENCOUNTER, { value = "Encounter/0335a371-7d14-43b4-a7ce-b44a3e00626c" })
 //                sort(Observation.DATE, Order.DESCENDING)
 //            }
-//            .take(5)
+//            .take(Int.MAX_VALUE)
 //            .map {
 //                it.value
-//
 //            }
 //            .let {
-//                Log.e("----", "----")
-//                println(it)
-//                println(patientId)
 //                return it.toString() }
 
     }
@@ -465,6 +472,9 @@ class PatientDetailsViewModel(
     companion object{
 
         private fun createObservationItem(observation: Observation, resources: Resources): ObservationItem{
+
+            Log.e("******* ", "*******")
+            println(observation)
 
             // Show nothing if no values available for datetime and value quantity.
             val dateTimeString =
@@ -496,11 +506,11 @@ class PatientDetailsViewModel(
                 }
             val valueString = "$value $valueUnit"
 
-//            Log.e("******* ", "*******")
-//            println("--id--$id")
-//            println("--code--$code")
-//            println("--text--$text")
-//            println("--valueString--$valueString")
+            Log.e("******* ", "*******")
+            println("--id--$id")
+            println("--code--$code")
+            println("--text--$text")
+            println("--valueString--$valueString")
 
             return ObservationItem(
                 id,
