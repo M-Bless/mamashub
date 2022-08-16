@@ -293,9 +293,9 @@ enum class DbSummaryTitle{
     DEWORMING,
 
     //Iron and Folic Suppliments
-    A_IRON_SUPPLIMENTS,
+    A_SUPPLIMENTS_ISSUING_TO_CLIENT,
     B_FIRST_CONTACT_BEFORE_ANC,
-    C_IFAS_DOSAGE,
+    C_DOSAGE,
     D_ANC_CONTACT,
 
     //PMTCT

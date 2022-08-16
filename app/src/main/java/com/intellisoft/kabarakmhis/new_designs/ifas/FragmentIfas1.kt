@@ -53,7 +53,8 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
     private  var month = 0
     private  var day = 0
 
-    var contactNumberList = arrayOf("","ANC Contact 1", "ANC Contact 2", "ANC Contact 3", "ANC Contact 4", "ANC Contact 5", "ANC Contact 6", "ANC Contact 7","ANC Contact 8")
+    var contactNumberList = arrayOf("","ANC Contact 1", "ANC Contact 2", "ANC Contact 3",
+        "ANC Contact 4", "ANC Contact 5", "ANC Contact 6", "ANC Contact 7","ANC Contact 8")
     private var spinnerContactNumberValue  = contactNumberList[0]
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -157,47 +158,30 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
     }
     private fun saveData() {
 
-        val timeContact = rootView.tvContactTiming.text.toString()
-        val tabletNo = rootView.tvTabletNo.text.toString()
-
-        if (!TextUtils.isEmpty(timeContact) && !TextUtils.isEmpty(tabletNo)){
-            addData("Time of contact",timeContact, DbObservationValues.ANC_CONTACT.name)
-            addData("No of tablets",tabletNo, DbObservationValues.TABLET_NUMBER.name)
-        }
-
-        val otherDrug = rootView.etOtherDrug.text.toString()
-        if (!TextUtils.isEmpty(otherDrug)){
-            addData("Other Provided Supplementary Drug",otherDrug, DbObservationValues.DRUG_GIVEN.name)
-        }
-
-        val dosageAmnt = rootView.etDosageAmount.text.toString()
-        if (!TextUtils.isEmpty(dosageAmnt)){
-            addData("Dosage Amount",dosageAmnt, DbObservationValues.DOSAGE_AMOUNT.name)
-        }
-
-        val frequency = rootView.etFrequency.text.toString()
-        if (!TextUtils.isEmpty(frequency)){
-            addData("Dosage Frequency",frequency, DbObservationValues.DOSAGE_FREQUENCY.name)
-        }
-
-        val dateGvn = rootView.tvDate.text.toString()
-        if (!TextUtils.isEmpty(dateGvn)){
-            addData("Date Dosage Given",dateGvn, DbObservationValues.DOSAGE_DATE_GIVEN.name)
-        }
-
-        if (rootView.linearSupplement.visibility == View.VISIBLE){
-            val text = formatter.getRadioText(rootView.radioGrpDrugGvn)
-            addData("If yes, specify the drug given drug",text, DbObservationValues.DRUG_GIVEN.name)
-            addData("Was iron Supplements issued",text, DbObservationValues.IRON_SUPPLIMENTS.name)
-        }else{
-            val text = formatter.getRadioText(rootView.radioGrpIronSuppliment)
-            addData("Was iron Supplements issued",text, DbObservationValues.IRON_SUPPLIMENTS.name)
-        }
-
-        val text = formatter.getRadioText(rootView.radioGrpBenefits)
-        addData("Was IFAS Counselling Done",text, DbObservationValues.IRON_AND_FOLIC_COUNSELLING.name)
-
+        val errorList = ArrayList<String>()
         val dbDataList = ArrayList<DbDataList>()
+
+
+        val ironSupplimentValue = formatter.getRadioText(rootView.radioGrpIronSuppliment)
+        if(ironSupplimentValue != ""){
+
+            addData("Was iron Supplements issued",ironSupplimentValue, DbObservationValues.IRON_SUPPLIMENTS.name)
+
+            val otherDrug = rootView.etOtherDrug.text.toString()
+            if (!TextUtils.isEmpty(otherDrug)){
+                addData("Other Provided Supplementary Drug",otherDrug, DbObservationValues.DRUG_GIVEN.name)
+            }
+
+            val drugGivenValue = formatter.getRadioText(rootView.radioGrpDrugGvn)
+            if (drugGivenValue != ""){
+                addData("If yes, specify the drug given drug: ",drugGivenValue, DbObservationValues.DRUG_GIVEN.name)
+            }else{
+                errorList.add("Please select drug given")
+            }
+
+        }else{
+            errorList.add("Please select iron supplement selection")
+        }
 
         for (items in observationList){
 
@@ -207,28 +191,87 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, DbSummaryTitle.A_IRON_SUPPLIMENTS.name, DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.A_SUPPLIMENTS_ISSUING_TO_CLIENT.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
+        observationList.clear()
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.IFAS.name, dbDataDetailsList)
+        val dosageAmnt = rootView.etDosageAmount.text.toString()
+        if (!TextUtils.isEmpty(dosageAmnt)){
+            addData("Dosage Amount",dosageAmnt, DbObservationValues.DOSAGE_AMOUNT.name)
+        }else{
+            errorList.add("Please enter dosage amount")
+        }
 
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        val frequency = rootView.etFrequency.text.toString()
+        if (!TextUtils.isEmpty(frequency)){
+            addData("Dosage Frequency",frequency, DbObservationValues.DOSAGE_FREQUENCY.name)
+        }else{
+            errorList.add("Please enter dosage frequency")
+        }
 
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
+        val dateGvn = rootView.tvDate.text.toString()
+        if (!TextUtils.isEmpty(dateGvn)){
+            addData("Date Dosage Given",dateGvn, DbObservationValues.DOSAGE_DATE_GIVEN.name)
+        }else{
+            errorList.add("Please enter dosage date given")
+        }
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.IFAS.name))
-        ft.addToBackStack(null)
-        ft.commit()
+        val counsellingIfas = formatter.getRadioText(rootView.radioGrpBenefits)
+        if (counsellingIfas != ""){
+            addData("Was IFAS Counselling Done",counsellingIfas, DbObservationValues.IRON_AND_FOLIC_COUNSELLING.name)
+        }else{
+            errorList.add("Please select IFAS counselling")
+        }
 
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.IFAS.name)
-//
-//        startActivity(Intent(requireContext(), PatientProfile::class.java))
+        for (items in observationList){
+
+            val key = items.key
+            val dbObservationLabel = observationList.getValue(key)
+
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, DbSummaryTitle.C_DOSAGE.name, DbResourceType.Observation.name, label)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
+
+        val timeContact = rootView.tvContactTiming.text.toString()
+        val tabletNo = rootView.tvTabletNo.text.toString()
+
+        if (!TextUtils.isEmpty(timeContact) && !TextUtils.isEmpty(tabletNo) && spinnerContactNumberValue != ""){
+            addData("Time of contact",timeContact, DbObservationValues.ANC_CONTACT.name)
+            addData("No of tablets",tabletNo, DbObservationValues.TABLET_NUMBER.name)
+            addData("ANC Contact: ",spinnerContactNumberValue, DbObservationValues.CONTACT_TIMING.name)
+        }else{
+
+            if (TextUtils.isEmpty(timeContact)) errorList.add("Please select time of contact")
+            if (TextUtils.isEmpty(tabletNo)) errorList.add("Please select no of tablets")
+            if (spinnerContactNumberValue == "") errorList.add("Please select contact timing")
+
+        }
+
+        if (errorList.size == 0) {
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.IFAS.name, dbDataDetailsList)
+
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.IFAS.name))
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+            formatter.showErrorDialog(errorList, requireContext())
+        }
+
 
     }
 

@@ -84,7 +84,7 @@
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_family.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_ifas1.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_ifas1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_ifas2.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/fragment_info.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_medical.xml" value="0.33" />
