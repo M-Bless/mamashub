@@ -47,7 +47,7 @@ class NewMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_main)
 
-        title = "Patient List"
+        title = "Client List"
 
         etSearch = findViewById(R.id.search)
 

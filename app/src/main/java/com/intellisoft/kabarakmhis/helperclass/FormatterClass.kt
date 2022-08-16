@@ -3,7 +3,6 @@ package com.intellisoft.kabarakmhis.helperclass
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
@@ -18,7 +17,6 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentConfirmPatient
-import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentPatientInfo
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import kotlinx.coroutines.*
@@ -393,7 +391,7 @@ class FormatterClass {
 
     }
 
-    fun setUserDetails(context: Context, rootView: View){
+    private fun setUserDetails(context: Context, rootView: View){
 
         val userView = rootView.findViewById<View>(R.id.userView)
 
@@ -1078,7 +1076,7 @@ class FormatterClass {
     }
 
     fun changeStringCase(s: String): String {
-        return s.capitalize()
+        return s.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     }
 
     fun showErrorDialog(errorList:ArrayList<String>, context: Context){
@@ -1097,6 +1095,24 @@ class FormatterClass {
         val alert = dialogBuilder.create()
         alert.setTitle("Errors")
         alert.show()
+
+    }
+
+    fun saveDataLocal(context: Context, key: String, value: String){
+
+        val localData = "KabarakMHIS_DATA"
+        val sharedPreferences = context.getSharedPreferences(localData, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+
+    }
+
+    fun getDataLocal(context: Context, key: String): String? {
+
+        val localData = "KabarakMHIS_DATA"
+        val sharedPreferences = context.getSharedPreferences(localData, Context.MODE_PRIVATE)
+        return sharedPreferences.getString(key, null)
 
     }
 

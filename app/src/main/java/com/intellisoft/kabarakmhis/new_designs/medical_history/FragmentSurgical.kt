@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
@@ -95,11 +96,11 @@ class FragmentSurgical : Fragment() {
             surgicalHistoryList.add(rootView.checkboxNoPast.text.toString())
         }
 
-
         if (rootView.checkboxNoKnowledge.isChecked){
             surgicalHistoryList.clear()
             surgicalHistoryList.add(rootView.checkboxNoKnowledge.text.toString())
         }
+
         if (rootView.checkboxDilation.isChecked) surgicalHistoryList.add(rootView.checkboxDilation.text.toString())
         if (rootView.checkboxMyomectomy.isChecked) surgicalHistoryList.add(rootView.checkboxMyomectomy.text.toString())
         if (rootView.checkboxRemoval.isChecked) surgicalHistoryList.add(rootView.checkboxRemoval.text.toString())
@@ -113,7 +114,7 @@ class FragmentSurgical : Fragment() {
         val otherSurgeries = rootView.etOtherSurgery.text.toString()
 
         if (!TextUtils.isEmpty(otherGyna)){
-            addData("Other Gynecological Procedures",otherGyna, DbObservationValues.SURGICAL_HISTORY.name)
+            addData("Other Gynecological Procedures", otherGyna, DbObservationValues.SURGICAL_HISTORY.name)
         }
         if (!TextUtils.isEmpty(otherSurgeries)){
             addData("Other Surgeries",otherSurgeries, DbObservationValues.SURGICAL_HISTORY.name)
@@ -134,16 +135,27 @@ class FragmentSurgical : Fragment() {
 
         }
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        if (dbDataList.size > 0){
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, FragmentMedical())
-        ft.addToBackStack(null)
-        ft.commit()
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentMedical())
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+
+            val errorList = ArrayList<String>()
+            errorList.add("Please select at least one option")
+            formatter.showErrorDialog(errorList, requireContext())
+        }
+
+
 
     }
 

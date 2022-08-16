@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -106,36 +107,69 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 
     private fun saveData() {
 
-        if (rootView.linearTwins.visibility == View.VISIBLE){
+        val errorList = ArrayList<String>()
 
-            var twins = ""
-            if (rootView.checkboxPreviousPregnancy.isChecked)twins = twins + "Previous Pregnancy" + ","
-            if (rootView.checkboxMotherSide.isChecked)twins = twins + "Mother's side" + ","
-            addData("Twins History",twins,DbObservationValues.TWINS.name)
+        val twinsValue = formatter.getRadioText(rootView.radioGrpTwins)
+        if (twinsValue != ""){
+
+            if (rootView.linearTwins.visibility == View.VISIBLE){
+
+                var twins = ""
+                if (rootView.checkboxPreviousPregnancy.isChecked)twins = twins + "Previous Pregnancy" + ","
+                if (rootView.checkboxMotherSide.isChecked)twins = twins + "Mother's side" + ","
+                addData("Twins History",twins,DbObservationValues.TWINS.name)
+
+            }else{
+                addData("Twins History",twinsValue,DbObservationValues.TWINS.name)
+            }
 
         }else{
-            val text = formatter.getRadioText(rootView.radioGrpTwins)
-            addData("Twins History",text,DbObservationValues.TWINS.name)
+            errorList.add("Twins selection is required")
         }
 
-        if (rootView.linearTbRelation.visibility == View.VISIBLE){
-            //Get Name of relative and relationship
-            val text = rootView.etRelativeTbName.text.toString()
-            addData("Family Member with TB ",text,DbObservationValues.TUBERCULOSIS.name)
-            addData("Family Member with TB Relationship",spinnerRshpValue, DbObservationValues.RELATIONSHIP.name)
+        val tbValue = formatter.getRadioText(rootView.radioGrpTb)
+        if (tbValue != "") {
+
+            if (rootView.linearTbRelation.visibility == View.VISIBLE){
+                //Get Name of relative and relationship
+                val relativeName = rootView.etRelativeTbName.text.toString()
+                if (!TextUtils.isEmpty(relativeName)) {
+                    addData("Family Member with TB ",relativeName,DbObservationValues.TUBERCULOSIS.name)
+                } else {
+                    errorList.add("TB Relative Name is required")
+                }
+
+                addData("Family Member with TB Relationship",spinnerRshpValue, DbObservationValues.RELATIONSHIP.name)
+
+                val relativeHouseHold = formatter.getRadioText(rootView.radioGrpSameHouse)
+
+                if (relativeHouseHold != "") {
+
+                    if (rootView.linearReferTbScreening.visibility == View.VISIBLE){
+                        //Refer for TB Screening
+                        val text = rootView.etTbScreening.text.toString()
+                        if (!TextUtils.isEmpty(text)){
+                            addData("Tuberculosis Screening",text,DbObservationValues.TUBERCULOSIS.name)
+                        }else{
+                            errorList.add("Tuberculosis Screening value is required")
+                        }
+
+                    }else{
+                        addData("Was the patient sharing residence with TB person? ",relativeHouseHold ,DbObservationValues.TUBERCULOSIS.name)
+                    }
+
+                } else {
+                    errorList.add("TB Screening is required")
+                }
+
+            }else{
+                addData("Tuberculosis History",tbValue,DbObservationValues.TUBERCULOSIS.name)
+            }
+
         }else{
-            val text = formatter.getRadioText(rootView.radioGrpTb)
-            addData("Tuberculosis History",text,DbObservationValues.TUBERCULOSIS.name)
+            errorList.add("TB selection is required")
         }
 
-        if (rootView.linearReferTbScreening.visibility == View.VISIBLE){
-            //Refer for TB Screening
-            val text = rootView.etTbScreening.text.toString()
-            addData("Tuberculosis Screening",text,DbObservationValues.TUBERCULOSIS.name)
-        }else{
-            val text = formatter.getRadioText(rootView.radioGrpSameHouse)
-            addData("Was the patient sharing residence with TB person? ",text ,DbObservationValues.TUBERCULOSIS.name)
-        }
 
         val dbDataList = ArrayList<DbDataList>()
 
@@ -153,23 +187,26 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 
         }
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
+        if (errorList.size == 0){
 
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.MEDICAL_HISTORY.name, dbDataDetailsList)
 
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.ANTENATAL_PROFILE.name)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(),
-            DbResourceViews.MEDICAL_HISTORY.name))
-        ft.addToBackStack(null)
-        ft.commit()
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.MEDICAL_HISTORY.name)
-//
-//        startActivity(Intent(requireContext(), PatientProfile::class.java))
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(),
+                DbResourceViews.MEDICAL_HISTORY.name))
+            ft.addToBackStack(null)
+            ft.commit()
+
+        }else{
+
+            formatter.showErrorDialog(errorList, requireContext())
+        }
+
 
     }
 

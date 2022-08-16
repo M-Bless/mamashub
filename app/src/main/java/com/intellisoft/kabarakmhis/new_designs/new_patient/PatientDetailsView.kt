@@ -25,7 +25,7 @@ class PatientDetailsView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient_details_view)
 
-        title = "Patient Details"
+        title = "Client Details"
 
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 

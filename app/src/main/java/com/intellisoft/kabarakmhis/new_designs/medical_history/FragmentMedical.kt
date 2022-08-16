@@ -138,13 +138,13 @@ class FragmentMedical : Fragment(){
 
     private fun saveData() {
 
-        val isErrorList = ArrayList<Any>()
+        val isErrorList = ArrayList<String>()
         val dbDataList = ArrayList<DbDataList>()
 
         val diabetes = formatter.getRadioText(rootView.radioGrpDiabetes)
         val hypertension = formatter.getRadioText(rootView.radioGrpDiabetes)
         val tb = formatter.getRadioText(rootView.radioGrpDiabetes)
-        val bloodTransfusion = formatter.getRadioText(rootView.radioGrpTransfusion)
+        val bloodTransfusion = formatter.getRadioText(rootView.radioGrpBloodTransfusion)
 
         if (diabetes != "" && hypertension != "" && tb != "" && bloodTransfusion != ""){
             addData("Diabetes",diabetes, DbObservationValues.DIABETES.name)
@@ -153,34 +153,51 @@ class FragmentMedical : Fragment(){
             addData("Blood Transfusion",bloodTransfusion, DbObservationValues.BLOOD_TRANSFUSION.name)
 
         }else{
-            if (diabetes == "")isErrorList.add(rootView.radioGrpDiabetes)
-            if (hypertension == "")isErrorList.add(rootView.radioGrpDiabetes)
-            if (tb == "")isErrorList.add(rootView.radioGrpDiabetes)
-            if (bloodTransfusion == "")isErrorList.add(rootView.radioGrpTransfusion)
+            if (diabetes == "")isErrorList.add("Diabetes cannot be empty")
+            if (hypertension == "")isErrorList.add("Hypertension cannot be empty")
+            if (tb == "")isErrorList.add("Tuberculosis cannot be empty")
+            if (bloodTransfusion == "")isErrorList.add("Blood transfusion cannot be empty")
         }
+
+        if (rootView.linearBloodTransfusionReaction.visibility == View.VISIBLE){
+
+            val bloodGrpReaction = formatter.getRadioText(rootView.radioGrpTransfusion)
+            if (bloodGrpReaction != ""){
+
+                if (rootView.linearBloodReaction.visibility == View.VISIBLE){
+                    val bloodReaction = formatter.getRadioText(rootView.radioGrpDrugAllergies)
+                    if (bloodReaction != ""){
+                        addData("Blood Transfusion Reaction",bloodReaction, DbObservationValues.BLOOD_TRANSFUSION_REACTION.name)
+                    }else{
+                        isErrorList.add("Blood Transfusion Reaction cannot be empty")
+                    }
+                }
+
+            }else{
+                isErrorList.add("Blood transfusion reaction cannot be empty")
+            }
+
+        }
+
         if (rootView.layoutOtherCondition.visibility == View.VISIBLE){
 
             val otherConditionList = ArrayList<String>()
+
             if (rootView.checkBoxEpilepsy.isChecked)otherConditionList.add("Epilepsy")
-            if (rootView.checkBoxMalariaPregnancy.isChecked)otherConditionList.add("Epilepsy")
+            if (rootView.checkBoxMalariaPregnancy.isChecked)otherConditionList.add("Malaria in pregnancy")
             if (rootView.layoutOthers.visibility == View.VISIBLE){
 
                 val otherText = rootView.etOtherConditions.text.toString()
                 if (!TextUtils.isEmpty(otherText)){
                     otherConditionList.add(otherText)
                 }else{
-                    isErrorList.add(rootView.etOtherConditions)
+                    isErrorList.add("You have selected others but have not entered any other condition")
                 }
             }
 
             addData("Other Medical History",otherConditionList.toString(), DbObservationValues.MEDICAL_HISTORY.name)
-        }
-        if (rootView.linearBloodReaction.visibility == View.VISIBLE){
-            val text = rootView.etClientName.text.toString()
-            addData("Blood Transfusion Reaction",text, DbObservationValues.BLOOD_TRANSFUSION.name)
         }else{
-            val text = formatter.getRadioText(rootView.radioGrpTransfusion)
-            addData("Blood Transfusion Reaction",text, DbObservationValues.BLOOD_TRANSFUSION.name)
+            isErrorList.add("You have selected other medical history but have not filled the details")
         }
 
         for (items in observationList){
@@ -237,7 +254,7 @@ class FragmentMedical : Fragment(){
 
         }else{
 
-            formatter.validate(isErrorList, requireContext())
+            formatter.showErrorDialog(isErrorList, requireContext())
 
         }
 

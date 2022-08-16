@@ -59,7 +59,7 @@ class PatientProfile : AppCompatActivity() {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        title = "Patient Details"
+        title = "Client Details"
 
         linearCall.setOnClickListener {
             val txtCall = tvKinDetails.text.toString()
