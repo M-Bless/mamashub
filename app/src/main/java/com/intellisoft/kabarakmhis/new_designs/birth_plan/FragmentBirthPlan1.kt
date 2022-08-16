@@ -179,7 +179,6 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         val facilityName = rootView.etFacilityName.text.toString()
         val facilityContact = rootView.etFacilityContact.text.toString()
 
-
         if (!TextUtils.isEmpty(edd) && !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(facilityContact)){
 
             val facilityContactNo = PhoneNumberValidation().getStandardPhoneNumber(facilityContact)
@@ -207,21 +206,23 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
         }else{
-            errorList.add("Please fill all the fields under the facility details")
+
+            if (TextUtils.isEmpty(edd)) errorList.add("Expected date of childbirth is required")
+            if (TextUtils.isEmpty(facilityName)) errorList.add("Health facility name is required")
+            if (TextUtils.isEmpty(facilityContact)) errorList.add("Health facility contact is required")
+
         }
-
-
 
         val attendantName = rootView.etAttendantName.text.toString()
         val attendantPhone = rootView.etAttendantPhone.text.toString()
 
-        if (!TextUtils.isEmpty(attendantName) && !TextUtils.isEmpty(attendantPhone)) {
+        if (!TextUtils.isEmpty(attendantName) && !TextUtils.isEmpty(attendantPhone) && spinnerDesignationValue1 != "") {
 
             val attendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(attendantPhone)
             if (attendantPhoneNo != null){
 
                 addData("Name",attendantName, DbObservationValues.ATTENDANT_NAME.name)
-                addData("Telephone Number",attendantPhone ,DbObservationValues.ATTENDANT_NUMBER.name)
+                addData("Telephone Number",attendantPhoneNo ,DbObservationValues.ATTENDANT_NUMBER.name)
                 addData("Designation",spinnerDesignationValue1, DbObservationValues.ATTENDANT_DESIGNATION.name)
 
                 for (items in observationList){
@@ -243,20 +244,24 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
         }else{
-            errorList.add("Attendant name and phone number are required")
+
+            if (TextUtils.isEmpty(attendantName)) errorList.add("Attendant name is required")
+            if (TextUtils.isEmpty(attendantPhone)) errorList.add("Attendant phone number is required")
+            if (spinnerDesignationValue1 == "") errorList.add("Attendant designation is required")
+
         }
 
 
         val alternativeAttendantName = rootView.etAlternativeAttendantName.text.toString()
         val alternativeAttendantPhone = rootView.etAlternativeAttendantPhone.text.toString()
 
-        if (!TextUtils.isEmpty(alternativeAttendantName) && !TextUtils.isEmpty(alternativeAttendantPhone)) {
+        if (!TextUtils.isEmpty(alternativeAttendantName) && !TextUtils.isEmpty(alternativeAttendantPhone) && spinnerDesignationValue2 != "") {
 
             val alternativeAttendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(alternativeAttendantPhone)
             if (alternativeAttendantPhoneNo != null){
 
                 addData("Name",alternativeAttendantName, DbObservationValues.ATTENDANT_NAME.name)
-                addData("Telephone Number",alternativeAttendantPhone, DbObservationValues.ATTENDANT_NUMBER.name)
+                addData("Telephone Number",alternativeAttendantPhoneNo, DbObservationValues.ATTENDANT_NUMBER.name)
                 addData("Designation",spinnerDesignationValue2 ,DbObservationValues.ATTENDANT_DESIGNATION.name)
 
                 for (items in observationList){
@@ -283,13 +288,13 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         val companionPhone = rootView.etCompanionPhone.text.toString()
         val companionMeans = rootView.etTransportMeans.text.toString()
 
-        if (!TextUtils.isEmpty(companionName) && !TextUtils.isEmpty(companionMeans) && !TextUtils.isEmpty(companionPhone)){
+        if (!TextUtils.isEmpty(companionName) && !TextUtils.isEmpty(companionMeans) && !TextUtils.isEmpty(companionPhone) && spinnerRshpValue != "") {
 
             val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
             if (companionPhoneNo != null){
 
                 addData("Name",companionName, DbObservationValues.COMPANION_NAME.name)
-                addData("Telephone Number",companionPhone, DbObservationValues.COMPANION_NUMBER.name)
+                addData("Telephone Number",companionPhoneNo, DbObservationValues.COMPANION_NUMBER.name)
                 addData("Transport",companionMeans ,DbObservationValues.COMPANION_TRANSPORT.name)
                 addData("Relationship",spinnerRshpValue ,DbObservationValues.COMPANION_RELATIONSHIP.name)
 
@@ -313,7 +318,12 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
 
 
         }else{
-            errorList.add("Companion name, phone number and transport are required")
+
+            if (TextUtils.isEmpty(companionName)) errorList.add("Companion name is required")
+            if (TextUtils.isEmpty(companionPhone)) errorList.add("Companion phone number is required")
+            if (TextUtils.isEmpty(companionMeans)) errorList.add("Companion transport is required")
+            if (spinnerRshpValue == "") errorList.add("Companion relationship is required")
+
         }
 
         if (errorList.size == 0) {

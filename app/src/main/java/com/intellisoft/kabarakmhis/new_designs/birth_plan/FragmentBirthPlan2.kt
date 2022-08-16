@@ -108,45 +108,66 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
     private fun saveData() {
 
         val dbDataList = ArrayList<DbDataList>()
+        val errorList = ArrayList<String>()
 
         val companionName = rootView.etCompanionName.text.toString()
         val companionPhone = rootView.etCompanionPhone.text.toString()
         val companionMeans = rootView.etTransportMeans.text.toString()
 
-        if (!TextUtils.isEmpty(companionName) && !TextUtils.isEmpty(companionPhone) && !TextUtils.isEmpty(companionMeans)) {
+        if (!TextUtils.isEmpty(companionName) && !TextUtils.isEmpty(companionPhone)
+            && !TextUtils.isEmpty(companionMeans) && spinnerDesignationValue1 != "") {
 
-            addData("Name",companionName, DbObservationValues.COMPANION_NAME.name)
-            addData("Telephone Number",companionPhone ,DbObservationValues.COMPANION_NUMBER.name)
-            addData("Transport",companionMeans, DbObservationValues.COMPANION_TRANSPORT.name)
-            addData("Designation",spinnerDesignationValue1, DbObservationValues.ATTENDANT_DESIGNATION.name)
+            val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
+            if (companionPhoneNo != null){
 
-            for (items in observationList){
+                addData("Name",companionName, DbObservationValues.COMPANION_NAME.name)
+                addData("Telephone Number",companionPhone ,DbObservationValues.COMPANION_NUMBER.name)
+                addData("Transport",companionMeans, DbObservationValues.COMPANION_TRANSPORT.name)
+                addData("Designation",spinnerDesignationValue1, DbObservationValues.ATTENDANT_DESIGNATION.name)
 
-                val key = items.key
-                val dbObservationLabel = observationList.getValue(key)
+                for (items in observationList){
 
-                val value = dbObservationLabel.value
-                val label = dbObservationLabel.label
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
 
-                val data = DbDataList(key, value, DbSummaryTitle.E_ALTERNATIVE_BIRTH_COMPANION.name, DbResourceType.Observation.name, label)
-                dbDataList.add(data)
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
 
+                    val data = DbDataList(key, value, DbSummaryTitle.E_ALTERNATIVE_BIRTH_COMPANION.name, DbResourceType.Observation.name, label)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+            }else{
+                errorList.add("Invalid Phone Number")
             }
-            observationList.clear()
-
-        }else{
 
         }
-
-
-
 
         val donorName = rootView.etDonorName.text.toString()
         val donorPhone = rootView.etDonorPhone.text.toString()
 
-        addData("Blood Donor Name",donorName, DbObservationValues.DONOR_NAME.name)
-        addData("Blood Donor Phone Number",donorPhone, DbObservationValues.DONOR_NUMBER.name)
-        addData("Blood Group",spinnerBloodGroupValue, DbObservationValues.DONOR_BLOOD_GROUP.name)
+        if (!TextUtils.isEmpty(donorName) && !TextUtils.isEmpty(donorPhone) && spinnerBloodGroupValue != "") {
+
+            val donorPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(donorPhone)
+            if (donorPhoneNo != null){
+
+                addData("Blood Donor Name",donorName, DbObservationValues.DONOR_NAME.name)
+                addData("Blood Donor Phone Number",donorPhone, DbObservationValues.DONOR_NUMBER.name)
+                addData("Blood Group",spinnerBloodGroupValue, DbObservationValues.DONOR_BLOOD_GROUP.name)
+
+            }else{
+                errorList.add("Invalid Phone Number")
+            }
+
+        }else{
+
+            if (TextUtils.isEmpty(donorName)) errorList.add("Blood Donor Name is required")
+            if (TextUtils.isEmpty(donorPhone)) errorList.add("Blood Donor Phone Number is required")
+            if (spinnerBloodGroupValue == "") errorList.add("Blood Group is required")
+        }
+
         for (items in observationList){
 
             val key = items.key
@@ -163,26 +184,29 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
 
 
         val financialPlan = rootView.etFinancialPlan.text.toString()
-        addData("Financial plan for childbirth",financialPlan, DbObservationValues.FINANCIAL_PLAN.name)
+        if (!TextUtils.isEmpty(financialPlan)){
 
-        for (items in observationList){
+            addData("Financial plan for childbirth",financialPlan, DbObservationValues.FINANCIAL_PLAN.name)
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
+            for (items in observationList){
 
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, DbSummaryTitle.E_FINANCIAL_PLAN.name, DbResourceType.Observation.name ,label)
-            dbDataList.add(data)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
 
+                val data = DbDataList(key, value, DbSummaryTitle.E_FINANCIAL_PLAN.name, DbResourceType.Observation.name ,label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
+
+        }else{
+            errorList.add("Financial plan for childbirth is required")
         }
-        observationList.clear()
 
-        val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
-        val donorPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(donorPhone)
-
-        if (companionPhoneNo != null && donorPhoneNo != null) {
+        if (errorList.size == 0) {
 
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
@@ -195,11 +219,9 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
             ft.addToBackStack(null)
             ft.commit()
 
-
         }else{
 
-            if (companionPhoneNo == null) rootView.etCompanionPhone.error = "Invalid Phone Number"
-            if (donorPhoneNo == null) rootView.etDonorPhone.error = "Invalid Phone Number"
+            formatter.showErrorDialog(errorList, requireContext())
 
         }
 
