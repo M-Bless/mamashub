@@ -170,12 +170,44 @@ class FragmentAntenatal1 : Fragment() {
             }
 
         })
+        rootView.etBloodRBSReading.addTextChangedListener(object :  TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etBloodRBSReading.text.toString()
+
+                if (!TextUtils.isEmpty(value)){
+                    try {
+                        validateRBS(rootView.etBloodRBSReading, value.toInt())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+
+        })
 
         handleNavigation()
 
         return rootView
     }
 
+    private fun validateRBS(editText: EditText, value: Int){
+
+        if (value > 4 || value < 8.3){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        }else{
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
+
+
+    }
     private fun validateHB(editText: EditText, value: Int){
 
         if (value < 11){
