@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_antenatal2.view.*
 import kotlinx.android.synthetic.main.fragment_pmtct1.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Deworming : AppCompatActivity() {
 
@@ -105,6 +106,8 @@ class Deworming : AppCompatActivity() {
         val deworming = formatter.getRadioText(radioGrpDeworming)
         val dewormingList = ArrayList<DbDataList>()
 
+        val errorList = ArrayList<String>()
+
         val dateGvn = tvDate.text.toString()
 
         if (deworming != ""){
@@ -122,34 +125,34 @@ class Deworming : AppCompatActivity() {
                         DbSummaryTitle.DEWORMING.name, DbResourceType.Observation.name, DbObservationValues.DEWORMING.name)
                     dewormingList.add(value1)
                 }else{
-                    Toast.makeText(this, "Please enter date", Toast.LENGTH_SHORT).show()
+                    errorList.add("Date deworming is required")
                 }
 
             }
 
-            if(dewormingList.isNotEmpty()){
-
-                val dbDataDetailsList = ArrayList<DbDataDetails>()
-                val dbDataDetails = DbDataDetails(dewormingList)
-                dbDataDetailsList.add(dbDataDetails)
-
-                val dbPatientData = DbPatientData(DbResourceViews.DEWORMING.name, dbDataDetailsList)
-                kabarakViewModel.insertInfo(this, dbPatientData)
-
-                formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.DEWORMING.name)
-
-                val intent = Intent(this, ConfirmPage::class.java)
-                startActivity(intent)
-
-            }else{
-                Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show()
-            }
-
-
 
         }else{
-            Toast.makeText(this, "Please make a selection", Toast.LENGTH_SHORT).show()
+            errorList.add("Please select an option")
         }
+
+        if (errorList.size == 0){
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dewormingList)
+            dbDataDetailsList.add(dbDataDetails)
+
+            val dbPatientData = DbPatientData(DbResourceViews.DEWORMING.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(this, dbPatientData)
+
+            formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.DEWORMING.name)
+
+            val intent = Intent(this, ConfirmPage::class.java)
+            startActivity(intent)
+
+        }else{
+            formatter.showErrorDialog(errorList, this)
+        }
+
 
     }
 
