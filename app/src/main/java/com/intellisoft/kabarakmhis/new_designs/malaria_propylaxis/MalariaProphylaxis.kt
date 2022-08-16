@@ -200,6 +200,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
     private fun saveData() {
 
         val dbDataList = ArrayList<DbDataList>()
+        val errorList = ArrayList<String>()
 
         val dose = tvDose.text.toString()
         val visitNext = tvDate.text.toString()
@@ -207,7 +208,13 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         val repeatSerology = formatter.getRadioText(radioGrpLLTIN)
         if (repeatSerology != ""){
             val netInsecticide = tvNetDate.text. toString()
-            addData("LLITN Given Date", netInsecticide, DbObservationValues.LLITN_GIVEN.name)
+            if (!TextUtils.isEmpty(netInsecticide)){
+                addData("LLITN Given Date", netInsecticide, DbObservationValues.LLITN_GIVEN.name)
+            }else{
+                errorList.add("LLITN Given Date is required")
+            }
+        }else{
+            errorList.add("Repeat Serology is required")
         }
 
         for (items in observationList){
@@ -222,15 +229,12 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             dbDataList.add(data)
 
         }
-
-
         observationList.clear()
 
         val iptpValue = formatter.getRadioText(radioGrpIPTp)
 
-
-
         if (spinnerContactNumberValue != "" && !TextUtils.isEmpty(dose) && iptpValue != "") {
+
             addData("ANC Contact", spinnerContactNumberValue, DbObservationValues.ANC_CONTACT.name)
             addData("Dose Date", dose, DbObservationValues.DOSAGE_DATE_GIVEN.name)
             addData("Next Appointment", visitNext, DbObservationValues.NEXT_VISIT_DATE.name)
@@ -267,6 +271,17 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             }
             observationList.clear()
 
+
+        }else{
+
+            if (spinnerContactNumberValue == "") errorList.add("ANC Contact is required")
+            if (TextUtils.isEmpty(dose)) errorList.add("Dose Date is required")
+            if (iptpValue == "") errorList.add("IPTp is required")
+
+        }
+
+        if (errorList.size == 0){
+
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
@@ -279,13 +294,9 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             val intent = Intent(this, ConfirmPage::class.java)
             startActivity(intent)
 
-//            formatter.saveToFhir(dbPatientData, this, DbResourceViews.MALARIA_PROPHYLAXIS.name)
-//            startActivity(Intent(this, PatientProfile::class.java))
-
         }else{
-            Toast.makeText(this, "Please select an ANC Contact", Toast.LENGTH_SHORT).show()
+            formatter.showErrorDialog(errorList, this)
         }
-
 
 
 
