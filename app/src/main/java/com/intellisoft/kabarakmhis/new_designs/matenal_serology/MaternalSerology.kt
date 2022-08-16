@@ -222,24 +222,38 @@ class MaternalSerology : AppCompatActivity() {
 
     private fun saveData() {
 
+        val dbDataList = ArrayList<DbDataList>()
+        val errorList = ArrayList<String>()
+
         val repeatSerology = formatter.getRadioText(radioGrpRepeatSerology)
         if (repeatSerology != ""){
 
-            val birthPlanList = ArrayList<DbDataList>()
-
             if (linearRepeatNo.visibility == View.VISIBLE){
-               val nextAppointment = tvNoNextAppointment.text.toString()
-                val valueName = DbDataList("Date of Next Appointment", nextAppointment,
-                    DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_RESULTS.name)
-                birthPlanList.add(valueName)
+                val nextAppointment = tvNoNextAppointment.text.toString()
+                if (!TextUtils.isEmpty(nextAppointment)){
+
+                    val valueName = DbDataList("Date of Next Appointment", nextAppointment,
+                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name,
+                        DbObservationValues.REPEAT_SEROLOGY_RESULTS.name)
+                    dbDataList.add(valueName)
+
+                }else{
+                    errorList.add("Date of Next Appointment is required")
+                }
+
             }
 
 
             if (linearRepeatYes.visibility == View.VISIBLE){
                 val testDoneDate = tvDate.text.toString()
-                val valueName = DbDataList("Date Test was done", testDoneDate,
-                    DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_DETAILS.name)
-                birthPlanList.add(valueName)
+                if (!TextUtils.isEmpty(testDoneDate)){
+                    val valueName = DbDataList("Date Test was done", testDoneDate,
+                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_DETAILS.name)
+                    dbDataList.add(valueName)
+                }else{
+                    errorList.add("Test Done Date is required")
+                }
+
 
                 val radioGrpTestResults = formatter.getRadioText(radioGrpTestResults)
                 if (radioGrpTestResults != ""){
@@ -255,10 +269,12 @@ class MaternalSerology : AppCompatActivity() {
                             val valueName2 = DbDataList("Partner Test", partnerTested,
                                 DbSummaryTitle.B_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.REACTIVE_MATERNAL_SEROLOGY.name)
 
-                            birthPlanList.addAll(listOf(valueName1, valueName2))
+                            dbDataList.addAll(listOf(valueName1, valueName2))
 
                         }else{
-                            Toast.makeText(this, "Please fill all records", Toast.LENGTH_SHORT).show()
+
+                            if (TextUtils.isEmpty(pmtctClinic)) errorList.add("Refer PMTCT Clinic is required")
+                            if (TextUtils.isEmpty(partnerTested)) errorList.add("Partner Test is required")
                         }
 
                     }
@@ -276,20 +292,33 @@ class MaternalSerology : AppCompatActivity() {
                             val valueName3 = DbDataList("Next appointment", nextVisit,
                                 DbSummaryTitle.C_NON_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.NON_REACTIVE_SEROLOGY.name)
 
-                            birthPlanList.addAll(listOf(valueName1, valueName2, valueName3))
+                            dbDataList.addAll(listOf(valueName1, valueName2, valueName3))
 
                         }else{
-                            Toast.makeText(this, "Please fill all records", Toast.LENGTH_SHORT).show()
+
+                            if (TextUtils.isEmpty(bookSerology)) errorList.add("Book Serology Test is required")
+                            if (TextUtils.isEmpty(breastFeeding)) errorList.add("Complete Breastfeeding Cessation is required")
+                            if (TextUtils.isEmpty(nextVisit)) errorList.add("Next appointment is required")
+
                         }
 
                     }
 
+                }else{
+                    errorList.add("Test Results is required")
                 }
 
             }
 
+
+        }else{
+            errorList.add("Repeat Serology is required")
+        }
+
+        if (errorList.size == 0) {
+
             val dbDataDetailsList = ArrayList<DbDataDetails>()
-            val dbDataDetails = DbDataDetails(birthPlanList)
+            val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
 
             val dbPatientData = DbPatientData(DbResourceViews.MATERNAL_SEROLOGY.name, dbDataDetailsList)
@@ -300,15 +329,10 @@ class MaternalSerology : AppCompatActivity() {
             val intent = Intent(this, ConfirmPage::class.java)
             startActivity(intent)
 
-
-
-//            val dbObservationValue = formatter.createObservation(birthPlanList,
-//                DbResourceViews.MATERNAL_SEROLOGY.name)
-//
-//            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
-//                DbResourceViews.MATERNAL_SEROLOGY.name)
-
+        }else{
+            formatter.showErrorDialog(errorList, this)
         }
+
 
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
