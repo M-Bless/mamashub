@@ -163,42 +163,62 @@ class FragmentPhysicalExam2 : Fragment() {
 
     private fun saveData() {
 
-        val errorList = ArrayList<Any>()
+        val errorList = ArrayList<String>()
         val dbDataList = ArrayList<DbDataList>()
 
-        if(rootView.linearInspection.visibility == View.VISIBLE){
-            val text = rootView.etAbnomality.text.toString()
-            if(!TextUtils.isEmpty(text)){
-                addData("Inspection Done","Yes", DbObservationValues.ABDOMINAL_INSPECTION.name)
-                addData("If yes, specify",text , DbObservationValues.ABDOMINAL_INSPECTION.name)
-            }else{
-                errorList.add(rootView.etAbnomality)
+        val inspectionDoneValue = formatter.getRadioText(rootView.radioGrpAbdominalExam)
+        if (inspectionDoneValue != ""){
+
+            addData("Inspection Done","Yes", DbObservationValues.ABDOMINAL_INSPECTION.name)
+
+            if(rootView.linearInspection.visibility == View.VISIBLE){
+
+                val inspectionValue = rootView.etAbnomality.text.toString()
+                if(!TextUtils.isEmpty(inspectionValue)){
+                    addData("If yes, specify",inspectionValue , DbObservationValues.ABDOMINAL_INSPECTION.name)
+                }else{
+                    errorList.add("If yes on an inspection, please specify")
+                }
+
             }
+
         }else{
-            addData("Inspection Done","No", DbObservationValues.ABDOMINAL_INSPECTION.name)
+            errorList.add("Please make a selection on Inspection")
         }
-        if(rootView.linearPalp.visibility == View.VISIBLE){
-            val text = rootView.etPalpation.text.toString()
-            if(!TextUtils.isEmpty(text)){
-                addData("Palpation Done","Yes", DbObservationValues.ABDOMINAL_PALPATION.name)
-                addData("If yes, specify",text, DbObservationValues.ABDOMINAL_PALPATION.name)
-            }else{
-                errorList.add(rootView.etPalpation)
+
+        val palpationDoneValue = formatter.getRadioText(rootView.radioGrpPalpation)
+        if (palpationDoneValue != ""){
+
+            if(rootView.linearPalp.visibility == View.VISIBLE){
+
+                val palpationValue = rootView.etPalpation.text.toString()
+                if(!TextUtils.isEmpty(palpationValue)){
+                    addData("If yes, specify",palpationValue, DbObservationValues.ABDOMINAL_PALPATION.name)
+                }else{
+                    errorList.add("If yes on palpation, please specify")
+                }
             }
+
         }else{
-            addData("Palpation Done","No", DbObservationValues.ABDOMINAL_PALPATION.name)
+            errorList.add("Please make a selection on Palpation")
         }
-        if(rootView.linearAusc.visibility == View.VISIBLE){
-            val text = rootView.etAuscalation.text.toString()
-            if(!TextUtils.isEmpty(text)){
-                addData("Auscultation Done","Yes", DbObservationValues.ABDOMINAL_AUSCALATION.name)
-                addData("If yes, specify",text, DbObservationValues.ABDOMINAL_AUSCALATION.name)
+
+        val auscultationDoneValue = formatter.getRadioText(rootView.radioGrpPalpation)
+        if (auscultationDoneValue != ""){
+
+            addData("Auscultation Done",auscultationDoneValue, DbObservationValues.ABDOMINAL_AUSCALATION.name)
+
+            val auscultationValue = rootView.etAuscalation.text.toString()
+            if(!TextUtils.isEmpty(auscultationValue)){
+                addData("If yes, specify",auscultationValue, DbObservationValues.ABDOMINAL_AUSCALATION.name)
             }else{
-                errorList.add(rootView.etAuscalation)
+                errorList.add("If yes on auscultation, please specify")
             }
+
         }else{
-            addData("Auscultation Done","No", DbObservationValues.ABDOMINAL_AUSCALATION.name)
+            errorList.add("Please make a selection on auscultation")
         }
+
         for (items in observationList){
 
             val key = items.key
@@ -214,51 +234,68 @@ class FragmentPhysicalExam2 : Fragment() {
         observationList.clear()
 
 
-        if(rootView.linearExternalInspection.visibility == View.VISIBLE){
-            val text = rootView.etExternalAbnomality.text.toString()
-            if(!TextUtils.isEmpty(text)){
-                addData("Inspection Done","Yes", DbObservationValues.EXTERNAL_INSPECTION.name)
-                addData("If yes, specify",text, DbObservationValues.EXTERNAL_INSPECTION.name)
-            }else{
-                errorList.add(rootView.etExternalAbnomality)
+        val externalGenitaliaExamValue = formatter.getRadioText(rootView.radioGrpExternalExam)
+        if (externalGenitaliaExamValue != ""){
+            addData("Inspection Done",externalGenitaliaExamValue, DbObservationValues.EXTERNAL_INSPECTION.name)
+            if(rootView.linearExternalPalp.visibility == View.VISIBLE){
+                val text = rootView.etExternalAbnomality.text.toString()
+                if(!TextUtils.isEmpty(text)) {
+                    addData("If yes, specify", text, DbObservationValues.EXTERNAL_INSPECTION.name)
+                }else{
+                    errorList.add("If yes on an external inspection, please specify")
+                }
             }
         }else{
-            addData("Inspection Done","No", DbObservationValues.EXTERNAL_INSPECTION.name)
+            errorList.add("Please make a selection of Inspection under External genitalia exam")
         }
 
-        if(rootView.linearExternalPalp.visibility == View.VISIBLE){
-            val text = rootView.etExternalPalpation.text.toString()
-            if(!TextUtils.isEmpty(text)){
-                addData("Palpation Done","Yes", DbObservationValues.EXTERNAL_PALPATION.name)
-                addData("If yes, specify",text, DbObservationValues.EXTERNAL_PALPATION.name)
-            }else{
-                errorList.add(rootView.etExternalPalpation)
+        val externalPalpationValue = formatter.getRadioText(rootView.radioGrpExternalPalpation)
+        if (externalPalpationValue != ""){
+            addData("Palpation Done","Yes", DbObservationValues.EXTERNAL_PALPATION.name)
+            if(rootView.linearExternalPalp.visibility == View.VISIBLE){
+                val text = rootView.etExternalPalpation.text.toString()
+                if(!TextUtils.isEmpty(text)){
+                    addData("If yes, specify",text, DbObservationValues.EXTERNAL_PALPATION.name)
+                }else{
+                    errorList.add("If yes on external palpation, please specify")
+                }
             }
+
         }else{
-            addData("Palpation Done","No", DbObservationValues.EXTERNAL_PALPATION.name)
+            errorList.add("Please make a selection on Palpation under External genitalia exam")
         }
-        if(rootView.linearDischarge.visibility == View.VISIBLE){
+
+        val externalDischargeValue = formatter.getRadioText(rootView.radioGrpDischarge)
+        if (externalDischargeValue != ""){
+
+            addData("Discharge Done", externalDischargeValue, DbObservationValues.EXTERNAL_DISCHARGE.name)
+
             val text = rootView.etDischarge.text.toString()
             if(!TextUtils.isEmpty(text)) {
-                addData("Discharge Done", "Yes", DbObservationValues.EXTERNAL_DISCHARGE.name)
                 addData("If yes, specify", text, DbObservationValues.EXTERNAL_DISCHARGE.name)
             }else{
-                errorList.add(rootView.etDischarge)
+                errorList.add("If yes on discharge, please specify")
             }
+
         }else{
-            addData("Discharge Done","No", DbObservationValues.EXTERNAL_DISCHARGE.name)
+            errorList.add("Please make a selection on Discharge under External genitalia exam")
         }
-        if(rootView.linearGenital.visibility == View.VISIBLE){
-            val text = rootView.etGenital.text.toString()
-            if(!TextUtils.isEmpty(text)) {
-                addData("Genital Ulcer Present", "Yes", DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
-                addData("If yes, specify", text, DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
-            }else{
-                errorList.add(rootView.etGenital)
+
+        val genitalUlcerValue = formatter.getRadioText(rootView.radioGrpGenital)
+        if (genitalUlcerValue != "") {
+            addData("Genital Ulcer Present", "Yes", DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
+            if (rootView.linearGenital.visibility == View.VISIBLE) {
+                val text = rootView.etGenital.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData("If yes, specify", text, DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
+                } else {
+                    errorList.add("If yes on genital ulcer, please specify")
+                }
             }
-        }else{
-            addData("Genital Ulcer Present","No", DbObservationValues.EXTERNAL_GENITAL_ULCER.name)
+        } else {
+            errorList.add("Please make a selection on Genital ulcer")
         }
+
         for (items in observationList){
 
             val key = items.key
@@ -290,10 +327,8 @@ class FragmentPhysicalExam2 : Fragment() {
             ft.commit()
 
         }else{
-            formatter.validate(errorList, requireContext())
+            formatter.showErrorDialog(errorList, requireContext())
         }
-
-
 
 
     }

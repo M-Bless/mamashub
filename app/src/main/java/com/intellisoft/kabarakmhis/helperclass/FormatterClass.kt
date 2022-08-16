@@ -1081,9 +1081,9 @@ class FormatterClass {
 
     fun showErrorDialog(errorList:ArrayList<String>, context: Context){
 
-        var errors = "Please Resolve the following errors \n"
+        var errors = "Please Resolve the following errors \n\n"
         errorList.forEach {
-            errors += it + "\n"
+            errors += "-$it\n"
         }
 
         val dialogBuilder = AlertDialog.Builder(context)

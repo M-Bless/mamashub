@@ -231,28 +231,27 @@ class FragmentPhysicalExam1 : Fragment() {
     }
     private fun saveData() {
 
-        val errorList = ArrayList<Any>()
+        val errorList = ArrayList<String>()
         val dbDataList = ArrayList<DbDataList>()
 
-        if(rootView.linearGeneralExam.visibility == View.VISIBLE){
+        val generalExam  = formatter.getRadioText(rootView.radioGrpGeneralExam)
+        if (generalExam != ""){
 
-            val generalExam  = formatter.getRadioText(rootView.radioGrpGeneralExam)
-            if (generalExam != "") {
-                addData("General Examination",generalExam, DbObservationValues.GENERAL_EXAMINATION.name)
-            }else{
-                errorList.add(rootView.radioGrpGeneralExam)
-            }
+            addData("General Examination",generalExam, DbObservationValues.GENERAL_EXAMINATION.name)
 
-            val text = rootView.etAbnomality.text.toString()
-            if(!TextUtils.isEmpty(text)){
-                addData("If abnormal, specify",text, DbObservationValues.GENERAL_EXAMINATION.name)
-            }else{
-                errorList.add(rootView.etAbnomality)
+            if(rootView.linearGeneralExam.visibility == View.VISIBLE){
+
+                val abnormalityValue = rootView.etAbnomality.text.toString()
+                if(!TextUtils.isEmpty(abnormalityValue)){
+                    addData("If abnormal, specify",abnormalityValue, DbObservationValues.GENERAL_EXAMINATION.name)
+                }else{
+                    errorList.add("If abnormal, please specify")
+                }
+
             }
 
         }else{
-            val text = formatter.getRadioText(rootView.radioGrpGeneralExam)
-            addData("General Examination",text, DbObservationValues.GENERAL_EXAMINATION.name)
+            errorList.add("General Exam is required")
         }
 
         for (items in observationList){
@@ -277,45 +276,46 @@ class FragmentPhysicalExam1 : Fragment() {
         if (cvsText != "") {
             addData("CVS",cvsText, DbObservationValues.CVS.name)
         } else{
-            errorList.add(rootView.radioGrpCVS)
+            errorList.add("Please select CVS value")
         }
+
         if(rootView.linearCvs.visibility == View.VISIBLE){
             val text = rootView.etCvsAbnormal.text.toString()
             if(!TextUtils.isEmpty(text)){
                 addData("If abnormal CVS, specify",text, DbObservationValues.CVS.name)
             }else{
-                errorList.add(rootView.etCvsAbnormal)
+                errorList.add("If abnormal CVS, please specify")
             }
 
         }
         if (!TextUtils.isEmpty(systolicBp)){
             addData("Systolic Bp",systolicBp, DbObservationValues.SYSTOLIC_BP.name)
         }else{
-            errorList.add(rootView.etSystolicBp)
+            errorList.add("Systolic Bp is required")
         }
         if (!TextUtils.isEmpty(diastolicBp)){
             addData("Diastolic BP",diastolicBp, DbObservationValues.DIASTOLIC_BP.name)
         }else{
-            errorList.add(rootView.etDiastolicBp)
+            errorList.add("Diastolic BP is required")
         }
         if (!TextUtils.isEmpty(pulseRate)){
             addData("Pulse Rate",pulseRate, DbObservationValues.PULSE_RATE.name)
         }else{
-            errorList.add(rootView.etPulseRate)
+            errorList.add("Pulse Rate is required")
         }
 
         val textValue = formatter.getRadioText(rootView.radioGrpRespiratory)
         if (textValue != "") {
             addData("Respiratory", textValue, DbObservationValues.RESPIRATORY_MONITORING.name)
         } else{
-            errorList.add(rootView.radioGrpRespiratory)
+            errorList.add("Please select Respiratory value")
         }
         if(rootView.linearResp.visibility == View.VISIBLE){
             val text = rootView.etCvsRespiratory.text.toString()
             if (!TextUtils.isEmpty(text)){
                 addData("If Abnormal Respiratory, specify",text, DbObservationValues.RESPIRATORY_MONITORING.name)
             }else{
-                errorList.add(rootView.etCvsRespiratory)
+                errorList.add("If Abnormal Respiratory, please specify")
             }
         }
 
@@ -323,7 +323,7 @@ class FragmentPhysicalExam1 : Fragment() {
         if (textValue != "") {
             addData("Breast Exams", textValueBreast, DbObservationValues.BREAST_EXAM.name)
         } else{
-            errorList.add(rootView.radioGrpRespiratory)
+            errorList.add("Please select Breast Exams value")
         }
 
         if(rootView.linearNormal.visibility == View.VISIBLE){
@@ -331,7 +331,7 @@ class FragmentPhysicalExam1 : Fragment() {
             if (!TextUtils.isEmpty(text)) {
                 addData("Normal Breasts Findings", text, DbObservationValues.BREAST_EXAM.name)
             } else {
-                errorList.add(rootView.etBreastFinding)
+                errorList.add("Normal Breasts Findings is required")
             }
         }
         if(rootView.linearAbnormal.visibility == View.VISIBLE){
@@ -339,7 +339,7 @@ class FragmentPhysicalExam1 : Fragment() {
             if (!TextUtils.isEmpty(text)) {
                 addData("Abnormal Breasts Findings", text, DbObservationValues.BREAST_EXAM.name)
             } else {
-                errorList.add(rootView.etBreastAbnormal)
+                errorList.add("Abnormal Breasts Findings is required")
             }
         }
 
@@ -384,17 +384,16 @@ class FragmentPhysicalExam1 : Fragment() {
 
 
             }else{
-                errorList.add(rootView.etMotherWeight)
-                Toast.makeText(requireContext(), "Invalid Weight", Toast.LENGTH_SHORT).show()
+                errorList.add("Please enter valid weight")
             }
 
 
         }else{
             if (TextUtils.isEmpty(motherWeight)){
-                errorList.add(rootView.etMotherWeight)
+                errorList.add("Mother Weight is required")
             }
             if (TextUtils.isEmpty(gestation)){
-                errorList.add(rootView.etGestation)
+                errorList.add("Gestation is required")
             }
         }
 
@@ -412,11 +411,8 @@ class FragmentPhysicalExam1 : Fragment() {
             ft.commit()
 
         }else{
-            formatter.validate(errorList, requireContext())
+            formatter.showErrorDialog(errorList, requireContext())
         }
-
-
-
 
 
     }
