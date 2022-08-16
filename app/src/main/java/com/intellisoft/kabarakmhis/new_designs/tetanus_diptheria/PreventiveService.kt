@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_preventive_service.tvAncId
 import kotlinx.android.synthetic.main.activity_preventive_service.tvPatient
 import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class PreventiveService : AppCompatActivity() {
 
@@ -157,9 +158,13 @@ class PreventiveService : AppCompatActivity() {
 
     private fun saveData() {
 
+        val errorList = ArrayList<String>()
+
         val date = tvDate.text.toString()
         if (!TextUtils.isEmpty(date)){
             addData("Next Visit",date, DbObservationValues.NEXT_VISIT_DATE.name)
+        }else{
+            errorList.add("Next Visit is required")
         }
 
         val repeatSerology = formatter.getRadioText(radioGrpTD)
@@ -167,8 +172,11 @@ class PreventiveService : AppCompatActivity() {
             val ttImmunization = tvTTDate.text. toString()
             if (!TextUtils.isEmpty(ttImmunization)){
                 addData("Immunization Date",ttImmunization, DbObservationValues.TT_PROVIDED.name)
+            }else{
+                errorList.add("Immunization Date is required")
             }
-
+        }else{
+            errorList.add("Immunization selection is required")
         }
 
         val dbDataList = ArrayList<DbDataList>()
@@ -185,26 +193,25 @@ class PreventiveService : AppCompatActivity() {
             dbDataList.add(data)
 
         }
+        observationList.clear()
 
+        if(errorList.size == 0){
 
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.TETENUS_DIPTHERIA.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(this, dbPatientData)
 
+            formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.TETENUS_DIPTHERIA.name)
 
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.TETENUS_DIPTHERIA.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(this, dbPatientData)
+            val intent = Intent(this, ConfirmPage::class.java)
+            startActivity(intent)
 
-        formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.TETENUS_DIPTHERIA.name)
-
-        val intent = Intent(this, ConfirmPage::class.java)
-        startActivity(intent)
-
-
-//        formatter.saveToFhir(dbPatientData, this, DbResourceViews.PREVENTIVE_SERVICE.name)
-//
-//        startActivity(Intent(this, PatientProfile::class.java))
+        }else{
+            formatter.showErrorDialog(errorList, this)
+        }
 
 
     }
