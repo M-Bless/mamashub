@@ -87,6 +87,8 @@ class FragmentPmtct2 : Fragment() {
     }
     private fun saveData() {
 
+        val errorList = ArrayList<String>()
+
         if(rootView.linearReason.visibility == View.VISIBLE){
             checkedText(rootView.checkboxViralLoad)
             checkedText(rootView.checkboxAdverseReactions)
@@ -103,14 +105,16 @@ class FragmentPmtct2 : Fragment() {
 
         if (!TextUtils.isEmpty(artAmount)){
             addData("ART Amount",artAmount, DbObservationValues.ART_DOSAGE.name)
+        }else{
+            errorList.add("ART Amount is required")
         }
-        val frequency = rootView.etFrequency.text.toString()
 
+        val frequency = rootView.etFrequency.text.toString()
         if (!TextUtils.isEmpty(frequency)){
             addData("ART Frequency",frequency, DbObservationValues.ART_FREQUENCY.name)
+        }else{
+            errorList.add("ART Frequency is required")
         }
-
-
 
         val dbDataList = ArrayList<DbDataList>()
 
@@ -126,22 +130,25 @@ class FragmentPmtct2 : Fragment() {
             dbDataList.add(data)
 
         }
+        observationList.clear()
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.PMTCT.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+        if(errorList.size == 0){
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.PMTCT.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
 
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PMTCT.name))
-        ft.addToBackStack(null)
-        ft.commit()
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.PMTCT.name))
+            ft.addToBackStack(null)
+            ft.commit()
 
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PMTCT.name)
-//
-//        startActivity(Intent(requireContext(), PatientProfile::class.java))
+        }else{
+            formatter.showErrorDialog(errorList, requireContext())
+        }
 
 
     }

@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_pmtct3.view.navigation
 import kotlinx.android.synthetic.main.fragment_pmtct3.view.tvDate
 import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentPmtct3 : Fragment() {
@@ -136,6 +137,7 @@ class FragmentPmtct3 : Fragment() {
     }
     private fun saveData() {
 
+        val errorList = ArrayList<String>()
 
         val date = rootView.tvDate.text.toString()
         val vrResults = rootView.etVLResults.text.toString()
@@ -172,12 +174,12 @@ class FragmentPmtct3 : Fragment() {
             ft.addToBackStack(null)
             ft.commit()
 
-//            formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.PMTCT.name)
-//
-//            startActivity(Intent(requireContext(), PatientProfile::class.java))
-
         }else{
-            Toast.makeText(requireContext(), "Please provide all fields.", Toast.LENGTH_SHORT).show()
+
+            if (TextUtils.isEmpty(date)) errorList.add("Date VL was taken is required")
+            if (TextUtils.isEmpty(vrResults)) errorList.add("Results is required")
+
+
         }
 
 

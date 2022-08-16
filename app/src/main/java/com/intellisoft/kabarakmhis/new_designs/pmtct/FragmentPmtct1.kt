@@ -160,9 +160,15 @@ class FragmentPmtct1 : Fragment() {
     private fun saveData() {
 
         val dbDataList = ArrayList<DbDataList>()
+        val errorList = ArrayList<String>()
 
+        val interventionGiven = formatter.getRadioText(rootView.radioGrpIntervention)
+        if (interventionGiven != "") {
+            addData("Intervention Given", interventionGiven, DbObservationValues.INTERVENTION_GIVEN.name)
+        }else{
+            errorList.add("Intervention Given is required")
+        }
 
-        addData("ART for life", if (lifeART) "Yes" else "No", DbObservationValues.INTERVENTION_GIVEN.name)
         for (items in observationList){
 
             val key = items.key
@@ -188,6 +194,13 @@ class FragmentPmtct1 : Fragment() {
             checkedText(rootView.checkboxEfavirenz)
             val otherRegimen = rootView.etOther.text.toString()
 
+            val artDate = rootView.tvDate.text.toString()
+            if (!TextUtils.isEmpty(artDate)){
+                addData("If yes, date started: ", artDate, DbObservationValues.DATE_STARTED.name)
+            }else{
+                errorList.add("If ART for life has been selected, provide date: ")
+            }
+
             if (!TextUtils.isEmpty(otherRegimen)){
                 addData("Other Regimen Applied",otherRegimen, DbObservationValues.REGIMEN.name)
             }
@@ -208,29 +221,34 @@ class FragmentPmtct1 : Fragment() {
 
         }
 
+        if (errorList.size == 0){
 
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.PMTCT.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.PMTCT.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+            if (lifeART){
 
-        if (lifeART){
+                val ft = requireActivity().supportFragmentManager.beginTransaction()
+                ft.replace(R.id.fragmentHolder, FragmentPmtct2())
+                ft.addToBackStack(null)
+                ft.commit()
 
-            val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragmentHolder, FragmentPmtct2())
-            ft.addToBackStack(null)
-            ft.commit()
+            }else{
+
+                val ft = requireActivity().supportFragmentManager.beginTransaction()
+                ft.replace(R.id.fragmentHolder, FragmentPmtct3())
+                ft.addToBackStack(null)
+                ft.commit()
+
+            }
 
         }else{
-
-            val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragmentHolder, FragmentPmtct3())
-            ft.addToBackStack(null)
-            ft.commit()
-
+            formatter.showErrorDialog(errorList, requireContext())
         }
+
 
 
 

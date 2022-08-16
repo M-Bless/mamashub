@@ -81,60 +81,63 @@ class FragmentCounselling2 : Fragment() {
         val swollenFace = formatter.getRadioText(rootView.radioGrpSwollenFace)
         val motherFever = formatter.getRadioText(rootView.radioGrpMotherFever)
 
-        addData("Was infant feeding counselling done",text1, DbObservationValues.INFANT_FEEDING.name)
-        addData("Was counselling on exclusive breastfeeding and benefits of colostrum done",text2, DbObservationValues.EXCLUSIVE_BREASTFEEDING.name)
-        for (items in observationList){
+        if (text1 != "" && text2 != "" && paleMother != "" && headAche != "" && vaginalBleeding != ""
+            && abdominalPain != "" && babyMovement != "" && convulsions != "" && waterBreaking != ""
+            && swollenFace != "" && motherFever != "") {
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
+            addData("Was infant feeding counselling done",text1, DbObservationValues.INFANT_FEEDING.name)
+            addData("Was counselling on exclusive breastfeeding and benefits of colostrum done",text2, DbObservationValues.EXCLUSIVE_BREASTFEEDING.name)
+            for (items in observationList){
 
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
 
-            val data = DbDataList(key, value, DbSummaryTitle.C_INFANT_COUNSELLING.name, DbResourceType.Observation.name, label)
-            dbDataList.add(data)
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
 
+                val data = DbDataList(key, value, DbSummaryTitle.C_INFANT_COUNSELLING.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
+
+            addData("Was the mother pale:",paleMother, DbObservationValues.MOTHER_PALE.name)
+            addData("Does the mother have severe headache:",headAche, DbObservationValues.SEVERE_HEADACHE.name)
+            addData("Did the mother have vaginal bleeding:",vaginalBleeding, DbObservationValues.VAGINAL_BLEEDING.name)
+            addData("Did the mother have abdominal pain:",abdominalPain, DbObservationValues.ABDOMINAL_PAIN.name)
+            addData("Did the mother have reduced or no movement of the unborn baby:",babyMovement, DbObservationValues.REDUCED_MOVEMENT.name)
+            addData("Did the mother have convulsions/fits:",convulsions, DbObservationValues.MOTHER_FITS.name)
+            addData("Was the mother's water breaking:",waterBreaking, DbObservationValues.WATER_BREAKING.name)
+            addData("Did the mother have swollen face and hands:",swollenFace, DbObservationValues.SWOLLEN_FACE.name)
+            addData("Did the mother have a fever:",motherFever, DbObservationValues.FEVER.name)
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, DbSummaryTitle.D_PREGNANCY_COUNSELLING_DETAILS.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.COUNSELLING.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.COUNSELLING.name))
+            ft.addToBackStack(null)
+            ft.commit()
+
+        } else {
+            Toast.makeText(requireContext(), "Please make a selection on all the fields", Toast.LENGTH_SHORT).show()
         }
-        observationList.clear()
-
-        addData("Was the mother pale:",paleMother, DbObservationValues.MOTHER_PALE.name)
-        addData("Does the mother have severe headache:",headAche, DbObservationValues.SEVERE_HEADACHE.name)
-        addData("Did the mother have vaginal bleeding:",vaginalBleeding, DbObservationValues.VAGINAL_BLEEDING.name)
-        addData("Did the mother have abdominal pain:",abdominalPain, DbObservationValues.ABDOMINAL_PAIN.name)
-        addData("Did the mother have reduced or no movement of the unborn baby:",babyMovement, DbObservationValues.REDUCED_MOVEMENT.name)
-        addData("Did the mother have convulsions/fits:",convulsions, DbObservationValues.MOTHER_FITS.name)
-        addData("Was the mother's water breaking:",waterBreaking, DbObservationValues.WATER_BREAKING.name)
-        addData("Did the mother have swollen face and hands:",swollenFace, DbObservationValues.SWOLLEN_FACE.name)
-        addData("Did the mother have a fever:",motherFever, DbObservationValues.FEVER.name)
-        for (items in observationList){
-
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
-
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
-
-            val data = DbDataList(key, value, DbSummaryTitle.D_PREGNANCY_COUNSELLING_DETAILS.name, DbResourceType.Observation.name, label)
-            dbDataList.add(data)
-
-        }
-        observationList.clear()
-
-        val dbDataDetailsList = ArrayList<DbDataDetails>()
-        val dbDataDetails = DbDataDetails(dbDataList)
-        dbDataDetailsList.add(dbDataDetails)
-        val dbPatientData = DbPatientData(DbResourceViews.COUNSELLING.name, dbDataDetailsList)
-        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
-
-        val ft = requireActivity().supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragmentHolder, formatter.startFragmentConfirm(requireContext(), DbResourceViews.COUNSELLING.name))
-        ft.addToBackStack(null)
-        ft.commit()
-
-//        formatter.saveToFhir(dbPatientData, requireContext(), DbResourceViews.COUNSELLING.name)
-//
-//        startActivity(Intent(requireContext(), PatientProfile::class.java))
-
 
     }
 
