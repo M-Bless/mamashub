@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.navigation.view.*
 import kotlinx.coroutines.*
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener {
@@ -95,14 +96,15 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
     private fun saveData() {
 
+        val errorList = ArrayList<String>()
+        val dbDataList = ArrayList<DbDataList>()
+
         val lieText = formatter.getRadioText(rootView.radioGrpLie)
         val foetalHeartRate = formatter.getRadioText(rootView.radGrpFoetalHeartRate)
         val foetalMovement = formatter.getRadioText(rootView.radGrpFoetalMovement)
         val date = tvDate.text.toString()
 
-        if (
-            lieText != "" && foetalHeartRate != "" && foetalMovement != "" && !TextUtils.isEmpty(date)
-        ){
+        if (lieText != "" && foetalHeartRate != "" && foetalMovement != "" && !TextUtils.isEmpty(date) && spinnerPresentationValue != "") {
 
             addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
 
@@ -110,9 +112,6 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
             addData("Foetal Heart Rate",foetalHeartRate, DbObservationValues.FOETAL_HEART_RATE.name)
             addData("Foetal Movement",foetalMovement, DbObservationValues.FOETAL_MOVEMENT.name)
             addData("Next Visit",date, DbObservationValues.NEXT_VISIT_DATE.name)
-
-
-            val dbDataList = ArrayList<DbDataList>()
 
             for (items in observationList){
 
@@ -126,7 +125,19 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
                 dbDataList.add(data)
 
             }
+            observationList.clear()
 
+        }else{
+
+            if (TextUtils.isEmpty(date)) errorList.add("Next Visit Date is required")
+            if (lieText == "") errorList.add("Lie is required")
+            if (foetalHeartRate == "") errorList.add("Foetal Heart Rate is required")
+            if (foetalMovement == "") errorList.add("Foetal Movement is required")
+            if (spinnerPresentationValue == "") errorList.add("Presentation is required")
+
+        }
+
+        if (errorList.size == 0){
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
@@ -140,9 +151,8 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
                 DbResourceViews.PRESENT_PREGNANCY.name))
             ft.addToBackStack(null)
             ft.commit()
-
         }else{
-            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+            formatter.showErrorDialog(errorList, requireContext())
         }
 
     }

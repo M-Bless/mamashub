@@ -104,9 +104,6 @@ class ClinicalNotesAdd : AppCompatActivity() {
             val intent = Intent(this, ConfirmPage::class.java)
             startActivity(intent)
 
-
-
-
         }else
             etClinicalNotes.error = "Field cannot be empty"
 

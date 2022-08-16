@@ -271,6 +271,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
     private fun saveData() {
 
         val dbDataList = ArrayList<DbDataList>()
+        val errorList = ArrayList<String>()
 
         val systolic = rootView.etSystolicBp.text.toString()
         val diastolic = rootView.etDiastolicBp.text.toString()
@@ -278,22 +279,11 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
         val fundalHeight = rootView.etFundal.text.toString()
         val muac = rootView.etMuac.text.toString()
 
-
-        if (rootView.linearHbReading.visibility == View.VISIBLE){
-            val text = rootView.etHbReading.text.toString()
-            addData("Hb Testing Done",text, DbObservationValues.HB_TEST.name)
-        }else{
-            val text = formatter.getRadioText(rootView.radioGrpHb)
-            addData("Hb Testing Done",text, DbObservationValues.HB_TEST.name)
-        }
         val date = rootView.tvDate.text.toString()
 
-
-        if (
-            !TextUtils.isEmpty(systolic) && !TextUtils.isEmpty(diastolic)
+        if (!TextUtils.isEmpty(systolic) && !TextUtils.isEmpty(diastolic)
             && !TextUtils.isEmpty(fundalHeight) && !TextUtils.isEmpty(gestation)
-            && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac)
-        ){
+            && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac)){
 
             if (gestation.toInt() in 33..42) {
 
@@ -339,6 +329,30 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                     }
                     observationList.clear()
 
+                    val hbTestValue = formatter.getRadioText(rootView.radioGrpHb)
+                    if (hbTestValue != ""){
+
+                        addData("Hb Testing Done",hbTestValue, DbObservationValues.HB_TEST.name)
+                        if (rootView.linearHbReading.visibility == View.VISIBLE){
+
+                            val hbReading = rootView.etHbReading.text.toString()
+                            if (hbReading != ""){
+                                addData("Hb Testing Done",hbReading, DbObservationValues.HB_TEST.name)
+                            }else{
+                                errorList.add("Hb Reading is required")
+                            }
+                        }
+
+                    }else{
+                        errorList.add("Please select HB test")
+                    }
+                    val pallor = formatter.getRadioText(rootView.radioGrpPallor)
+                    if (pallor != "") {
+                        addData("Pallor", pallor, DbObservationValues.PALLOR.name)
+                    }else{
+                        errorList.add("Pallor is required")
+                    }
+
                     addData("Gestation (Weeks)",gestation, DbObservationValues.GESTATION.name)
                     addData("Fundal Height (cm)",fundalHeight, DbObservationValues.FUNDAL_HEIGHT.name)
                     addData("Date",date, DbObservationValues.NEXT_VISIT_DATE.name)
@@ -356,32 +370,42 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                     }
                     observationList.clear()
 
-
-                    val dbDataDetailsList = ArrayList<DbDataDetails>()
-                    val dbDataDetails = DbDataDetails(dbDataList)
-                    dbDataDetailsList.add(dbDataDetails)
-                    val dbPatientData = DbPatientData(DbResourceViews.PRESENT_PREGNANCY.name, dbDataDetailsList)
-                    kabarakViewModel.insertInfo(requireContext(), dbPatientData)
-
-                    val ft = requireActivity().supportFragmentManager.beginTransaction()
-                    ft.replace(R.id.fragmentHolder, FragmentPresentPregnancy2())
-                    ft.addToBackStack(null)
-                    ft.commit()
-
                 }else{
-                    Toast.makeText(requireContext(), "Please enter valid MUAC", Toast.LENGTH_SHORT).show()
+                    errorList.add("MUAC is not in the range of 23 - 30 cm")
                 }
 
             }else{
-                Toast.makeText(activity, "Gestation is not in range of 34 - 42 weeks", Toast.LENGTH_SHORT).show()
+                errorList.add("Gestation is not in range of 34 - 42 weeks")
             }
 
+        }else{
+
+            if (TextUtils.isEmpty(systolic)) errorList.add("Systolic Blood Pressure is required")
+            if (TextUtils.isEmpty(diastolic)) errorList.add("Diastolic Blood Pressure is required")
+            if (TextUtils.isEmpty(gestation)) errorList.add("Gestation is required")
+            if (TextUtils.isEmpty(fundalHeight)) errorList.add("Fundal Height is required")
+            if (TextUtils.isEmpty(date)) errorList.add("Date is required")
+            if (TextUtils.isEmpty(muac)) errorList.add("MUAC is required")
+
+        }
 
 
 
+        if (errorList.size > 0){
+
+            val dbDataDetailsList = ArrayList<DbDataDetails>()
+            val dbDataDetails = DbDataDetails(dbDataList)
+            dbDataDetailsList.add(dbDataDetails)
+            val dbPatientData = DbPatientData(DbResourceViews.PRESENT_PREGNANCY.name, dbDataDetailsList)
+            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentPresentPregnancy2())
+            ft.addToBackStack(null)
+            ft.commit()
 
         }else{
-            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+            formatter.showErrorDialog(errorList, requireContext())
         }
 
     }

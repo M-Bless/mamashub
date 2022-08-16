@@ -355,20 +355,20 @@
                         <RadioGroup
                             android:layout_weight="1"
                             android:layout_marginStart="@dimen/_5dp"
-                            android:id="@+id/radioGrpOutcome"
+                            android:id="@+id/radioGrpPallor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/radioDeadOutcome"
+                                android:id="@+id/radioPallorYes"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Yes" />
 
                             <RadioButton
-                                android:id="@+id/radioAliveOutcome"
+                                android:id="@+id/radioPallorNo"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
