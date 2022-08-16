@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/_5dp"
     android:layout_height="match_parent">
 
@@ -389,6 +390,32 @@
                         </RadioGroup>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearUrineDate"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Set urine test appointment"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+                        <TextView
+                            android:id="@+id/tvUrineTestAppointment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            android:textColor="@color/black"
+                            app:drawableEndCompat="@drawable/ic_action_date" />
+
+                    </LinearLayout>
+
                     <LinearLayout
                         android:visibility="gone"
                         android:id="@+id/linearUrine"

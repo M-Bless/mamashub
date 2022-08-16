@@ -75,6 +75,7 @@ enum class DbObservationValues{
     BLOOD_RBS_TEST,
 
     URINALYSIS_TEST,
+    URINALYSIS_TEST_DATE,
     URINALYSIS_RESULTS,
 
     TB_SCREENING,
@@ -154,6 +155,7 @@ enum class DbObservationValues{
     IPTP_SP,
     IPTP_RESULT,
     LLITN_GIVEN,
+    LLITN_GIVEN_NEXT_DATE,
     LLITN_RESULTS,
 
     REPEAT_SEROLOGY,
@@ -167,6 +169,7 @@ enum class DbObservationValues{
 
     IRON_SUPPLIMENTS,
     DRUG_GIVEN,
+    REASON_FOR_NOT_PROVIDING_IRON_SUPPLIMENTS,
     OTHER_SUPPLIMENTS,
     ANC_CONTACT,
     CONTACT_TIMING,

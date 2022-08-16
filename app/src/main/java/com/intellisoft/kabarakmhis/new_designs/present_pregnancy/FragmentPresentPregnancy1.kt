@@ -391,7 +391,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
 
 
-        if (errorList.size > 0){
+        if (errorList.size == 0){
 
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)

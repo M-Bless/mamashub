@@ -83,8 +83,10 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearSupplement, true)
+                    changeVisibility(rootView.linearNoIron, false)
                 } else {
                     changeVisibility(rootView.linearSupplement, false)
+                    changeVisibility(rootView.linearNoIron, true)
                 }
 
             }
@@ -167,17 +169,33 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
             addData("Was iron Supplements issued",ironSupplimentValue, DbObservationValues.IRON_SUPPLIMENTS.name)
 
-            val otherDrug = rootView.etOtherDrug.text.toString()
-            if (!TextUtils.isEmpty(otherDrug)){
-                addData("Other Provided Supplementary Drug",otherDrug, DbObservationValues.DRUG_GIVEN.name)
+            if (ironSupplimentValue == "No"){
+
+                val provideReason = etProvideReason.text.toString()
+                if (provideReason != "") {
+                    addData("Reason for not providing iron suppliments", provideReason, DbObservationValues.REASON_FOR_NOT_PROVIDING_IRON_SUPPLIMENTS.name)
+                }else{
+                    errorList.add("Please provide reason for not providing iron suppliments")
+                }
+
             }
 
-            val drugGivenValue = formatter.getRadioText(rootView.radioGrpDrugGvn)
-            if (drugGivenValue != ""){
-                addData("If yes, specify the drug given drug: ",drugGivenValue, DbObservationValues.DRUG_GIVEN.name)
-            }else{
-                errorList.add("Please select drug given")
+            if (ironSupplimentValue == "Yes"){
+
+                val otherDrug = rootView.etOtherDrug.text.toString()
+                if (!TextUtils.isEmpty(otherDrug)){
+                    addData("Other Provided Supplementary Drug",otherDrug, DbObservationValues.DRUG_GIVEN.name)
+                }
+
+                val drugGivenValue = formatter.getRadioText(rootView.radioGrpDrugGvn)
+                if (drugGivenValue != ""){
+                    addData("If yes, specify the drug given drug: ",drugGivenValue, DbObservationValues.DRUG_GIVEN.name)
+                }else{
+                    errorList.add("Please select drug given")
+                }
+
             }
+
 
         }else{
             errorList.add("Please select iron supplement selection")

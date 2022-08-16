@@ -73,8 +73,10 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
                     changeVisibility(linearInciside, true)
+                    changeVisibility(linearLLINNo, false)
                 } else {
                     changeVisibility(linearInciside, false)
+                    changeVisibility(linearLLINNo, true)
                 }
 
             }
@@ -90,6 +92,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         tvTDInjection.setOnClickListener { createDialog(998) }
         tvDate.setOnClickListener { createDialog(997) }
         tvNetDate.setOnClickListener { createDialog(996) }
+        tvNoNextAppointment.setOnClickListener { createDialog(995) }
 
         handleNavigation()
         
@@ -138,6 +141,13 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
                 datePickerDialog.show()
 
             }
+            995 -> {
+                val datePickerDialog = DatePickerDialog( this,
+                    myDateLLITNNextDateListener, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                datePickerDialog.show()
+
+            }
 
             else -> null
         }
@@ -178,6 +188,14 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         tvNetDate.text = date
 
         }
+    private val myDateLLITNNextDateListener = DatePickerDialog.OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+        val date = showDate(arg1, arg2 + 1, arg3)
+        tvNoNextAppointment.text = date
+
+        }
 
     private fun showDate(year: Int, month: Int, day: Int) :String{
 
@@ -207,12 +225,34 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
         val repeatSerology = formatter.getRadioText(radioGrpLLTIN)
         if (repeatSerology != ""){
-            val netInsecticide = tvNetDate.text. toString()
-            if (!TextUtils.isEmpty(netInsecticide)){
-                addData("LLITN Given Date", netInsecticide, DbObservationValues.LLITN_GIVEN.name)
-            }else{
-                errorList.add("LLITN Given Date is required")
+
+            if(repeatSerology == "No"){
+
+                if (linearLLINNo.visibility == View.VISIBLE){
+
+                    val llinNo = tvNoNextAppointment.text.toString()
+                    if(!TextUtils.isEmpty(llinNo)){
+                        addData("If LLITN is not given: ", llinNo, DbObservationValues.LLITN_GIVEN_NEXT_DATE.name)
+                    }else{
+                        errorList.add("Please enter LLIN No")
+                    }
+                }
+
             }
+
+            if (repeatSerology == "Yes"){
+
+                val netInsecticide = tvNetDate.text. toString()
+                if (!TextUtils.isEmpty(netInsecticide)){
+                    addData("LLITN Given Date", netInsecticide, DbObservationValues.LLITN_GIVEN.name)
+                }else{
+                    errorList.add("LLITN Given Date is required")
+                }
+
+            }
+
+
+
         }else{
             errorList.add("Repeat Serology is required")
         }

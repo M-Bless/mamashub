@@ -1,6 +1,7 @@
 package com.intellisoft.kabarakmhis.new_designs.antenatal_profile
 
 import android.app.Application
+import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -26,6 +27,8 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentAntenatal1 : Fragment() {
@@ -36,6 +39,10 @@ class FragmentAntenatal1 : Fragment() {
 
     private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
+    private lateinit var calendar : Calendar
+    private var year = 0
+    private  var month = 0
+    private  var day = 0
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -46,6 +53,12 @@ class FragmentAntenatal1 : Fragment() {
 
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
+
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
@@ -127,9 +140,11 @@ class FragmentAntenatal1 : Fragment() {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearUrine, true)
+                    changeVisibility(rootView.linearUrineDate, false)
                 } else {
                     changeVisibility(rootView.linearUrine, false)
                     changeVisibility(rootView.linearAbnormal, false)
+                    changeVisibility(rootView.linearUrineDate, true)
                 }
 
             }
@@ -193,9 +208,57 @@ class FragmentAntenatal1 : Fragment() {
 
         })
 
+        rootView.tvUrineTestAppointment.setOnClickListener { onCreateDialog(999) }
+
         handleNavigation()
 
         return rootView
+    }
+
+    private fun onCreateDialog(id: Int) {
+        // TODO Auto-generated method stub
+
+        when (id) {
+            999 -> {
+                val datePickerDialog = DatePickerDialog( requireContext(),
+                    myDateUrineTest, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                datePickerDialog.show()
+
+            }
+
+            else -> null
+        }
+
+
+    }
+
+    private val myDateUrineTest =
+        DatePickerDialog.OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            val date = showDate(arg1, arg2 + 1, arg3)
+            rootView.tvUrineTestAppointment.text = date
+
+        }
+
+    private fun showDate(year: Int, month: Int, day: Int) :String{
+
+        var dayDate = day.toString()
+        if (day.toString().length == 1){
+            dayDate = "0$day"
+        }
+        var monthDate = month.toString()
+        if (month.toString().length == 1){
+            monthDate = "0$monthDate"
+        }
+
+        val date = StringBuilder().append(year).append("-")
+            .append(monthDate).append("-").append(dayDate)
+
+        return date.toString()
+
     }
 
     private fun validateRBS(editText: EditText, value: Int){
@@ -317,6 +380,16 @@ class FragmentAntenatal1 : Fragment() {
         }else{
             errorList.add("Please make a selection on Urinalysis test")
         }
+
+        if (rootView.linearUrineDate.visibility == View.VISIBLE){
+            val urineTestDate = rootView.tvUrineTestAppointment.text.toString()
+            if (!TextUtils.isEmpty(urineTestDate)) {
+                addData("Urinalysis test date", urineTestDate, DbObservationValues.URINALYSIS_TEST_DATE.name)
+            }else{
+                errorList.add("Please enter a Urinalysis test date")
+            }
+        }
+
         if (rootView.linearUrine.visibility == View.VISIBLE){
             val urineResult = formatter.getRadioText(rootView.radioGrpUrineResults)
             if (urineResult != "") {

@@ -274,6 +274,32 @@
 
                     <LinearLayout
                         android:visibility="gone"
+                        android:id="@+id/linearLLINNo"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If no, date of next appointment:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvNoNextAppointment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            app:drawableEndCompat="@drawable/ic_action_date" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearInciside"
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
