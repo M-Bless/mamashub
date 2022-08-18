@@ -161,15 +161,9 @@ class FormatterClass {
     }
     fun convertFhirDate(convertDate: String): String? {
 
-        Log.e("=======", "======")
-
-
-        val originalFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH)
+        val originalFormat: DateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
         val targetFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = originalFormat.parse(convertDate)
-
-        println(convertDate)
-        println(date)
 
         return date?.let { targetFormat.format(it) }
     }
@@ -391,7 +385,7 @@ class FormatterClass {
 
     }
 
-    private fun setUserDetails(context: Context, rootView: View){
+    fun setUserDetails(context: Context, rootView: View){
 
         val userView = rootView.findViewById<View>(R.id.userView)
 
@@ -671,6 +665,9 @@ class FormatterClass {
             }
             DbObservationValues.PULSE_RATE.name -> {
                 "78564009"
+            }
+            DbObservationValues.TEMPARATURE.name -> {
+                "703421000"
             }
             DbObservationValues.CVS.name -> {
                 "267037003"
@@ -1100,6 +1097,8 @@ class FormatterClass {
 
     fun saveDataLocal(context: Context, key: String, value: String){
 
+        Log.e("saveDataLocal", "key: $key, value: $value")
+
         val localData = "KabarakMHIS_DATA"
         val sharedPreferences = context.getSharedPreferences(localData, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -1114,6 +1113,21 @@ class FormatterClass {
         val sharedPreferences = context.getSharedPreferences(localData, Context.MODE_PRIVATE)
         return sharedPreferences.getString(key, null)
 
+    }
+
+    fun getNumber(pos: Int): String{
+        return when (pos) {
+            1 -> { "First" }
+            2 -> { "Second" }
+            3 -> { "Third" }
+            4 -> { "Fourth" }
+            5 -> { "Fifth" }
+            6 -> { "Sixth" }
+            7 -> { "Seventh" }
+            8 -> { "Eighth" }
+            9 -> { "Ninth" }
+            else -> { "" }
+        }
     }
 
 }

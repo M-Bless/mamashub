@@ -22,6 +22,7 @@ import org.hl7.fhir.r4.model.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.EnumSet.of
 import kotlin.collections.ArrayList
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -377,6 +378,24 @@ class PatientDetailsViewModel(
 
     }
 
+    fun getObservationFromEncounter(encounterName: String) = runBlocking {
+        observationFromEncounter(encounterName)
+    }
+
+    private suspend fun observationFromEncounter(encounterName: String) : List<EncounterItem>{
+
+        val encounter = mutableListOf<EncounterItem>()
+
+        fhirEngine.search<Encounter>{
+            filter(Encounter.REASON_CODE, {value = of(Coding().apply { code = encounterName })})
+            filter(Encounter.SUBJECT, {value = "Patient/$patientId"})
+        }.take(Int.MAX_VALUE)
+            .map { createEncounterItem(it, getApplication<Application>().resources) }
+            .let { encounter.addAll(it) }
+
+        return encounter
+    }
+
 
     fun getObservationsFromEncounter(encounterId: String) = runBlocking{
         getPatientObservations(encounterId)
@@ -394,57 +413,50 @@ class PatientDetailsViewModel(
             .map { createObservationItem(it, getApplication<Application>().resources) }
             .let { observations.addAll(it) }
 
-//        Log.e("******* ", "*******")
-//        println("--patientId--$patientId")
-//        println(observations)
 
         return observations
     }
 
-    suspend fun observationsPerCode(key: String): String{
+    fun getObservationsPerCode(codeValue: String) = runBlocking{
+        observationsPerCode(codeValue)
+    }
 
+    private suspend fun observationsPerCode(codeValue: String): List<ObservationItem>{
 
-        return ""
+        val observations = mutableListOf<ObservationItem>()
+        fhirEngine
+            .search<Observation> {
+                filter(Observation.CODE, {value = of(Coding().apply {
+                    system = "http://snomed.info/sct"; code = codeValue
+                })})
+                filter(Observation.SUBJECT, {value = "Patient/$patientId"})
+            }
+            .take(1)
+            .map { createObservationItem(it, getApplication<Application>().resources) }
+            .let { observations.addAll(it) }
 
-//        val observations = mutableListOf<ObservationItem>()
-//        fhirEngine
-//            .search<Observation> {
-//                filter(Observation.CODE, {value = of(Coding().apply { code = key } )})
-//            }
-//            .take(Int.MAX_VALUE)
-//            .map { createObservationItem(it, getApplication<Application>().resources) }
-//            .let { observations.addAll(it) }
-//        return observations.toString()
+        return observations
 
+    }
 
-//        fhirEngine.search<Observation>{
-//
-//            filter(Observation.SUBJECT, { value = "Patient/$patientId" })
-//            filter(Observation.CODE, { value = of(Coding().apply {
-//                code = key
-//            }) })
-//
-//            sort(Observation.DATE, Order.DESCENDING)
-//        }.map { it.toString() }.let {
-//            Log.e("******* ", "*******")
-//            println("--patientId-2-$patientId")
-//            println(it)
-//        }
-//        return "test"
+    fun getObservationsPerCodeFromEncounter(codeValue: String, encounterId: String) = runBlocking{
+        observationsPerCodeFromEncounter(codeValue, encounterId)
+    }
 
-//        fhirEngine
-//            .search<Observation> {
-//                filter(Observation.CODE, { value = of(Coding().apply { code = key }) })
-//                filter(Observation.SUBJECT, { value = "Patient/$patientId" })
-//                filter(Observation.ENCOUNTER, { value = "Encounter/0335a371-7d14-43b4-a7ce-b44a3e00626c" })
-//                sort(Observation.DATE, Order.DESCENDING)
-//            }
-//            .take(Int.MAX_VALUE)
-//            .map {
-//                it.value
-//            }
-//            .let {
-//                return it.toString() }
+    private suspend fun observationsPerCodeFromEncounter(codeValue: String, encounterId: String): List<ObservationItem>{
+
+        val observations = mutableListOf<ObservationItem>()
+        fhirEngine
+            .search<Observation> {
+                filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = codeValue })})
+                filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
+                filter(Observation.SUBJECT, {value = "Patient/$patientId"})
+            }
+            .take(1)
+            .map { createObservationItem(it, getApplication<Application>().resources) }
+            .let { observations.addAll(it) }
+
+        return observations
 
     }
 
@@ -473,8 +485,6 @@ class PatientDetailsViewModel(
 
         private fun createObservationItem(observation: Observation, resources: Resources): ObservationItem{
 
-            Log.e("******* ", "*******")
-            println(observation)
 
             // Show nothing if no values available for datetime and value quantity.
             val dateTimeString =
@@ -506,12 +516,6 @@ class PatientDetailsViewModel(
                 }
             val valueString = "$value $valueUnit"
 
-            Log.e("******* ", "*******")
-            println("--id--$id")
-            println("--code--$code")
-            println("--text--$text")
-            println("--valueString--$valueString")
-
             return ObservationItem(
                 id,
                 code,
@@ -533,7 +537,13 @@ class PatientDetailsViewModel(
             val encounterLocation = encounter.location.firstOrNull()?.location?.display ?: ""
             val encounterStatus = encounter.status.display
 
-            val lastUpdatedValue = encounter.meta
+            var lastUpdatedValue = ""
+
+            if (encounter.hasMeta()){
+                if (encounter.meta.hasLastUpdated()){
+                    lastUpdatedValue = encounter.meta.lastUpdated.toString()
+                }
+            }
 
             val reasonCode = encounter.reasonCode.firstOrNull()?.text ?: ""
 
@@ -557,7 +567,7 @@ class PatientDetailsViewModel(
             return EncounterItem(
                 encounter.logicalId,
                 textValue,
-                "lastUpdatedValue",
+                lastUpdatedValue,
                 reasonCode
             )
         }

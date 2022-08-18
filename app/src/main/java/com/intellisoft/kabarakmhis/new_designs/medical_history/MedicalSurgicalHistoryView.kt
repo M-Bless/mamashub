@@ -20,6 +20,7 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
 import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbConfirmDetails
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -88,8 +89,8 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
             if (encounterId != null) {
 
 
-                val observationList =
-                    patientDetailsViewModel.getObservationsFromEncounter(encounterId)
+                val observationList = patientDetailsViewModel.getObservationsFromEncounter(encounterId)
+
                 CoroutineScope(Dispatchers.Main).launch {
 
                     if (!observationList.isNullOrEmpty()) {
@@ -98,27 +99,19 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
                         no_record.visibility = View.VISIBLE
                     }
 
-
                 }
 
                 if (observationList.isNotEmpty()) {
-
-                    Log.e("----4", observationList.toString())
 
                     var sourceString = ""
 
                     for (item in observationList) {
 
-                        val code = item.text
+                        val text = item.text
                         val display = item.value
+                        val code = item.code
 
-                        Log.e("----code ", code.toString())
-                        Log.e("----display ", display.toString())
-
-
-
-//                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
-                        sourceString = "$sourceString<br><b>${code.toUpperCase()}</b>: $display"
+                        sourceString = "$sourceString<br><b>${text.toUpperCase()}</b>: $display"
                     }
 
 

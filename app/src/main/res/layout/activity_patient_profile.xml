@@ -67,16 +67,14 @@
                         android:id="@+id/tvName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jane Doe"
+                        android:text=""
                         android:textColor="@color/textColor" />
 
                 </TableRow>
                 <TableRow
-                    android:visibility="gone"
                     >
 
                     <TextView
-                        android:visibility="gone"
                         android:textStyle="bold"
                         android:textColor="@color/textColor"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -93,6 +91,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
+                        android:id="@+id/tvANCID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/textColor" />
@@ -120,7 +119,7 @@
                         android:id="@+id/tvAge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jane Doe"
+                        android:text=""
                         android:textColor="@color/textColor" />
 
                 </TableRow>

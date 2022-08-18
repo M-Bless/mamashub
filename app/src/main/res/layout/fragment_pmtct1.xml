@@ -63,27 +63,19 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             />
 
-                        <RadioGroup
-                            android:id="@+id/radioGrpIntervention"
+                        <CheckBox
+                            android:id="@+id/checkboxART"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:text="ART for life" />
 
-                            <RadioButton
-                                android:id="@+id/radioART"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="ART for life" />
-
-                            <RadioButton
-                                android:id="@+id/radioVL"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Viral Load (VL) sample" />
-
-                        </RadioGroup>
+                        <CheckBox
+                            android:id="@+id/checkboxVL"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Viral Load (VL) sample" />
 
 
 

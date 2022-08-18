@@ -271,6 +271,9 @@ class FragmentPhysicalExam1 : Fragment() {
         val systolicBp = rootView.etSystolicBp.text.toString()
         val diastolicBp = rootView.etDiastolicBp.text.toString()
         val pulseRate = rootView.etPulseRate.text.toString()
+        val temparature = rootView.etTemperature.text.toString()
+
+
 
         val cvsText = formatter.getRadioText(rootView.radioGrpCVS)
         if (cvsText != "") {
@@ -302,6 +305,11 @@ class FragmentPhysicalExam1 : Fragment() {
             addData("Pulse Rate",pulseRate, DbObservationValues.PULSE_RATE.name)
         }else{
             errorList.add("Pulse Rate is required")
+        }
+        if (!TextUtils.isEmpty(temparature)){
+            addData("Temperature",temparature, DbObservationValues.TEMPARATURE.name)
+        }else{
+            errorList.add("Temperature is required")
         }
 
         val textValue = formatter.getRadioText(rootView.radioGrpRespiratory)

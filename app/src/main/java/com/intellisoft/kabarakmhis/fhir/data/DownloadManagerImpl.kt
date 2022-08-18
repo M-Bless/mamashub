@@ -60,6 +60,18 @@ class DownloadManagerImpl : DownloadWorkManager {
                 val u = "${response.entry[i].fullUrl}/\$everything"
                 urls.add(u)
             }*/
+
+            for (entry in response.entry) {
+
+                val type = entry.resource.resourceType.toString()
+                if (type == "Patient") {
+                    val patientUrl = "${entry.fullUrl}/\$everything"
+                    urls.add(patientUrl)
+                }
+
+            }
+
+
             val nextUrl =
                 response.link.firstOrNull { component -> component.relation == "next" }?.url
             if (nextUrl != null) {

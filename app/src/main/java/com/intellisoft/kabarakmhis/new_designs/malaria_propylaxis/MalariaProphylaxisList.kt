@@ -8,9 +8,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
@@ -35,12 +39,24 @@ class MalariaProphylaxisList : AppCompatActivity() {
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private val formatter = FormatterClass()
-    
+
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+    private val formatterClass = FormatterClass()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_malaria_prophylaxis_list)
 
         title = "Malaria Prophylaxis List"
+
+        patientId = formatterClass.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
@@ -63,9 +79,7 @@ class MalariaProphylaxisList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-
-            val observationList = kabarakViewModel.getFhirEncounter(this@MalariaProphylaxisList,
-                DbResourceViews.MALARIA_PROPHYLAXIS.name)
+            val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.MALARIA_PROPHYLAXIS.name)
 
             CoroutineScope(Dispatchers.Main).launch {
 
@@ -78,11 +92,13 @@ class MalariaProphylaxisList : AppCompatActivity() {
                 }
 
                 val encounterList = ArrayList<DbFhirEncounter>()
-                observationList.forEach {
+                observationList.forEachIndexed { index, encounterItem ->
 
-                    val id = it.encounterId.toString()
-                    val encounterName = it.encounterName
-                    val encounterType = it.encounterType
+                    val pos = index + 1
+
+                    val id = encounterItem.id
+                    val encounterName = "ANC Contact $pos"
+                    val encounterType = encounterItem.code
 
                     val dbFhirEncounter = DbFhirEncounter(
                         id = id,
@@ -90,6 +106,7 @@ class MalariaProphylaxisList : AppCompatActivity() {
                         encounterType = encounterType
                     )
                     encounterList.add(dbFhirEncounter)
+
                 }
 
                 val configurationListingAdapter = FhirEncounterAdapter(

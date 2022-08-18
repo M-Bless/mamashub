@@ -61,25 +61,18 @@ class FragmentPmtct1 : Fragment() {
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
-        rootView.radioGrpIntervention.setOnCheckedChangeListener { radioGroup, checkedId ->
-            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
-            val isChecked = checkedRadioButton.isChecked
-            if (isChecked) {
-                val checkedBtn = checkedRadioButton.text.toString()
-                if (checkedBtn == "ART for life") {
-                    lifeART = true
-                    changeVisibility(rootView.linearART, true)
-                } else {
-                    lifeART = false
-                    changeVisibility(rootView.linearART, false)
-                }
-
-            }
-        }
         rootView.tvDate.setOnClickListener {
 
             onCreateDialog(999)
 
+        }
+
+        rootView.checkboxART.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                changeVisibility(rootView.linearART, true)
+            } else {
+                changeVisibility(rootView.linearART, false)
+            }
         }
 
 
@@ -154,9 +147,12 @@ class FragmentPmtct1 : Fragment() {
         val dbDataList = ArrayList<DbDataList>()
         val errorList = ArrayList<String>()
 
-        val interventionGiven = formatter.getRadioText(rootView.radioGrpIntervention)
-        if (interventionGiven != "") {
-            addData("Intervention Given", interventionGiven, DbObservationValues.INTERVENTION_GIVEN.name)
+        val interventionGivenList = ArrayList<String>()
+        if (rootView.checkboxART.isChecked) interventionGivenList.add("ART for life")
+        if (rootView.checkboxVL.isChecked) interventionGivenList.add("Viral Load Sample")
+
+        if (interventionGivenList.isNotEmpty()){
+            addData("Intervention Given", interventionGivenList.joinToString(separator = ", "), DbObservationValues.INTERVENTION_GIVEN.name)
         }else{
             errorList.add("Intervention Given is required")
         }
@@ -228,25 +224,30 @@ class FragmentPmtct1 : Fragment() {
             val dbPatientData = DbPatientData(DbResourceViews.PMTCT.name, dbDataDetailsList)
             kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
-            if (lifeART){
+            val ft = requireActivity().supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragmentHolder, FragmentPmtct2())
+            ft.addToBackStack(null)
+            ft.commit()
 
-                kabarakViewModel.deleteTypeTable(DbSummaryTitle.D_VL_SAMPLE.name, requireContext())
-
-                val ft = requireActivity().supportFragmentManager.beginTransaction()
-                ft.replace(R.id.fragmentHolder, FragmentPmtct2())
-                ft.addToBackStack(null)
-                ft.commit()
-
-            }else{
-
-                kabarakViewModel.deleteTypeTable(DbSummaryTitle.B_ART_FOR_LIFE.name, requireContext())
-
-                val ft = requireActivity().supportFragmentManager.beginTransaction()
-                ft.replace(R.id.fragmentHolder, FragmentPmtct3())
-                ft.addToBackStack(null)
-                ft.commit()
-
-            }
+//            if (lifeART){
+//
+//                kabarakViewModel.deleteTypeTable(DbSummaryTitle.D_VL_SAMPLE.name, requireContext())
+//
+//                val ft = requireActivity().supportFragmentManager.beginTransaction()
+//                ft.replace(R.id.fragmentHolder, FragmentPmtct2())
+//                ft.addToBackStack(null)
+//                ft.commit()
+//
+//            }else{
+//
+//                kabarakViewModel.deleteTypeTable(DbSummaryTitle.B_ART_FOR_LIFE.name, requireContext())
+//
+//                val ft = requireActivity().supportFragmentManager.beginTransaction()
+//                ft.replace(R.id.fragmentHolder, FragmentPmtct3())
+//                ft.addToBackStack(null)
+//                ft.commit()
+//
+//            }
 
         }else{
             formatter.showErrorDialog(errorList, requireContext())

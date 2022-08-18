@@ -65,12 +65,10 @@ data class RelatedPersonItem(
 }
 data class ObservationItem(
     val id: String,
-    val code: String,
+    val code: String?,
     val text: String,
     val value: String
-) {
-    override fun toString(): String = code
-}
+)
 data class ConditionItem(
     val id: String,
     val code: String,

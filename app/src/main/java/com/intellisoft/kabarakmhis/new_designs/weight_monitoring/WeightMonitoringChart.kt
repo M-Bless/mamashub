@@ -122,60 +122,15 @@ class WeightMonitoringChart : AppCompatActivity() {
 
             val chartValueList = ArrayList<DbObserveValue>()
 
-            val encounterList = kabarakViewModel.getFhirEncounter(this@WeightMonitoringChart,
-                DbResourceViews.PHYSICAL_EXAMINATION.name)
+            val gestationList = patientDetailsViewModel.getObservationsPerCode("77386006")
+            val motherWeightList = patientDetailsViewModel.getObservationsPerCode("726527001")
 
-            encounterList.forEach { encounter ->
-
-                val encounterId = encounter.encounterId
-                val observationList = patientDetailsViewModel.getObservationsFromEncounter(encounterId)
-
-                observationList.forEach {
-
-                    var motherWeight = ""
-                    var gestation = ""
-
-                    val text = it.text
-                    val value = it.value
-                    val code = it.code
-                    if (code == "77386006"){
-                        //Gestation
-
-                        try {
-
-                            val newValue = value.reversed()
-                            val reversedValue = newValue.substring(6, newValue.length)
-
-                            gestation = reversedValue.toString()
-
-                        }catch (e: Exception){
-                            e.printStackTrace()
-                        }
-
-
-                    }
-                    if (code == "726527001"){
-                        //Mother Weight
-                        motherWeight = value
-                    }
-
-                    if (motherWeight != "" && gestation != ""){
-
-                        Log.d("-----", "-----")
-                        Log.e("motherWeight", motherWeight.toString())
-                        Log.e("gestation", gestation.toString())
-
-                        val dbValue = DbObserveValue(gestation.toString(), motherWeight.toString())
-                        chartValueList.add(dbValue)
-
-                    }
+            Log.e("------", "-------")
+            Log.e("gestation", gestationList.toString())
+            Log.e("motherWeight", motherWeightList.toString())
 
 
 
-                }
-
-
-            }
             setData(chartValueList)
 
             getPersonalData()

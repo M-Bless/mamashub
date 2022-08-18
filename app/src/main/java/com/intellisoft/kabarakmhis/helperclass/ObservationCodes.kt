@@ -43,6 +43,7 @@ enum class DbObservationValues{
     SYSTOLIC_BP,
     DIASTOLIC_BP,
     PULSE_RATE,
+    TEMPARATURE,
     CVS,
     RESPIRATORY_MONITORING,
     BREAST_EXAM,

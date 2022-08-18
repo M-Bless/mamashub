@@ -1,15 +1,19 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
@@ -34,6 +38,7 @@ import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitorin
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class PatientProfile : AppCompatActivity() {
@@ -95,28 +100,49 @@ class PatientProfile : AppCompatActivity() {
 
             try {
 
-                val patientData = patientDetailsViewModel.getPatientData()
+                val patientLocalName = formatter.retrieveSharedPreference(this@PatientProfile, "patientName")
+                val patientLocalDob = formatter.retrieveSharedPreference(this@PatientProfile, "dob")
+                val patientLocalIdentifier = formatter.retrieveSharedPreference(this@PatientProfile, "identifier")
 
-                val patientName = patientData.name
-                val dob = patientData.dob
+                val patientLocalKinName = formatter.retrieveSharedPreference(this@PatientProfile, "kinName")
+                val patientLocalKinPhone = formatter.retrieveSharedPreference(this@PatientProfile, "kinPhone")
 
-                val kinName = patientData.kinData.name
-                val kinPhone = patientData.kinData.phone
-                val identifier = patientData.identifier
-                CoroutineScope(Dispatchers.Main).launch {
-                    tvName.text = patientName
+                if (patientLocalName == null || patientLocalName == "") {
 
-                    val age = "${formatter.calculateAge(dob)} years"
+                    val job = Job()
+                    CoroutineScope(Dispatchers.Main + job).launch {
 
-                    tvAge.text = age
+                        val progressDialog = ProgressDialog(this@PatientProfile)
+                        progressDialog.setTitle("Please wait...")
+                        progressDialog.setMessage("Getting user data...")
+                        progressDialog.show()
 
-                    tvKinName.text = kinName
-                    tvKinDetails.text = kinPhone
+                        val patientData = patientDetailsViewModel.getPatientData()
 
-                    formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
-                    formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
+                        val patientName = patientData.name
+                        val dob = patientData.dob
 
-                    formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier.toString())
+                        val kinName = patientData.kinData.name
+                        val kinPhone = patientData.kinData.phone
+                        val identifier = patientData.identifier
+
+
+                        formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
+                        formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
+                        formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier.toString())
+                        formatter.saveSharedPreference(this@PatientProfile, "kinName", kinName)
+                        formatter.saveSharedPreference(this@PatientProfile, "kinPhone", kinPhone)
+
+                        showClientDetails(patientName, dob, identifier, kinName, kinPhone)
+                        progressDialog.dismiss()
+
+                    }.join()
+
+
+                } else {
+
+                    //Patient details has been retrieved from the local database
+                    showClientDetails(patientLocalName, patientLocalDob, patientLocalIdentifier, patientLocalKinName, patientLocalKinPhone)
 
                 }
 
@@ -124,27 +150,32 @@ class PatientProfile : AppCompatActivity() {
                 Log.e("Error", e.message.toString())
             }
 
-            //Expected date of delivery
-
-            try {
-
-                val name = formatter.retrieveSharedPreference(this@PatientProfile, "patientName")
-                val edd = patientDetailsViewModel.observationsPerCode("161714006")
-                Log.e("EDD*****", edd.toString())
-
-                formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.EDD.name, edd.toString())
-
-                CoroutineScope(Dispatchers.Main).launch {
-
-                    tvEdd.text = edd.toString()
-                }
-
-            }catch (e: Exception){
-                Log.e("Error", e.message.toString())
-            }
 
 
         }
+
+
+    }
+
+    private fun showClientDetails(
+        patientLocalName: String,
+        patientLocalDob: String?,
+        patientLocalIdentifier: String?,
+        kinName: String?,
+        kinPhone: String?
+    ) {
+
+        tvName.text = patientLocalName
+
+        if (patientLocalIdentifier != null) tvANCID.text = patientLocalIdentifier
+        if (kinName != null) tvKinName.text = kinName
+        if (kinPhone != null) tvKinDetails.text = kinPhone
+
+        if (patientLocalDob != null) {
+            val age = "${formatter.calculateAge(patientLocalDob)} years"
+            tvAge.text = age
+        }
+
 
 
     }
@@ -186,5 +217,25 @@ class PatientProfile : AppCompatActivity() {
 
         val intent = Intent(this, NewMainActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.log_out -> {
+
+                startActivity(Intent(this, Login::class.java))
+                finish()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

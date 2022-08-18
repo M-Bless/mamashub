@@ -8,9 +8,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.EncounterAdapter
@@ -35,11 +39,24 @@ class PhysicalExaminationList : AppCompatActivity() {
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private val formatter = FormatterClass()
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+    private val formatterClass = FormatterClass()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_physical_examination_list)
 
         title = "Physical Examination List"
+
+
+        patientId = formatterClass.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
@@ -62,9 +79,7 @@ class PhysicalExaminationList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-
-            val observationList = kabarakViewModel.getFhirEncounter(this@PhysicalExaminationList,
-                DbResourceViews.PHYSICAL_EXAMINATION.name)
+            val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.PHYSICAL_EXAMINATION.name)
 
             CoroutineScope(Dispatchers.Main).launch {
 
@@ -77,11 +92,15 @@ class PhysicalExaminationList : AppCompatActivity() {
                 }
 
                 val encounterList = ArrayList<DbFhirEncounter>()
-                observationList.forEach {
 
-                    val id = it.encounterId.toString()
-                    val encounterName = it.encounterName
-                    val encounterType = it.encounterType
+                observationList.forEachIndexed { index, encounterItem ->
+
+                    val pos = index + 1
+                    val visitNo = formatter.getNumber(pos)
+
+                    val id = encounterItem.id
+                    val encounterName = "$visitNo Visit"
+                    val encounterType = encounterItem.code
 
                     val dbFhirEncounter = DbFhirEncounter(
                         id = id,
@@ -89,6 +108,7 @@ class PhysicalExaminationList : AppCompatActivity() {
                         encounterType = encounterType
                     )
                     encounterList.add(dbFhirEncounter)
+
                 }
 
                 val configurationListingAdapter = FhirEncounterAdapter(

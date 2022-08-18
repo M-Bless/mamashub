@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.intellisoft.kabarakmhis.R
@@ -73,6 +74,22 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
         tvPatient.text = patientName
         tvAncId.text = identifier
+
+        getData()
+    }
+
+    private fun getData() {
+
+
+        val clinicalNote = formatter.getDataLocal(this, "Clinical_Note")
+        val nextAppointment = formatter.getDataLocal(this, "Next_Appointment")
+        val dateCollected = formatter.getDataLocal(this, "Date_Collected")
+
+        if (clinicalNote != null && nextAppointment != null && dateCollected != null) {
+            etClinicalNotes.setText(clinicalNote)
+            tvNextVisit.setText(nextAppointment)
+        }
+
 
     }
 

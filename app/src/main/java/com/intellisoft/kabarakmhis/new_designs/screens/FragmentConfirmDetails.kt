@@ -75,6 +75,23 @@ class FragmentConfirmDetails : Fragment(){
         btnEditDetails.setOnClickListener {
             //Go back to the previous activity
             requireActivity().onBackPressed()
+
+            encounterDetailsList.forEach { obs ->
+
+                obs.detailsList.forEach {
+
+                    val title = it.title
+                    val value = it.value
+
+                    val titleValue = title.replace(" ", "_")
+
+                    Log.e("++++++", titleValue)
+
+                    formatter.saveDataLocal(requireContext(), titleValue, value)
+
+                }
+
+            }
         }
 
         updateArguments()
@@ -239,6 +256,7 @@ class FragmentConfirmDetails : Fragment(){
         val confirmParentAdapter = ConfirmParentAdapter(encounterDetailsList,requireContext())
         recyclerView.adapter = confirmParentAdapter
 
+        formatter.setUserDetails(requireContext(), rootView)
 
 
     }

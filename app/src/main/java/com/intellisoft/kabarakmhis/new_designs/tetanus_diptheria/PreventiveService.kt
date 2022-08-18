@@ -231,6 +231,13 @@ class PreventiveService : AppCompatActivity() {
         tvPatient.text = patientName
         tvAncId.text = identifier
 
+        getData()
+    }
+
+    private fun getData() {
+
+
+
     }
 
     private fun addData(key: String, value: String, codeLabel: String) {
