@@ -21,6 +21,7 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.intellisoft.kabarakmhis.helperclass.DbWeightChart
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
@@ -65,22 +66,23 @@ class WeightMonitoringChart : AppCompatActivity() {
     }
 
 
-    private fun  setData(observationList: ArrayList<DbObserveValue>) {
+    private fun  setData(observationList: ArrayList<DbWeightChart>) {
 
         CoroutineScope(Dispatchers.Main).launch {
             tvYaxis.visibility = View.VISIBLE
             tvXaxis.visibility = View.VISIBLE
         }
 
+        observationList.sortBy { it.gestation }
 
         val weightMonitorList = ArrayList<Entry>()
 
         for(item in observationList){
 
-            val weight = item.title.toFloat()
-            val gestation = item.value.toFloat()
+            val weight = item.weight
+            val gestation = item.gestation
 
-            val entry = Entry(weight, gestation)
+            val entry = Entry(gestation, weight)
             weightMonitorList.add(entry)
 
         }
@@ -98,7 +100,6 @@ class WeightMonitoringChart : AppCompatActivity() {
         xAxis.textColor = Color.rgb(255, 192, 56)
         xAxis.setCenterAxisLabels(true)
         xAxis.granularity = 1f // one hour
-
 
         xAxis.valueFormatter = DayAxisValueFormatter(chart)
 
@@ -120,18 +121,58 @@ class WeightMonitoringChart : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val chartValueList = ArrayList<DbObserveValue>()
+            //Get encounters for patient
+            val encounterList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.PHYSICAL_EXAMINATION.name)
 
-            val gestationList = patientDetailsViewModel.getObservationsPerCode("77386006")
-            val motherWeightList = patientDetailsViewModel.getObservationsPerCode("726527001")
+            val weightList = ArrayList<String>()
+            val gestationList = ArrayList<String>()
 
-            Log.e("------", "-------")
-            Log.e("gestation", gestationList.toString())
-            Log.e("motherWeight", motherWeightList.toString())
+            encounterList.forEach { encounter ->
+
+                val encounterId = encounter.id
+
+                //Get observations for encounter
+                val observationList = patientDetailsViewModel.getObservationsFromEncounter(encounterId)
+                observationList.forEach {
+
+                    val code = it.code
+                    val value = it.value
+
+                    if (code == "77386006"){
+                        //Gestation in weeks
+                        val valueReversed = value.reversed()
+                        val valueGestation = valueReversed.substring(5, valueReversed.length)
+                        val gestation = valueGestation.reversed()
+
+                        gestationList.add(gestation)
+                    }
+                    if (code == "726527001"){
+                        //Weight in kgs
+                        weightList.add(value)
+                    }
 
 
+                }
 
-            setData(chartValueList)
+            }
+
+            val dbWeightChartList = ArrayList<DbWeightChart>()
+
+            if (weightList.size == gestationList.size){
+
+                for (i in 0 until weightList.size){
+
+                    val weightFloat = weightList[i].toFloat()
+                    val gestationFloat = gestationList[i].toFloat()
+
+                    val dbWeightChart = DbWeightChart(gestationFloat, weightFloat)
+                    dbWeightChartList.add(dbWeightChart)
+                }
+
+
+            }
+
+            setData(dbWeightChartList)
 
             getPersonalData()
 

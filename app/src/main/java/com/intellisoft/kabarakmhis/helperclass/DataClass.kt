@@ -174,3 +174,7 @@ data class DbObservationLabel(
     val value: String,
     val label: String
 )
+data class DbWeightChart(
+    val gestation: Float,
+    val weight: Float,
+)
