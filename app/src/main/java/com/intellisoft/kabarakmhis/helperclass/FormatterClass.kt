@@ -1237,6 +1237,14 @@ class FormatterClass {
             DbObservationValues.VIRAL_LOAD_RESULTS.name -> {
                 "93778367"
             }
+            DbObservationValues.RH_NEGATIVE.name -> {
+                "87392289"
+            }
+
+
+
+
+
             DbObservationValues.DANGER_SIGNS.name -> {
                 "50206362"
             }
@@ -1247,9 +1255,7 @@ class FormatterClass {
                 "97129423"
             }
 
-            DbObservationValues.RH_NEGATIVE.name -> {
-                "87392289"
-            }
+
             DbObservationValues.EAT_ONE_MEAL.name -> {
                 "22723167"
             }
@@ -1268,19 +1274,22 @@ class FormatterClass {
             DbObservationValues.SLEEP_UNDER_LLIN.name -> {
                 "51049855"
             }
-
             DbObservationValues.GO_FOR_ANC.name -> {
                 "96888625"
             }
             DbObservationValues.NON_STRENUOUS_ACTIVITY.name -> {
                 "1528937"
             }
+
+
             DbObservationValues.INFANT_FEEDING.name -> {
                 "91232116"
             }
             DbObservationValues.EXCLUSIVE_BREASTFEEDING.name -> {
                 "80142304"
             }
+
+
             DbObservationValues.MOTHER_PALE.name -> {
                 "16673572"
             }
