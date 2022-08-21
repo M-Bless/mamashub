@@ -193,11 +193,11 @@ class FragmentPmtct1 : Fragment() {
             if (!TextUtils.isEmpty(artDate)){
                 addData("If yes, date started: ", artDate, DbObservationValues.DATE_STARTED.name)
             }else{
-                errorList.add("If ART for life has been selected, provide date: ")
+                errorList.add("If ART for life has been selected, provide date ")
             }
 
             if (!TextUtils.isEmpty(otherRegimen)){
-                addData("Other Regimen Applied",otherRegimen, DbObservationValues.REGIMEN.name)
+                addData("Other Regimen Applied",otherRegimen, DbObservationValues.OTHER_REGIMEN.name)
             }
 
             for (items in observationList){

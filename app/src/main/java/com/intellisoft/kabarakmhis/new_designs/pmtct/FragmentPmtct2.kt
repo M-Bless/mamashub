@@ -145,29 +145,11 @@ class FragmentPmtct2 : Fragment() {
         rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
 
     }
-    private fun checkedText(checkBox: CheckBox){
 
-        if (checkBox.isChecked){
-            val value = checkBox.text.toString()
-            addData("Reason for regiment change",value, DbObservationValues.REGIMENT_CHANGE.name)
-        }
-
-    }
     private fun saveData() {
 
         val errorList = ArrayList<String>()
 
-        if(rootView.linearReason.visibility == View.VISIBLE){
-            checkedText(rootView.checkboxViralLoad)
-            checkedText(rootView.checkboxAdverseReactions)
-            checkedText(rootView.checkboxInteraction)
-            checkedText(rootView.checkboxTrimester)
-            val otherRegimen = rootView.etOther.text.toString()
-
-            if (!TextUtils.isEmpty(otherRegimen)){
-                addData("Other Regimen Applied",otherRegimen, DbObservationValues.REGIMEN.name)
-            }
-        }
 
         val artAmount = rootView.etDosageAmount.text.toString()
 
@@ -182,6 +164,31 @@ class FragmentPmtct2 : Fragment() {
             addData("ART Frequency",frequency, DbObservationValues.ART_FREQUENCY.name)
         }else{
             errorList.add("ART Frequency is required")
+        }
+
+        val regimenChange = formatter.getRadioText(rootView.radioGrpRegimen)
+        if (regimenChange != ""){
+            addData("Was regimen changed? ",regimenChange, DbObservationValues.REGIMEN_CHANGE.name)
+
+            if(rootView.linearReason.visibility == View.VISIBLE){
+
+                val regimenList = ArrayList<String>()
+                if (rootView.checkboxViralLoad.isChecked) regimenList.add("Change in viral load")
+                if (rootView.checkboxAdverseReactions.isChecked) regimenList.add("Adverse reaction")
+                if (rootView.checkboxInteraction.isChecked) regimenList.add("Interaction with another drug concomitantly used")
+                if (rootView.checkboxTrimester.isChecked) regimenList.add("Pregnancy trimester")
+
+                addData("Reason for regimen change",regimenList.joinToString(","), DbObservationValues.REASON_FOR_REGIMENT_CHANGE.name)
+
+                val otherRegimen = rootView.etOther.text.toString()
+
+                if (!TextUtils.isEmpty(otherRegimen)){
+                    addData("Other reason for Regimen change",otherRegimen, DbObservationValues.OTHER_REASON_FOR_REGIMENT_CHANGE.name)
+                }
+            }
+
+        }else{
+            errorList.add("Regimen change is required.")
         }
 
         val dbDataList = ArrayList<DbDataList>()
@@ -231,6 +238,9 @@ class FragmentPmtct2 : Fragment() {
             if (TextUtils.isEmpty(date)) errorList.add("Date VL was taken is required")
             if (TextUtils.isEmpty(vrResults)) errorList.add("Results is required")
         }
+
+
+
 
         if(errorList.size == 0){
 

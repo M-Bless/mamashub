@@ -1202,8 +1202,17 @@ class FormatterClass {
             DbObservationValues.INTERVENTION_GIVEN.name -> {
                 "82261064"
             }
+            DbObservationValues.DATE_STARTED.name -> {
+                "16714043"
+            }
             DbObservationValues.REGIMEN.name -> {
                 "54840574"
+            }
+            DbObservationValues.ART_DOSAGE.name -> {
+                "48668776"
+            }
+            DbObservationValues.OTHER_REGIMEN.name -> {
+                "54840574-O"
             }
             DbObservationValues.ART_DOSAGE.name -> {
                 "48668776"
@@ -1211,9 +1220,17 @@ class FormatterClass {
             DbObservationValues.ART_FREQUENCY.name -> {
                 "73670926"
             }
-            DbObservationValues.REGIMENT_CHANGE.name -> {
+            DbObservationValues.REGIMEN_CHANGE.name -> {
                 "69335547"
             }
+
+            DbObservationValues.REASON_FOR_REGIMENT_CHANGE.name -> {
+                "9697869"
+            }
+            DbObservationValues.OTHER_REASON_FOR_REGIMENT_CHANGE.name -> {
+                "7676996"
+            }
+
             DbObservationValues.VIRAL_LOAD_CHANGE.name -> {
                 "98046364"
             }

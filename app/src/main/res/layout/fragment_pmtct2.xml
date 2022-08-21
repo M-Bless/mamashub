@@ -225,7 +225,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="If yes, date viral load was taken"
+                                android:text="Date viral load was taken"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                 />
 
