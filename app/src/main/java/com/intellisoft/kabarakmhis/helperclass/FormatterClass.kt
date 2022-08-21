@@ -720,6 +720,10 @@ class FormatterClass {
             DbObservationValues.GENERAL_EXAMINATION.name -> {
                 "25656009"
             }
+            DbObservationValues.ABNORMAL_GENERAL_EXAMINATION.name -> {
+                "25656009-A"
+            }
+
             DbObservationValues.SYSTOLIC_BP.name -> {
                 "271649006"
             }
@@ -736,37 +740,83 @@ class FormatterClass {
             DbObservationValues.CVS.name -> {
                 "267037003"
             }
+            DbObservationValues.ABNORMAL_CVS.name -> {
+                "267037003-A"
+            }
 
             DbObservationValues.RESPIRATORY_MONITORING.name -> {
-                "267037003"
+                "53617003"
+            }
+            DbObservationValues.ABNORMAL_RESPIRATORY_MONITORING.name -> {
+                "53617003-A"
             }
             DbObservationValues.BREAST_EXAM.name -> {
                 "185712006"
             }
+            DbObservationValues.ABNORMAL_BREAST_EXAM.name -> {
+                "185712006-A"
+            }
+            DbObservationValues.NORMAL_BREAST_EXAM.name -> {
+                "185712006-N"
+            }
             DbObservationValues.ABDOMINAL_INSPECTION.name -> {
                 "163133003"
+            }
+            DbObservationValues.SPECIFY_ABDOMINAL_INSPECTION.name -> {
+                "163133003-A"
             }
 
             DbObservationValues.ABDOMINAL_PALPATION.name -> {
                 "113011001"
             }
+            DbObservationValues.SPECIFY_ABDOMINAL_PALPATION.name -> {
+                "113011001-A"
+            }
             DbObservationValues.ABDOMINAL_AUSCALATION.name -> {
                 "37931006"
             }
+            DbObservationValues.SPECIFY_ABDOMINAL_AUSCALATION.name -> {
+                "37931006-A"
+            }
+
             DbObservationValues.EXTERNAL_INSPECTION.name -> {
                 "77142006"
+            }
+            DbObservationValues.SPECIFY_EXTERNAL_INSPECTION.name -> {
+                "77142006-I"
             }
 
 
             DbObservationValues.EXTERNAL_PALPATION.name -> {
                 "731273008"
             }
+            DbObservationValues.SPECIFY_EXTERNAL_PALPATION.name -> {
+                "731273008-P"
+            }
+
             DbObservationValues.EXTERNAL_DISCHARGE.name -> {
                 "271939006"
+            }
+            DbObservationValues.SPECIFY_EXTERNAL_DISCHARGE.name -> {
+                "271939006-D"
             }
             DbObservationValues.EXTERNAL_GENITAL_ULCER.name -> {
                 "427788009"
             }
+            DbObservationValues.SPECIFY_EXTERNAL_GENITAL_ULCER.name -> {
+                "427788009-G"
+            }
+
+            DbObservationValues.EXTERNAL_FGM.name -> {
+                "95041000119101"
+            }
+            DbObservationValues.COMPLICATIONS_EXTERNAL_FGM.name -> {
+                "95041000119101-C"
+            }
+
+
+
+
             DbObservationValues.PREGNANCY_ORDER.name -> {
                 "818602026"
             }

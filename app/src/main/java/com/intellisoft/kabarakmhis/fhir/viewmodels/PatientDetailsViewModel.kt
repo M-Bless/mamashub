@@ -389,6 +389,7 @@ class PatientDetailsViewModel(
         fhirEngine.search<Encounter>{
             filter(Encounter.REASON_CODE, {value = of(Coding().apply { code = encounterName })})
             filter(Encounter.SUBJECT, {value = "Patient/$patientId"})
+            sort(Encounter.DATE, Order.ASCENDING)
         }.take(Int.MAX_VALUE)
             .map { createEncounterItem(it, getApplication<Application>().resources) }
             .let { encounter.addAll(it) }
@@ -451,6 +452,7 @@ class PatientDetailsViewModel(
                 filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = codeValue })})
                 filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
                 filter(Observation.SUBJECT, {value = "Patient/$patientId"})
+                sort(Observation.DATE, Order.ASCENDING)
             }
             .take(1)
             .map { createObservationItem(it, getApplication<Application>().resources) }
@@ -563,6 +565,8 @@ class PatientDetailsViewModel(
 
             }
 
+
+            Log.e("------", lastUpdatedValue)
 
             return EncounterItem(
                 encounter.logicalId,

@@ -15,20 +15,27 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
 import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationFhirData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_clinical_notes_list.*
-import kotlinx.android.synthetic.main.activity_clinical_notes_list.no_record
+import kotlinx.android.synthetic.main.activity_medical_surgical_history_view.*
 import kotlinx.android.synthetic.main.activity_physical_examination_view.*
+import kotlinx.android.synthetic.main.activity_physical_examination_view.no_record
+import kotlinx.android.synthetic.main.activity_physical_examination_view.recycler_view
+import kotlinx.android.synthetic.main.activity_physical_examination_view.tvAncId
+import kotlinx.android.synthetic.main.activity_physical_examination_view.tvPatient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Stream
 
 
 class PhysicalExaminationView : AppCompatActivity() {
@@ -84,58 +91,68 @@ class PhysicalExaminationView : AppCompatActivity() {
 
             if (encounterId != null) {
 
-                val observationList =
-                    patientDetailsViewModel.getObservationsFromEncounter(encounterId)
+                val physicalExamination = DbObservationFhirData(DbSummaryTitle.A_PHYSICAL_EXAMINATION.name,
+                    listOf("25656009","25656009-A"))
+                val bloodPressure = DbObservationFhirData(DbSummaryTitle.B_PHYSICAL_BLOOD_PRESSURE.name,
+                    listOf("271649006","271650006","78564009","703421000","267037003","267037003-A","53617003", "53617003-A","185712006","185712006-A","185712006-N"))
+                val weightMonitor = DbObservationFhirData(DbSummaryTitle.C_WEIGHT_MONITORING.name,
+                    listOf("77386006","726527001"))
+                val abdominalExamination = DbObservationFhirData(DbSummaryTitle.D_ABDOMINAL_EXAMINATION.name,
+                    listOf("163133003","163133003-A","113011001","113011001-A","37931006","37931006-A"))
+                val externalGenitalia = DbObservationFhirData(DbSummaryTitle.E_EXTERNAL_GENITALIA_EXAM.name,
+                    listOf("77142006","77142006-I","731273008","731273008-P","271939006","271939006-D","427788009","427788009-G","95041000119101","95041000119101-C"))
+
+                val physicalExaminationList = formatter.getObservationList(patientDetailsViewModel, physicalExamination, encounterId)
+                val bloodPressureList = formatter.getObservationList(patientDetailsViewModel,bloodPressure, encounterId)
+                val weightMonitorList = formatter.getObservationList(patientDetailsViewModel,weightMonitor, encounterId)
+                val abdominalExaminationList = formatter.getObservationList(patientDetailsViewModel,abdominalExamination, encounterId)
+                val externalGenitaliaList = formatter.getObservationList(patientDetailsViewModel,externalGenitalia, encounterId)
+
+                val observationDataList = merge(physicalExaminationList,bloodPressureList,weightMonitorList,abdominalExaminationList,externalGenitaliaList)
+
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    if (observationList.isNotEmpty()){
+
+                    if (observationDataList.isNotEmpty()) {
                         no_record.visibility = View.GONE
-                    }else{
+                        recycler_view.visibility = View.VISIBLE
+                    } else {
                         no_record.visibility = View.VISIBLE
-                    }
-                }
-
-                if (observationList.isNotEmpty()){
-                    var sourceString = ""
-
-                    for(item in observationList){
-
-                        val code = item.text
-                        val display = item.value
-
-//                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
-                        sourceString = "$sourceString<br><b>${code.toUpperCase()}</b>: $display"
-
+                        recycler_view.visibility = View.GONE
                     }
 
-                    CoroutineScope(Dispatchers.Main).launch {
-//                    tvValue.text = sourceString
-                        tvValue.text = Html.fromHtml(sourceString)
-                        btnAdd.text = "Edit Present Pregnancy"}
-
+                    val confirmParentAdapter = ConfirmParentAdapter(observationDataList,
+                        this@PhysicalExaminationView)
+                    recyclerView.adapter = confirmParentAdapter
 
                 }
+
+
 
 
             }
 
-//            val observationId = formatter.retrieveSharedPreference(this@PresentPregnancyView,"observationId")
-//            if (observationId != null) {
-//                val observationList = retrofitCallsFhir.getObservationDetails(this@PresentPregnancyView, observationId)
-//
-//                CoroutineScope(Dispatchers.Main).launch {
-//                    val configurationListingAdapter = ObservationAdapter(
-//                        observationList,this@PresentPregnancyView)
-//                    recyclerView.adapter = configurationListingAdapter
-//                }
-//
-//            }
-
-
-
         }
 
+        getUserDetails()
+    }
 
+    private fun getUserDetails() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        if (identifier != null && patientName != null) {
+            tvPatient.text = patientName
+            tvAncId.text = identifier
+        }
+
+    }
+
+    private fun <T> merge(first: List<T>, second: List<T>, third: List<T>, four: List<T>, five: List<T>): List<T> {
+        val list: MutableList<T> = ArrayList()
+        Stream.of(first, second, third, four, five).forEach { item: List<T>? -> list.addAll(item!!) }
+        return list
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

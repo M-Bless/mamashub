@@ -243,7 +243,7 @@ class FragmentPhysicalExam1 : Fragment() {
 
                 val abnormalityValue = rootView.etAbnomality.text.toString()
                 if(!TextUtils.isEmpty(abnormalityValue)){
-                    addData("If abnormal, specify",abnormalityValue, DbObservationValues.GENERAL_EXAMINATION.name)
+                    addData("If abnormal, specify",abnormalityValue, DbObservationValues.ABNORMAL_GENERAL_EXAMINATION.name)
                 }else{
                     errorList.add("If abnormal, please specify")
                 }
@@ -273,24 +273,24 @@ class FragmentPhysicalExam1 : Fragment() {
         val pulseRate = rootView.etPulseRate.text.toString()
         val temparature = rootView.etTemperature.text.toString()
 
-
-
         val cvsText = formatter.getRadioText(rootView.radioGrpCVS)
         if (cvsText != "") {
             addData("CVS",cvsText, DbObservationValues.CVS.name)
+
+            if(rootView.linearCvs.visibility == View.VISIBLE){
+                val text = rootView.etCvsAbnormal.text.toString()
+                if(!TextUtils.isEmpty(text)){
+                    addData("If abnormal CVS, specify",text, DbObservationValues.ABNORMAL_CVS.name)
+                }else{
+                    errorList.add("If abnormal CVS, please specify")
+                }
+
+            }
+
         } else{
             errorList.add("Please select CVS value")
         }
 
-        if(rootView.linearCvs.visibility == View.VISIBLE){
-            val text = rootView.etCvsAbnormal.text.toString()
-            if(!TextUtils.isEmpty(text)){
-                addData("If abnormal CVS, specify",text, DbObservationValues.CVS.name)
-            }else{
-                errorList.add("If abnormal CVS, please specify")
-            }
-
-        }
         if (!TextUtils.isEmpty(systolicBp)){
             addData("Systolic Bp",systolicBp, DbObservationValues.SYSTOLIC_BP.name)
         }else{
@@ -315,41 +315,44 @@ class FragmentPhysicalExam1 : Fragment() {
         val textValue = formatter.getRadioText(rootView.radioGrpRespiratory)
         if (textValue != "") {
             addData("Respiratory", textValue, DbObservationValues.RESPIRATORY_MONITORING.name)
+            if(rootView.linearResp.visibility == View.VISIBLE){
+                val text = rootView.etCvsRespiratory.text.toString()
+                if (!TextUtils.isEmpty(text)){
+                    addData("If Abnormal Respiratory, specify",text, DbObservationValues.ABNORMAL_RESPIRATORY_MONITORING.name)
+                }else{
+                    errorList.add("If Abnormal Respiratory, please specify")
+                }
+            }
         } else{
             errorList.add("Please select Respiratory value")
         }
-        if(rootView.linearResp.visibility == View.VISIBLE){
-            val text = rootView.etCvsRespiratory.text.toString()
-            if (!TextUtils.isEmpty(text)){
-                addData("If Abnormal Respiratory, specify",text, DbObservationValues.RESPIRATORY_MONITORING.name)
-            }else{
-                errorList.add("If Abnormal Respiratory, please specify")
-            }
-        }
+
 
         val textValueBreast = formatter.getRadioText(rootView.radioGrpBreasts)
         if (textValue != "") {
             addData("Breast Exams", textValueBreast, DbObservationValues.BREAST_EXAM.name)
+
+            if(rootView.linearNormal.visibility == View.VISIBLE){
+                val text = rootView.etBreastFinding.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData("Normal Breasts Findings", text, DbObservationValues.NORMAL_BREAST_EXAM.name)
+                } else {
+                    errorList.add("Normal Breasts Findings is required")
+                }
+            }
+            if(rootView.linearAbnormal.visibility == View.VISIBLE){
+                val text = rootView.etBreastAbnormal.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData("Abnormal Breasts Findings", text, DbObservationValues.ABNORMAL_BREAST_EXAM.name)
+                } else {
+                    errorList.add("Abnormal Breasts Findings is required")
+                }
+            }
+
         } else{
             errorList.add("Please select Breast Exams value")
         }
 
-        if(rootView.linearNormal.visibility == View.VISIBLE){
-            val text = rootView.etBreastFinding.text.toString()
-            if (!TextUtils.isEmpty(text)) {
-                addData("Normal Breasts Findings", text, DbObservationValues.BREAST_EXAM.name)
-            } else {
-                errorList.add("Normal Breasts Findings is required")
-            }
-        }
-        if(rootView.linearAbnormal.visibility == View.VISIBLE){
-            val text = rootView.etBreastAbnormal.text.toString()
-            if (!TextUtils.isEmpty(text)) {
-                addData("Abnormal Breasts Findings", text, DbObservationValues.BREAST_EXAM.name)
-            } else {
-                errorList.add("Abnormal Breasts Findings is required")
-            }
-        }
 
         for (items in observationList){
 

@@ -22,12 +22,9 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.PhysicalExamination
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_clinical_notes_list.*
-import kotlinx.android.synthetic.main.activity_maternal_serology_view.*
-import kotlinx.android.synthetic.main.activity_physical_examination_view.*
-import kotlinx.android.synthetic.main.activity_physical_examination_view.btnAdd
-import kotlinx.android.synthetic.main.activity_physical_examination_view.no_record
-import kotlinx.android.synthetic.main.activity_physical_examination_view.tvValue
+import kotlinx.android.synthetic.main.activity_ifas_view2.*
+
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

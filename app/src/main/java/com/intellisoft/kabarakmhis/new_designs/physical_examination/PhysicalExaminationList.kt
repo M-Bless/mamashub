@@ -93,6 +93,8 @@ class PhysicalExaminationList : AppCompatActivity() {
 
                 val encounterList = ArrayList<DbFhirEncounter>()
 
+                observationList.sortedBy { it.effective }
+
                 observationList.forEachIndexed { index, encounterItem ->
 
                     val pos = index + 1
@@ -108,6 +110,8 @@ class PhysicalExaminationList : AppCompatActivity() {
                         encounterType = encounterType
                     )
                     encounterList.add(dbFhirEncounter)
+
+                    Log.e("-----$pos ", id)
 
                 }
 
