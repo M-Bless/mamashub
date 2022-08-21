@@ -92,19 +92,22 @@ class ClinicalNotesList : AppCompatActivity() {
 
                     val pos = index + 1
 
-                    val lastUpdate = formatterClass.convertFhirDate(encounterItem.effective)
+                    if (encounterItem.effective != ""){
+                        val lastUpdate = formatterClass.convertFhirDate(encounterItem.effective)
+                        if (lastUpdate != null){
+                            val id = encounterItem.id
+                            val encounterType = encounterItem.code
 
-                    if (lastUpdate != null){
-                        val id = encounterItem.id
-                        val encounterType = encounterItem.code
-
-                        val dbFhirEncounter = DbFhirEncounter(
-                            id = id,
-                            encounterName = lastUpdate,
-                            encounterType = encounterType
-                        )
-                        encounterList.add(dbFhirEncounter)
+                            val dbFhirEncounter = DbFhirEncounter(
+                                id = id,
+                                encounterName = lastUpdate,
+                                encounterType = encounterType
+                            )
+                            encounterList.add(dbFhirEncounter)
+                        }
                     }
+
+
 
 
                 }

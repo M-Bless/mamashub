@@ -1075,6 +1075,10 @@ class FormatterClass {
             DbObservationValues.CLINICAL_NOTES.name -> {
                 "371524004"
             }
+            DbObservationValues.CLINICAL_NOTES_NEXT_VISIT.name -> {
+                "390840006"
+            }
+
             DbObservationValues.CONTACT_NUMBER.name -> {
                 "390840006"
             }

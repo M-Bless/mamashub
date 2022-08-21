@@ -22,7 +22,6 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationFhirData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
 import kotlinx.android.synthetic.main.activity_birth_plan_view.*
 import kotlinx.android.synthetic.main.activity_birth_plan_view.no_record
 import kotlinx.android.synthetic.main.activity_birth_plan_view.recycler_view

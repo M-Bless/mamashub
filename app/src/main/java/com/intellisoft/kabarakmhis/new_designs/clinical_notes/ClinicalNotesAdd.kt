@@ -103,9 +103,9 @@ class ClinicalNotesAdd : AppCompatActivity() {
             val todayDate = formatter.getTodayDateNoTime()
             val dbObserveValueList = ArrayList<DbDataList>()
 
-            val dbClinicalValue = DbDataList("Clinical Note", clinicalNotes, DbSummaryTitle.CLINICAL_NOTES.name, DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES.name)
-            val dbNextValue = DbDataList("Next Appointment", appointmentDate, DbSummaryTitle.CLINICAL_NOTES.name, DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES_DATE.name)
-            val dbTodayValue = DbDataList("Date Collected", todayDate, DbSummaryTitle.CLINICAL_NOTES.name, DbResourceType.Observation.name , DbObservationValues.CLINICAL_NOTES_DATE.name)
+            val dbClinicalValue = DbDataList("Clinical Note", clinicalNotes, DbSummaryTitle.A_CLINICAL_NOTES.name, DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES.name)
+            val dbNextValue = DbDataList("Next Appointment", appointmentDate, DbSummaryTitle.A_CLINICAL_NOTES.name, DbResourceType.Observation.name, DbObservationValues.CLINICAL_NOTES_NEXT_VISIT.name)
+            val dbTodayValue = DbDataList("Date Collected", todayDate, DbSummaryTitle.A_CLINICAL_NOTES.name, DbResourceType.Observation.name , DbObservationValues.CLINICAL_NOTES_DATE.name)
 
             dbObserveValueList.addAll(listOf(dbClinicalValue, dbNextValue, dbTodayValue))
 

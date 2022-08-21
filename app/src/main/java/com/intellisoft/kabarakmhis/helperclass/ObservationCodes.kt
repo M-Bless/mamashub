@@ -343,7 +343,7 @@ enum class DbSummaryTitle{
     E_FINANCIAL_PLAN,
 
     //Clinical Notes
-    CLINICAL_NOTES,
+    A_CLINICAL_NOTES,
 
     //Present Pregnancy
     A_CURRENT_PREGNANCY,
