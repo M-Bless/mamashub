@@ -295,6 +295,16 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             observationList.clear()
 
             addData("IPTp", iptpValue, DbObservationValues.IPTP_DATE.name)
+            if (linearIPTpYes.visibility == View.VISIBLE){
+
+                val iptpYes = tvTDInjection.text.toString()
+                if(!TextUtils.isEmpty(iptpYes)){
+                    addData("If IPTP is given: ", iptpYes, DbObservationValues.IPTP_RESULT_YES.name)
+                }else{
+                    errorList.add("Please enter date IPTP was given")
+                }
+            }
+
 
             for (items in observationList){
 

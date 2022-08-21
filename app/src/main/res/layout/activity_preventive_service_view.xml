@@ -61,7 +61,7 @@
             android:layout_marginTop="@dimen/_5dp"
             android:layout_gravity="end"
             android:textAllCaps="false"
-            android:text="Add Maternal Serology"
+            android:text="Add TT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -70,31 +70,6 @@
             android:background="@color/primary"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
-
-        <LinearLayout
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:textStyle="bold"
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primary" />
-
-            <TextView
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:text=""
-                android:id="@+id/tvValue"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

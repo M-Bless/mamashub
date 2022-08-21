@@ -163,7 +163,6 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
         val errorList = ArrayList<String>()
         val dbDataList = ArrayList<DbDataList>()
 
-
         val ironSupplimentValue = formatter.getRadioText(rootView.radioGrpIronSuppliment)
         if(ironSupplimentValue != ""){
 
@@ -184,7 +183,7 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
                 val otherDrug = rootView.etOtherDrug.text.toString()
                 if (!TextUtils.isEmpty(otherDrug)){
-                    addData("Other Provided Supplementary Drug",otherDrug, DbObservationValues.DRUG_GIVEN.name)
+                    addData("Other Provided Supplementary Drug",otherDrug, DbObservationValues.OTHER_SUPPLIMENTS.name)
                 }
 
                 val drugGivenValue = formatter.getRadioText(rootView.radioGrpDrugGvn)
@@ -271,6 +270,19 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
             if (spinnerContactNumberValue == "") errorList.add("Please select contact timing")
 
         }
+        for (items in observationList){
+
+            val key = items.key
+            val dbObservationLabel = observationList.getValue(key)
+
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, DbSummaryTitle.B_ANC_CONTACT.name, DbResourceType.Observation.name, label)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
 
         if (errorList.size == 0) {
 

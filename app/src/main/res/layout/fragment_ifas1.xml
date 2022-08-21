@@ -115,6 +115,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearSupplement"
                         android:orientation="vertical"
                         android:layout_width="match_parent"

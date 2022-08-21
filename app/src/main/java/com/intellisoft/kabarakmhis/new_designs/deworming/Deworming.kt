@@ -112,17 +112,17 @@ class Deworming : AppCompatActivity() {
 
         if (deworming != ""){
 
-            if (deworming == "No"){
-                val value = DbDataList("Deworming given in the 2nd trimester", deworming,
-                    DbSummaryTitle.DEWORMING.name, DbResourceType.Observation.name,
-                    DbObservationValues.DEWORMING.name)
-                dewormingList.add(value)
-            }
+            val dewormingValue = DbDataList("Was deworming given in the 2nd trimester", deworming,
+                DbSummaryTitle.A_DEWORMING.name, DbResourceType.Observation.name,
+                DbObservationValues.DEWORMING.name)
+            dewormingList.add(dewormingValue)
+
+
             if (deworming == "Yes"){
 
                 if (!TextUtils.isEmpty(dateGvn)){
                     val value1 = DbDataList("Date deworming was given", dateGvn,
-                        DbSummaryTitle.DEWORMING.name, DbResourceType.Observation.name, DbObservationValues.DEWORMING.name)
+                        DbSummaryTitle.A_DEWORMING.name, DbResourceType.Observation.name, DbObservationValues.DEWORMING_DATE.name)
                     dewormingList.add(value1)
                 }else{
                     errorList.add("Date deworming is required")

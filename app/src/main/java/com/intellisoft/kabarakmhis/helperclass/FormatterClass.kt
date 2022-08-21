@@ -1104,33 +1104,80 @@ class FormatterClass {
             DbObservationValues.NEXT_VISIT_DATE.name -> {
                 "390840006"
             }
+            DbObservationValues.IPTP_DATE.name -> {
+                "520474952"
+            }
+            DbObservationValues.IPTP_RESULT_YES.name -> {
+                "388435640-Y"
+            }
             DbObservationValues.TT_PROVIDED.name -> {
                 "73152006"
             }
+            DbObservationValues.TT_RESULTS.name -> {
+                "73152006-R"
+            }
             DbObservationValues.LLITN_GIVEN.name -> {
-                "412894909"
+                "784030374-Y"
             }
-            DbObservationValues.REPEAT_SEROLOGY_RESULTS.name -> {
-                "412690006"
-            }
-            DbObservationValues.REPEAT_SEROLOGY_DETAILS.name -> {
-                "412690006-D"
-            }
-            DbObservationValues.REACTIVE_MATERNAL_SEROLOGY.name -> {
-                "412690006-RR"
+            DbObservationValues.LLITN_GIVEN_NEXT_DATE.name -> {
+                "784030374-N"
             }
 
-            DbObservationValues.NON_REACTIVE_SEROLOGY.name -> {
-                "412690006-NR"
+
+
+
+
+            DbObservationValues.REPEAT_SEROLOGY.name -> {
+                "412690006"
             }
+            DbObservationValues.REPEAT_SEROLOGY_RESULTS_YES.name -> {
+                "412690006-Y"
+            }
+            DbObservationValues.REPEAT_SEROLOGY_RESULTS_NO.name -> {
+                "412690006-N"
+            }
+            DbObservationValues.REPEAT_SEROLOGY_DETAILS.name -> {
+                "412690006"
+            }
+            DbObservationValues.REACTIVE_MATERNAL_SEROLOGY_PMTCT.name -> {
+                "412690006-RRPMCT"
+            }
+            DbObservationValues.PARTNER_REACTIVE_SEROLOGY.name -> {
+                "412690006-PR"
+            }
+            DbObservationValues.NON_REACTIVE_SEROLOGY_BOOK.name -> {
+                "412690006-B"
+            }
+            DbObservationValues.NON_REACTIVE_SEROLOGY_CONTINUE_TEST.name -> {
+                "412690006-CT"
+            }
+            DbObservationValues.NON_REACTIVE_SEROLOGY_APPOINTMENT.name -> {
+                "412690006-A"
+            }
+
+
             DbObservationValues.DEWORMING.name -> {
                 "14369007"
             }
+            DbObservationValues.DEWORMING_DATE.name -> {
+                "410671006"
+            }
+
+
             DbObservationValues.IRON_SUPPLIMENTS.name -> {
                 "74935093"
             }
             DbObservationValues.DRUG_GIVEN.name -> {
                 "6709950"
+            }
+            DbObservationValues.REASON_FOR_NOT_PROVIDING_IRON_SUPPLIMENTS.name -> {
+                "410666004"
+            }
+            DbObservationValues.OTHER_SUPPLIMENTS.name -> {
+                "26462991"
+            }
+            DbObservationValues.CONTACT_TIMING.name -> {
+                "39667636"
             }
             DbObservationValues.ANC_CONTACT.name -> {
                 "46645665"

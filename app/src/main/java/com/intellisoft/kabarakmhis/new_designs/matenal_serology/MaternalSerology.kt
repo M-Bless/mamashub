@@ -228,13 +228,20 @@ class MaternalSerology : AppCompatActivity() {
         val repeatSerology = formatter.getRadioText(radioGrpRepeatSerology)
         if (repeatSerology != ""){
 
+            val repeatSerologyValue = DbDataList("Was repeat serology test done", repeatSerology,
+                DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name,
+                DbObservationValues.REPEAT_SEROLOGY.name)
+            dbDataList.add(repeatSerologyValue)
+
+
             if (linearRepeatNo.visibility == View.VISIBLE){
                 val nextAppointment = tvNoNextAppointment.text.toString()
                 if (!TextUtils.isEmpty(nextAppointment)){
 
                     val valueName = DbDataList("Date of Next Appointment", nextAppointment,
                         DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name,
-                        DbObservationValues.REPEAT_SEROLOGY_RESULTS.name)
+                        DbObservationValues.REPEAT_SEROLOGY_RESULTS_NO.name)
+
                     dbDataList.add(valueName)
 
                 }else{
@@ -248,7 +255,7 @@ class MaternalSerology : AppCompatActivity() {
                 val testDoneDate = tvDate.text.toString()
                 if (!TextUtils.isEmpty(testDoneDate)){
                     val valueName = DbDataList("Date Test was done", testDoneDate,
-                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_DETAILS.name)
+                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_RESULTS_YES.name)
                     dbDataList.add(valueName)
                 }else{
                     errorList.add("Test Done Date is required")
@@ -258,6 +265,10 @@ class MaternalSerology : AppCompatActivity() {
                 val radioGrpTestResults = formatter.getRadioText(radioGrpTestResults)
                 if (radioGrpTestResults != ""){
 
+                    val valueName = DbDataList("Test Results", radioGrpTestResults,
+                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_DETAILS.name)
+                    dbDataList.add(valueName)
+
                     if (linearReactive.visibility == View.VISIBLE){
                         val pmtctClinic = etPMTCTClinic.text.toString()
                         val partnerTested = etTestPartner.text.toString()
@@ -265,9 +276,9 @@ class MaternalSerology : AppCompatActivity() {
                         if (!TextUtils.isEmpty(pmtctClinic) && !TextUtils.isEmpty(partnerTested)){
 
                             val valueName1 = DbDataList("Refer PMTCT Clinic", pmtctClinic,
-                                DbSummaryTitle.B_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.REACTIVE_MATERNAL_SEROLOGY.name)
+                                DbSummaryTitle.B_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.REACTIVE_MATERNAL_SEROLOGY_PMTCT.name)
                             val valueName2 = DbDataList("Partner Test", partnerTested,
-                                DbSummaryTitle.B_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.REACTIVE_MATERNAL_SEROLOGY.name)
+                                DbSummaryTitle.B_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.PARTNER_REACTIVE_SEROLOGY.name)
 
                             dbDataList.addAll(listOf(valueName1, valueName2))
 
@@ -286,11 +297,11 @@ class MaternalSerology : AppCompatActivity() {
                         if (!TextUtils.isEmpty(bookSerology) && !TextUtils.isEmpty(breastFeeding) && !TextUtils.isEmpty(nextVisit)){
 
                             val valueName1 = DbDataList("Book Serology Test", bookSerology,
-                                DbSummaryTitle.C_NON_REACTIVE.name, DbResourceType.Observation.name,DbObservationValues.NON_REACTIVE_SEROLOGY.name)
+                                DbSummaryTitle.C_NON_REACTIVE.name, DbResourceType.Observation.name,DbObservationValues.NON_REACTIVE_SEROLOGY_BOOK.name)
                             val valueName2 = DbDataList("Complete Breastfeeding Cessation", breastFeeding,
-                                DbSummaryTitle.C_NON_REACTIVE.name, DbResourceType.Observation.name,DbObservationValues.NON_REACTIVE_SEROLOGY.name)
+                                DbSummaryTitle.C_NON_REACTIVE.name, DbResourceType.Observation.name,DbObservationValues.NON_REACTIVE_SEROLOGY_CONTINUE_TEST.name)
                             val valueName3 = DbDataList("Next appointment", nextVisit,
-                                DbSummaryTitle.C_NON_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.NON_REACTIVE_SEROLOGY.name)
+                                DbSummaryTitle.C_NON_REACTIVE.name, DbResourceType.Observation.name, DbObservationValues.NON_REACTIVE_SEROLOGY_APPOINTMENT.name)
 
                             dbDataList.addAll(listOf(valueName1, valueName2, valueName3))
 

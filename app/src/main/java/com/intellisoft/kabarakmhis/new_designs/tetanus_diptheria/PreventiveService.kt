@@ -167,11 +167,13 @@ class PreventiveService : AppCompatActivity() {
             errorList.add("Next Visit is required")
         }
 
-        val repeatSerology = formatter.getRadioText(radioGrpTD)
-        if (repeatSerology != ""){
+        val tdProvided = formatter.getRadioText(radioGrpTD)
+        if (tdProvided != ""){
+            addData("Was TT Immunization provided",tdProvided, DbObservationValues.TT_PROVIDED.name)
+
             val ttImmunization = tvTTDate.text. toString()
             if (!TextUtils.isEmpty(ttImmunization)){
-                addData("Immunization Date",ttImmunization, DbObservationValues.TT_PROVIDED.name)
+                addData("Immunization Date",ttImmunization, DbObservationValues.TT_RESULTS.name)
             }else{
                 errorList.add("Immunization Date is required")
             }
@@ -189,7 +191,7 @@ class PreventiveService : AppCompatActivity() {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, DbSummaryTitle.TETANUS_DIPHTHERIA.name, DbResourceType.Observation.name , label)
+            val data = DbDataList(key, value, DbSummaryTitle.A_TETANUS_DIPHTHERIA.name, DbResourceType.Observation.name , label)
             dbDataList.add(data)
 
         }
