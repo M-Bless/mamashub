@@ -240,36 +240,37 @@ class FragmentAntenatal3 : Fragment() {
         val hivTest = formatter.getRadioText(rootView.radioGrpHiv)
         if (hivTest != "") {
             addData("HIV Testing", hivTest, DbObservationValues.HIV_TESTING.name)
+            if (rootView.linearTestDate.visibility == View.VISIBLE) {
+
+                val value = rootView.tvHivDate.text.toString()
+                if (!TextUtils.isEmpty(value)) {
+                    addData("HIV Test Date", value , DbObservationValues.YES_HIV_RESULTS.name)
+                } else {
+                    errorList.add("Please select HIV Test Date")
+                }
+            }
         }else{
             errorList.add("Please select HIV Testing")
         }
-        if (rootView.linearTestDate.visibility == View.VISIBLE) {
 
-            val value = rootView.tvHivDate.text.toString()
-            if (!TextUtils.isEmpty(value)) {
-                addData("HIV Test Date", value , DbObservationValues.HIV_RESULTS.name)
-            } else {
-                errorList.add("Please select HIV Test Date")
-            }
-        }
         if (rootView.linearNo.visibility == View.VISIBLE) {
             val value = rootView.etTb.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("HIV Further counselling", value , DbObservationValues.HIV_TESTING.name)
+                addData("HIV Further counselling", value , DbObservationValues.NO_HIV_RESULTS.name)
             } else {
                 errorList.add("Please enter HIV Further counselling")
             }
         }
         val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (hivStatus != "") {
-            addData("HIV Status", hivStatus , DbObservationValues.HIV_STATUS.name)
+            addData("HIV Status", hivStatus , DbObservationValues.HIV_MOTHER_STATUS.name)
         }else{
             errorList.add("Please select HIV Status")
         }
         if (rootView.linearNR.visibility == View.VISIBLE) {
             val value = rootView.tvHivTestDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("HIV Test Date", value , DbObservationValues.HIV_TESTING.name)
+                addData("HIV Test Date", value , DbObservationValues.HIV_NR_DATE.name)
             } else {
                 errorList.add("Please select HIV Test Date")
             }
@@ -297,7 +298,7 @@ class FragmentAntenatal3 : Fragment() {
         if (rootView.linearSyphTestDate.visibility == View.VISIBLE) {
             val value = rootView.tvSyphilisDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Syphilis Test Date", value , DbObservationValues.SYPHILIS_RESULTS.name)
+                addData("Syphilis Test Date", value , DbObservationValues.YES_SYPHILIS_RESULTS.name)
             } else {
                 errorList.add("Please select Syphilis Test Date")
             }
@@ -305,7 +306,7 @@ class FragmentAntenatal3 : Fragment() {
         if (rootView.linearSyphNo.visibility == View.VISIBLE) {
             val value = rootView.etSyphilisCounselling.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Syphilis Further counselling", value , DbObservationValues.SYPHILIS_TESTING.name)
+                addData("Syphilis Further counselling", value , DbObservationValues.NO_SYPHILIS_RESULTS.name)
             } else {
                 errorList.add("Please enter Syphilis Further counselling")
             }
@@ -339,7 +340,7 @@ class FragmentAntenatal3 : Fragment() {
         if (rootView.linearHepatitis.visibility == View.VISIBLE) {
             val value = rootView.tvHepatitisDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Hepatitis Test Date", value , DbObservationValues.HEPATITIS_RESULTS.name)
+                addData("Hepatitis Test Date", value , DbObservationValues.YES_HEPATITIS_RESULTS.name)
             } else {
                 errorList.add("Please select Hepatitis Test Date")
             }
@@ -347,7 +348,7 @@ class FragmentAntenatal3 : Fragment() {
         if (rootView.linearHepaNo.visibility == View.VISIBLE) {
             val value = rootView.etHepatitisCounselling.text.toString()
             if (!TextUtils.isEmpty(value)) {
-                addData("Hepatitis Further counselling", value , DbObservationValues.HEPATITIS_TESTING.name)
+                addData("Hepatitis Further counselling", value , DbObservationValues.NO_HEPATITIS_RESULTS.name)
             } else {
                 errorList.add("Please enter Hepatitis Further counselling")
             }

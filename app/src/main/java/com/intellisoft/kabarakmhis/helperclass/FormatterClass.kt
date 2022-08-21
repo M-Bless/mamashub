@@ -854,33 +854,50 @@ class FormatterClass {
             DbObservationValues.HB_TEST.name -> {
                 "302763003"
             }
+            DbObservationValues.SPECIFIC_HB_TEST.name -> {
+                "302763003-S"
+            }
             DbObservationValues.BLOOD_GROUP_TEST.name -> {
                 "365636006"
+            }
+            DbObservationValues.SPECIFIC_BLOOD_GROUP_TEST.name -> {
+                "365636006-S"
             }
             DbObservationValues.RHESUS_TEST.name -> {
                 "169676009"
             }
+            DbObservationValues.SPECIFIC_RHESUS_TEST.name -> {
+                "169676009-S"
+            }
             DbObservationValues.BLOOD_RBS_TEST.name -> {
                 "33747003"
+            }
+            DbObservationValues.SPECIFIC_BLOOD_RBS_TEST.name -> {
+                "33747003-S"
             }
             DbObservationValues.URINALYSIS_TEST.name -> {
                 "27171005"
             }
-
             DbObservationValues.URINALYSIS_RESULTS.name -> {
                 "45295008"
+            }
+            DbObservationValues.ABNORMAL_URINALYSIS_TEST.name -> {
+                "45295008-A"
+            }
+            DbObservationValues.URINALYSIS_TEST_DATE.name -> {
+                "390840006"
             }
             DbObservationValues.TB_SCREENING.name -> {
                 "171126009"
             }
-            DbObservationValues.TB_RESULTS.name -> {
+            DbObservationValues.TB_SCREENING_RESULTS.name -> {
                 "371569005"
             }
-            DbObservationValues.TB_DIAGNOSIS.name -> {
-                "148264888"
+            DbObservationValues.POSITIVE_TB_DIAGNOSIS.name -> {
+                "148264888-P"
             }
-            DbObservationValues.IPT_ELIGIBILITY.name -> {
-                "521195552"
+            DbObservationValues.NEGATIVE_TB_DIAGNOSIS.name -> {
+                "148264888-N"
             }
             DbObservationValues.IPT_DATE.name -> {
                 "384813511"
@@ -892,14 +909,29 @@ class FormatterClass {
             DbObservationValues.MULTIPLE_BABIES.name -> {
                 "45384004"
             }
+            DbObservationValues.NO_MULTIPLE_BABIES.name -> {
+                "45384004-N"
+            }
             DbObservationValues.OBSTERIC_ULTRASOUND_1.name -> {
                 "268445003-1"
+            }
+            DbObservationValues.OBSTERIC_ULTRASOUND_1_DATE.name -> {
+                "410672004-1"
             }
             DbObservationValues.OBSTERIC_ULTRASOUND_2.name -> {
                 "268445003-2"
             }
+            DbObservationValues.OBSTERIC_ULTRASOUND_2.name -> {
+                "410672004-2"
+            }
+            DbObservationValues.HIV_STATUS_BEFORE_1_ANC.name -> {
+                "19030005-ANC"
+            }
             DbObservationValues.ART_ELIGIBILITY.name -> {
                 "860046068"
+            }
+            DbObservationValues.PARTNER_HIV.name -> {
+                "278977008-P"
             }
             DbObservationValues.ARV_ANC.name -> {
                 "120841000"
@@ -910,42 +942,63 @@ class FormatterClass {
             DbObservationValues.COTRIMOXAZOLE.name -> {
                 "5111197"
             }
+
             DbObservationValues.HIV_TESTING.name -> {
                 "31676001"
             }
-            DbObservationValues.HIV_RESULTS.name -> {
-                "31676001-R"
+            DbObservationValues.YES_HIV_RESULTS.name -> {
+                "31676001-Y"
             }
-            DbObservationValues.HIV_STATUS.name -> {
+            DbObservationValues.NO_HIV_RESULTS.name -> {
+                "31676001-NO"
+            }
+            DbObservationValues.HIV_MOTHER_STATUS.name -> {
                 "278977008"
             }
+            DbObservationValues.HIV_NR_DATE.name -> {
+                "31676001-NR"
+            }
+
             DbObservationValues.SYPHILIS_TESTING.name -> {
                 "76272004"
             }
 
-            DbObservationValues.SYPHILIS_RESULTS.name -> {
-                "406115008"
+            DbObservationValues.YES_SYPHILIS_RESULTS.name -> {
+                "76272004-Y"
+            }
+            DbObservationValues.NO_SYPHILIS_RESULTS.name -> {
+                "76272004-N"
             }
             DbObservationValues.SYPHILIS_MOTHER_STATUS.name -> {
                 "10759921000119107"
             }
+
+
             DbObservationValues.HEPATITIS_TESTING.name -> {
                 "128241005"
             }
-            DbObservationValues.HEPATITIS_RESULTS.name -> {
+            DbObservationValues.YES_HEPATITIS_RESULTS.name -> {
                 "128241005-R"
+            }
+            DbObservationValues.NO_HEPATITIS_RESULTS.name -> {
+                "128241005-N"
             }
             DbObservationValues.HEPATITIS_MOTHER_STATUS.name -> {
                 "10759151000119101"
             }
+
+
             DbObservationValues.COUPLE_HIV_TESTING.name -> {
                 "31676001"
             }
             DbObservationValues.PARTNER_HIV_STATUS.name -> {
                 "31676001-S"
             }
-            DbObservationValues.PARTNER_HIV_RESULTS.name -> {
+            DbObservationValues.REACTIVE_PARTNER_HIV_RESULTS.name -> {
                 "31676001-R"
+            }
+            DbObservationValues.REFERRAL_PARTNER_HIV_DATE.name -> {
+                "31676001-RRD"
             }
             DbObservationValues.FACILITY_NAME.name -> {
                 "257622000"

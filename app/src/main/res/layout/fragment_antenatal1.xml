@@ -312,6 +312,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearRBS"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -392,6 +393,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearUrineDate"
                         android:orientation="vertical"
                         android:layout_width="match_parent"

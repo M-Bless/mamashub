@@ -14,17 +14,23 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationFhirData
 
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
 import kotlinx.android.synthetic.main.activity_antenatal_profile_view.no_record
-import kotlinx.android.synthetic.main.activity_malaria_prophylaxis_list.*
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.recycler_view
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.tvAncId
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.tvPatient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Stream
 
 class AntenatalProfileView : AppCompatActivity() {
 
@@ -54,7 +60,7 @@ class AntenatalProfileView : AppCompatActivity() {
         )[PatientDetailsViewModel::class.java]
 
 
-        recyclerView = findViewById(R.id.patient_list);
+        recyclerView = findViewById(R.id.recycler_view);
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
@@ -77,6 +83,19 @@ class AntenatalProfileView : AppCompatActivity() {
             getObservationDetails()
         }
 
+        getUserDetails()
+    }
+
+    private fun getUserDetails() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        if (identifier != null && patientName != null) {
+            tvPatient.text = patientName
+            tvAncId.text = identifier
+        }
+
     }
 
     private fun getObservationDetails() {
@@ -85,55 +104,71 @@ class AntenatalProfileView : AppCompatActivity() {
             DbResourceViews.ANTENATAL_PROFILE.name)
         if (encounterId != null) {
 
-            val observationList =
-                patientDetailsViewModel.getObservationsFromEncounter(encounterId)
+            val bloodTest = DbObservationFhirData(DbSummaryTitle.A_BLOOD_TESTS.name,
+                listOf("302763003","302763003-S","365636006","365636006-S","169676009","169676009-S","33747003","33747003-S"))
+            val urineTest = DbObservationFhirData(DbSummaryTitle.B_URINE_TESTS.name,
+                listOf("27171005","45295008","45295008-A","390840006"))
+            val tbScreen = DbObservationFhirData(DbSummaryTitle.C_TB_SCREEN.name,
+                listOf("171126009","371569005","148264888-P","148264888-N","521195552","384813511","423337059"))
+            val obstetricSound = DbObservationFhirData(DbSummaryTitle.D_OBSTETRIC_ULTRASOUND.name,
+                listOf("268445003-1","410672004-1","268445003-2","410672004-2"))
+            val multipleBaby = DbObservationFhirData(DbSummaryTitle.D_MULTIPLE_BABIES.name,
+                listOf("45384004","45384004-N"))
+            val hivStatus = DbObservationFhirData(DbSummaryTitle.E_HIV_STATUS.name,
+                listOf("19030005-ANC","860046068","278977008-P"))
+            val maternalHaart = DbObservationFhirData(DbSummaryTitle.F_MATERNAL_HAART.name,
+                listOf("120841000", "416234007","5111197"))
+            val hivTesting = DbObservationFhirData(DbSummaryTitle.G_HIV_TESTING.name,
+                listOf("31676001","31676001-Y","31676001-NO","278977008","31676001-NR"))
+            val syphilisTest = DbObservationFhirData(DbSummaryTitle.H_SYPHILIS_TESTING.name,
+                listOf("76272004","76272004-Y","76272004-N","10759921000119107"))
+            val hepatitisTest = DbObservationFhirData(DbSummaryTitle.I_HEPATITIS_TESTING.name,
+                listOf("128241005", "128241005-R", "128241005-N", "10759151000119101"))
+            val coupleCounselling = DbObservationFhirData(DbSummaryTitle.J_COUPLE_COUNSELLING_TESTING.name,
+                listOf("31676001","31676001-S", "31676001-R", "31676001-RRD"))
+
+
+            val bloodTestList = formatter.getObservationList(patientDetailsViewModel, bloodTest, encounterId)
+            val urineTestList = formatter.getObservationList(patientDetailsViewModel,urineTest, encounterId)
+            val tbScreenList = formatter.getObservationList(patientDetailsViewModel,tbScreen, encounterId)
+            val obstetricSoundList = formatter.getObservationList(patientDetailsViewModel,obstetricSound, encounterId)
+            val multipleBabyList = formatter.getObservationList(patientDetailsViewModel,multipleBaby, encounterId)
+            val hivStatusList = formatter.getObservationList(patientDetailsViewModel,hivStatus, encounterId)
+            val maternalHaartList = formatter.getObservationList(patientDetailsViewModel,maternalHaart, encounterId)
+            val hivTestingList = formatter.getObservationList(patientDetailsViewModel,hivTesting, encounterId)
+            val syphilisTestList = formatter.getObservationList(patientDetailsViewModel,syphilisTest, encounterId)
+            val hepatitisTestList = formatter.getObservationList(patientDetailsViewModel,hepatitisTest, encounterId)
+            val coupleCounsellingList = formatter.getObservationList(patientDetailsViewModel,coupleCounselling, encounterId)
+
+            val observationDataList = merge(bloodTestList, urineTestList, tbScreenList, obstetricSoundList,
+                multipleBabyList, hivStatusList, maternalHaartList, hivTestingList, syphilisTestList, hepatitisTestList, coupleCounsellingList)
 
             CoroutineScope(Dispatchers.Main).launch {
-                if (!observationList.isNullOrEmpty()){
+                if (observationDataList.isNotEmpty()) {
                     no_record.visibility = View.GONE
-                }else{
+                    recycler_view.visibility = View.VISIBLE
+                } else {
                     no_record.visibility = View.VISIBLE
+                    recycler_view.visibility = View.GONE
                 }
+
+                val confirmParentAdapter = ConfirmParentAdapter(observationDataList,this@AntenatalProfileView)
+                recyclerView.adapter = confirmParentAdapter
             }
 
-            if (observationList.isNotEmpty()){
-                var sourceString = ""
-
-                for(item in observationList){
-
-                    val code = item.text
-                    val display = item.value
-
-
-                    Log.e("----code ", code.toString())
-                    Log.e("----display ", display.toString())
-
-
-
-//                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
-
-
-                    sourceString = "$sourceString<br><b>${code.toUpperCase()}</b>: $display"
-
-                }
-
-                CoroutineScope(Dispatchers.Main).launch {
-//                    tvValue.text = sourceString
-
-
-                    tvValue.text = Html.fromHtml(sourceString)
-                    btnAddAntenatal.text = "Edit Antenatal Profile"
-
-
-                }
-
-
-            }
 
 
         }
 
 
+    }
+
+    private fun <T> merge(first: List<T>, second: List<T>, third: List<T>, four: List<T>,
+                          five: List<T>, six: List<T>, seven: List<T>, eight: List<T>,
+                          nine: List<T>, ten: List<T>, eleven: List<T>): List<T> {
+        val list: MutableList<T> = ArrayList()
+        Stream.of(first, second, third, four, five, six, seven, eight, nine, ten, eleven).forEach { item: List<T>? -> list.addAll(item!!) }
+        return list
     }
 
 }

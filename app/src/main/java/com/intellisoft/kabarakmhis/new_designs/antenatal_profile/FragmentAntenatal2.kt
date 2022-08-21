@@ -238,51 +238,55 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         val tbTest = formatter.getRadioText(rootView.radioGrpTb)
         if (tbTest != "") {
             addData("Tb Test", tbTest , DbObservationValues.TB_SCREENING.name)
+
+            if (rootView.linearTB.visibility == View.VISIBLE){
+                val text = formatter.getRadioText(rootView.radioGrpTbResults)
+                if (text != "") {
+                    addData("Tb Test Results", text, DbObservationValues.TB_SCREENING_RESULTS.name)
+
+                    if (rootView.linearPositive.visibility == View.VISIBLE){
+
+                        val data = rootView.etTb.text.toString()
+                        if(!TextUtils.isEmpty(data)){
+                            addData("TB diagnosis",data , DbObservationValues.POSITIVE_TB_DIAGNOSIS.name)
+                        }else{
+                            errorList.add("Please enter TB diagnosis")
+                        }
+
+                    }
+                    if (rootView.linearNegative.visibility == View.VISIBLE){
+                        val iptGvn = rootView.etIpt.text.toString()
+                        val dateGvn = rootView.tvIPTDateGiven.text.toString()
+                        val nextGive = rootView.tvIPTNextVisit.text.toString()
+
+                        if (!TextUtils.isEmpty(iptGvn)) {
+                            addData("IPT Given", iptGvn , DbObservationValues.NEGATIVE_TB_DIAGNOSIS.name)
+                        } else {
+                            errorList.add("Please enter IPT Given")
+                        }
+                        if (!TextUtils.isEmpty(dateGvn)) {
+                            addData("IPT Date Given", dateGvn, DbObservationValues.IPT_DATE.name)
+                        } else {
+                            errorList.add("Please enter IPT Date Given")
+                        }
+                        if (!TextUtils.isEmpty(nextGive)) {
+                            addData("IPT Next Visit", nextGive, DbObservationValues.IPT_VISIT.name)
+                        } else {
+                            errorList.add("Please enter IPT Next Visit")
+                        }
+
+                    }
+
+                }else{
+                    errorList.add("Please select TB Test Results")
+                }
+            }
+
         }else{
             errorList.add("Please select TB Test")
         }
-        if (rootView.linearTB.visibility == View.VISIBLE){
-            val text = formatter.getRadioText(rootView.radioGrpTbResults)
-            if (text != "") {
-                addData("Tb Test Results", text, DbObservationValues.TB_RESULTS.name)
 
-                if (rootView.linearPositive.visibility == View.VISIBLE){
 
-                    val data = rootView.etTb.text.toString()
-                    if(!TextUtils.isEmpty(data)){
-                        addData("TB diagnosis",data , DbObservationValues.TB_DIAGNOSIS.name)
-                    }else{
-                        errorList.add("Please enter TB diagnosis")
-                    }
-
-                }
-                if (rootView.linearNegative.visibility == View.VISIBLE){
-                    val iptGvn = rootView.etIpt.text.toString()
-                    val dateGvn = rootView.tvIPTDateGiven.text.toString()
-                    val nextGive = rootView.tvIPTNextVisit.text.toString()
-
-                    if (!TextUtils.isEmpty(iptGvn)) {
-                        addData("IPT Given", iptGvn , DbObservationValues.IPT_ELIGIBILITY.name)
-                    } else {
-                        errorList.add("Please enter IPT Given")
-                    }
-                    if (!TextUtils.isEmpty(dateGvn)) {
-                        addData("IPT Date Given", dateGvn, DbObservationValues.IPT_DATE.name)
-                    } else {
-                        errorList.add("Please enter IPT Date Given")
-                    }
-                    if (!TextUtils.isEmpty(nextGive)) {
-                        addData("IPT Next Visit", nextGive, DbObservationValues.IPT_VISIT.name)
-                    } else {
-                        errorList.add("Please enter IPT Next Visit")
-                    }
-
-                }
-
-            }else{
-                errorList.add("Please select TB Test Results")
-            }
-        }
         for (items in observationList){
 
             val key = items.key
@@ -300,17 +304,18 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         val multipleBabies = formatter.getRadioText(rootView.radioGrpMultipleBaby)
         if (multipleBabies != "") {
             addData("Multiple babies", multipleBabies, DbObservationValues.MULTIPLE_BABIES.name)
+            if (rootView.linearMultipleBaby.visibility == View.VISIBLE){
+                val text = rootView.etMultipleBaby.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData("Multiple babies results", text , DbObservationValues.NO_MULTIPLE_BABIES.name)
+                }else{
+                    errorList.add("Please enter Multiple babies results")
+                }
+            }
         }else{
             errorList.add("Please select Multiple babies")
         }
-        if (rootView.linearMultipleBaby.visibility == View.VISIBLE){
-            val text = rootView.etMultipleBaby.text.toString()
-            if (!TextUtils.isEmpty(text)) {
-                addData("Multiple babies results", text , DbObservationValues.MULTIPLE_BABIES.name)
-            }else{
-                errorList.add("Please enter Multiple babies results")
-            }
-        }
+
         for (items in observationList){
 
             val key = items.key
@@ -319,7 +324,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
             val value = dbObservationLabel.value
             val label = dbObservationLabel.label
 
-            val data = DbDataList(key, value, "Multiple Babies", DbResourceType.Observation.name, label)
+            val data = DbDataList(key, value, DbSummaryTitle.D_MULTIPLE_BABIES.name, DbResourceType.Observation.name, label)
             dbDataList.add(data)
 
         }
@@ -328,31 +333,33 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         val obstetricUltraSound1 = formatter.getRadioText(rootView.radioGrpUltrasound1)
         if (obstetricUltraSound1 != "") {
             addData("1st Obstetric Sound", obstetricUltraSound1 , DbObservationValues.OBSTERIC_ULTRASOUND_1.name)
+            if (rootView.linearDate.visibility == View.VISIBLE){
+                val text = rootView.tvUltraSound1.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData("1st Obstetric Sound results", text , DbObservationValues.OBSTERIC_ULTRASOUND_1_DATE.name)
+                }else{
+                    errorList.add("Please enter 1st Obstetric Sound results")
+                }
+            }
         }else{
             errorList.add("Please select 1st Obstetric Sound")
         }
-        if (rootView.linearDate.visibility == View.VISIBLE){
-            val text = rootView.tvUltraSound1.text.toString()
-            if (!TextUtils.isEmpty(text)) {
-                addData("1st Obstetric Sound results", text , DbObservationValues.OBSTERIC_ULTRASOUND_1.name)
-            }else{
-                errorList.add("Please enter 1st Obstetric Sound results")
-            }
-        }
+
         val obstetricUltraSound2 = formatter.getRadioText(rootView.radioGrpUltrasound2)
         if (obstetricUltraSound2 != "") {
             addData("2nd Obstetric Sound", obstetricUltraSound2, DbObservationValues.OBSTERIC_ULTRASOUND_2.name)
+            if (rootView.linear2ndUltra.visibility == View.VISIBLE){
+                val text = rootView.tvUltraSound2.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData("2nd Obstetric Sound results", text, DbObservationValues.OBSTERIC_ULTRASOUND_2_DATE.name)
+                }else{
+                    errorList.add("Please enter 2nd Obstetric Sound results")
+                }
+            }
         }else{
             errorList.add("Please select 2nd Obstetric Sound")
         }
-        if (rootView.linear2ndUltra.visibility == View.VISIBLE){
-            val text = rootView.tvUltraSound2.text.toString()
-            if (!TextUtils.isEmpty(text)) {
-                addData("2nd Obstetric Sound results", text, DbObservationValues.OBSTERIC_ULTRASOUND_2.name)
-            }else{
-                errorList.add("Please enter 2nd Obstetric Sound results")
-            }
-        }
+
 
         for (items in observationList){
 
@@ -370,7 +377,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (hivStatus != "") {
-            addData("HIV status before 1st ANC", hivStatus, DbObservationValues.HIV_STATUS.name)
+            addData("HIV status before 1st ANC", hivStatus, DbObservationValues.HIV_STATUS_BEFORE_1_ANC.name)
         }else{
             errorList.add("Please select HIV status before 1st ANC")
         }
@@ -382,7 +389,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         }
 
         if(spinnerPartnerHivValue != "") {
-            addData("Partner HIV Status", spinnerPartnerHivValue, DbObservationValues.PARTNER_HIV_STATUS.name)
+            addData("Partner HIV Status", spinnerPartnerHivValue, DbObservationValues.PARTNER_HIV.name)
         }else{
             errorList.add("Please select Partner HIV Status")
         }

@@ -301,64 +301,67 @@ class FragmentAntenatal1 : Fragment() {
         val hbTest = formatter.getRadioText(rootView.radioGrpHb)
         if (hbTest != ""){
             addData(hbTest, "HB Test", DbObservationValues.HB_TEST.name)
+            if (rootView.linearHb.visibility == View.VISIBLE){
+                val hbReading = rootView.etHb.text.toString()
+                if (!TextUtils.isEmpty(hbReading)) {
+                    addData("HB Reading",hbReading, DbObservationValues.SPECIFIC_HB_TEST.name)
+                }else{
+                    errorList.add("Please enter HB Reading")
+                }
+            }
         }else{
             errorList.add("Please make a selection on HB Test")
         }
 
-        if (rootView.linearHb.visibility == View.VISIBLE){
-            val hbReading = rootView.etHb.text.toString()
-            if (!TextUtils.isEmpty(hbReading)) {
-                addData("HB Reading",hbReading, DbObservationValues.HB_TEST.name)
-            }else{
-                errorList.add("Please enter HB Reading")
-            }
-        }
 
         val bloodGroupTest = formatter.getRadioText(rootView.radioGrpBloodGrpTest)
         if (bloodGroupTest != ""){
             addData("Blood Group Test", bloodGroupTest, DbObservationValues.BLOOD_GROUP_TEST.name)
+            if (rootView.linearBG.visibility == View.VISIBLE){
+                val groupTypeResult = formatter.getRadioText(rootView.radioGrpType)
+                if (groupTypeResult != "") {
+                    addData("Blood Group Type", groupTypeResult ,DbObservationValues.SPECIFIC_BLOOD_GROUP_TEST.name)
+                }else{
+                    errorList.add("Please make a selection on Blood Group Type")
+                }
+
+            }
         }else{
             errorList.add("Please make a selection on Blood Group Test")
         }
-        if (rootView.linearBG.visibility == View.VISIBLE){
-            val groupTypeResult = formatter.getRadioText(rootView.radioGrpType)
-            if (groupTypeResult != "") {
-                addData("Blood Group Type", groupTypeResult ,DbObservationValues.BLOOD_GROUP_TEST.name)
-            }else{
-                errorList.add("Please make a selection on Blood Group Type")
-            }
 
-        }
 
         val rhesusTest = formatter.getRadioText(rootView.radioGrpRhesus)
         if (rhesusTest != "") {
             addData("Rhesus Test", rhesusTest ,DbObservationValues.RHESUS_TEST.name)
+            if (rootView.linearRhesus.visibility == View.VISIBLE){
+                val rhesusResult = formatter.getRadioText(rootView.radioGrpRhesusTest)
+                if (rhesusResult != "") {
+                    addData("Rhesus Test Result", rhesusResult ,DbObservationValues.SPECIFIC_RHESUS_TEST.name)
+                }else{
+                    errorList.add("Please make a selection on Rhesus Test Result")
+                }
+            }
         }else{
             errorList.add("Please make a selection on Rhesus Test")
         }
-        if (rootView.linearRhesus.visibility == View.VISIBLE){
-            val rhesusResult = formatter.getRadioText(rootView.radioGrpRhesusTest)
-            if (rhesusResult != "") {
-                addData("Rhesus Test Result", rhesusResult ,DbObservationValues.RHESUS_TEST.name)
-            }else{
-                errorList.add("Please make a selection on Rhesus Test Result")
-            }
-        }
+
 
         val bloodRbs = formatter.getRadioText(rootView.radioGrpBloodRbs)
         if (bloodRbs != "") {
             addData("Blood RBS", bloodRbs ,DbObservationValues.BLOOD_RBS_TEST.name)
+            if (rootView.linearRBS.visibility == View.VISIBLE){
+                val rbsReading = rootView.etBloodRBSReading.text.toString()
+                if (!TextUtils.isEmpty(rbsReading)) {
+                    addData("Blood RBS Reading", rbsReading, DbObservationValues.SPECIFIC_BLOOD_RBS_TEST.name)
+                }else{
+                    errorList.add("Please enter Blood RBS Reading")
+                }
+            }
         }else{
             errorList.add("Please make a selection on Blood RBS")
         }
-        if (rootView.linearRBS.visibility == View.VISIBLE){
-            val rbsReading = rootView.etBloodRBSReading.text.toString()
-            if (!TextUtils.isEmpty(rbsReading)) {
-                addData("Blood RBS Reading", rbsReading, DbObservationValues.BLOOD_RBS_TEST.name)
-            }else{
-                errorList.add("Please enter Blood RBS Reading")
-            }
-        }
+
 
         for (items in observationList){
 
@@ -377,35 +380,39 @@ class FragmentAntenatal1 : Fragment() {
         val urineTest = formatter.getRadioText(rootView.radioGrpExternalExam)
         if (urineTest != "") {
             addData("Urinalysis test", urineTest ,DbObservationValues.URINALYSIS_TEST.name)
+
+            if (rootView.linearUrineDate.visibility == View.VISIBLE){
+                val urineTestDate = rootView.tvUrineTestAppointment.text.toString()
+                if (!TextUtils.isEmpty(urineTestDate)) {
+                    addData("Urinalysis test date", urineTestDate, DbObservationValues.URINALYSIS_TEST_DATE.name)
+                }else{
+                    errorList.add("Please enter a Urinalysis test date")
+                }
+            }
+
+            if (rootView.linearUrine.visibility == View.VISIBLE){
+                val urineResult = formatter.getRadioText(rootView.radioGrpUrineResults)
+                if (urineResult != "") {
+                    addData("Urinalysis Result", urineResult ,DbObservationValues.URINALYSIS_RESULTS.name)
+                }else{
+                    errorList.add("Please make a selection on Urinalysis Result")
+                }
+            }
+            if (rootView.linearAbnormal.visibility == View.VISIBLE){
+                val abnormalResult = rootView.etAbnormalUrine.text.toString()
+                if (!TextUtils.isEmpty(abnormalResult)) {
+                    addData("Urinalysis Abnormal Result", abnormalResult ,DbObservationValues.ABNORMAL_URINALYSIS_TEST.name)
+                }else{
+                    errorList.add("Please enter Urinalysis Abnormal Result")
+                }
+            }
+
+
         }else{
             errorList.add("Please make a selection on Urinalysis test")
         }
 
-        if (rootView.linearUrineDate.visibility == View.VISIBLE){
-            val urineTestDate = rootView.tvUrineTestAppointment.text.toString()
-            if (!TextUtils.isEmpty(urineTestDate)) {
-                addData("Urinalysis test date", urineTestDate, DbObservationValues.URINALYSIS_TEST_DATE.name)
-            }else{
-                errorList.add("Please enter a Urinalysis test date")
-            }
-        }
 
-        if (rootView.linearUrine.visibility == View.VISIBLE){
-            val urineResult = formatter.getRadioText(rootView.radioGrpUrineResults)
-            if (urineResult != "") {
-                addData("Urinalysis Result", urineResult ,DbObservationValues.URINALYSIS_RESULTS.name)
-            }else{
-                errorList.add("Please make a selection on Urinalysis Result")
-            }
-        }
-        if (rootView.linearAbnormal.visibility == View.VISIBLE){
-            val abnormalResult = rootView.etAbnormalUrine.text.toString()
-            if (!TextUtils.isEmpty(abnormalResult)) {
-                addData("Urinalysis Abnormal Result", abnormalResult ,DbObservationValues.URINALYSIS_RESULTS.name)
-            }else{
-                errorList.add("Please enter Urinalysis Abnormal Result")
-            }
-        }
         for (items in observationList){
 
             val key = items.key

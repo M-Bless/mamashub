@@ -187,7 +187,7 @@ class FragmentAntenatal4 : Fragment() {
         if (rootView.linearReactive.visibility == View.VISIBLE){
             val reactive = formatter.getRadioText(rootView.radioGrpReactive)
             if (reactive != ""){
-                addData("Was the partner referred for HIV care", reactive, DbObservationValues.PARTNER_HIV_RESULTS.name)
+                addData("Was the partner referred for HIV care", reactive, DbObservationValues.REACTIVE_PARTNER_HIV_RESULTS.name)
             }else{
                 errorList.add("Please select partner HIV results")
             }
@@ -195,7 +195,7 @@ class FragmentAntenatal4 : Fragment() {
         if (rootView.linearReferral.visibility == View.VISIBLE){
             val referral = rootView.tvHivTestDate.text.toString()
             if (!TextUtils.isEmpty(referral)){
-                addData("Referral Date", referral , DbObservationValues.NEXT_VISIT_DATE.name)
+                addData("Referral Date", referral , DbObservationValues.REFERRAL_PARTNER_HIV_DATE.name)
             }else{
                 errorList.add("Please select referral date")
             }
