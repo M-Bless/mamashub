@@ -283,19 +283,36 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
         if (!TextUtils.isEmpty(systolic) && !TextUtils.isEmpty(diastolic)
             && !TextUtils.isEmpty(fundalHeight) && !TextUtils.isEmpty(gestation)
-            && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac)){
+            && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac) && spinnerContactNumberValue != ""){
 
             if (gestation.toInt() in 33..42) {
 
                 if (formatter.validateMuac(muac)){
 
-                    if (rootView.linearUrine.visibility == View.VISIBLE){
-                        val text = rootView.etUrineResults.text.toString()
-                        addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
+                    val urineTest = formatter.getRadioText(rootView.radioGrpUrineResults)
+                    if (urineTest != ""){
+
+                        addData("Urine Test Done",urineTest, DbObservationValues.URINALYSIS_TEST.name)
+
+                        if (rootView.linearUrine.visibility == View.VISIBLE){
+
+                            val text = rootView.etUrineResults.text.toString()
+                            if (!TextUtils.isEmpty(text)) {
+                                addData(
+                                    "Urine Results",
+                                    text,
+                                    DbObservationValues.URINALYSIS_RESULTS.name
+                                )
+                            }else{
+                                errorList.add("You selected urine test but did not enter results")
+                            }
+
+                        }
+
                     }else{
-                        val text = formatter.getRadioText(rootView.radioGrpUrineResults)
-                        addData("Urine Results",text, DbObservationValues.URINALYSIS_RESULTS.name)
+                        errorList.add("Urine Results is required")
                     }
+
                     addData("MUAC",muac, DbObservationValues.MUAC.name)
                     addData("Pregnancy Contact",spinnerContactNumberValue, DbObservationValues.CONTACT_NUMBER.name)
                     for (items in observationList){
@@ -337,7 +354,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
                             val hbReading = rootView.etHbReading.text.toString()
                             if (hbReading != ""){
-                                addData("Hb Testing Done",hbReading, DbObservationValues.HB_TEST.name)
+                                addData("Hb Testing Results",hbReading, DbObservationValues.SPECIFIC_HB_TEST.name)
                             }else{
                                 errorList.add("Hb Reading is required")
                             }
@@ -386,6 +403,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             if (TextUtils.isEmpty(fundalHeight)) errorList.add("Fundal Height is required")
             if (TextUtils.isEmpty(date)) errorList.add("Date is required")
             if (TextUtils.isEmpty(muac)) errorList.add("MUAC is required")
+            if (spinnerContactNumberValue == "") errorList.add("Pregnancy Contact is required")
 
         }
 

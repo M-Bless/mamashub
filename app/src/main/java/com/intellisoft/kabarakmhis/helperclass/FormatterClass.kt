@@ -1080,7 +1080,7 @@ class FormatterClass {
             }
 
             DbObservationValues.CONTACT_NUMBER.name -> {
-                "390840006"
+                "424525001"
             }
 
             DbObservationValues.MUAC.name -> {
