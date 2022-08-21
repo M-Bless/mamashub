@@ -110,6 +110,7 @@ enum class DbObservationValues{
     BABY_SEX,
     BABY_OUTCOME,
     BABY_PURPERIUM,
+    ABNORMAL_BABY_PURPERIUM,
 
     HB_TEST,
     BLOOD_GROUP_TEST,
@@ -291,6 +292,10 @@ enum class DbSummaryTitle{
     C_WEIGHT_MONITORING,
     D_ABDOMINAL_EXAMINATION,
     E_EXTERNAL_GENITALIA_EXAM,
+
+    //Previous Pregnancy
+    A_PREGNANCY_DETAILS,
+    B_BABY_DETAILS,
 
     //Antenatal Profile
     A_BLOOD_TESTS,

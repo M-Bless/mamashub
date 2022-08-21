@@ -389,7 +389,7 @@ class PatientDetailsViewModel(
         fhirEngine.search<Encounter>{
             filter(Encounter.REASON_CODE, {value = of(Coding().apply { code = encounterName })})
             filter(Encounter.SUBJECT, {value = "Patient/$patientId"})
-            sort(Encounter.DATE, Order.ASCENDING)
+            sort(Encounter.DATE, Order.DESCENDING)
         }.take(Int.MAX_VALUE)
             .map { createEncounterItem(it, getApplication<Application>().resources) }
             .let { encounter.addAll(it) }

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -111,11 +112,16 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
             addData("Pregnancy Order",spinnerPregnancyValue, DbObservationValues.PREGNANCY_ORDER.name)
             addData("Year",year, DbObservationValues.YEAR.name)
             addData("ANC Time",ancTime, DbObservationValues.ANC_NO.name)
-            addData("Birth Place",birthPlace, DbObservationValues.CHILDBIRTH_PLACE.name)
+            addData("Child Birth Place",birthPlace, DbObservationValues.CHILDBIRTH_PLACE.name)
             addData("Gestation",gestation, DbObservationValues.GESTATION.name)
             addData("Duration",duration, DbObservationValues.LABOUR_DURATION.name)
+
             val deliveryMode = formatter.getRadioText(rootView.deliveryMode)
-            addData("Delivery Mode",deliveryMode, DbObservationValues.DELIVERY_MODE.name)
+            if (deliveryMode != ""){
+                addData("Delivery Mode",deliveryMode, DbObservationValues.DELIVERY_MODE.name)
+            }else{
+                errorList.add("Delivery Mode is required.")
+            }
 
             for (items in observationList){
 
@@ -125,18 +131,29 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
                 val value = dbObservationLabel.value
                 val label = dbObservationLabel.label
 
-                val data = DbDataList(key, value, "Previous Pregnancy", DbResourceType.Observation.name, label)
+                val data = DbDataList(key, value, DbSummaryTitle.A_PREGNANCY_DETAILS.name, DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }
 
             observationList.clear()
 
-            addData("Baby Weight",babyWeight, DbObservationValues.BABY_WEIGHT.name)
+            addData("Baby Weight (grams)",babyWeight, DbObservationValues.BABY_WEIGHT.name)
+
             val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
-            addData("Baby's Sex",radioGrpBabySex, DbObservationValues.BABY_SEX.name)
+            if (radioGrpBabySex != ""){
+                addData("Baby's Sex",radioGrpBabySex, DbObservationValues.BABY_SEX.name)
+            }else{
+                errorList.add("The sex of the baby is required")
+            }
+
             val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
-            addData("Outcome",radioGrpOutcome, DbObservationValues.BABY_OUTCOME.name)
+            if (radioGrpOutcome != ""){
+                addData("Outcome",radioGrpOutcome, DbObservationValues.BABY_OUTCOME.name)
+            }else{
+                errorList.add("Outcome is not selected")
+            }
+
             val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
             if (radioGrpPurperium != ""){
                 addData("Purperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
@@ -144,7 +161,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
                 if (rootView.linearPurperium.visibility == View.VISIBLE){
                     val text = rootView.etAbnormal.text.toString()
                     if (!TextUtils.isEmpty(text)){
-                        addData("If Purperium is Abnormal, ",text, DbObservationValues.BABY_PURPERIUM.name)
+                        addData("If Purperium is Abnormal, ",text, DbObservationValues.ABNORMAL_BABY_PURPERIUM.name)
                     }else{
                         errorList.add("If purperium is abnormal, please enter abnormal details")
                     }
@@ -163,7 +180,7 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
                 val value = dbObservationLabel.value
                 val label = dbObservationLabel.label
 
-                val data = DbDataList(key, value, "Baby Details", DbResourceType.Observation.name, label)
+                val data = DbDataList(key, value, DbSummaryTitle.B_BABY_DETAILS.name, DbResourceType.Observation.name, label)
                 dbDataList.add(data)
 
             }
@@ -173,10 +190,10 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
             if (TextUtils.isEmpty(year)) errorList.add("Please provide an year")
             if (TextUtils.isEmpty(ancTime)) errorList.add("Please provide an ANC Time")
-            if (TextUtils.isEmpty(birthPlace)) errorList.add("Please provide an Birth Place")
-            if (TextUtils.isEmpty(gestation)) errorList.add("Please provide an Gestation")
-            if (TextUtils.isEmpty(duration)) errorList.add("Please provide an Duration")
-            if (TextUtils.isEmpty(babyWeight)) errorList.add("Please provide an Baby Weight")
+            if (TextUtils.isEmpty(birthPlace)) errorList.add("Please provide a Birth Place")
+            if (TextUtils.isEmpty(gestation)) errorList.add("Please provide a Gestation")
+            if (TextUtils.isEmpty(duration)) errorList.add("Please provide a Duration")
+            if (TextUtils.isEmpty(babyWeight)) errorList.add("Please provide Baby Weight")
         }
 
         if (errorList.size == 0) {

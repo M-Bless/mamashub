@@ -848,6 +848,9 @@ class FormatterClass {
             DbObservationValues.BABY_PURPERIUM.name -> {
                 "289910000"
             }
+            DbObservationValues.ABNORMAL_BABY_PURPERIUM.name -> {
+                "289910000-A"
+            }
             DbObservationValues.HB_TEST.name -> {
                 "302763003"
             }

@@ -15,23 +15,25 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.ObservationAdapter
 import com.intellisoft.kabarakmhis.new_designs.adapter.ViewDetailsAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationFhirData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_clinical_notes_list.*
-import kotlinx.android.synthetic.main.activity_maternal_serology_view.*
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.*
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.btnAdd
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.no_record
-import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.tvValue
+import kotlinx.android.synthetic.main.activity_previous_pregnancy_view.recycler_view
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Stream
 
 class PreviousPregnancyView : AppCompatActivity() {
 
@@ -86,58 +88,53 @@ class PreviousPregnancyView : AppCompatActivity() {
 
             if (encounterId != null) {
 
-                val observationList =
-                    patientDetailsViewModel.getObservationsFromEncounter(encounterId)
+                val pregnancyDetails = DbObservationFhirData(DbSummaryTitle.A_PREGNANCY_DETAILS.name,
+                    listOf("818602026","258707000","424525001","257557008","77386006","289248003","386216000"))
+                val babyDetails = DbObservationFhirData(DbSummaryTitle.B_BABY_DETAILS.name,
+                    listOf("47340003","268476009","364587008","289910000","289910000-A"))
+
+                val pregnancyDetailsList = formatter.getObservationList(patientDetailsViewModel, pregnancyDetails, encounterId)
+                val babyDetailsList = formatter.getObservationList(patientDetailsViewModel,babyDetails, encounterId)
+
+                val observationDataList = merge(pregnancyDetailsList, babyDetailsList)
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    if (observationList.isNotEmpty()){
+                    if (observationDataList.isNotEmpty()) {
                         no_record.visibility = View.GONE
-                    }else{
+                        recycler_view.visibility = View.VISIBLE
+                    } else {
                         no_record.visibility = View.VISIBLE
-                    }
-                }
-
-                if (observationList.isNotEmpty()){
-                    var sourceString = ""
-
-                    for(item in observationList){
-
-                        val code = item.text
-                        val display = item.value
-
-//                    sourceString = "$sourceString\n\n${code.toUpperCase()}: $display"
-                        sourceString = "$sourceString<br><b>${code.toUpperCase()}</b>: $display"
-
+                        recycler_view.visibility = View.GONE
                     }
 
-                    CoroutineScope(Dispatchers.Main).launch {
-//                    tvValue.text = sourceString
-                        tvValue.text = Html.fromHtml(sourceString)
-                        btnAdd.text = "Edit Present Pregnancy"}
-
-
+                    val confirmParentAdapter = ConfirmParentAdapter(observationDataList,this@PreviousPregnancyView)
+                    recyclerView.adapter = confirmParentAdapter
                 }
 
 
             }
 
-//            val observationId = formatter.retrieveSharedPreference(this@PresentPregnancyView,"observationId")
-//            if (observationId != null) {
-//                val observationList = retrofitCallsFhir.getObservationDetails(this@PresentPregnancyView, observationId)
-//
-//                CoroutineScope(Dispatchers.Main).launch {
-//                    val configurationListingAdapter = ObservationAdapter(
-//                        observationList,this@PresentPregnancyView)
-//                    recyclerView.adapter = configurationListingAdapter
-//                }
-//
-//            }
-
-
-
         }
 
+        getUserDetails()
+    }
 
+    private fun getUserDetails() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        if (identifier != null && patientName != null) {
+            tvPatient.text = patientName
+            tvAncId.text = identifier
+        }
+
+    }
+
+    private fun <T> merge(first: List<T>, second: List<T>): List<T> {
+        val list: MutableList<T> = ArrayList()
+        Stream.of(first, second).forEach { item: List<T>? -> list.addAll(item!!) }
+        return list
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
