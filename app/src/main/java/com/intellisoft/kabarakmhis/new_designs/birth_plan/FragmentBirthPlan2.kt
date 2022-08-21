@@ -120,10 +120,10 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
             val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
             if (companionPhoneNo != null){
 
-                addData("Name",companionName, DbObservationValues.COMPANION_NAME.name)
-                addData("Telephone Number",companionPhone ,DbObservationValues.COMPANION_NUMBER.name)
-                addData("Transport",companionMeans, DbObservationValues.COMPANION_TRANSPORT.name)
-                addData("Designation",spinnerDesignationValue1, DbObservationValues.ATTENDANT_DESIGNATION.name)
+                addData("Name",companionName, DbObservationValues.COMPANION_NAME1.name)
+                addData("Telephone Number",companionPhone ,DbObservationValues.COMPANION_NUMBER1.name)
+                addData("Transport",companionMeans, DbObservationValues.COMPANION_TRANSPORT1.name)
+                addData("Designation",spinnerDesignationValue1, DbObservationValues.ATTENDANT_DESIGNATION1.name)
 
                 for (items in observationList){
 

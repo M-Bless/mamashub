@@ -126,6 +126,12 @@ class PatientProfile : AppCompatActivity() {
                         val kinPhone = patientData.kinData.phone
                         val identifier = patientData.identifier
 
+                        val edd = patientDetailsViewModel.getObservationsPerCode("161714006")
+                        if (edd.isNotEmpty()){
+                            edd[0].value.let {
+                                formatter.saveSharedPreference(this@PatientProfile, "edd", it)
+                            }
+                        }
 
                         formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
                         formatter.saveSharedPreference(this@PatientProfile, "dob", dob)

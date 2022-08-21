@@ -1000,12 +1000,16 @@ class FormatterClass {
             DbObservationValues.REFERRAL_PARTNER_HIV_DATE.name -> {
                 "31676001-RRD"
             }
+
+
+
             DbObservationValues.FACILITY_NAME.name -> {
                 "257622000"
             }
             DbObservationValues.FACILITY_NUMBER.name -> {
                 "257622000-N"
             }
+
             DbObservationValues.ATTENDANT_NAME.name -> {
                 "308210000"
             }
@@ -1027,6 +1031,31 @@ class FormatterClass {
             DbObservationValues.COMPANION_TRANSPORT.name -> {
                 "360300001"
             }
+
+            DbObservationValues.ATTENDANT_NAME1.name -> {
+                "308210000-A"
+            }
+            DbObservationValues.ATTENDANT_NUMBER1.name -> {
+                "308210000-AN"
+            }
+            DbObservationValues.ATTENDANT_DESIGNATION1.name -> {
+                "308210000-AD"
+            }
+            DbObservationValues.COMPANION_NAME1.name -> {
+                "62071000-AC"
+            }
+            DbObservationValues.COMPANION_NUMBER1.name -> {
+                "359993007-ACN"
+            }
+            DbObservationValues.COMPANION_RELATIONSHIP1.name -> {
+                "263498003-ACR"
+            }
+            DbObservationValues.COMPANION_TRANSPORT1.name -> {
+                "360300001-ACT"
+            }
+
+
+
             DbObservationValues.DONOR_NAME.name -> {
                 "308210000"
             }

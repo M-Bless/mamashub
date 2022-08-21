@@ -255,32 +255,40 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         val alternativeAttendantName = rootView.etAlternativeAttendantName.text.toString()
         val alternativeAttendantPhone = rootView.etAlternativeAttendantPhone.text.toString()
 
-        if (!TextUtils.isEmpty(alternativeAttendantName) && !TextUtils.isEmpty(alternativeAttendantPhone) && spinnerDesignationValue2 != "") {
+        if (!TextUtils.isEmpty(alternativeAttendantName)) {
 
-            val alternativeAttendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(alternativeAttendantPhone)
-            if (alternativeAttendantPhoneNo != null){
+            if (!TextUtils.isEmpty(alternativeAttendantPhone) && spinnerDesignationValue2 != "") {
 
-                addData("Name",alternativeAttendantName, DbObservationValues.ATTENDANT_NAME.name)
-                addData("Telephone Number",alternativeAttendantPhoneNo, DbObservationValues.ATTENDANT_NUMBER.name)
-                addData("Designation",spinnerDesignationValue2 ,DbObservationValues.ATTENDANT_DESIGNATION.name)
+                val alternativeAttendantPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(alternativeAttendantPhone)
+                if (alternativeAttendantPhoneNo != null){
 
-                for (items in observationList){
+                    addData("Name",alternativeAttendantName, DbObservationValues.ATTENDANT_NAME1.name)
+                    addData("Telephone Number",alternativeAttendantPhoneNo, DbObservationValues.ATTENDANT_NUMBER1.name)
+                    addData("Designation",spinnerDesignationValue2 ,DbObservationValues.ATTENDANT_DESIGNATION1.name)
 
-                    val key = items.key
-                    val dbObservationLabel = observationList.getValue(key)
+                    for (items in observationList){
 
-                    val value = dbObservationLabel.value
-                    val label = dbObservationLabel.label
+                        val key = items.key
+                        val dbObservationLabel = observationList.getValue(key)
 
-                    val data = DbDataList(key, value, DbSummaryTitle.C_ALTERNATIVE_BIRTH_ATTENDANT.name, DbResourceType.Observation.name, label)
-                    dbDataList.add(data)
+                        val value = dbObservationLabel.value
+                        val label = dbObservationLabel.label
 
+                        val data = DbDataList(key, value, DbSummaryTitle.C_ALTERNATIVE_BIRTH_ATTENDANT.name, DbResourceType.Observation.name, label)
+                        dbDataList.add(data)
+
+                    }
+                    observationList.clear()
+
+                }else{
+                    errorList.add("Alternative attendant phone number is not valid")
                 }
-                observationList.clear()
 
             }else{
-                errorList.add("Alternative attendant phone number is not valid")
+                errorList.add("Alternative attendant phone number is required")
             }
+
+
 
         }
 
@@ -361,6 +369,7 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
 
         val totalPages = formatter.retrieveSharedPreference(requireContext(), "totalPages")
         val currentPage = formatter.retrieveSharedPreference(requireContext(), "currentPage")
+        val edd = formatter.retrieveSharedPreference(requireContext(), "edd")
 
         if (totalPages != null && currentPage != null){
 
@@ -368,6 +377,10 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
 
         }
 
+        if (edd != null){
+            rootView.etEdd.text = edd
+            rootView.etEdd.isEnabled = false
+        }
 
     }
 

@@ -14,7 +14,7 @@
         <entry key="app/src/main/res/drawable/round_edittext.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/search_round.xml" value="0.3545" />
         <entry key="app/src/main/res/layout/activity_antenatal_profile.xml" value="0.19630192502532928" />
-        <entry key="app/src/main/res/layout/activity_antenatal_profile_view.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/activity_antenatal_profile_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_birth_plan.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_birth_plan_view.xml" value="0.25977653631284914" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_add.xml" value="0.33133817870884996" />
