@@ -223,6 +223,12 @@ enum class DbResourceViews {
     CHW_1,
     CHW_2,
 }
+
+data class DbObservationFhirData(
+    val title: String,
+    val codeList: List<String>
+)
+
 data class DbTypeDataValue(
     val type: String,
     val dbObserveValue: DbObserveValue

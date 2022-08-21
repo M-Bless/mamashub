@@ -179,26 +179,37 @@ class FragmentMedical : Fragment(){
 
         }
 
-        if (rootView.layoutOtherCondition.visibility == View.VISIBLE){
+        val otherConditions = formatter.getRadioText(rootView.radioGrpOtherCondition)
+        if (otherConditions != ""){
 
-            val otherConditionList = ArrayList<String>()
+            addData("Other Medical Conditions",otherConditions, DbObservationValues.OTHER_CONDITIONS.name)
 
-            if (rootView.checkBoxEpilepsy.isChecked)otherConditionList.add("Epilepsy")
-            if (rootView.checkBoxMalariaPregnancy.isChecked)otherConditionList.add("Malaria in pregnancy")
-            if (rootView.layoutOthers.visibility == View.VISIBLE){
+            if (rootView.layoutOtherCondition.visibility == View.VISIBLE){
 
-                val otherText = rootView.etOtherConditions.text.toString()
-                if (!TextUtils.isEmpty(otherText)){
-                    otherConditionList.add(otherText)
-                }else{
-                    isErrorList.add("You have selected others but have not entered any other condition")
+                val otherConditionList = ArrayList<String>()
+
+                if (rootView.checkBoxEpilepsy.isChecked)otherConditionList.add("Epilepsy")
+                if (rootView.checkBoxMalariaPregnancy.isChecked)otherConditionList.add("Malaria in pregnancy")
+
+                if (rootView.layoutOthers.visibility == View.VISIBLE){
+
+                    val otherText = rootView.etOtherConditions.text.toString()
+                    if (!TextUtils.isEmpty(otherText)){
+                        otherConditionList.add(otherText)
+                    }else{
+                        isErrorList.add("You have selected other conditions but have not entered any other condition")
+                    }
                 }
+
+                addData("Other Medical Conditions Information",
+                    otherConditionList.joinToString(separator = ","), DbObservationValues.OTHER_CONDITIONS_SPECIFY.name)
             }
 
-            addData("Other Medical History",otherConditionList.toString(), DbObservationValues.MEDICAL_HISTORY.name)
         }else{
-            isErrorList.add("You have selected other medical history but have not filled the details")
+            isErrorList.add("Other Conditions cannot be empty")
         }
+
+
 
         for (items in observationList){
 
@@ -214,17 +225,48 @@ class FragmentMedical : Fragment(){
         }
         observationList.clear()
 
-        if (rootView.linearDrug.visibility == View.VISIBLE){
-            val text = rootView.etDrugAllergies.text.toString()
-            addData("Drug Allergy",text, DbObservationValues.DRUG_ALLERGY.name)
+        val drugAllergy = formatter.getRadioText(rootView.radioGrpDrugAllergies)
+        if (drugAllergy != "") {
+            addData("Drug Allergy", drugAllergy, DbObservationValues.DRUG_ALLERGY.name)
+
+            if (rootView.linearDrug.visibility == View.VISIBLE){
+                val text = rootView.etDrugAllergies.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData("Specific Drug Allergy",text, DbObservationValues.SPECIFIC_DRUG_ALLERGY.name)
+                }else{
+                    isErrorList.add("You have selected drug allergy but have not entered any drug allergy")
+                }
+            }
+
         }else{
-            val text = formatter.getRadioText(rootView.radioGrpDrugAllergies)
-            addData("Drug Allergy",text, DbObservationValues.DRUG_ALLERGY.name)
+            isErrorList.add("Drug Allergy cannot be empty")
         }
-        if (rootView.linearOtherNonDrugAllergy.visibility == View.VISIBLE){
-            val text = rootView.etDrugOtherAllergies.text.toString()
-            addData("Other non drug allergies",text, DbObservationValues.DRUG_ALLERGY.name)
+
+
+
+        val otherDrugAllergy = formatter.getRadioText(rootView.radioGrpOtherAllergy)
+        if (otherDrugAllergy != "") {
+
+            addData("Other non drug allergies",otherDrugAllergy, DbObservationValues.NON_DRUG_ALLERGY.name)
+
+            if (rootView.linearOtherNonDrugAllergy.visibility == View.VISIBLE){
+                val text = rootView.etDrugOtherAllergies.text.toString()
+                if (!TextUtils.isEmpty(text)) {
+                    addData(
+                        "Other non drug allergies",
+                        text,
+                        DbObservationValues.SPECIFIC_NON_DRUG_ALLERGY.name
+                    )
+                }else{
+                    isErrorList.add("You have selected other non drug allergy but have not entered any other non drug allergy")
+                }
+
+            }
+
+        }else{
+            isErrorList.add("Other Drug Allergy cannot be empty")
         }
+
         for (items in observationList){
 
             val key = items.key

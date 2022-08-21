@@ -85,8 +85,6 @@ class FragmentConfirmDetails : Fragment(){
 
                     val titleValue = title.replace(" ", "_")
 
-                    Log.e("++++++", titleValue)
-
                     formatter.saveDataLocal(requireContext(), titleValue, value)
 
                 }

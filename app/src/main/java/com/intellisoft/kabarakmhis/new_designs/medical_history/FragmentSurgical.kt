@@ -108,16 +108,16 @@ class FragmentSurgical : Fragment() {
         if (rootView.checkboxSalpi.isChecked) surgicalHistoryList.add(rootView.checkboxSalpi.text.toString())
         if (rootView.checkboxCervical.isChecked) surgicalHistoryList.add(rootView.checkboxCervical.text.toString())
 
-        addData("Surgical History", surgicalHistoryList.toString(), DbObservationValues.SURGICAL_HISTORY.name)
+        addData("Surgical History", surgicalHistoryList.joinToString(separator = ","), DbObservationValues.SURGICAL_HISTORY.name)
 
         val otherGyna = rootView.etOtherGyna.text.toString()
         val otherSurgeries = rootView.etOtherSurgery.text.toString()
 
         if (!TextUtils.isEmpty(otherGyna)){
-            addData("Other Gynecological Procedures", otherGyna, DbObservationValues.SURGICAL_HISTORY.name)
+            addData("Other Gynecological Procedures", otherGyna, DbObservationValues.OTHER_GYNAECOLOGICAL_HISTORY.name)
         }
         if (!TextUtils.isEmpty(otherSurgeries)){
-            addData("Other Surgeries",otherSurgeries, DbObservationValues.SURGICAL_HISTORY.name)
+            addData("Other Surgeries",otherSurgeries, DbObservationValues.OTHER_SURGICAL_HISTORY.name)
         }
 
         val dbDataList = ArrayList<DbDataList>()

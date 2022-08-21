@@ -112,15 +112,22 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         val twinsValue = formatter.getRadioText(rootView.radioGrpTwins)
         if (twinsValue != ""){
 
+            addData("Twins History",twinsValue,DbObservationValues.TWINS.name)
+
             if (rootView.linearTwins.visibility == View.VISIBLE){
 
-                var twins = ""
-                if (rootView.checkboxPreviousPregnancy.isChecked)twins = twins + "Previous Pregnancy" + ","
-                if (rootView.checkboxMotherSide.isChecked)twins = twins + "Mother's side" + ","
-                addData("Twins History",twins,DbObservationValues.TWINS.name)
+                var twins = ArrayList<String>()
+                if (rootView.checkboxPreviousPregnancy.isChecked) twins.add("Previous Pregnancy")
+                if (rootView.checkboxMotherSide.isChecked) twins.add("Mother Side")
 
-            }else{
-                addData("Twins History",twinsValue,DbObservationValues.TWINS.name)
+                if (twins.size > 0){
+                    addData("Twins Specification",twins.joinToString(separator = ","),DbObservationValues.TWINS_SPECIFY.name)
+                }else{
+                    errorList.add("Twins History is required")
+                }
+
+
+
             }
 
         }else{
@@ -130,40 +137,44 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         val tbValue = formatter.getRadioText(rootView.radioGrpTb)
         if (tbValue != "") {
 
+            addData("Family Member with TB ",tbValue,DbObservationValues.TB_FAMILIY_HISTORY.name)
+
             if (rootView.linearTbRelation.visibility == View.VISIBLE){
                 //Get Name of relative and relationship
                 val relativeName = rootView.etRelativeTbName.text.toString()
                 if (!TextUtils.isEmpty(relativeName)) {
-                    addData("Family Member with TB ",relativeName,DbObservationValues.TUBERCULOSIS.name)
+                    addData("Family Member with TB ",relativeName,DbObservationValues.TB_FAMILIY_NAME.name)
                 } else {
                     errorList.add("TB Relative Name is required")
                 }
 
-                addData("Family Member with TB Relationship",spinnerRshpValue, DbObservationValues.RELATIONSHIP.name)
+                if (spinnerRshpValue != "") {
+                    addData("Family Member with TB Relationship",spinnerRshpValue, DbObservationValues.TB_FAMILIY_RELATIONSHIP.name)
+                } else {
+                    errorList.add("TB Relative Relationship is required")
+                }
 
                 val relativeHouseHold = formatter.getRadioText(rootView.radioGrpSameHouse)
 
                 if (relativeHouseHold != "") {
 
+                    addData("Living in the same household",relativeHouseHold,DbObservationValues.FAMILY_LIVING_HOUSEHOLD.name)
+
                     if (rootView.linearReferTbScreening.visibility == View.VISIBLE){
                         //Refer for TB Screening
                         val text = rootView.etTbScreening.text.toString()
                         if (!TextUtils.isEmpty(text)){
-                            addData("Tuberculosis Screening",text,DbObservationValues.TUBERCULOSIS.name)
+                            addData("Tuberculosis Screening",text,DbObservationValues.FAMILIY_TB_SCREENING.name)
                         }else{
                             errorList.add("Tuberculosis Screening value is required")
                         }
 
-                    }else{
-                        addData("Was the patient sharing residence with TB person? ",relativeHouseHold ,DbObservationValues.TUBERCULOSIS.name)
                     }
 
                 } else {
                     errorList.add("TB Screening is required")
                 }
 
-            }else{
-                addData("Tuberculosis History",tbValue,DbObservationValues.TUBERCULOSIS.name)
             }
 
         }else{

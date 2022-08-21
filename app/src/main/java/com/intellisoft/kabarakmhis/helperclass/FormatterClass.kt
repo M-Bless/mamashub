@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentConfirmPatient
@@ -549,6 +550,28 @@ class FormatterClass {
         return frag
     }
 
+    fun getObservationList(patientDetailsViewModel : PatientDetailsViewModel, dbObservationFhirData:DbObservationFhirData, encounterId:String):ArrayList<DbConfirmDetails>{
+
+        val observationDataList = ArrayList<DbConfirmDetails>()
+        val detailsList = ArrayList<DbObserveValue>()
+
+        dbObservationFhirData.codeList.forEach {
+
+            val list = patientDetailsViewModel.getObservationsPerCodeFromEncounter(it, encounterId)
+            list.forEach { obs ->
+                val text = obs.text
+                val value = obs.value
+                val dbObserveValue = DbObserveValue(text, value)
+                detailsList.add(dbObserveValue)
+            }
+
+        }
+        val dbConfirmDetails = DbConfirmDetails(dbObservationFhirData.title, detailsList)
+        observationDataList.add(dbConfirmDetails)
+
+        return observationDataList
+    }
+
     fun startFragmentPatient(context: Context, encounterName: String): FragmentConfirmPatient {
 
         saveSharedPreference(context, "encounterTitle", encounterName)
@@ -624,8 +647,16 @@ class FormatterClass {
             DbObservationValues.GESTATION.name -> {
                 "77386006"
             }
+
+
             DbObservationValues.SURGICAL_HISTORY.name -> {
                 "161615003"
+            }
+            DbObservationValues.OTHER_GYNAECOLOGICAL_HISTORY.name -> {
+                "267011001"
+            }
+            DbObservationValues.OTHER_SURGICAL_HISTORY.name -> {
+                "12658000"
             }
 
 
@@ -635,24 +666,57 @@ class FormatterClass {
             DbObservationValues.HYPERTENSION.name -> {
                 "38341003"
             }
-            DbObservationValues.MEDICAL_HISTORY.name -> {
-                "417662000"
+            DbObservationValues.OTHER_CONDITIONS.name -> {
+                "7867677"
+            }
+            DbObservationValues.OTHER_CONDITIONS_SPECIFY.name -> {
+                "7867677-S"
             }
 
             DbObservationValues.BLOOD_TRANSFUSION.name -> {
                 "116859006"
             }
+            DbObservationValues.BLOOD_TRANSFUSION_REACTION.name -> {
+                "82545002"
+            }
             DbObservationValues.TUBERCULOSIS.name -> {
                 "371569005"
             }
+
             DbObservationValues.DRUG_ALLERGY.name -> {
                 "416098002"
             }
-
-
+            DbObservationValues.SPECIFIC_DRUG_ALLERGY.name -> {
+                "416098002-S"
+            }
+            DbObservationValues.NON_DRUG_ALLERGY.name -> {
+                "609328004"
+            }
+            DbObservationValues.SPECIFIC_NON_DRUG_ALLERGY.name -> {
+                "609328004-S"
+            }
             DbObservationValues.TWINS.name -> {
                 "169828005"
             }
+            DbObservationValues.TWINS_SPECIFY.name -> {
+                "169828005-S"
+            }
+            DbObservationValues.TB_FAMILIY_HISTORY.name -> {
+                "161414005"
+            }
+            DbObservationValues.TB_FAMILIY_NAME.name -> {
+                "161414005-N"
+            }
+            DbObservationValues.TB_FAMILIY_RELATIONSHIP.name -> {
+                "161414005-R"
+            }
+            DbObservationValues.FAMILY_LIVING_HOUSEHOLD.name -> {
+                "161414005-H"
+            }
+            DbObservationValues.FAMILIY_TB_SCREENING.name -> {
+                "171126009"
+            }
+
             DbObservationValues.GENERAL_EXAMINATION.name -> {
                 "25656009"
             }

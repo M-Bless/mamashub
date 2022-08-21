@@ -3,6 +3,7 @@ package com.intellisoft.kabarakmhis.fhir.data
 import com.google.android.fhir.sync.DownloadWorkManager
 
 import com.google.android.fhir.SyncDownloadContext
+import com.intellisoft.kabarakmhis.fhir.data.Constants.DEMO_SERVER
 
 
 import java.util.LinkedList
@@ -17,7 +18,8 @@ const val SYNC_PARAM = "address-country"
 
 class DownloadManagerImpl : DownloadWorkManager {
     private val resourceTypeList = ResourceType.values().map { it.name }
-    private val urls = LinkedList(listOf("Patient?$SYNC_PARAM=$SYNC_VALUE"))
+    private val urls = LinkedList(
+        listOf("Patient?$SYNC_PARAM=$SYNC_VALUE", "CarePlan"))
 
     override suspend fun getNextRequestUrl(context: SyncDownloadContext): String? {
         var url = urls.poll() ?: return null
@@ -69,7 +71,15 @@ class DownloadManagerImpl : DownloadWorkManager {
                     urls.add(patientUrl)
                 }
 
+                if (type == "CarePlan") {
+                    val no = entry.resource as CarePlan
+                    val care = no.encounter.reference
+                    val encounterUrl = "$DEMO_SERVER$care/\$everything"
+                    urls.add(encounterUrl)
+
+                }
             }
+
 
 
             val nextUrl =

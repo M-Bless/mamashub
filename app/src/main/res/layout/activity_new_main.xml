@@ -24,13 +24,13 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_weight="1"
                 android:textStyle="bold"
-                android:text="Patient List"
+                android:text="Client List"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
-                android:text="Register New Patient"
+                android:text="Register New Client"
                 android:id="@+id/btnRegisterPatient"
                 android:textAllCaps="false"
                 app:icon="@drawable/ic_action_add"
