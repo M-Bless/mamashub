@@ -263,7 +263,7 @@ class FragmentAntenatal1 : Fragment() {
 
     private fun validateRBS(editText: EditText, value: Int){
 
-        if (value > 4 || value < 8.3){
+        if (value > 4 && value < 8.3){
             editText.setBackgroundColor(resources.getColor(R.color.low_risk))
         }else{
             editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))

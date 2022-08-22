@@ -163,30 +163,32 @@
 
                         </RadioGroup>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearReferral"
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/linearReferral"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Referral Date"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tvHivTestDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint=""
-                            android:textColor="@color/black"
-                            app:drawableEndCompat="@drawable/ic_action_date" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Referral Date"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <TextView
+                                android:id="@+id/tvHivTestDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint=""
+                                android:textColor="@color/black"
+                                app:drawableEndCompat="@drawable/ic_action_date" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 

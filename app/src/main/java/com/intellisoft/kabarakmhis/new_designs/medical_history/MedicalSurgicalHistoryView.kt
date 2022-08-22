@@ -95,10 +95,14 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
             )
             if (encounterId != null) {
 
-                val surgical = DbObservationFhirData(DbSummaryTitle.A_SURGICAL_HISTORY.name, listOf("161615003","12658000","12658000"))
-                val medical = DbObservationFhirData(DbSummaryTitle.B_MEDICAL_HISTORY.name, listOf("405751000","38341003","7867677","7867677-S","116859006","82545002","371569005"))
-                val drug = DbObservationFhirData(DbSummaryTitle.C_DRUG_ALLERGIES.name,listOf("416098002","416098002-S","609328004","609328004-S"))
-                val family = DbObservationFhirData(DbSummaryTitle.D_FAMILY_HISTORY.name,listOf("169828005","169828005-S","161414005","161414005-N", "161414005-R","161414005-H", "171126009"))
+                val surgical = DbObservationFhirData(DbSummaryTitle.A_SURGICAL_HISTORY.name,
+                    listOf("161615003","12658000","12658000"))
+                val medical = DbObservationFhirData(DbSummaryTitle.B_MEDICAL_HISTORY.name,
+                    listOf("405751000","38341003","7867677","7867677-S","116859006","82545002","371569005"))
+                val drug = DbObservationFhirData(DbSummaryTitle.C_DRUG_ALLERGIES.name,
+                    listOf("416098002","416098002-S","609328004","609328004-S"))
+                val family = DbObservationFhirData(DbSummaryTitle.D_FAMILY_HISTORY.name,
+                    listOf("169828005","169828005-S","161414005","161414005-N", "161414005-R","161414005-H", "171126009"))
 
 
                 val surgicalList = formatter.getObservationList(patientDetailsViewModel, surgical, encounterId)

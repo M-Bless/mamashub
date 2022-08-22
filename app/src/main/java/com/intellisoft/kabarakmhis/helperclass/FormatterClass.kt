@@ -332,6 +332,15 @@ class FormatterClass {
             DbResourceViews.FAMILY_HISTORY.name,
             DbResourceViews.PRESENT_PREGNANCY.name,
             DbResourceViews.ANTENATAL_PROFILE.name,
+            DbResourceViews.COUNSELLING.name,
+            DbResourceViews.TETENUS_DIPTHERIA.name,
+            DbResourceViews.MATERNAL_SEROLOGY.name,
+            DbResourceViews.MALARIA_PROPHYLAXIS.name,
+            DbResourceViews.PMTCT.name,
+            DbResourceViews.COMMUNITY_REFERRAL.name,
+            DbResourceViews.PATIENT_INFO.name,
+            DbResourceViews.DEWORMING.name,
+            DbResourceViews.IFAS.name,
 
             DbObservationValues.COUNTY_NAME.name,
             DbObservationValues.SUB_COUNTY_NAME.name,
@@ -1319,6 +1328,22 @@ class FormatterClass {
                 "35317232"
             }
 
+
+
+
+
+
+
+            DbObservationValues.OFFICER_NAME.name -> { "106292003" }
+            DbObservationValues.OFFICER_NUMBER.name -> { "408402003-1" }
+            DbObservationValues.CHV_NAME.name -> { "303119007" }
+            DbObservationValues.CHV_NUMBER.name -> { "408402003-2" }
+            DbObservationValues.COMMUNITY_HEALTH_UNIT.name -> { "6827000" }
+
+            DbObservationValues.REFERRING_OFFICER.name -> { "420942008" }
+            DbObservationValues.CLIENT_SERVICE.name -> { "224930009" }
+            DbObservationValues.SIGNATURE.name -> { "700856009" }
+
             else -> {
                 ""
             }
@@ -1405,5 +1430,9 @@ class FormatterClass {
             else -> { "" }
         }
     }
+
+    fun stringToWords(s : String) = s.trim().splitToSequence(',')
+        .filter { it.isNotEmpty() } // or: .filter { it.isNotBlank() }
+        .toList()
 
 }

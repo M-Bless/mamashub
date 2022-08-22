@@ -9,18 +9,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfileView
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
+import com.intellisoft.kabarakmhis.new_designs.chw.referral.ReferralView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
 import com.intellisoft.kabarakmhis.new_designs.deworming.DewormingView
@@ -49,6 +52,7 @@ class PatientProfile : AppCompatActivity() {
     private lateinit var fhirEngine: FhirEngine
     private val formatterClass = FormatterClass()
     private lateinit var kabarakViewModel: KabarakViewModel
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,37 +113,49 @@ class PatientProfile : AppCompatActivity() {
 
                 if (patientLocalName == null || patientLocalName == "") {
 
-                    val job = Job()
-                    CoroutineScope(Dispatchers.Main + job).launch {
+                    CoroutineScope(Dispatchers.Main).launch {
 
                         val progressDialog = ProgressDialog(this@PatientProfile)
                         progressDialog.setTitle("Please wait...")
                         progressDialog.setMessage("Getting user data...")
                         progressDialog.show()
 
-                        val patientData = patientDetailsViewModel.getPatientData()
+                        var patientName = ""
+                        var dob = ""
+                        var kinName = ""
+                        var kinPhone = ""
+                        var identifier = ""
 
-                        val patientName = patientData.name
-                        val dob = patientData.dob
+                        val job = Job()
+                        CoroutineScope(Dispatchers.IO + job).launch {
 
-                        val kinName = patientData.kinData.name
-                        val kinPhone = patientData.kinData.phone
-                        val identifier = patientData.identifier
+                            val patientData = patientDetailsViewModel.getPatientData()
 
-                        val edd = patientDetailsViewModel.getObservationsPerCode("161714006")
-                        if (edd.isNotEmpty()){
-                            edd[0].value.let {
-                                formatter.saveSharedPreference(this@PatientProfile, "edd", it)
+                            patientName = patientData.name
+                            dob = patientData.dob
+
+                            kinName = patientData.kinData.name
+                            kinPhone = patientData.kinData.phone
+                            identifier = patientData.identifier
+
+                            val edd = patientDetailsViewModel.getObservationsPerCode("161714006")
+                            if (edd.isNotEmpty()){
+                                edd[0].value.let {
+                                    formatter.saveSharedPreference(this@PatientProfile, "edd", it)
+                                }
                             }
-                        }
 
-                        formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
-                        formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
-                        formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier.toString())
-                        formatter.saveSharedPreference(this@PatientProfile, "kinName", kinName)
-                        formatter.saveSharedPreference(this@PatientProfile, "kinPhone", kinPhone)
+                            formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
+                            formatter.saveSharedPreference(this@PatientProfile, "dob", dob)
+                            formatter.saveSharedPreference(this@PatientProfile, "identifier", identifier.toString())
+                            formatter.saveSharedPreference(this@PatientProfile, "kinName", kinName)
+                            formatter.saveSharedPreference(this@PatientProfile, "kinPhone", kinPhone)
+
+
+                        }.join()
 
                         showClientDetails(patientName, dob, identifier, kinName, kinPhone)
+
                         progressDialog.dismiss()
 
                     }.join()
@@ -151,6 +167,8 @@ class PatientProfile : AppCompatActivity() {
                     showClientDetails(patientLocalName, patientLocalDob, patientLocalIdentifier, patientLocalKinName, patientLocalKinPhone)
 
                 }
+
+                viewModel.poll()
 
             }catch (e: Exception){
                 Log.e("Error", e.message.toString())
@@ -181,7 +199,6 @@ class PatientProfile : AppCompatActivity() {
             val age = "${formatter.calculateAge(patientLocalDob)} years"
             tvAge.text = age
         }
-
 
 
     }
@@ -215,6 +232,7 @@ class PatientProfile : AppCompatActivity() {
         navigatePmtct.setOnClickListener { startActivity(Intent(this, PMTCTInterventionsView::class.java))}
         navigateDeworming.setOnClickListener { startActivity(Intent(this, DewormingView::class.java))}
         navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}
+        navigateReferral.setOnClickListener { startActivity(Intent(this, ReferralView::class.java))}
 
     }
 

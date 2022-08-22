@@ -11,10 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -25,6 +30,11 @@ import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_surgical.view.*
 import kotlinx.android.synthetic.main.fragment_surgical.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentSurgical : Fragment() {
@@ -34,6 +44,10 @@ class FragmentSurgical : Fragment() {
     private lateinit var rootView: View
     private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+    private val formatterClass = FormatterClass()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -42,6 +56,13 @@ class FragmentSurgical : Fragment() {
 
         rootView = inflater.inflate(R.layout.fragment_surgical, container, false)
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatterClass.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         rootView.checkboxNoPast.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (isChecked){
@@ -77,6 +98,83 @@ class FragmentSurgical : Fragment() {
         return rootView
     }
 
+    override fun onStart() {
+        super.onStart()
+
+//        getPastData()
+    }
+
+    private fun getPastData() {
+
+        try {
+            //Check if encounter id is available
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(
+                    requireContext(),
+                    DbResourceViews.MEDICAL_HISTORY.name
+                )
+
+                if (encounterId != null){
+
+                    val checkBoxList = mutableListOf<CheckBox>()
+                    checkBoxList.addAll(listOf(
+                        rootView.checkboxNoPast,
+                        rootView.checkboxNoKnowledge,
+                        rootView.checkboxDilation,
+                        rootView.checkboxMyomectomy,
+                        rootView.checkboxRemoval,
+                        rootView.checkboxOophorectomy,
+                        rootView.checkboxSalpi,
+                        rootView.checkboxCervical,))
+
+                    val surgicalHist = patientDetailsViewModel.getObservationsPerCodeFromEncounter("161615003", encounterId)
+                    val otherGynecological = patientDetailsViewModel.getObservationsPerCodeFromEncounter("12658000", encounterId)
+                    val otherSurgery = patientDetailsViewModel.getObservationsPerCodeFromEncounter("12658000", encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if(surgicalHist.isNotEmpty()){
+
+                            val surgicalHistValue = surgicalHist[0].value
+                            val surgicalList = formatter.stringToWords(surgicalHistValue)
+                            surgicalList.forEach {
+
+                                checkBoxList.forEach { checkBox ->
+                                    if (checkBox.text.toString() == it){
+                                        checkBox.isChecked = true
+                                    }
+                                }
+
+                            }
+
+                        }
+                        if (otherGynecological.isNotEmpty()){
+                            val otherGynecologicalValue = otherGynecological[0].value
+                            rootView.etOtherGyna.setText(otherGynecologicalValue)
+                        }
+                        if (otherSurgery.isNotEmpty()){
+                            val otherSurgeryValue = otherSurgery[0].value
+                            rootView.etOtherSurgery.setText(otherSurgeryValue)
+                        }
+
+
+                    }
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            println(e)
+        }
+
+    }
+
+
+
     private fun handleNavigation() {
 
         rootView.navigation.btnNext.text = "Next"
@@ -101,24 +199,30 @@ class FragmentSurgical : Fragment() {
             surgicalHistoryList.add(rootView.checkboxNoKnowledge.text.toString())
         }
 
-        if (rootView.checkboxDilation.isChecked) surgicalHistoryList.add(rootView.checkboxDilation.text.toString())
-        if (rootView.checkboxMyomectomy.isChecked) surgicalHistoryList.add(rootView.checkboxMyomectomy.text.toString())
-        if (rootView.checkboxRemoval.isChecked) surgicalHistoryList.add(rootView.checkboxRemoval.text.toString())
-        if (rootView.checkboxOophorectomy.isChecked) surgicalHistoryList.add(rootView.checkboxOophorectomy.text.toString())
-        if (rootView.checkboxSalpi.isChecked) surgicalHistoryList.add(rootView.checkboxSalpi.text.toString())
-        if (rootView.checkboxCervical.isChecked) surgicalHistoryList.add(rootView.checkboxCervical.text.toString())
+        if(rootView.linearSurgeries.visibility == View.VISIBLE){
 
-        addData("Surgical History", surgicalHistoryList.joinToString(separator = ","), DbObservationValues.SURGICAL_HISTORY.name)
+            if (rootView.checkboxDilation.isChecked) surgicalHistoryList.add(rootView.checkboxDilation.text.toString())
+            if (rootView.checkboxMyomectomy.isChecked) surgicalHistoryList.add(rootView.checkboxMyomectomy.text.toString())
+            if (rootView.checkboxRemoval.isChecked) surgicalHistoryList.add(rootView.checkboxRemoval.text.toString())
+            if (rootView.checkboxOophorectomy.isChecked) surgicalHistoryList.add(rootView.checkboxOophorectomy.text.toString())
+            if (rootView.checkboxSalpi.isChecked) surgicalHistoryList.add(rootView.checkboxSalpi.text.toString())
+            if (rootView.checkboxCervical.isChecked) surgicalHistoryList.add(rootView.checkboxCervical.text.toString())
 
-        val otherGyna = rootView.etOtherGyna.text.toString()
-        val otherSurgeries = rootView.etOtherSurgery.text.toString()
+            addData("Surgical History", surgicalHistoryList.joinToString(separator = ","), DbObservationValues.SURGICAL_HISTORY.name)
 
-        if (!TextUtils.isEmpty(otherGyna)){
-            addData("Other Gynecological Procedures", otherGyna, DbObservationValues.OTHER_GYNAECOLOGICAL_HISTORY.name)
+            val otherGyna = rootView.etOtherGyna.text.toString()
+            val otherSurgeries = rootView.etOtherSurgery.text.toString()
+
+            if (!TextUtils.isEmpty(otherGyna)){
+                addData("Other Gynecological Procedures", otherGyna, DbObservationValues.OTHER_GYNAECOLOGICAL_HISTORY.name)
+            }
+            if (!TextUtils.isEmpty(otherSurgeries)){
+                addData("Other Surgeries",otherSurgeries, DbObservationValues.OTHER_SURGICAL_HISTORY.name)
+            }
+
+
         }
-        if (!TextUtils.isEmpty(otherSurgeries)){
-            addData("Other Surgeries",otherSurgeries, DbObservationValues.OTHER_SURGICAL_HISTORY.name)
-        }
+
 
         val dbDataList = ArrayList<DbDataList>()
 

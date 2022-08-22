@@ -222,6 +222,8 @@ enum class DbResourceViews {
 
     CHW_1,
     CHW_2,
+
+    COMMUNITY_REFERRAL
 }
 
 data class DbObservationFhirData(

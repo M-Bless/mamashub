@@ -84,9 +84,11 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearSupplement, true)
                     changeVisibility(rootView.linearNoIron, false)
+                    changeVisibility(rootView.linearContactDosage, true)
                 } else {
                     changeVisibility(rootView.linearSupplement, false)
                     changeVisibility(rootView.linearNoIron, true)
+                    changeVisibility(rootView.linearContactDosage, false)
                 }
 
             }
@@ -172,12 +174,26 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
                 val provideReason = etProvideReason.text.toString()
                 if (provideReason != "") {
-                    addData("Reason for not providing iron suppliments", provideReason, DbObservationValues.REASON_FOR_NOT_PROVIDING_IRON_SUPPLIMENTS.name)
+                    addData("Reason for not providing iron supplements", provideReason, DbObservationValues.REASON_FOR_NOT_PROVIDING_IRON_SUPPLIMENTS.name)
                 }else{
-                    errorList.add("Please provide reason for not providing iron suppliments")
+                    errorList.add("Please provide reason for not providing iron supplements")
                 }
 
             }
+
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, DbSummaryTitle.A_SUPPLIMENTS_ISSUING_TO_CLIENT.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
 
             if (ironSupplimentValue == "Yes"){
 
@@ -193,6 +209,99 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
                     errorList.add("Please select drug given")
                 }
 
+                for (items in observationList){
+
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
+
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, DbSummaryTitle.A_SUPPLIMENTS_ISSUING_TO_CLIENT.name, DbResourceType.Observation.name, label)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
+
+
+                if (rootView.linearContactDosage.visibility == View.VISIBLE){
+
+                    val timeContact = rootView.tvContactTiming.text.toString()
+                    val tabletNo = rootView.tvTabletNo.text.toString()
+
+                    if (!TextUtils.isEmpty(timeContact) && !TextUtils.isEmpty(tabletNo) && spinnerContactNumberValue != ""){
+                        addData("Time of contact",timeContact, DbObservationValues.ANC_CONTACT.name)
+                        addData("No of tablets",tabletNo, DbObservationValues.TABLET_NUMBER.name)
+                        addData("ANC Contact: ",spinnerContactNumberValue, DbObservationValues.CONTACT_TIMING.name)
+                    }else{
+
+                        if (TextUtils.isEmpty(timeContact)) errorList.add("Please select time of contact")
+                        if (TextUtils.isEmpty(tabletNo)) errorList.add("Please select no of tablets")
+                        if (spinnerContactNumberValue == "") errorList.add("Please select contact timing")
+
+                    }
+
+                    for (items in observationList){
+
+                        val key = items.key
+                        val dbObservationLabel = observationList.getValue(key)
+
+                        val value = dbObservationLabel.value
+                        val label = dbObservationLabel.label
+
+                        val data = DbDataList(key, value, DbSummaryTitle.B_ANC_CONTACT.name, DbResourceType.Observation.name, label)
+                        dbDataList.add(data)
+
+                    }
+                    observationList.clear()
+
+                    val dosageAmnt = rootView.etDosageAmount.text.toString()
+                    if (!TextUtils.isEmpty(dosageAmnt)){
+                        addData("Dosage Amount",dosageAmnt, DbObservationValues.DOSAGE_AMOUNT.name)
+                    }else{
+                        errorList.add("Please enter dosage amount")
+                    }
+
+                    val frequency = rootView.etFrequency.text.toString()
+                    if (!TextUtils.isEmpty(frequency)){
+                        addData("Dosage Frequency",frequency, DbObservationValues.DOSAGE_FREQUENCY.name)
+                    }else{
+                        errorList.add("Please enter dosage frequency")
+                    }
+
+                    val dateGvn = rootView.tvDate.text.toString()
+                    if (!TextUtils.isEmpty(dateGvn)){
+                        addData("Date Dosage Given",dateGvn, DbObservationValues.DOSAGE_DATE_GIVEN.name)
+                    }else{
+                        errorList.add("Please enter dosage date given")
+                    }
+
+                    val counsellingIfas = formatter.getRadioText(rootView.radioGrpBenefits)
+                    if (counsellingIfas != ""){
+                        addData("Was IFAS Counselling Done",counsellingIfas, DbObservationValues.IRON_AND_FOLIC_COUNSELLING.name)
+                    }else{
+                        errorList.add("Please select IFAS counselling")
+                    }
+
+                    for (items in observationList){
+
+                        val key = items.key
+                        val dbObservationLabel = observationList.getValue(key)
+
+                        val value = dbObservationLabel.value
+                        val label = dbObservationLabel.label
+
+                        val data = DbDataList(key, value, DbSummaryTitle.C_DOSAGE.name, DbResourceType.Observation.name, label)
+                        dbDataList.add(data)
+
+                    }
+                    observationList.clear()
+
+
+                }
+
+
             }
 
 
@@ -200,89 +309,8 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
             errorList.add("Please select iron supplement selection")
         }
 
-        for (items in observationList){
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
 
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
-
-            val data = DbDataList(key, value, DbSummaryTitle.A_SUPPLIMENTS_ISSUING_TO_CLIENT.name, DbResourceType.Observation.name, label)
-            dbDataList.add(data)
-
-        }
-        observationList.clear()
-
-        val dosageAmnt = rootView.etDosageAmount.text.toString()
-        if (!TextUtils.isEmpty(dosageAmnt)){
-            addData("Dosage Amount",dosageAmnt, DbObservationValues.DOSAGE_AMOUNT.name)
-        }else{
-            errorList.add("Please enter dosage amount")
-        }
-
-        val frequency = rootView.etFrequency.text.toString()
-        if (!TextUtils.isEmpty(frequency)){
-            addData("Dosage Frequency",frequency, DbObservationValues.DOSAGE_FREQUENCY.name)
-        }else{
-            errorList.add("Please enter dosage frequency")
-        }
-
-        val dateGvn = rootView.tvDate.text.toString()
-        if (!TextUtils.isEmpty(dateGvn)){
-            addData("Date Dosage Given",dateGvn, DbObservationValues.DOSAGE_DATE_GIVEN.name)
-        }else{
-            errorList.add("Please enter dosage date given")
-        }
-
-        val counsellingIfas = formatter.getRadioText(rootView.radioGrpBenefits)
-        if (counsellingIfas != ""){
-            addData("Was IFAS Counselling Done",counsellingIfas, DbObservationValues.IRON_AND_FOLIC_COUNSELLING.name)
-        }else{
-            errorList.add("Please select IFAS counselling")
-        }
-
-        for (items in observationList){
-
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
-
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
-
-            val data = DbDataList(key, value, DbSummaryTitle.C_DOSAGE.name, DbResourceType.Observation.name, label)
-            dbDataList.add(data)
-
-        }
-        observationList.clear()
-
-        val timeContact = rootView.tvContactTiming.text.toString()
-        val tabletNo = rootView.tvTabletNo.text.toString()
-
-        if (!TextUtils.isEmpty(timeContact) && !TextUtils.isEmpty(tabletNo) && spinnerContactNumberValue != ""){
-            addData("Time of contact",timeContact, DbObservationValues.ANC_CONTACT.name)
-            addData("No of tablets",tabletNo, DbObservationValues.TABLET_NUMBER.name)
-            addData("ANC Contact: ",spinnerContactNumberValue, DbObservationValues.CONTACT_TIMING.name)
-        }else{
-
-            if (TextUtils.isEmpty(timeContact)) errorList.add("Please select time of contact")
-            if (TextUtils.isEmpty(tabletNo)) errorList.add("Please select no of tablets")
-            if (spinnerContactNumberValue == "") errorList.add("Please select contact timing")
-
-        }
-        for (items in observationList){
-
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
-
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
-
-            val data = DbDataList(key, value, DbSummaryTitle.B_ANC_CONTACT.name, DbResourceType.Observation.name, label)
-            dbDataList.add(data)
-
-        }
-        observationList.clear()
 
         if (errorList.size == 0) {
 

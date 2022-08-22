@@ -1,6 +1,7 @@
 package com.intellisoft.kabarakmhis.new_designs.medical_history
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,7 +12,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -19,8 +24,11 @@ import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_medical.view.*
-import kotlinx.android.synthetic.main.fragment_medical.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class FragmentMedical : Fragment(){
 
@@ -34,6 +42,10 @@ class FragmentMedical : Fragment(){
     private lateinit var rootView: View
     private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+    private val formatterClass = FormatterClass()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -43,6 +55,13 @@ class FragmentMedical : Fragment(){
         rootView = inflater.inflate(R.layout.fragment_medical, container, false)
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
+
+        patientId = formatterClass.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         rootView.radioGrpBloodTransfusion.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -124,6 +143,54 @@ class FragmentMedical : Fragment(){
         handleNavigation()
 
         return rootView
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(
+                    requireContext(),
+                    DbResourceViews.MEDICAL_HISTORY.name
+                )
+
+                if (encounterId != null){
+
+                    val diabetes = patientDetailsViewModel.getObservationsPerCodeFromEncounter("405751000", encounterId)
+                    val hypertension = patientDetailsViewModel.getObservationsPerCodeFromEncounter("38341003", encounterId)
+                    val otherConditions = patientDetailsViewModel.getObservationsPerCodeFromEncounter("7867677", encounterId)
+                    val specifyOtherCondition = patientDetailsViewModel.getObservationsPerCodeFromEncounter("7867677-S", encounterId)
+                    val bloodTransfusion = patientDetailsViewModel.getObservationsPerCodeFromEncounter("116859006", encounterId)
+                    val bloodTransfusionReaction = patientDetailsViewModel.getObservationsPerCodeFromEncounter("82545002", encounterId)
+                    val tuberculosis = patientDetailsViewModel.getObservationsPerCodeFromEncounter("371569005", encounterId)
+
+                    val drugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("416098002", encounterId)
+                    val specifyDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("416098002-S", encounterId)
+                    val nonDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("609328004", encounterId)
+                    val specifyNonDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("609328004-S", encounterId)
+
+
+
+
+
+                }
+
+            }
+
+
+        }catch (e: Exception){
+            println(e)
+        }
+
+
     }
 
     private fun handleNavigation() {

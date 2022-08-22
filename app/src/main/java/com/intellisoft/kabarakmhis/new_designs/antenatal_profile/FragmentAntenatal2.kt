@@ -377,16 +377,54 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (hivStatus != "") {
+
             addData("HIV status before 1st ANC", hivStatus, DbObservationValues.HIV_STATUS_BEFORE_1_ANC.name)
+
+            if (rootView.linearARTEligibility.visibility == View.VISIBLE){
+
+                if (spinnerArtElligibilityValue != "") {
+                    addData("ART Eligibility (WHO Stage)", spinnerArtElligibilityValue, DbObservationValues.ART_ELIGIBILITY.name)
+                }else{
+                    errorList.add("Please select ART Eligibility (WHO Stage)")
+                }
+
+            }
+
+            if (rootView.linearMaternalHAART.visibility == View.VISIBLE){
+
+                if (spinnerArtElligibilityValue != "") {
+                    addData("ART Eligibility (WHO Stage)", spinnerArtElligibilityValue, DbObservationValues.ART_ELIGIBILITY.name)
+                }else{
+                    errorList.add("Please select ART Eligibility (WHO Stage)")
+                }
+
+                if (spinnerCotrimoxazoleValue != "") {
+                    addData("Cotrimoxazole Given", spinnerCotrimoxazoleValue, DbObservationValues.COTRIMOXAZOLE.name)
+                }else{
+                    errorList.add("Please select Cotrimoxazole Given")
+                }
+
+                if (spinnerBeforeFirstVisitValue != "") {
+                    addData("On ARV before 1st ANC visit", spinnerBeforeFirstVisitValue, DbObservationValues.ARV_ANC.name)
+                }else{
+                    errorList.add("Please select On ARV before 1st ANC visit")
+                }
+                if (spinnerStartedHaartValue != "") {
+                    addData("Started HAART in ANC", spinnerStartedHaartValue , DbObservationValues.HAART_ANC.name)
+                }else{
+                    errorList.add("Please select Started HAART in ANC")
+                }
+
+            }
+
+
+
+
         }else{
             errorList.add("Please select HIV status before 1st ANC")
         }
 
-        if (spinnerArtElligibilityValue != "") {
-            addData("ART Eligibility (WHO Stage)", spinnerArtElligibilityValue, DbObservationValues.ART_ELIGIBILITY.name)
-        }else{
-            errorList.add("Please select ART Eligibility (WHO Stage)")
-        }
+
 
         if(spinnerPartnerHivValue != "") {
             addData("Partner HIV Status", spinnerPartnerHivValue, DbObservationValues.PARTNER_HIV.name)
@@ -408,22 +446,6 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         observationList.clear()
 
 
-
-        if (spinnerBeforeFirstVisitValue != "") {
-            addData("On ARV before 1st ANC visit", spinnerBeforeFirstVisitValue, DbObservationValues.ARV_ANC.name)
-        }else{
-            errorList.add("Please select On ARV before 1st ANC visit")
-        }
-        if (spinnerStartedHaartValue != "") {
-            addData("Started HAART in ANC", spinnerStartedHaartValue , DbObservationValues.HAART_ANC.name)
-        }else{
-            errorList.add("Please select Started HAART in ANC")
-        }
-        if (spinnerCotrimoxazoleValue != "") {
-            addData("Cotrimoxazole Given", spinnerCotrimoxazoleValue, DbObservationValues.COTRIMOXAZOLE.name)
-        }else{
-            errorList.add("Please select Cotrimoxazole Given")
-        }
         for (items in observationList){
 
             val key = items.key
