@@ -12,7 +12,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -22,6 +26,9 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_antenatal3.view.*
 import kotlinx.android.synthetic.main.fragment_antenatal3.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -39,6 +46,11 @@ class FragmentAntenatal3 : Fragment() {
     private lateinit var rootView: View
     private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
+
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -49,6 +61,13 @@ class FragmentAntenatal3 : Fragment() {
         formatter.saveCurrentPage("3", requireContext())
         getPageDetails()
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -421,6 +440,135 @@ class FragmentAntenatal3 : Fragment() {
 
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.ANTENATAL_PROFILE.name)
+
+                if (encounterId != null){
+
+                    val hivTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HIV_TESTING.name), encounterId)
+                    val hivTestYes = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.YES_HIV_RESULTS.name), encounterId)
+                    val hivTestNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NO_HIV_RESULTS.name), encounterId)
+                    val hivTestStatus = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HIV_MOTHER_STATUS.name), encounterId)
+                    val hivTestDate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HIV_NR_DATE.name), encounterId)
+
+                    val syphilisTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SYPHILIS_TESTING.name), encounterId)
+                    val syphilisTestYes = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.YES_SYPHILIS_RESULTS.name), encounterId)
+                    val syphilisTestNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NO_SYPHILIS_RESULTS.name), encounterId)
+                    val syphilisStatus = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SYPHILIS_MOTHER_STATUS.name), encounterId)
+
+                    val hepatitisTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HEPATITIS_TESTING.name), encounterId)
+                    val hepatitisResultsYes = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.YES_HEPATITIS_RESULTS.name), encounterId)
+                    val hepatitisResultsNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NO_HEPATITIS_RESULTS.name), encounterId)
+                    val hepatitisStatus = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HEPATITIS_MOTHER_STATUS.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (hivTest.isNotEmpty()){
+                            val value = hivTest[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpHiv.check(R.id.radioYesHiv)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpHiv.check(R.id.radioNoHiv)
+                        }
+                        if (hivTestYes.isNotEmpty()){
+                            val value = hivTestYes[0].value
+                            rootView.tvHivDate.setText(value)
+                        }
+                        if (hivTestNo.isNotEmpty()){
+                            val value = hivTestNo[0].value
+                            rootView.etTb.setText(value)
+                        }
+                        if (hivTestStatus.isNotEmpty()){
+                            val value = hivTestStatus[0].value
+                            if (value.contains("R", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioRHIVStatus)
+                            if (value.contains("NR", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioNRHIVStatus)
+                            if (value.contains("Inconclusive", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioInconclusiveHIVStatus)
+                        }
+                        if (hivTestDate.isNotEmpty()){
+                            val value = hivTestDate[0].value
+                            rootView.tvHivTestDate.setText(value)
+                        }
+
+                        if (syphilisTest.isNotEmpty()){
+                            val value = syphilisTest[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpSyphilis.check(R.id.radioYesSyphilis)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpSyphilis.check(R.id.radioNoSyphilis)
+                        }
+                        if (syphilisTestYes.isNotEmpty()){
+                            val value = syphilisTestYes[0].value
+                            rootView.tvSyphilisDate.setText(value)
+                        }
+                        if (syphilisTestNo.isNotEmpty()){
+                            val value = syphilisTestNo[0].value
+                            rootView.etSyphilisCounselling.setText(value)
+                        }
+                        if (syphilisStatus.isNotEmpty()){
+                            val value = syphilisStatus[0].value
+                            if (value.contains("R", ignoreCase = true)) rootView.radioGrpSyphilisStatus.check(R.id.radioRSyphilisStatus)
+                            if (value.contains("NR", ignoreCase = true)) rootView.radioGrpSyphilisStatus.check(R.id.radioNRSyphilisStatus)
+                            if (value.contains("Inconclusive", ignoreCase = true)) rootView.radioGrpSyphilisStatus.check(R.id.radioInconclusiveSyphilisStatus)
+                        }
+
+
+                        if (hepatitisTest.isNotEmpty()){
+                            val value = hepatitisTest[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpHepatitis.check(R.id.radioYesHepatitis)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpHepatitis.check(R.id.radioNoHepatitis)
+                        }
+                        if (hepatitisResultsYes.isNotEmpty()){
+                            val value = hepatitisResultsYes[0].value
+                            rootView.tvHepatitisDate.setText(value)
+                        }
+                        if (hepatitisResultsNo.isNotEmpty()){
+                            val value = hepatitisResultsNo[0].value
+                            rootView.etHepatitisCounselling.setText(value)
+                        }
+                        if (hepatitisStatus.isNotEmpty()){
+                            val value = hepatitisStatus[0].value
+                            if (value.contains("R", ignoreCase = true)) rootView.radioGrpHepatitisStatus.check(R.id.radioRHepatitisStatus)
+                            if (value.contains("NR", ignoreCase = true)) rootView.radioGrpHepatitisStatus.check(R.id.radioNRHepatitisStatus)
+                            if (value.contains("Inconclusive", ignoreCase = true)) rootView.radioGrpHepatitisStatus.check(R.id.radioInconclusiveHepatitisStatus)
+                        }
+
+                    }
+
+
+
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 

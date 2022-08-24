@@ -12,7 +12,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -24,6 +28,9 @@ import kotlinx.android.synthetic.main.fragment_antenatal2.view.*
 import kotlinx.android.synthetic.main.fragment_antenatal2.view.navigation
 import kotlinx.android.synthetic.main.fragment_birthplan2.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -57,7 +64,9 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
     var cotrimoxazoleList = arrayOf("","Y", "B")
     private var spinnerCotrimoxazoleValue  = cotrimoxazoleList[0]
 
-
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -69,6 +78,13 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         formatter.saveCurrentPage("2", requireContext())
         getPageDetails()
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -611,5 +627,180 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.ANTENATAL_PROFILE.name)
+
+                if (encounterId != null){
+
+                    val tbScreening = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TB_SCREENING.name), encounterId)
+
+                    val tbScreeningResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TB_SCREENING_RESULTS.name), encounterId)
+
+                    val tbScreeningPositive = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.POSITIVE_TB_DIAGNOSIS.name), encounterId)
+
+                    val negativeTbDiagnosis = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NEGATIVE_TB_DIAGNOSIS.name), encounterId)
+
+                    val iptDate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.IPT_DATE.name), encounterId)
+
+                    val iptVisit = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.IPT_VISIT.name), encounterId)
+
+                    val multiplePregnancy = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.MULTIPLE_BABIES.name), encounterId)
+
+                    val noMultiplePregnancy = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NO_MULTIPLE_BABIES.name), encounterId)
+
+                    val obstetricUltrasound1 = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.OBSTERIC_ULTRASOUND_1.name), encounterId)
+
+                    val obstetricUltrasoundDate1 = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.OBSTERIC_ULTRASOUND_1_DATE.name), encounterId)
+
+                    val obstetricUltrasound2 = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.OBSTERIC_ULTRASOUND_2.name), encounterId)
+
+                    val obstetricUltrasoundDate2 = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.OBSTERIC_ULTRASOUND_2_DATE.name), encounterId)
+
+                    val hivStatusAnc = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HIV_STATUS_BEFORE_1_ANC.name), encounterId)
+
+                    val artEligibilty = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ART_ELIGIBILITY.name), encounterId)
+
+                    val hivStatus = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PARTNER_HIV.name), encounterId)
+
+                    val arvAnc = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ARV_ANC.name), encounterId)
+
+                    val haartAnc = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HAART_ANC.name), encounterId)
+
+                    val cotrimoxazole = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COTRIMOXAZOLE.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (tbScreening.isNotEmpty()){
+                            val value = tbScreening[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpTb.check(R.id.radioYesTb)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpTb.check(R.id.radioNoTb)
+                        }
+                        if (tbScreeningResult.isNotEmpty()){
+                            val value = tbScreeningResult[0].value
+                            if(value.contains("Positive", ignoreCase = true)) rootView.radioGrpTbResults.check(R.id.radioPositiveTbResults)
+                            if(value.contains("Negative", ignoreCase = true)) rootView.radioGrpTbResults.check(R.id.radioNegativeTbResults)
+                        }
+                        if (tbScreeningPositive.isNotEmpty()){
+                            val value = tbScreeningPositive[0].value
+                            rootView.etTb.setText(value)
+                        }
+                        if (negativeTbDiagnosis.isNotEmpty()){
+                            val value = negativeTbDiagnosis[0].value
+                            rootView.etIpt.setText(value)
+                        }
+                        if (iptDate.isNotEmpty()){
+                            val value = iptDate[0].value
+                            rootView.tvIPTDateGiven.setText(value)
+                        }
+                        if (iptVisit.isNotEmpty()){
+                            val value = iptVisit[0].value
+                            rootView.tvIPTNextVisit.setText(value)
+                        }
+                        if (multiplePregnancy.isNotEmpty()){
+                            val value = multiplePregnancy[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpMultipleBaby.check(R.id.radioYesMultipleBaby)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpMultipleBaby.check(R.id.radioNoMultipleBaby)
+                        }
+                        if (noMultiplePregnancy.isNotEmpty()){
+                            val value = noMultiplePregnancy[0].value
+                            rootView.etMultipleBaby.setText(value)
+                        }
+                        if (obstetricUltrasound1.isNotEmpty()){
+                            val value = obstetricUltrasound1[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpUltrasound1.check(R.id.radioYesUltrasound1)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpUltrasound1.check(R.id.radioNoUltrasound1)
+                        }
+                        if (obstetricUltrasoundDate1.isNotEmpty()){
+                            val value = obstetricUltrasoundDate1[0].value
+                            rootView.tvUltraSound1.setText(value)
+                        }
+                        if (obstetricUltrasound2.isNotEmpty()){
+                            val value = obstetricUltrasound2[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpUltrasound2.check(R.id.radioYesUltrasound2)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpUltrasound2.check(R.id.radioNoUltrasound2)
+                        }
+                        if (obstetricUltrasoundDate2.isNotEmpty()){
+                            val value = obstetricUltrasoundDate2[0].value
+                            rootView.tvUltraSound2.setText(value)
+                        }
+                        if (hivStatusAnc.isNotEmpty()){
+                            val value = hivStatusAnc[0].value
+                            if(value.contains("P", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioBtnP)
+                            if(value.contains("N", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioBtnN)
+                            if(value.contains("U", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioBtnU)
+                            if(value.contains("Kp", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioBtnKP)
+                        }
+                        if (artEligibilty.isNotEmpty()){
+                            val value = artEligibilty[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.spinnerEligibility.setSelection(artEligibilityList.indexOf(noValue))
+                        }
+                        if (hivStatus.isNotEmpty()){
+                            val value = hivStatus[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.spinnerPartnerHIVStatus.setSelection(partnerHivList.indexOf(noValue))
+                        }
+                        if (arvAnc.isNotEmpty()){
+                            val value = arvAnc[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.spinnerOnARVBeforeANCVisit.setSelection(arvBeforeFirstVisitList.indexOf(noValue))
+                        }
+                        if (haartAnc.isNotEmpty()){
+                            val value = haartAnc[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.spinnerStartedHaartInANC.setSelection(startedHaartList.indexOf(noValue))
+                        }
+                        if (cotrimoxazole.isNotEmpty()){
+                            val value = cotrimoxazole[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.spinnerCotrimoxazole.setSelection(cotrimoxazoleList.indexOf(noValue))
+                        }
+
+
+                    }
+
+
+
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+    }
 
 }

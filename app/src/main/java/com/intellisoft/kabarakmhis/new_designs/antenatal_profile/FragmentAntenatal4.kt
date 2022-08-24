@@ -12,7 +12,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -27,6 +31,9 @@ import kotlinx.android.synthetic.main.fragment_antenatal4.view.navigation
 import kotlinx.android.synthetic.main.fragment_antenatal4.view.radioGrpHIVStatus
 import kotlinx.android.synthetic.main.fragment_antenatal4.view.radioGrpHiv
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -47,6 +54,10 @@ class FragmentAntenatal4 : Fragment() {
     private  var month = 0
     private  var day = 0
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -57,6 +68,12 @@ class FragmentAntenatal4 : Fragment() {
         formatter.saveCurrentPage("4", requireContext())
         getPageDetails()
 
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -264,6 +281,71 @@ class FragmentAntenatal4 : Fragment() {
 
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.ANTENATAL_PROFILE.name)
+
+                if (encounterId != null){
+
+                    val coupleTesting = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COUPLE_HIV_TESTING.name), encounterId)
+
+                    val partnerStatus = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PARTNER_HIV_STATUS.name), encounterId)
+
+                    val partnerStatusResults = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REACTIVE_PARTNER_HIV_RESULTS.name), encounterId)
+
+                    val referralHivDate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REFERRAL_PARTNER_HIV_DATE.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if(coupleTesting.isNotEmpty()){
+                            val value = coupleTesting.get(0).value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpHiv.check(R.id.radioYesHiv)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpHiv.check(R.id.radioNoHiv)
+                        }
+                        if (partnerStatus.isNotEmpty()){
+                            val value = partnerStatus.get(0).value
+                            if (value.contains("Reactive", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioRHIVStatus)
+                            if (value.contains("Non Reactive", ignoreCase = true)) rootView.radioGrpHIVStatus.check(R.id.radioNRHIVStatus)
+                        }
+                        if (partnerStatusResults.isNotEmpty()){
+                            val value = partnerStatusResults.get(0).value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpReactive.check(R.id.radioYesReactive)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpReactive.check(R.id.radioNoReactive)
+                        }
+                        if (referralHivDate.isNotEmpty()){
+                            val value = referralHivDate.get(0).value
+                            rootView.tvHivTestDate.text = value
+                        }
+
+                    }
+
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 

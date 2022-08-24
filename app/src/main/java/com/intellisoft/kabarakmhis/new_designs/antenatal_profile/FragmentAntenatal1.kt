@@ -17,7 +17,11 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -27,6 +31,9 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,7 +50,9 @@ class FragmentAntenatal1 : Fragment() {
     private var year = 0
     private  var month = 0
     private  var day = 0
-
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -60,6 +69,13 @@ class FragmentAntenatal1 : Fragment() {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         //Restricted User
@@ -300,7 +316,7 @@ class FragmentAntenatal1 : Fragment() {
 
         val hbTest = formatter.getRadioText(rootView.radioGrpHb)
         if (hbTest != ""){
-            addData(hbTest, "HB Test", DbObservationValues.HB_TEST.name)
+            addData("HB Test",hbTest, DbObservationValues.HB_TEST.name)
             if (rootView.linearHb.visibility == View.VISIBLE){
                 val hbReading = rootView.etHb.text.toString()
                 if (!TextUtils.isEmpty(hbReading)) {
@@ -477,6 +493,149 @@ class FragmentAntenatal1 : Fragment() {
 
             formatter.progressBarFun(requireContext(), currentPage.toInt(), totalPages.toInt(), rootView)
 
+        }
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.ANTENATAL_PROFILE.name)
+
+                if (encounterId != null){
+
+                    val hbTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HB_TEST.name), encounterId)
+
+                    val hbTestSpecific = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFIC_HB_TEST.name), encounterId)
+
+                    val bloodGrpTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BLOOD_GROUP_TEST.name), encounterId)
+
+                    val bloodGrpResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFIC_BLOOD_GROUP_TEST.name), encounterId)
+
+                    val rhesusTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.RHESUS_TEST.name), encounterId)
+
+                    val rhesusTestResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFIC_RHESUS_TEST.name), encounterId)
+
+                    val bloodRbs = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BLOOD_RBS_TEST.name), encounterId)
+
+                    val bloodRbsResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFIC_BLOOD_RBS_TEST.name), encounterId)
+
+                    val urinalysisTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.URINALYSIS_TEST.name), encounterId)
+
+                    val urinalysisTestResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.URINALYSIS_RESULTS.name), encounterId)
+
+                    val abnormalUrinalysisTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABNORMAL_URINALYSIS_TEST.name), encounterId)
+
+                    val urinalysisTestDate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.URINALYSIS_TEST_DATE.name), encounterId)
+
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (hbTest.isNotEmpty()){
+                            val value = hbTest[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpHb.check(R.id.radioYesHb)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpHb.check(R.id.radioNoHb)
+                        }
+                        if (hbTestSpecific.isNotEmpty()){
+                            val value = hbTestSpecific[0].value
+                            val newValue = formatter.getValues(value, 7)
+
+                            rootView.etHb.setText(newValue)
+                        }
+
+                        if (bloodGrpTest.isNotEmpty()){
+                            val value = bloodGrpTest[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpBloodGrpTest.check(R.id.radioYesBloodGrpTest)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpBloodGrpTest.check(R.id.radioNoBloodGrpTest)
+                        }
+                        if (bloodGrpResult.isNotEmpty()){
+                            val value = bloodGrpResult[0].value
+                            if (value.contains("A", ignoreCase = true)) rootView.radioGrpType.check(R.id.radioYesA)
+                            if (value.contains("B", ignoreCase = true)) rootView.radioGrpType.check(R.id.radioNoB)
+                            if (value.contains("AB", ignoreCase = true)) rootView.radioGrpType.check(R.id.radioNoAB)
+                            if (value.contains("O", ignoreCase = true)) rootView.radioGrpType.check(R.id.radioNoO)
+                        }
+
+                        if (rhesusTest.isNotEmpty()){
+                            val value = rhesusTest[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpRhesus.check(R.id.radioYesRhesus)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpRhesus.check(R.id.radioNoRhesus)
+                        }
+
+                        if (rhesusTestResult.isNotEmpty()){
+                            val value = rhesusTestResult[0].value
+                            if (value.contains("Positive", ignoreCase = true)) rootView.radioGrpRhesusTest.check(R.id.radioPositiveRhesus)
+                            if (value.contains("Negative", ignoreCase = true)) rootView.radioGrpRhesusTest.check(R.id.radioNegativeRhesus)
+                        }
+
+                        if (bloodRbs.isNotEmpty()){
+                            val value = bloodRbs[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpBloodRbs.check(R.id.radioYesBloodRbs)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpBloodRbs.check(R.id.radioNoBloodRbs)
+                        }
+
+                        if (bloodRbsResult.isNotEmpty()){
+                            val value = bloodRbsResult[0].value
+                            val newValue = formatter.getValues(value, 7)
+                            rootView.etBloodRBSReading.setText(newValue)
+                        }
+
+                        if (urinalysisTest.isNotEmpty()){
+                            val value = urinalysisTest[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpExternalExam.check(R.id.radioYesExternalInspection)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpExternalExam.check(R.id.radioNoExternalInspection)
+                        }
+                        if (urinalysisTestResult.isNotEmpty()){
+                            val value = urinalysisTestResult[0].value
+                            if (value.contains("Normal", ignoreCase = true)) rootView.radioGrpUrineResults.check(R.id.radioNormalUrineResults)
+                            if (value.contains("Abnormal", ignoreCase = true)) rootView.radioGrpUrineResults.check(R.id.radioAbnormalUrineResults)
+                        }
+                        if (abnormalUrinalysisTest.isNotEmpty()){
+                            val value = abnormalUrinalysisTest[0].value
+                            rootView.etAbnormalUrine.setText(value)
+                        }
+                        if (urinalysisTestDate.isNotEmpty()){
+                            val value = urinalysisTestDate[0].value
+                            rootView.tvUrineTestAppointment.setText(value)
+                        }
+
+
+
+
+                    }
+
+
+
+                }
+
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
         }
 
 

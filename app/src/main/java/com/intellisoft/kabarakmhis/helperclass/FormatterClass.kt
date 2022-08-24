@@ -856,6 +856,10 @@ class FormatterClass {
             DbObservationValues.ABNORMAL_BABY_PURPERIUM.name -> {
                 "289910000-A"
             }
+
+            /**
+             * Antenatal Profile
+             */
             DbObservationValues.HB_TEST.name -> {
                 "302763003"
             }
@@ -892,6 +896,8 @@ class FormatterClass {
             DbObservationValues.URINALYSIS_TEST_DATE.name -> {
                 "390840006"
             }
+
+
             DbObservationValues.TB_SCREENING.name -> {
                 "171126009"
             }
@@ -926,7 +932,7 @@ class FormatterClass {
             DbObservationValues.OBSTERIC_ULTRASOUND_2.name -> {
                 "268445003-2"
             }
-            DbObservationValues.OBSTERIC_ULTRASOUND_2.name -> {
+            DbObservationValues.OBSTERIC_ULTRASOUND_2_DATE.name -> {
                 "410672004-2"
             }
             DbObservationValues.HIV_STATUS_BEFORE_1_ANC.name -> {
@@ -947,6 +953,7 @@ class FormatterClass {
             DbObservationValues.COTRIMOXAZOLE.name -> {
                 "5111197"
             }
+
 
             DbObservationValues.HIV_TESTING.name -> {
                 "31676001"
@@ -1435,7 +1442,7 @@ class FormatterClass {
         val valueReversed = value.reversed()
 
         val valueLength = valueReversed.length
-        return if (valueLength > intNo){
+        return if (valueLength > intNo && intNo != 0){
             val newValue = valueReversed.substring(intNo, valueReversed.length)
             newValue.reversed().replace(" ", "")
         }else{
