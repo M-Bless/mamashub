@@ -53,10 +53,10 @@ class PreviousPregnancyView : AppCompatActivity() {
 
         title = "Present Pregnancy View"
 
-//        btnPreviousPregnancy.setOnClickListener {
-//            val intent = Intent(this, PreviousPregnancy::class.java)
-//            startActivity(intent)
-//        }
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, PreviousPregnancy::class.java)
+            startActivity(intent)
+        }
 
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
         fhirEngine = FhirApplication.fhirEngine(this)

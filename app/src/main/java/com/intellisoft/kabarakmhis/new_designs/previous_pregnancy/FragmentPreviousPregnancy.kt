@@ -4,13 +4,18 @@ import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -20,7 +25,9 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener {
@@ -34,7 +41,9 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
-
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -43,6 +52,13 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
         rootView = inflater.inflate(R.layout.fragment_prev_pregnancy, container, false)
 
+        kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         formatter.saveCurrentPage("1", requireContext())
@@ -262,4 +278,128 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
     override fun onNothingSelected(p0: AdapterView<*>?) {
         TODO("Not yet implemented")
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.PREVIOUS_PREGNANCY.name)
+
+                if (encounterId != null){
+
+                    val pregnancyOrder = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PREGNANCY_ORDER.name), encounterId)
+
+                    val year = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.YEAR.name), encounterId)
+
+                    val ancNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ANC_NO.name), encounterId)
+
+                    val birthPlace = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.CHILDBIRTH_PLACE.name), encounterId)
+
+                    val gestation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.GESTATION.name), encounterId)
+
+                    val duration = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.LABOUR_DURATION.name), encounterId)
+
+                    val deliveryMode = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DELIVERY_MODE.name), encounterId)
+
+                    val babyWeight = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BABY_WEIGHT.name), encounterId)
+
+                    val babySex = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BABY_SEX.name), encounterId)
+
+                    val babyOutcome = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BABY_OUTCOME.name), encounterId)
+
+                    val babyPurperium = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BABY_PURPERIUM.name), encounterId)
+
+                    val abnormalPurperium = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABNORMAL_BABY_PURPERIUM.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        Log.e("------", "deliveryMode: $deliveryMode")
+                        Log.e("------", "babySex: $babySex")
+                        Log.e("------", "babyOutcome: $babyOutcome")
+                        Log.e("------", "babyPurperium: $babyPurperium")
+
+                        if (pregnancyOrder.isNotEmpty()){
+                            val value = pregnancyOrder[0].value
+                            rootView.spinnerPregOrder.setSelection(pregnancyOrderList.indexOf(value))
+                        }
+                        if (year.isNotEmpty()){
+                            rootView.etYear.setText(year[0].value)
+                        }
+                        if (ancNo.isNotEmpty()){
+                            rootView.etVisitTime.setText(ancNo[0].value)
+                        }
+                        if (birthPlace.isNotEmpty()){
+                            rootView.etPlaceOfChildBirth.setText(birthPlace[0].value)
+                        }
+                        if (gestation.isNotEmpty()){
+                            rootView.etGestation.setText(gestation[0].value)
+                        }
+                        if (duration.isNotEmpty()){
+                            rootView.etDuration.setText(duration[0].value)
+                        }
+                        if (deliveryMode.isNotEmpty()){
+                            val value = deliveryMode[0].value
+                            if (value.contains("Vaginal Deliver", ignoreCase = true)) rootView.deliveryMode.check(R.id.radioYesVaginal)
+                            if (value.contains("Assisted Vaginal Delivery", ignoreCase = true)) rootView.deliveryMode.check(R.id.radioYesAssistedVaginal)
+                            if (value.contains("Cesarean Section", ignoreCase = true)) rootView.deliveryMode.check(R.id.radioNoCs)
+                        }
+                        if (babyWeight.isNotEmpty()){
+                            rootView.etBabyWeight.setText(babyWeight[0].value)
+                        }
+                        if (babySex.isNotEmpty()) {
+                            val value = babySex[0].value
+                            if (value.contains("Male", ignoreCase = true)) rootView.radioGrpBabySex.check(R.id.radioMaleBabySex)
+                            if (value.contains("Female", ignoreCase = true)) rootView.radioGrpBabySex.check(R.id.radioFemaleBabySex)
+                        }
+                        if (babyOutcome.isNotEmpty()){
+                            val value = babyOutcome[0].value
+                            if (value.contains("Dead", ignoreCase = true)) rootView.radioGrpOutcome.check(R.id.radioDeadOutcome)
+                            if (value.contains("Alive", ignoreCase = true)) rootView.radioGrpOutcome.check(R.id.radioAliveOutcome)
+                        }
+                        if (babyPurperium.isNotEmpty()){
+                            val value = babyPurperium[0].value
+                            if (value.contains("Normal", ignoreCase = true)) rootView.radioGrpPurperium.check(R.id.radioNormal)
+                            if (value.contains("Abnormal", ignoreCase = true)) rootView.radioGrpPurperium.check(R.id.radioAbnormal)
+                        }
+                        if (abnormalPurperium.isNotEmpty()){
+                            val value = abnormalPurperium[0].value
+                            rootView.etAbnormal.setText(value)
+                        }
+
+
+
+                    }
+
+                }
+
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+    }
+
 }
