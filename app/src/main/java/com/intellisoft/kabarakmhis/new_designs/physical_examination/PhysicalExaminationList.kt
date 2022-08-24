@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -79,6 +80,8 @@ class PhysicalExaminationList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
+            formatter.deleteSharedPreference(this@PhysicalExaminationList, DbResourceViews.PHYSICAL_EXAMINATION.name)
+
             val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.PHYSICAL_EXAMINATION.name)
 
             CoroutineScope(Dispatchers.Main).launch {
@@ -110,8 +113,6 @@ class PhysicalExaminationList : AppCompatActivity() {
                         encounterType = encounterType
                     )
                     encounterList.add(dbFhirEncounter)
-
-                    Log.e("-----$pos ", id)
 
                 }
 

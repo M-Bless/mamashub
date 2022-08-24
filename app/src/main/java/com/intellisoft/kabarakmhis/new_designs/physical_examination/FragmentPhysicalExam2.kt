@@ -9,13 +9,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import android.widget.RadioButton
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -27,6 +28,9 @@ import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.*
 import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.navigation
 import kotlinx.android.synthetic.main.fragment_physical_exam_2.view.radioGrpExternalExam
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FragmentPhysicalExam2 : Fragment() {
@@ -38,7 +42,9 @@ class FragmentPhysicalExam2 : Fragment() {
 
 
     private lateinit var rootView: View
-
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -46,6 +52,14 @@ class FragmentPhysicalExam2 : Fragment() {
     ): View {
 
         rootView = inflater.inflate(R.layout.fragment_physical_exam_2, container, false)
+        kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
 
@@ -188,7 +202,9 @@ class FragmentPhysicalExam2 : Fragment() {
 
                 val inspectionValue = rootView.etAbnomality.text.toString()
                 if(!TextUtils.isEmpty(inspectionValue)){
-                    addData("If yes, specify",inspectionValue , DbObservationValues.SPECIFY_ABDOMINAL_INSPECTION.name)
+
+                    Log.e("**** ", "saved inspect value : $inspectionValue")
+                    addData("Specify the inspection done",inspectionValue , DbObservationValues.SPECIFY_ABDOMINAL_INSPECTION.name)
                 }else{
                     errorList.add("If yes on an inspection, please specify")
                 }
@@ -208,7 +224,7 @@ class FragmentPhysicalExam2 : Fragment() {
 
                 val palpationValue = rootView.etPalpation.text.toString()
                 if(!TextUtils.isEmpty(palpationValue)){
-                    addData("If yes, specify",palpationValue, DbObservationValues.SPECIFY_ABDOMINAL_PALPATION.name)
+                    addData("Specify the palpation that was done",palpationValue, DbObservationValues.SPECIFY_ABDOMINAL_PALPATION.name)
                 }else{
                     errorList.add("If yes on palpation, please specify")
                 }
@@ -226,7 +242,7 @@ class FragmentPhysicalExam2 : Fragment() {
             if (auscultationDoneValue == "Yes"){
                 val auscultationValue = rootView.etAuscalation.text.toString()
                 if(!TextUtils.isEmpty(auscultationValue)){
-                    addData("If yes, specify",auscultationValue, DbObservationValues.SPECIFY_ABDOMINAL_AUSCALATION.name)
+                    addData("Specify the auscalation done",auscultationValue, DbObservationValues.SPECIFY_ABDOMINAL_AUSCALATION.name)
                 }else{
                     errorList.add("If yes on auscultation, please specify")
                 }
@@ -259,7 +275,7 @@ class FragmentPhysicalExam2 : Fragment() {
             if(rootView.linearExternalPalp.visibility == View.VISIBLE){
                 val text = rootView.etExternalAbnomality.text.toString()
                 if(!TextUtils.isEmpty(text)) {
-                    addData("If yes, specify", text, DbObservationValues.SPECIFY_EXTERNAL_INSPECTION.name)
+                    addData("If yes, specify the Inspection", text, DbObservationValues.SPECIFY_EXTERNAL_INSPECTION.name)
                 }else{
                     errorList.add("If yes on an external inspection, please specify")
                 }
@@ -274,7 +290,7 @@ class FragmentPhysicalExam2 : Fragment() {
             if(rootView.linearExternalPalp.visibility == View.VISIBLE){
                 val text = rootView.etExternalPalpation.text.toString()
                 if(!TextUtils.isEmpty(text)){
-                    addData("If yes, specify",text, DbObservationValues.SPECIFY_EXTERNAL_PALPATION.name)
+                    addData("If yes, specify the palpation done",text, DbObservationValues.SPECIFY_EXTERNAL_PALPATION.name)
                 }else{
                     errorList.add("If yes on external palpation, please specify")
                 }
@@ -292,7 +308,7 @@ class FragmentPhysicalExam2 : Fragment() {
             if (externalDischargeValue == "Yes"){
                 val dischargeValue = rootView.etDischarge.text.toString()
                 if(!TextUtils.isEmpty(dischargeValue)){
-                    addData("If yes, specify",dischargeValue, DbObservationValues.SPECIFY_EXTERNAL_DISCHARGE.name)
+                    addData("If yes, specify the discharge done",dischargeValue, DbObservationValues.SPECIFY_EXTERNAL_DISCHARGE.name)
                 }else{
                     errorList.add("If yes on discharge, please specify")
                 }
@@ -308,7 +324,7 @@ class FragmentPhysicalExam2 : Fragment() {
             if (rootView.linearGenital.visibility == View.VISIBLE) {
                 val text = rootView.etGenital.text.toString()
                 if (!TextUtils.isEmpty(text)) {
-                    addData("If yes, specify", text, DbObservationValues.SPECIFY_EXTERNAL_GENITAL_ULCER.name)
+                    addData("If yes, specify the genital ulcer present", text, DbObservationValues.SPECIFY_EXTERNAL_GENITAL_ULCER.name)
                 } else {
                     errorList.add("If yes on genital ulcer, please specify")
                 }
@@ -406,6 +422,192 @@ class FragmentPhysicalExam2 : Fragment() {
 
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.PHYSICAL_EXAMINATION.name)
+
+                if (encounterId != null){
+
+                    val abdominalExamInspection = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABDOMINAL_INSPECTION.name), encounterId)
+
+                    val specifyAbdominalExam = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFY_ABDOMINAL_INSPECTION.name), encounterId)
+
+                    val abdominalExamPalpation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABDOMINAL_PALPATION.name), encounterId)
+
+                    val specifyAbdominalExamPalpation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFY_ABDOMINAL_PALPATION.name), encounterId)
+
+                    val abdominalExamAuscalation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABDOMINAL_AUSCALATION.name), encounterId)
+
+                    val specifyAbdominalExamAuscalation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFY_ABDOMINAL_AUSCALATION.name), encounterId)
+
+                    val externalGenitaliaExamInspection = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EXTERNAL_INSPECTION.name), encounterId)
+
+                    val externalGenitaliaExamInspectionResults = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFY_EXTERNAL_INSPECTION.name), encounterId)
+
+                    val externalGenitaliaExamPalpation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EXTERNAL_PALPATION.name), encounterId)
+
+                    val externalGenitaliaExamPalpationResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFY_EXTERNAL_PALPATION.name), encounterId)
+
+                    val externalGenitaliaExamDischarge = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EXTERNAL_DISCHARGE.name), encounterId)
+
+                    val externalGenitaliaExamDischargeResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFY_EXTERNAL_DISCHARGE.name), encounterId)
+
+                    val externalGenitaliaExamGenitalUlcer = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EXTERNAL_GENITAL_ULCER.name), encounterId)
+
+                    val externalGenitaliaExamGenitalUlcerResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFY_EXTERNAL_GENITAL_ULCER.name), encounterId)
+
+                    val fgmDone = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EXTERNAL_FGM.name), encounterId)
+
+                    val fgmDoneResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPLICATIONS_EXTERNAL_FGM.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (abdominalExamInspection.isNotEmpty()){
+                            val value = abdominalExamInspection[0].value
+                            if (value.contains("Yes")) rootView.radioGrpAbdominalExam.check(R.id.radioYesInspection)
+                            if (value.contains("No")) rootView.radioGrpAbdominalExam.check(R.id.radioNoInspection)
+                        }
+                        if (specifyAbdominalExam.isNotEmpty()){
+                            val value = specifyAbdominalExam[0].value
+                            rootView.etAbnomality.setText(value)
+                        }
+
+                        Log.e("------- ", "------")
+                        println(specifyAbdominalExam)
+
+                        if (abdominalExamPalpation.isNotEmpty()){
+                            val value = abdominalExamPalpation[0].value
+                            if (value.contains("Yes")) rootView.radioGrpPalpation.check(R.id.radioYesPalpation)
+                            if (value.contains("No")) rootView.radioGrpPalpation.check(R.id.radioNoPalpation)
+                        }
+                        if (specifyAbdominalExamPalpation.isNotEmpty()){
+                            val value = specifyAbdominalExamPalpation[0].value
+                            rootView.etPalpation.setText(value)
+                        }
+
+                        if (abdominalExamAuscalation.isNotEmpty()){
+                            val value = abdominalExamAuscalation[0].value
+                            if (value.contains("Yes")) rootView.radioGrpAuscalation.check(R.id.radioYesAuscalation)
+                            if (value.contains("No")) rootView.radioGrpAuscalation.check(R.id.radioNoAuscalation)
+                        }
+                        if (specifyAbdominalExamAuscalation.isNotEmpty()){
+                            val value = specifyAbdominalExamAuscalation[0].value
+                            rootView.etAuscalation.setText(value)
+                        }
+
+                        if (externalGenitaliaExamInspection.isNotEmpty()){
+                            val value = externalGenitaliaExamInspection[0].value
+                            if (value.contains("Yes")) rootView.radioGrpExternalExam.check(R.id.radioYesExternalInspection)
+                            if (value.contains("No")) rootView.radioGrpExternalExam.check(R.id.radioNoExternalInspection)
+                        }
+                        if (externalGenitaliaExamInspectionResults.isNotEmpty()){
+                            val value = externalGenitaliaExamInspectionResults[0].value
+                            rootView.etExternalAbnomality.setText(value)
+                        }
+
+                        if (externalGenitaliaExamPalpation.isNotEmpty()){
+                            val value = externalGenitaliaExamPalpation[0].value
+                            if (value.contains("Yes")) rootView.radioGrpExternalPalpation.check(R.id.radioYesExternalPalpation)
+                            if (value.contains("No")) rootView.radioGrpExternalPalpation.check(R.id.radioNoExternalPalpation)
+                        }
+                        if (externalGenitaliaExamPalpationResult.isNotEmpty()){
+                            val value = externalGenitaliaExamPalpationResult[0].value
+                            rootView.etExternalPalpation.setText(value)
+                        }
+
+                        if (externalGenitaliaExamDischarge.isNotEmpty()){
+                            val value = externalGenitaliaExamDischarge[0].value
+                            if (value.contains("Yes")) rootView.radioGrpDischarge.check(R.id.radioYesDischarge)
+                            if (value.contains("No")) rootView.radioGrpDischarge.check(R.id.radioNoDischarge)
+                        }
+                        if (externalGenitaliaExamDischargeResult.isNotEmpty()){
+                            val value = externalGenitaliaExamDischargeResult[0].value
+                            rootView.etDischarge.setText(value)
+                        }
+
+                        if (externalGenitaliaExamGenitalUlcer.isNotEmpty()){
+                            val value = externalGenitaliaExamGenitalUlcer[0].value
+                            if (value.contains("Yes")) rootView.radioGrpGenital.check(R.id.radioYesGenital)
+                            if (value.contains("No")) rootView.radioGrpGenital.check(R.id.radioNoGenital)
+                        }
+                        if (externalGenitaliaExamGenitalUlcerResult.isNotEmpty()){
+                            val value = externalGenitaliaExamGenitalUlcerResult[0].value
+                            rootView.etGenital.setText(value)
+                        }
+
+                        if (fgmDone.isNotEmpty()){
+                            val value = fgmDone[0].value
+                            if (value.contains("Yes")) rootView.radioGrpFGM.check(R.id.radioYesFGM)
+                            if (value.contains("No")) rootView.radioGrpFGM.check(R.id.radioNoFGM)
+                        }
+                        if (fgmDoneResult.isNotEmpty()){
+
+                            val checkBoxList = mutableListOf<CheckBox>()
+                            checkBoxList.addAll(listOf(
+                                rootView.checkboxScarring,
+                                rootView.checkboxDyspaneuria,
+                                rootView.checkboxKeloids,
+                                rootView.checkboxUTI,
+                            ))
+
+                            val value = fgmDoneResult[0].value
+                            val valueList = formatter.stringToWords(value)
+                            valueList.forEach {
+
+                                checkBoxList.forEach { checkBox ->
+                                    if (checkBox.text.toString() == it){
+                                        checkBox.isChecked = true
+                                    }
+                                }
+
+                            }
+                        }
+
+
+
+
+                    }
+
+
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 

@@ -42,8 +42,6 @@ class FhirEncounterAdapter(private var entryList: ArrayList<DbFhirEncounter>,
             val pos = adapterPosition
             val id = entryList[pos].id
 
-            Log.e("xxxxx" , id)
-
             if (encounterType == DbResourceViews.PRESENT_PREGNANCY.name){
                 context.startActivity(Intent(context, PresentPregnancyView::class.java))
             }

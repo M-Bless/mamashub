@@ -57,10 +57,10 @@ class PhysicalExaminationView : AppCompatActivity() {
 
         title = "Physical Examination Details"
 
-//        btnPhysicalExamination.setOnClickListener {
-//            val intent = Intent(this, PhysicalExamination::class.java)
-//            startActivity(intent)
-//        }
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, PhysicalExamination::class.java)
+            startActivity(intent)
+        }
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
         fhirEngine = FhirApplication.fhirEngine(this)
@@ -94,7 +94,8 @@ class PhysicalExaminationView : AppCompatActivity() {
                 val physicalExamination = DbObservationFhirData(DbSummaryTitle.A_PHYSICAL_EXAMINATION.name,
                     listOf("25656009","25656009-A"))
                 val bloodPressure = DbObservationFhirData(DbSummaryTitle.B_PHYSICAL_BLOOD_PRESSURE.name,
-                    listOf("271649006","271650006","78564009","703421000","267037003","267037003-A","53617003", "53617003-A","185712006","185712006-A","185712006-N"))
+                    listOf("271649006","271650006","78564009","703421000","267037003","267037003-A",
+                        "53617003", "53617003-A","185712006","185712006-A","185712006-N"))
                 val weightMonitor = DbObservationFhirData(DbSummaryTitle.C_WEIGHT_MONITORING.name,
                     listOf("77386006","726527001"))
                 val abdominalExamination = DbObservationFhirData(DbSummaryTitle.D_ABDOMINAL_EXAMINATION.name,

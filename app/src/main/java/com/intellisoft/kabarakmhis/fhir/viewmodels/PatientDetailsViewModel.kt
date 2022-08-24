@@ -446,6 +446,8 @@ class PatientDetailsViewModel(
 
     private suspend fun observationsPerCodeFromEncounter(codeValue: String, encounterId: String): List<ObservationItem>{
 
+        Log.e("xxxx", "Code Value: $codeValue")
+
         val observations = mutableListOf<ObservationItem>()
         fhirEngine
             .search<Observation> {

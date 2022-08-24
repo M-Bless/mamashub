@@ -12,18 +12,25 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
-import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
+
+import kotlinx.android.synthetic.main.fragment_family.*
 import kotlinx.android.synthetic.main.fragment_family.view.*
 import kotlinx.android.synthetic.main.fragment_family.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
@@ -36,6 +43,13 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
     private lateinit var rootView: View
     private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+    private val formatterClass = FormatterClass()
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -43,7 +57,12 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
     ): View {
 
         rootView = inflater.inflate(R.layout.fragment_family, container, false)
+        patientId = formatterClass.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
 
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         rootView.radioGrpTwins.setOnCheckedChangeListener { radioGroup, checkedId ->
@@ -95,6 +114,130 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
         return rootView
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        getStart()
+    }
+
+    private fun getStart() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+
+                val encounterId = formatter.retrieveSharedPreference(
+                    requireContext(),
+                    DbResourceViews.MEDICAL_HISTORY.name
+                )
+
+                if (encounterId != null){
+
+                    val twins = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TWINS.name), encounterId)
+
+                    val specifyTwins = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TWINS_SPECIFY.name), encounterId)
+
+                    val tbHistory = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TB_FAMILIY_HISTORY.name), encounterId)
+
+                    val tbRelativeName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TB_FAMILIY_NAME.name), encounterId)
+
+                    val tbRelativeRshp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TB_FAMILIY_RELATIONSHIP.name), encounterId)
+
+                    val householdLiving = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FAMILY_LIVING_HOUSEHOLD.name), encounterId)
+
+                    val tbScreening = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FAMILIY_TB_SCREENING.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (twins.isNotEmpty()){
+
+                            val value = twins[0].value
+                            if (value.contains("Yes")) rootView.radioGrpTwins.check(R.id.radioYesTwins)
+                            if (value.contains("No")) rootView.radioGrpTwins.check(R.id.radioNoTwins)
+
+                        }
+
+                        if (specifyTwins.isNotEmpty()){
+
+                            val value = specifyTwins[0].value
+                            val checkBoxList = mutableListOf<CheckBox>()
+                            checkBoxList.addAll(listOf(
+                                rootView.checkboxPreviousPregnancy,
+                                rootView.checkboxMotherSide,
+                            ))
+
+                            val valueList = formatter.stringToWords(value)
+
+                            for (element in valueList){
+                                for (j in 0 until checkBoxList.size){
+                                    if (element == checkBoxList[j].text.toString()){
+                                        checkBoxList[j].isChecked = true
+                                    }
+                                }
+                            }
+
+                        }
+
+//                        Log.e("specifyTwins", tbHistory.toString())
+//                        Log.e("tbRelativeName", tbHistory.toString())
+//                        Log.e("tbHistory", tbHistory.toString())
+//                        Log.e("tbRelativeRshp", tbRelativeRshp.toString())
+//                        Log.e("householdLiving", householdLiving.toString())
+//                        Log.e("tbScreening", tbScreening.toString())
+//
+
+                        if (tbHistory.isNotEmpty()){
+
+                            val value = tbHistory[0].value
+                            if (value.contains("Yes")) rootView.radioGrpTb.check(R.id.radioYesBloodTb)
+                            if (value.contains("No")) rootView.radioGrpTb.check(R.id.radioNoBloodTb)
+
+                        }
+
+                        if (tbRelativeName.isNotEmpty()){
+
+                            val value = tbRelativeName[0].value
+                            rootView.etRelativeTbName.setText(value)
+
+                        }
+
+                        if (tbRelativeRshp.isNotEmpty()){
+
+                            val value = tbRelativeRshp[0].value
+                            rootView.spinnerRelativeTbRshp.setSelection(relationshipList.indexOf(value))
+
+                        }
+
+                        if (householdLiving.isNotEmpty()){
+
+                            val value = householdLiving[0].value
+                            if (value.contains("Yes")) rootView.radioGrpSameHouse.check(R.id.radioYesHousehold)
+                            if (value.contains("No")) rootView.radioGrpSameHouse.check(R.id.radioNoBloodHousehold)
+
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+
+        }catch (e: Exception){
+        println(e)
+        }
+
+    }
+
     private fun handleNavigation() {
 
         rootView.navigation.btnNext.text = "Preview"
@@ -116,12 +259,13 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
 
             if (rootView.linearTwins.visibility == View.VISIBLE){
 
-                var twins = ArrayList<String>()
+                val twins = ArrayList<String>()
                 if (rootView.checkboxPreviousPregnancy.isChecked) twins.add("Previous Pregnancy")
                 if (rootView.checkboxMotherSide.isChecked) twins.add("Mother Side")
 
                 if (twins.size > 0){
-                    addData("Twins Specification",twins.joinToString(separator = ","),DbObservationValues.TWINS_SPECIFY.name)
+                    addData("Twins Specification",twins.joinToString(separator = ","),
+                        DbObservationValues.TWINS_SPECIFY.name)
                 }else{
                     errorList.add("Twins History is required")
                 }
@@ -228,6 +372,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
     }
 
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
+
         if (showLinear){
             linearLayout.visibility = View.VISIBLE
         }else{

@@ -101,7 +101,7 @@ class FragmentSurgical : Fragment() {
     override fun onStart() {
         super.onStart()
 
-//        getPastData()
+        getPastData()
     }
 
     private fun getPastData() {
@@ -129,9 +129,9 @@ class FragmentSurgical : Fragment() {
                         rootView.checkboxSalpi,
                         rootView.checkboxCervical,))
 
-                    val surgicalHist = patientDetailsViewModel.getObservationsPerCodeFromEncounter("161615003", encounterId)
-                    val otherGynecological = patientDetailsViewModel.getObservationsPerCodeFromEncounter("12658000", encounterId)
-                    val otherSurgery = patientDetailsViewModel.getObservationsPerCodeFromEncounter("12658000", encounterId)
+                    val surgicalHist = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.SURGICAL_HISTORY.name), encounterId)
+                    val otherGynecological = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.OTHER_GYNAECOLOGICAL_HISTORY.name), encounterId)
+                    val otherSurgery = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.OTHER_SURGICAL_HISTORY.name), encounterId)
 
                     CoroutineScope(Dispatchers.Main).launch {
 
@@ -208,8 +208,6 @@ class FragmentSurgical : Fragment() {
             if (rootView.checkboxSalpi.isChecked) surgicalHistoryList.add(rootView.checkboxSalpi.text.toString())
             if (rootView.checkboxCervical.isChecked) surgicalHistoryList.add(rootView.checkboxCervical.text.toString())
 
-            addData("Surgical History", surgicalHistoryList.joinToString(separator = ","), DbObservationValues.SURGICAL_HISTORY.name)
-
             val otherGyna = rootView.etOtherGyna.text.toString()
             val otherSurgeries = rootView.etOtherSurgery.text.toString()
 
@@ -222,6 +220,8 @@ class FragmentSurgical : Fragment() {
 
 
         }
+        addData("Surgical History", surgicalHistoryList.joinToString(separator = ","), DbObservationValues.SURGICAL_HISTORY.name)
+
 
 
         val dbDataList = ArrayList<DbDataList>()

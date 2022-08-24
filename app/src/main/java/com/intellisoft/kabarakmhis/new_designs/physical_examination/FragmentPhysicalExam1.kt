@@ -13,7 +13,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -24,6 +28,9 @@ import kotlinx.android.synthetic.main.fragment_physical_exam.view.*
 import kotlinx.android.synthetic.main.fragment_physical_exam.view.linearAbnormal
 import kotlinx.android.synthetic.main.fragment_physical_exam.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FragmentPhysicalExam1 : Fragment() {
@@ -35,6 +42,9 @@ class FragmentPhysicalExam1 : Fragment() {
 
     private lateinit var rootView: View
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -44,6 +54,15 @@ class FragmentPhysicalExam1 : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_physical_exam, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
+        kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
 
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
@@ -135,9 +154,14 @@ class FragmentPhysicalExam1 : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 val value = rootView.etSystolicBp.text.toString()
-                if (!TextUtils.isEmpty(value)){
-                    validateSystolicBloodPressure(rootView.etSystolicBp, value.toInt())
+                try {
+                    if (!TextUtils.isEmpty(value)){
+                        validateSystolicBloodPressure(rootView.etSystolicBp, value.toInt())
+                    }
+                }catch (e: NumberFormatException){
+                    e.printStackTrace()
                 }
+
 
             }
 
@@ -152,8 +176,13 @@ class FragmentPhysicalExam1 : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 val value = rootView.etDiastolicBp.text.toString()
-                if (!TextUtils.isEmpty(value)){
-                    validateDiastolicBloodPressure(rootView.etDiastolicBp, value.toInt())
+
+                try {
+                    if (!TextUtils.isEmpty(value)){
+                        validateDiastolicBloodPressure(rootView.etDiastolicBp, value.toInt())
+                    }
+                }catch (e: NumberFormatException){
+                    e.printStackTrace()
                 }
 
             }
@@ -169,8 +198,15 @@ class FragmentPhysicalExam1 : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 val value = rootView.etPulseRate.text.toString()
-                if (!TextUtils.isEmpty(value)){
-                    validatePulseRateBloodPressure(rootView.etPulseRate, value.toInt())
+
+                try {
+
+                    if (!TextUtils.isEmpty(value)){
+                        validatePulseRateBloodPressure(rootView.etPulseRate, value.toInt())
+                    }
+
+                }catch (e: NumberFormatException){
+                    e.printStackTrace()
                 }
 
             }
@@ -429,6 +465,156 @@ class FragmentPhysicalExam1 : Fragment() {
     }
 
 
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.PHYSICAL_EXAMINATION.name)
+
+                if (encounterId != null){
+
+                    val generalExamination = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.GENERAL_EXAMINATION.name), encounterId)
+
+                    val specificAbnormal = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABNORMAL_GENERAL_EXAMINATION.name), encounterId)
+
+                    val systolicBp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SYSTOLIC_BP.name), encounterId)
+
+                    val diastolicBp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DIASTOLIC_BP.name), encounterId)
+
+                    val pulseRate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PULSE_RATE.name), encounterId)
+
+                    val temparature = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TEMPARATURE.name), encounterId)
+
+                    val cvs = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.CVS.name), encounterId)
+
+                    val specificCvs = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABNORMAL_CVS.name), encounterId)
+
+                    val respiratoryMonitoring = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.RESPIRATORY_MONITORING.name), encounterId)
+
+                    val abnormalRespiratoryMonitoring = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABNORMAL_RESPIRATORY_MONITORING.name), encounterId)
+
+                    val breastExam = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BREAST_EXAM.name), encounterId)
+
+                    val abnormalBreastExam = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABNORMAL_BREAST_EXAM.name), encounterId)
+
+                    val normalBreastExam = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NORMAL_BREAST_EXAM.name), encounterId)
+
+                    val motherWeight = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.WEIGHT.name), encounterId)
+
+                    val gestation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.GESTATION.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (generalExamination.isNotEmpty()){
+                            val value = generalExamination[0].value
+                            if (value.contains("Normal")) rootView.radioGrpGeneralExam.check(R.id.radioYesNormal)
+                            if (value.contains("Abnormal")) rootView.radioGrpGeneralExam.check(R.id.radioNoAbnormal)
+                        }
+
+                        if (specificAbnormal.isNotEmpty()){
+                            val value = specificAbnormal[0].value
+                            rootView.etAbnomality.setText(value)
+                        }
+
+                        if (systolicBp.isNotEmpty()){
+                            val value = systolicBp[0].value
+                            val noValue = formatter.getValues(value, 5)
+                            rootView.etSystolicBp.setText(noValue)
+                        }
+                        if (diastolicBp.isNotEmpty()){
+                            val value = diastolicBp[0].value
+                            val noValue = formatter.getValues(value, 5)
+                            rootView.etDiastolicBp.setText(noValue)
+                        }
+                        if (pulseRate.isNotEmpty()){
+                            val value = pulseRate[0].value
+                            val noValue = formatter.getValues(value, 4)
+                            rootView.etPulseRate.setText(noValue)
+                        }
+                        if (temparature.isNotEmpty()){
+                            val value = temparature[0].value
+                            val noValue = formatter.getValues(value, 3)
+                            rootView.etTemperature.setText(noValue)
+                        }
+                        if (cvs.isNotEmpty()){
+                            val value = cvs[0].value
+                            if (value.contains("Normal")) rootView.radioGrpCVS.check(R.id.radioYesCvs)
+                            if (value.contains("Abnormal")) rootView.radioGrpCVS.check(R.id.radioNoCvs)
+                        }
+                        if (specificCvs.isNotEmpty()){
+                            val value = specificCvs[0].value
+                            rootView.etCvsAbnormal.setText(value)
+                        }
+                        if (respiratoryMonitoring.isNotEmpty()){
+                            val value = respiratoryMonitoring[0].value
+                            if (value.contains("Normal")) rootView.radioGrpRespiratory.check(R.id.radioYesRespiratory)
+                            if (value.contains("Abnormal")) rootView.radioGrpRespiratory.check(R.id.radioNoRespiratory)
+                        }
+                        if (abnormalRespiratoryMonitoring.isNotEmpty()){
+                            val value = abnormalRespiratoryMonitoring[0].value
+                            rootView.etCvsRespiratory.setText(value)
+                        }
+                        if (breastExam.isNotEmpty()){
+                            val value = breastExam[0].value
+                            if (value.contains("Normal")) rootView.radioGrpBreasts.check(R.id.radioYesBreast)
+                            if (value.contains("Abnormal")) rootView.radioGrpBreasts.check(R.id.radioNoBreast)
+                        }
+                        if (abnormalBreastExam.isNotEmpty()){
+                            val value = abnormalBreastExam[0].value
+                            rootView.etBreastAbnormal.setText(value)
+                        }
+                        if (normalBreastExam.isNotEmpty()){
+                            val value = normalBreastExam[0].value
+                            rootView.etBreastFinding.setText(value)
+                        }
+                        if (motherWeight.isNotEmpty()){
+                            val value = motherWeight[0].value
+                            val noValue = formatter.getValues(value, 3)
+                            rootView.etMotherWeight.setText(noValue)
+                        }
+                        if (gestation.isNotEmpty()){
+                            val value = gestation[0].value
+                            val noValue = formatter.getValues(value, 6)
+                            rootView.etGestation.setText(noValue)
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+
+
+    }
 
     private fun addData(key: String, value: String, codeLabel: String) {
         if (key != ""){

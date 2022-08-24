@@ -23,11 +23,14 @@ import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.fragment_medical.*
 import kotlinx.android.synthetic.main.fragment_medical.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentMedical : Fragment(){
@@ -164,18 +167,129 @@ class FragmentMedical : Fragment(){
 
                 if (encounterId != null){
 
-                    val diabetes = patientDetailsViewModel.getObservationsPerCodeFromEncounter("405751000", encounterId)
-                    val hypertension = patientDetailsViewModel.getObservationsPerCodeFromEncounter("38341003", encounterId)
-                    val otherConditions = patientDetailsViewModel.getObservationsPerCodeFromEncounter("7867677", encounterId)
-                    val specifyOtherCondition = patientDetailsViewModel.getObservationsPerCodeFromEncounter("7867677-S", encounterId)
-                    val bloodTransfusion = patientDetailsViewModel.getObservationsPerCodeFromEncounter("116859006", encounterId)
-                    val bloodTransfusionReaction = patientDetailsViewModel.getObservationsPerCodeFromEncounter("82545002", encounterId)
-                    val tuberculosis = patientDetailsViewModel.getObservationsPerCodeFromEncounter("371569005", encounterId)
+                    val diabetes = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.DIABETES.name), encounterId)
+                    val hypertension = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.HYPERTENSION.name), encounterId)
+                    val otherConditions = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.OTHER_CONDITIONS.name), encounterId)
+                    val specifyOtherCondition = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.OTHER_CONDITIONS_SPECIFY.name), encounterId)
+                    val bloodTransfusion = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.BLOOD_TRANSFUSION.name), encounterId)
+                    val bloodTransfusionReaction = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.BLOOD_TRANSFUSION_REACTION.name), encounterId)
+                    val specifyBloodTransfusionReaction = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.SPECIFY_BLOOD_TRANSFUSION_REACTION.name), encounterId)
+                    val tuberculosis = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.TUBERCULOSIS.name), encounterId)
 
-                    val drugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("416098002", encounterId)
-                    val specifyDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("416098002-S", encounterId)
-                    val nonDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("609328004", encounterId)
-                    val specifyNonDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter("609328004-S", encounterId)
+                    val drugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.DRUG_ALLERGY.name), encounterId)
+                    val specifyDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.SPECIFIC_DRUG_ALLERGY.name), encounterId)
+                    val nonDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.NON_DRUG_ALLERGY.name), encounterId)
+                    val specifyNonDrugAllergy = patientDetailsViewModel.getObservationsPerCodeFromEncounter(formatter.getCodes(DbObservationValues.SPECIFIC_NON_DRUG_ALLERGY.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (diabetes.isNotEmpty()){
+
+                            val value = diabetes[0].value
+                            if (value.contains("Yes")) rootView.radioGrpDiabetes.check(R.id.radioYesDiabetes)
+                            if (value.contains("No")) rootView.radioGrpDiabetes.check(R.id.radioNoDiabetes)
+
+                        }
+                        if (hypertension.isNotEmpty()){
+
+                            val value = hypertension[0].value
+                            if (value.contains("Yes")) rootView.radioGrpHypertension.check(R.id.radioYesHypertesnion)
+                            if (value.contains("No")) rootView.radioGrpHypertension.check(R.id.radioNoHypertesnion)
+
+                        }
+                        if (otherConditions.isNotEmpty()){
+
+                            val value = otherConditions[0].value
+                            if (value.contains("Yes")) rootView.radioGrpOtherCondition.check(R.id.radioYesOtherCondition)
+                            if (value.contains("No")) rootView.radioGrpOtherCondition.check(R.id.radioNoOtherCondition)
+
+                        }
+
+                        if (specifyOtherCondition.isNotEmpty()){
+
+                            val checkBoxList = mutableListOf<CheckBox>()
+                            checkBoxList.addAll(
+                                listOf(
+                                rootView.checkBoxEpilepsy,
+                                rootView.checkBoxMalariaPregnancy,
+                                rootView.checkBoxOthers))
+
+                            val value = specifyOtherCondition[0].value
+                            val valueList = formatter.stringToWords(value)
+
+                            for (element in valueList){
+                                for (j in 0 until checkBoxList.size){
+                                    if (element == checkBoxList[j].text.toString()){
+                                        checkBoxList[j].isChecked = true
+                                    }
+                                }
+                            }
+
+                            if (valueList.size > 2){
+                                rootView.checkBoxOthers.isChecked = true
+                                valueList.forEach {
+                                    if (!it.contains("Epilepsy") && !it.contains(" Malaria in pregnancy")){
+                                        rootView.etOtherConditions.setText(it)
+                                    }
+                                }
+
+
+                            }
+
+
+
+                        }
+
+                        if (bloodTransfusion.isNotEmpty()){
+
+                            val value = bloodTransfusion[0].value
+                            if (value.contains("Yes")) rootView.radioGrpBloodTransfusion.check(R.id.radioYesBloodTransfusion)
+                            if (value.contains("No")) rootView.radioGrpBloodTransfusion.check(R.id.radioNoBloodTransfusion)
+
+                        }
+                        if (bloodTransfusionReaction.isNotEmpty()){
+
+                            val value = bloodTransfusionReaction[0].value
+                            if (value.contains("Yes")) rootView.radioGrpTransfusion.check(R.id.radioYesReaction)
+                            if (value.contains("No")) rootView.radioGrpTransfusion.check(R.id.radioNoReaction)
+
+                        }
+                        if (specifyBloodTransfusionReaction.isNotEmpty()){
+
+                            val value = specifyBloodTransfusionReaction[0].value
+                            rootView.etBloodTransReaction.setText(value)
+                        }
+
+                        if (tuberculosis.isNotEmpty()){
+
+                            val value = tuberculosis[0].value
+                            if (value.contains("Yes")) rootView.radioGrpTb.check(R.id.radioYesTb)
+                            if (value.contains("No")) rootView.radioGrpTb.check(R.id.radioNoBloodTb)
+
+                        }
+
+                        if (drugAllergy.isNotEmpty()){
+                            val value = drugAllergy[0].value
+                            if (value.contains("Yes")) rootView.radioGrpDrugAllergies.check(R.id.radioYesAllergies)
+                            if (value.contains("No")) rootView.radioGrpDrugAllergies.check(R.id.radioNoAllergies)
+                        }
+                        if (specifyDrugAllergy.isNotEmpty()){
+                            val value = specifyDrugAllergy[0].value
+                            rootView.etDrugAllergies.setText(value)
+                        }
+
+                        if (nonDrugAllergy.isNotEmpty()){
+                            val value = drugAllergy[0].value
+                            if (value.contains("Yes")) rootView.radioGrpOtherAllergy.check(R.id.radioYesOtherAllergy)
+                            if (value.contains("No")) rootView.radioGrpOtherAllergy.check(R.id.radioNoOtherAllergy)
+                        }
+                        if (specifyNonDrugAllergy.isNotEmpty()){
+                            val value = specifyNonDrugAllergy[0].value
+                            rootView.etDrugOtherAllergies.setText(value)
+                        }
+
+                    }
+
 
 
 
@@ -231,10 +345,13 @@ class FragmentMedical : Fragment(){
             val bloodGrpReaction = formatter.getRadioText(rootView.radioGrpTransfusion)
             if (bloodGrpReaction != ""){
 
+                addData("Blood Transfusion Reaction",bloodGrpReaction, DbObservationValues.BLOOD_TRANSFUSION_REACTION.name)
+
                 if (rootView.linearBloodReaction.visibility == View.VISIBLE){
-                    val bloodReaction = formatter.getRadioText(rootView.radioGrpDrugAllergies)
-                    if (bloodReaction != ""){
-                        addData("Blood Transfusion Reaction",bloodReaction, DbObservationValues.BLOOD_TRANSFUSION_REACTION.name)
+
+                    val bloodReaction = etBloodTransReaction.text.toString()
+                    if (!TextUtils.isEmpty(bloodReaction)){
+                        addData("What was the blood reaction",bloodReaction, DbObservationValues.SPECIFY_BLOOD_TRANSFUSION_REACTION.name)
                     }else{
                         isErrorList.add("Blood Transfusion Reaction cannot be empty")
                     }
@@ -320,7 +437,7 @@ class FragmentMedical : Fragment(){
                 val text = rootView.etDrugOtherAllergies.text.toString()
                 if (!TextUtils.isEmpty(text)) {
                     addData(
-                        "Other non drug allergies",
+                        "What other non drug allergies do you have",
                         text,
                         DbObservationValues.SPECIFIC_NON_DRUG_ALLERGY.name
                     )
@@ -375,13 +492,14 @@ class FragmentMedical : Fragment(){
         observationList[key] = dbObservationLabel
     }
 
-    
-
     private fun changeVisibility(linearLayout: LinearLayout, showLinear: Boolean){
-        if (showLinear){
-            linearLayout.visibility = View.VISIBLE
-        }else{
-            linearLayout.visibility = View.GONE
+
+        CoroutineScope(Dispatchers.Main).launch {
+            if (showLinear){
+                linearLayout.visibility = View.VISIBLE
+            }else{
+                linearLayout.visibility = View.GONE
+            }
         }
 
     }

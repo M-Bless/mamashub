@@ -559,7 +559,8 @@ class FormatterClass {
         return frag
     }
 
-    fun getObservationList(patientDetailsViewModel : PatientDetailsViewModel, dbObservationFhirData:DbObservationFhirData, encounterId:String):ArrayList<DbConfirmDetails>{
+    fun getObservationList(patientDetailsViewModel : PatientDetailsViewModel,
+                           dbObservationFhirData:DbObservationFhirData, encounterId:String):ArrayList<DbConfirmDetails>{
 
         val observationDataList = ArrayList<DbConfirmDetails>()
         val detailsList = ArrayList<DbObserveValue>()
@@ -635,26 +636,18 @@ class FormatterClass {
             DbObservationValues.PARITY.name -> { "364325004" }
             DbObservationValues.HEIGHT.name -> { "1153637007" }
             DbObservationValues.WEIGHT.name -> { "726527001" }
-            DbObservationValues.LMP.name -> {
-                "21840007"
+            DbObservationValues.LMP.name -> { "21840007" }
+            DbObservationValues.KMHFL_CODE.name -> { "76967697"
+            }DbObservationValues.ANC_NO.name -> { "9889789"
             }
-            DbObservationValues.KMHFL_CODE.name -> {
-                "76967697"
-            }DbObservationValues.ANC_NO.name -> {
-                "9889789"
+            DbObservationValues.EDUCATION_LEVEL.name -> { "276031006"
             }
-            DbObservationValues.EDUCATION_LEVEL.name -> {
-                "276031006"
-            }
-            DbObservationValues.EDD.name -> {
-                "161714006"
+            DbObservationValues.EDD.name -> { "161714006"
             }
 
-            DbObservationValues.RELATIONSHIP.name -> {
-                "263498003"
+            DbObservationValues.RELATIONSHIP.name -> { "263498003"
             }
-            DbObservationValues.GESTATION.name -> {
-                "77386006"
+            DbObservationValues.GESTATION.name -> { "77386006"
             }
 
 
@@ -687,6 +680,9 @@ class FormatterClass {
             }
             DbObservationValues.BLOOD_TRANSFUSION_REACTION.name -> {
                 "82545002"
+            }
+            DbObservationValues.SPECIFY_BLOOD_TRANSFUSION_REACTION.name -> {
+                "252314007"
             }
             DbObservationValues.TUBERCULOSIS.name -> {
                 "371569005"
@@ -1435,4 +1431,16 @@ class FormatterClass {
         .filter { it.isNotEmpty() } // or: .filter { it.isNotBlank() }
         .toList()
 
+    fun getValues(value: String, intNo: Int): String{
+        val valueReversed = value.reversed()
+
+        val valueLength = valueReversed.length
+        return if (valueLength > intNo){
+            val newValue = valueReversed.substring(intNo, valueReversed.length)
+            newValue.reversed().replace(" ", "")
+        }else{
+            value.replace(" ", "")
+        }
+
+    }
 }

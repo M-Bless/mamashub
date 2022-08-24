@@ -174,7 +174,7 @@
 
                         <CheckBox
                             android:id="@+id/checkBoxMalariaPregnancy"
-                            android:text="Malaria in Pregnancy"
+                            android:text="Malaria in pregnancy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -299,7 +299,7 @@
                             />
 
                         <EditText
-                            android:id="@+id/etClientName"
+                            android:id="@+id/etBloodTransReaction"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
