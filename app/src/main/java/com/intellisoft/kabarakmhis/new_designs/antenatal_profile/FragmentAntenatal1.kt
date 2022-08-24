@@ -76,6 +76,7 @@ class FragmentAntenatal1 : Fragment() {
         patientDetailsViewModel = ViewModelProvider(this,
             PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
+
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         //Restricted User

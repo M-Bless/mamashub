@@ -13,8 +13,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.dave.validations.PhoneNumberValidation
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -26,8 +30,12 @@ import kotlinx.android.synthetic.main.fragment_birthplan2.view.etCompanionName
 import kotlinx.android.synthetic.main.fragment_birthplan2.view.etCompanionPhone
 import kotlinx.android.synthetic.main.fragment_birthplan2.view.etTransportMeans
 import kotlinx.android.synthetic.main.fragment_birthplan2.view.navigation
+import kotlinx.android.synthetic.main.fragment_birthplan2.view.spinnerCompanionDesignation
 
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
@@ -44,6 +52,10 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
     var bloodGroupList = arrayOf("","A", "AB", "B", "O")
     private var spinnerBloodGroupValue  = bloodGroupList[0]
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -52,6 +64,13 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
         rootView = inflater.inflate(R.layout.fragment_birthplan2, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         formatter.saveCurrentPage("2", requireContext())
 
@@ -250,6 +269,92 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.BIRTH_PLAN.name)
+
+                if (encounterId != null){
+
+                    val alternativeBirthPlanName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_NAME1.name), encounterId)
+                    val alternativeBirthPlanNumber = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_NUMBER1.name), encounterId)
+                    val alternativeBirthPlanRshp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_RELATIONSHIP1.name), encounterId)
+                    val alternativeBirthPlanTransport = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_TRANSPORT1.name), encounterId)
+                    val bloodDonorName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DONOR_NAME.name), encounterId)
+                    val bloodDonorNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DONOR_NUMBER.name), encounterId)
+                    val bloodDonorBlood = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DONOR_BLOOD_GROUP.name), encounterId)
+                    val bloodDonorGrpFinancial = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FINANCIAL_PLAN.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (alternativeBirthPlanName.isNotEmpty()){
+                            rootView.etCompanionName.setText(alternativeBirthPlanName[0].value)
+                        }
+                        if (alternativeBirthPlanNumber.isNotEmpty()){
+                            val value = alternativeBirthPlanNumber[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etCompanionPhone.setText(valueNo)
+                        }
+                        if (alternativeBirthPlanRshp.isNotEmpty()){
+                            val value = alternativeBirthPlanRshp[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.spinnerCompanionDesignation.setSelection(designationList.indexOf(noValue))
+                        }
+                        if (alternativeBirthPlanTransport.isNotEmpty()){
+                            val value = alternativeBirthPlanTransport[0].value
+                            rootView.etTransportMeans.setText(value)
+                        }
+                        if (bloodDonorName.isNotEmpty()){
+                            rootView.etDonorName.setText(bloodDonorName[0].value)
+                        }
+                        if (bloodDonorNo.isNotEmpty()){
+                            val value = bloodDonorNo[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etDonorPhone.setText(valueNo)
+                        }
+                        if (bloodDonorBlood.isNotEmpty()){
+                            val value = bloodDonorBlood[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.spinnerDonorGroup.setSelection(bloodGroupList.indexOf(noValue))
+                        }
+                        if (bloodDonorGrpFinancial.isNotEmpty()){
+                            val value = bloodDonorGrpFinancial[0].value
+                            rootView.etFinancialPlan.setText(value)
+                        }
+
+                    }
+
+
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 

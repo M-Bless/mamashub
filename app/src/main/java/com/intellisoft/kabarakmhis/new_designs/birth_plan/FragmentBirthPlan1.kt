@@ -14,8 +14,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.dave.validations.PhoneNumberValidation
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -29,6 +33,9 @@ import kotlinx.android.synthetic.main.fragment_birthplan1.view.navigation
 import kotlinx.android.synthetic.main.fragment_info.view.*
 
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -54,6 +61,10 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
     var relationshipList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
     private var spinnerRshpValue  = relationshipList[0]
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -66,6 +77,13 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -380,6 +398,115 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         if (edd != null){
             rootView.etEdd.text = edd
             rootView.etEdd.isEnabled = false
+        }
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.BIRTH_PLAN.name)
+
+                if (encounterId != null){
+
+                    val facilityName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FACILITY_NAME.name), encounterId)
+                    val facilityNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FACILITY_NUMBER.name), encounterId)
+                    val birthAttName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ATTENDANT_NAME.name), encounterId)
+                    val birthAttNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ATTENDANT_NUMBER.name), encounterId)
+                    val birthAttDesignation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ATTENDANT_DESIGNATION.name), encounterId)
+                    val birthAttName1 = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ATTENDANT_NAME1.name), encounterId)
+                    val birthAttNo1 = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ATTENDANT_NUMBER1.name), encounterId)
+                    val birthAttDesignation1 = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ATTENDANT_DESIGNATION1.name), encounterId)
+                    val companionName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_NAME.name), encounterId)
+                    val companionNumber = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_NUMBER.name), encounterId)
+                    val companionRshp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_RELATIONSHIP.name), encounterId)
+                    val companionTransport = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.COMPANION_TRANSPORT.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (facilityName.isNotEmpty()){
+                            rootView.etFacilityName.setText(facilityName[0].value)
+                        }
+                        if (facilityNo.isNotEmpty()){
+                            val value = facilityNo[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etFacilityContact.setText(valueNo)
+                        }
+                        if (birthAttName.isNotEmpty()){
+                            rootView.etAttendantName.setText(birthAttName[0].value)
+                        }
+                        if (birthAttNo.isNotEmpty()){
+                            val value = birthAttNo[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etAttendantPhone.setText(valueNo)
+                        }
+                        if (birthAttDesignation.isNotEmpty()){
+                            val noValue = formatter.getValues(birthAttDesignation[0].value, 0)
+                            rootView.spinnerDesignation.setSelection(designationList.indexOf(noValue))
+                        }
+                        if (birthAttName1.isNotEmpty()){
+                            rootView.etAlternativeAttendantName.setText(birthAttName1[0].value)
+                        }
+                        if (birthAttNo1.isNotEmpty()){
+                            val value = birthAttNo1[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etAlternativeAttendantPhone.setText(valueNo)
+                        }
+                        if (birthAttDesignation1.isNotEmpty()){
+                            val noValue = formatter.getValues(birthAttDesignation1[0].value, 0)
+                            rootView.spinnerAlternativeDesignation.setSelection(designationList.indexOf(noValue))
+                        }
+                        if (companionName.isNotEmpty()){
+                            rootView.etCompanionName.setText(companionName[0].value)
+                        }
+                        if (companionNumber.isNotEmpty()){
+                            val value = companionNumber[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etCompanionPhone.setText(valueNo)
+                        }
+                        if (companionRshp.isNotEmpty()){
+                            val noValue = formatter.getValues(companionRshp[0].value, 0)
+                            rootView.spinnerCompanionDesignation.setSelection(relationshipList.indexOf(noValue))
+                        }
+                        if (companionTransport.isNotEmpty()){
+                            rootView.etTransportMeans.setText(companionTransport[0].value)
+                        }
+
+
+
+                    }
+
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
         }
 
     }
