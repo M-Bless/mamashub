@@ -28,6 +28,11 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_birth_plan_view.*
+import kotlinx.android.synthetic.main.activity_birth_plan_view.no_record
+import kotlinx.android.synthetic.main.activity_birth_plan_view.recycler_view
+import kotlinx.android.synthetic.main.activity_birth_plan_view.tvAncId
+import kotlinx.android.synthetic.main.activity_birth_plan_view.tvPatient
+import kotlinx.android.synthetic.main.activity_clinical_notes_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -67,6 +72,11 @@ class ClinicalNotesView : AppCompatActivity() {
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, ClinicalNotesAdd::class.java)
+            startActivity(intent)
+        }
 
 
     }

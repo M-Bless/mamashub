@@ -15,7 +15,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -33,6 +37,9 @@ import kotlinx.android.synthetic.main.fragment_present_preg_1.view.navigation
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.radioGrpHb
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.radioGrpUrineResults
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -53,6 +60,10 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
     private  var month = 0
     private  var day = 0
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -63,6 +74,14 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         getPageDetails()
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
+
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -515,6 +534,123 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             .append(monthDate).append("-").append(dayDate)
 
         return date.toString()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.PRESENT_PREGNANCY.name)
+
+                if (encounterId != null){
+
+                    val contactNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.CONTACT_NUMBER.name), encounterId)
+                    val date = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name), encounterId)
+                    val urineTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.URINALYSIS_TEST.name), encounterId)
+                    val urineTestResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.URINALYSIS_RESULTS.name), encounterId)
+                    val muac = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.MUAC.name), encounterId)
+                    val systolicBp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SYSTOLIC_BP.name), encounterId)
+                    val diastolicBp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DIASTOLIC_BP.name), encounterId)
+                    val hbTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HB_TEST.name), encounterId)
+                    val hbTestResult = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SPECIFIC_HB_TEST.name), encounterId)
+                    val pallor = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PALLOR.name), encounterId)
+                    val gestation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.GESTATION.name), encounterId)
+                    val fundalHeight = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FUNDAL_HEIGHT.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+
+                        if (contactNo.isNotEmpty()){
+                            val value = contactNo[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.spinnerContact.setSelection(contactNumberList.indexOf(valueNo))
+                        }
+                        if (date.isNotEmpty()){
+                            val value = date[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.tvDate.text = valueNo
+                        }
+                        if (urineTest.isNotEmpty()){
+                            val value = urineTest[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpUrineResults.check(R.id.radioYes)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpUrineResults.check(R.id.radioNo)
+                        }
+                        if (urineTestResult.isNotEmpty()){
+                            val value = urineTestResult[0].value
+                            rootView.etUrineResults.setText(value)
+                        }
+                        if (muac.isNotEmpty()){
+                            val value = muac[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etMuac.setText(valueNo)
+                        }
+                        if (systolicBp.isNotEmpty()){
+                            val value = systolicBp[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etSystolicBp.setText(valueNo)
+                        }
+                        if (diastolicBp.isNotEmpty()){
+                            val value = diastolicBp[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.etDiastolicBp.setText(valueNo)
+                        }
+                        if (hbTest.isNotEmpty()){
+                            val value = hbTest[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpHb.check(R.id.radioHbYes)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpHb.check(R.id.radioHbNo)
+                        }
+                        if (hbTestResult.isNotEmpty()){
+                            val value = hbTestResult[0].value
+                            rootView.etHbReading.setText(value)
+                        }
+                        if (pallor.isNotEmpty()){
+                            val value = pallor[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpPallor.check(R.id.radioPallorYes)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpPallor.check(R.id.radioPallorNo)
+                        }
+                        if (gestation.isNotEmpty()){
+                            val value = gestation[0].value
+                            rootView.etGestation.setText(value)
+                        }
+                        if (fundalHeight.isNotEmpty()){
+                            val value = fundalHeight[0].value
+                            rootView.etFundal.setText(value)
+                        }
+
+
+                    }
+
+                }
+
+
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 }

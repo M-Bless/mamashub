@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.clinical_notes
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +9,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -20,6 +25,9 @@ import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_clinical_notes_add.*
 import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,6 +41,10 @@ class ClinicalNotesAdd : AppCompatActivity() {
     private val formatter = FormatterClass()
     private lateinit var kabarakViewModel: KabarakViewModel
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clinical_notes_add)
@@ -42,6 +54,13 @@ class ClinicalNotesAdd : AppCompatActivity() {
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         kabarakViewModel = KabarakViewModel(application)
+
+        patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -80,14 +99,45 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
     private fun getData() {
 
+        try {
 
-        val clinicalNote = formatter.getDataLocal(this, "Clinical_Note")
-        val nextAppointment = formatter.getDataLocal(this, "Next_Appointment")
-        val dateCollected = formatter.getDataLocal(this, "Date_Collected")
+            CoroutineScope(Dispatchers.IO).launch {
 
-        if (clinicalNote != null && nextAppointment != null && dateCollected != null) {
-            etClinicalNotes.setText(clinicalNote)
-            tvNextVisit.setText(nextAppointment)
+                val encounterId = formatter.retrieveSharedPreference(this@ClinicalNotesAdd,
+                    DbResourceViews.CLINICAL_NOTES.name)
+
+                if (encounterId != null){
+
+                    val clinicalNotes = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.CLINICAL_NOTES.name), encounterId)
+
+                    val clinicalNextVisit = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.CLINICAL_NOTES_NEXT_VISIT.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch{
+
+                        Log.e("clinicalNotes", clinicalNotes.toString())
+                        Log.e("clinicalNextVisit", clinicalNextVisit.toString())
+
+                        if (clinicalNotes.isNotEmpty()){
+                            val value = clinicalNotes[0].value
+                            etClinicalNotes.setText(value)
+                        }
+
+                        if (clinicalNextVisit.isNotEmpty()){
+                            val value = clinicalNextVisit[0].value
+                            tvNextVisit.text = value
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
         }
 
 
@@ -192,6 +242,8 @@ class ClinicalNotesAdd : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
 
 
 }

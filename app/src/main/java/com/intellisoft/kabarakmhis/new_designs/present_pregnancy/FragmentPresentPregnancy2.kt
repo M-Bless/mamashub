@@ -5,7 +5,9 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +15,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -22,7 +28,6 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_present_preg_2.*
 import kotlinx.android.synthetic.main.fragment_present_preg_2.view.*
 import kotlinx.android.synthetic.main.fragment_present_preg_2.view.navigation
@@ -54,6 +59,9 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -62,6 +70,12 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         rootView = inflater.inflate(R.layout.fragment_present_preg_2, container, false)
 
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
@@ -78,10 +92,40 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
         
         rootView.tvDate.setOnClickListener { createDialog(999) }
 
+        rootView.etFoetalMovement.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val value = rootView.etFoetalMovement.text.toString()
+                if (!TextUtils.isEmpty(value)){
+                    try {
+                        validateFoetal(rootView.etFoetalMovement, value.toInt())
+
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
+                }
+
+            }
+
+        })
 
         handleNavigation()
 
         return rootView
+    }
+
+    private fun validateFoetal(editText: EditText, value: Int) {
+        if (value in 121..159){
+            editText.setBackgroundColor(resources.getColor(R.color.low_risk))
+        }else {
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
+        }
     }
 
     private fun handleNavigation() {
@@ -101,10 +145,12 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         val lieText = formatter.getRadioText(rootView.radioGrpLie)
         val foetalHeartRate = formatter.getRadioText(rootView.radGrpFoetalHeartRate)
-        val foetalMovement = formatter.getRadioText(rootView.radGrpFoetalMovement)
+
+        val foetalMovement = rootView.etFoetalMovement.text.toString()
+
         val date = tvDate.text.toString()
 
-        if (lieText != "" && foetalHeartRate != "" && foetalMovement != "" && !TextUtils.isEmpty(date) && spinnerPresentationValue != "") {
+        if (lieText != "" && foetalHeartRate != "" && !TextUtils.isEmpty(foetalMovement) && !TextUtils.isEmpty(date) && spinnerPresentationValue != "") {
 
             addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
 
@@ -246,6 +292,83 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
             .append(monthDate).append("-").append(dayDate)
 
         return date.toString()
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(),
+                    DbResourceViews.PRESENT_PREGNANCY.name)
+
+                if (encounterId != null){
+
+                    val presentation = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PRESENTATION.name), encounterId)
+                    val lie = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.LIE.name), encounterId)
+                    val foetalHeartRate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FOETAL_HEART_RATE.name), encounterId)
+                    val foetalMovement = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FOETAL_MOVEMENT.name), encounterId)
+                    val nextVisit = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (presentation.isNotEmpty()){
+                            val value = presentation[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.spinnerPresentation.setSelection(presentationList.indexOf(valueNo))
+                        }
+                        if (lie.isNotEmpty()){
+                            val value = lie[0].value
+                            if (value.contains("Longitudinal", ignoreCase = true)) rootView.radioGrpLie.check(R.id.radioLongitudinal)
+                            if (value.contains("Obligue", ignoreCase = true)) rootView.radioGrpLie.check(R.id.radioObligue)
+                            if (value.contains("Transverse", ignoreCase = true)) rootView.radioGrpLie.check(R.id.radioTransverse)
+                        }
+                        if (foetalHeartRate.isNotEmpty()){
+                            val value = foetalHeartRate[0].value
+                            if (value.contains("Normal", ignoreCase = true)) rootView.radGrpFoetalHeartRate.check(R.id.radioMaleBabySex)
+                            if (value.contains("Abnormal", ignoreCase = true)) rootView.radGrpFoetalHeartRate.check(R.id.radioFemaleBabySex)
+                        }
+                        if (foetalMovement.isNotEmpty()){
+                            val value = foetalMovement[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            if(formatter.isNumeric(valueNo)){
+                                rootView.etFoetalMovement.setText(valueNo)
+                            }
+
+                        }
+                        if (nextVisit.isNotEmpty()){
+                            val value = nextVisit[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            rootView.tvDate.text = valueNo
+                        }
+
+
+                    }
+
+
+
+                }
+
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 }

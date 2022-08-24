@@ -157,7 +157,7 @@
 
                     <LinearLayout
                         android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -168,29 +168,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>
 
-                        <RadioGroup
-                            android:layout_marginStart="@dimen/_5dp"
-                            android:id="@+id/radGrpFoetalMovement"
+                        <EditText
+                            android:inputType="numberDecimal"
+                            android:id="@+id/etFoetalMovement"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioYes"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Present" />
-
-                            <RadioButton
-                                android:id="@+id/radioNo"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Absent" />
-
-
-                        </RadioGroup>
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
 
                     </LinearLayout>
 
