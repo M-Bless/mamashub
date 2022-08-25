@@ -1125,6 +1125,9 @@ class FormatterClass {
             DbObservationValues.IPTP_RESULT_YES.name -> {
                 "388435640-Y"
             }
+            DbObservationValues.IPTP_RESULT_NO.name -> {
+                "388435640-N"
+            }
             DbObservationValues.TT_PROVIDED.name -> {
                 "73152006"
             }
@@ -1132,10 +1135,13 @@ class FormatterClass {
                 "73152006-R"
             }
             DbObservationValues.LLITN_GIVEN.name -> {
-                "784030374-Y"
+                "412894909"
             }
             DbObservationValues.LLITN_GIVEN_NEXT_DATE.name -> {
                 "784030374-N"
+            }
+            DbObservationValues.LLITN_RESULTS.name -> {
+                "784030374-Y"
             }
 
 

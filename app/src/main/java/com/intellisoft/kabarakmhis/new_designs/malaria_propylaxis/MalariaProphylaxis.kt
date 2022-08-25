@@ -1,15 +1,21 @@
 package com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -26,6 +32,9 @@ import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.tvDate
 import kotlinx.android.synthetic.main.activity_malaria_prophylaxis.tvPatient
 
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,6 +53,10 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
     private  var day = 0
     private lateinit var calendar : Calendar
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_malaria_prophylaxis)
@@ -52,6 +65,13 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
         initSpinner()
         kabarakViewModel = KabarakViewModel(application)
+
+        patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         radioGrpIPTp.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -93,6 +113,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         tvDate.setOnClickListener { createDialog(997) }
         tvNetDate.setOnClickListener { createDialog(996) }
         tvNoNextAppointment.setOnClickListener { createDialog(995) }
+        tvIptpNextVisit.setOnClickListener { createDialog(994) }
 
         handleNavigation()
         
@@ -148,6 +169,13 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
                 datePickerDialog.show()
 
             }
+            994 -> {
+                val datePickerDialog = DatePickerDialog( this,
+                    myDateNoNextVisit, year, month, day)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                datePickerDialog.show()
+
+            }
 
             else -> null
         }
@@ -196,6 +224,14 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         tvNoNextAppointment.text = date
 
         }
+    private val myDateNoNextVisit = DatePickerDialog.OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+        val date = showDate(arg1, arg2 + 1, arg3)
+        tvIptpNextVisit.text = date
+
+        }
 
     private fun showDate(year: Int, month: Int, day: Int) :String{
 
@@ -226,6 +262,8 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         val repeatSerology = formatter.getRadioText(radioGrpLLTIN)
         if (repeatSerology != ""){
 
+            addData("Was LLTN given to the mother ", repeatSerology, DbObservationValues.LLITN_GIVEN.name)
+
             if(repeatSerology == "No"){
 
                 if (linearLLINNo.visibility == View.VISIBLE){
@@ -244,7 +282,7 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
                 val netInsecticide = tvNetDate.text. toString()
                 if (!TextUtils.isEmpty(netInsecticide)){
-                    addData("LLITN Given Date", netInsecticide, DbObservationValues.LLITN_GIVEN.name)
+                    addData("LLITN Given Date", netInsecticide, DbObservationValues.LLITN_RESULTS.name)
                 }else{
                     errorList.add("LLITN Given Date is required")
                 }
@@ -305,6 +343,16 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
                 }
             }
 
+            if (linearIPTpNo.visibility == View.VISIBLE){
+
+                val iptpNo = tvIptpNextVisit.text.toString()
+                if(!TextUtils.isEmpty(iptpNo)){
+                    addData("If IPTP is not given: ", iptpNo, DbObservationValues.IPTP_RESULT_NO.name)
+                }else{
+                    errorList.add("Please enter date IPTP was not given")
+                }
+            }
+
 
             for (items in observationList){
 
@@ -357,7 +405,10 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
         super.onStart()
 
         getUserData()
+
+        getData()
     }
+
 
     private fun getUserData() {
 
@@ -434,5 +485,101 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun getData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(this@MalariaProphylaxis,
+                    DbResourceViews.MALARIA_PROPHYLAXIS.name)
+
+                if (encounterId != null){
+
+                    val ancTimings = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ANC_CONTACT.name), encounterId)
+                    val dose = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DOSAGE_DATE_GIVEN.name), encounterId)
+
+                    val iptp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.IPTP_DATE.name), encounterId)
+                    val yesDateGiven = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.IPTP_RESULT_YES.name), encounterId)
+                    val noNextVisit = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.IPTP_RESULT_NO.name), encounterId)
+                    val nextVisit = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name), encounterId)
+                    val lltn = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.LLITN_GIVEN.name), encounterId)
+                    val lltnYesDateGiven = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.LLITN_RESULTS.name), encounterId)
+                    val lltnNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.LLITN_GIVEN_NEXT_DATE.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        Log.e("DOSE", dose.toString())
+
+                        if (ancTimings.isNotEmpty()){
+                            val value = ancTimings[0].value
+                            val valueNo = value.substring(0, value.length-1)
+                            spinnerContact.setSelection(contactNumberList.indexOf(valueNo))
+                        }
+                        if (dose.isNotEmpty()){
+                            val value = dose[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvDose.setText(valueNo)
+                        }
+                        if (iptp.isNotEmpty()){
+                            val value = iptp[0].value
+                            if (value.contains("Yes", ignoreCase = true)) radioGrpIPTp.check(R.id.radioBtnYes)
+                            if (value.contains("No", ignoreCase = true)) radioGrpIPTp.check(R.id.radioBtnNo)
+                        }
+                        if (yesDateGiven.isNotEmpty()){
+                            val value = yesDateGiven[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvTDInjection.setText(valueNo)
+                        }
+                        if (noNextVisit.isNotEmpty()){
+                            val value = noNextVisit[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvIptpNextVisit.setText(valueNo)
+                        }
+                        if (nextVisit.isNotEmpty()){
+                            val value = nextVisit[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvDate.setText(valueNo)
+                        }
+                        if (lltn.isNotEmpty()){
+                            val value = lltn[0].value
+                            if (value.contains("Yes", ignoreCase = true)) radioGrpLLTIN.check(R.id.radioBtnLLTINYes)
+                            if (value.contains("No", ignoreCase = true)) radioGrpLLTIN.check(R.id.radioBtnLLTINNo)
+                        }
+                        if (lltnYesDateGiven.isNotEmpty()){
+                            val value = lltnYesDateGiven[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvNetDate.setText(valueNo)
+                        }
+                        if (lltnNo.isNotEmpty()){
+                            val value = lltnNo[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvNoNextAppointment.setText(valueNo)
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+
+
     }
 }

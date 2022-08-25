@@ -193,6 +193,33 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearIPTpNo"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If no, next visit"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvIptpNextVisit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            app:drawableEndCompat="@drawable/ic_action_date" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_marginTop="@dimen/_5dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"

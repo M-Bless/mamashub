@@ -55,6 +55,11 @@ class MalariaProphylaxisView : AppCompatActivity() {
 
         title = "Malaria Prophylaxis Details"
 
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, MalariaProphylaxis::class.java)
+            startActivity(intent)
+        }
+
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
         fhirEngine = FhirApplication.fhirEngine(this)
 
@@ -79,8 +84,6 @@ class MalariaProphylaxisView : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
-
 
         CoroutineScope(Dispatchers.IO).launch {
 

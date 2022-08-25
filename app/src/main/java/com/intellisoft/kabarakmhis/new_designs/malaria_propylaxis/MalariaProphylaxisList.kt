@@ -79,6 +79,8 @@ class MalariaProphylaxisList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
+            formatter.deleteSharedPreference(this@MalariaProphylaxisList, DbResourceViews.MALARIA_PROPHYLAXIS.name)
+
             val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.MALARIA_PROPHYLAXIS.name)
 
             CoroutineScope(Dispatchers.Main).launch {
