@@ -13,7 +13,11 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -30,6 +34,9 @@ import kotlinx.android.synthetic.main.activity_deworming.tvPatient
 import kotlinx.android.synthetic.main.fragment_antenatal2.view.*
 import kotlinx.android.synthetic.main.fragment_pmtct1.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,6 +50,10 @@ class Deworming : AppCompatActivity() {
     private val formatter = FormatterClass()
     private lateinit var kabarakViewModel: KabarakViewModel
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deworming)
@@ -55,6 +66,14 @@ class Deworming : AppCompatActivity() {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         kabarakViewModel = KabarakViewModel(application)
+
+
+        patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         radioGrpDeworming.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -99,7 +118,12 @@ class Deworming : AppCompatActivity() {
         tvPatient.text = patientName
         tvAncId.text = identifier
 
+
+        getSavedData()
+
     }
+
+
 
     private fun saveData() {
 
@@ -110,15 +134,14 @@ class Deworming : AppCompatActivity() {
 
         val dateGvn = tvDate.text.toString()
 
-        if (deworming != ""){
+        if(deworming != ""){
 
             val dewormingValue = DbDataList("Was deworming given in the 2nd trimester", deworming,
                 DbSummaryTitle.A_DEWORMING.name, DbResourceType.Observation.name,
                 DbObservationValues.DEWORMING.name)
             dewormingList.add(dewormingValue)
 
-
-            if (deworming == "Yes"){
+            if(linearDewormingReason.visibility == View.VISIBLE){
 
                 if (!TextUtils.isEmpty(dateGvn)){
                     val value1 = DbDataList("Date deworming was given", dateGvn,
@@ -130,10 +153,10 @@ class Deworming : AppCompatActivity() {
 
             }
 
-
         }else{
-            errorList.add("Please select an option")
+            errorList.add("Deworming is required")
         }
+
 
         if (errorList.size == 0){
 
@@ -233,5 +256,48 @@ class Deworming : AppCompatActivity() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(this@Deworming,
+                    DbResourceViews.DEWORMING.name)
+                if (encounterId != null) {
+
+                    val deworming = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DEWORMING.name), encounterId)
+
+                    val dewormingDate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DEWORMING_DATE.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (deworming.isNotEmpty()){
+                            val dewormingValue = deworming[0].value
+                            if(dewormingValue.contains("Yes", ignoreCase = true)) radioGrpDeworming.check(R.id.radioYesBenefit)
+                            if(dewormingValue.contains("No", ignoreCase = true)) radioGrpDeworming.check(R.id.radioNoBenefit)
+                        }
+                        if (dewormingDate.isNotEmpty()){
+                            val dewormingDateValue = dewormingDate[0].value
+                            val valueNo = formatter.getValues(dewormingDateValue, 0)
+                            tvDate.text = valueNo
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+
     }
 }

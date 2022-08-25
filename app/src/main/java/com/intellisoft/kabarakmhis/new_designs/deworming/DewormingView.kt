@@ -24,6 +24,8 @@ import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_deworming_view.*
 import kotlinx.android.synthetic.main.activity_deworming_view.no_record
 import kotlinx.android.synthetic.main.activity_deworming_view.recycler_view
+import kotlinx.android.synthetic.main.activity_deworming_view.tvAncId
+import kotlinx.android.synthetic.main.activity_deworming_view.tvPatient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,6 +78,19 @@ class DewormingView : AppCompatActivity() {
             getObservationDetails()
 
         }
+
+        getUserDetails()
+
+    }
+
+    private fun getUserDetails() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
+
 
     }
 
