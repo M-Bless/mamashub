@@ -15,7 +15,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -24,9 +28,13 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_pmtct2.view.*
+import kotlinx.android.synthetic.main.fragment_pmtct2.view.etOther
 import kotlinx.android.synthetic.main.fragment_pmtct2.view.navigation
 import kotlinx.android.synthetic.main.fragment_pmtct2.view.tvDate
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,6 +52,10 @@ class FragmentPmtct2 : Fragment() {
     private  var month = 0
     private  var day = 0
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -52,6 +64,13 @@ class FragmentPmtct2 : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_pmtct2, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -293,6 +312,98 @@ class FragmentPmtct2 : Fragment() {
 
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PMTCT.name)
+                if (encounterId != null){
+
+                    val artDosage = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ART_DOSAGE.name), encounterId)
+                    val artFrequency = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ART_FREQUENCY.name), encounterId)
+                    val regimenChange = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REGIMEN_CHANGE.name), encounterId)
+                    val reason = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REASON_FOR_REGIMENT_CHANGE.name), encounterId)
+                    val otherReason = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.OTHER_REASON_FOR_REGIMENT_CHANGE.name), encounterId)
+                    val viralLoadChange = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.VIRAL_LOAD_CHANGE.name), encounterId)
+                    val viralLoadResults = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.VIRAL_LOAD_RESULTS.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (artDosage.isNotEmpty()){
+                            val value = artDosage[0].value
+                            rootView.etDosageAmount.setText(value)
+                        }
+                        if (artFrequency.isNotEmpty()){
+                            val value = artFrequency[0].value
+                            rootView.etFrequency.setText(value)
+                        }
+                        if (regimenChange.isNotEmpty()){
+                            val value = regimenChange[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpRegimen.check(R.id.radioYesRegimen)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpRegimen.check(R.id.radioNoRegimen)
+                        }
+                        if (reason.isNotEmpty()){
+                            val value = reason[0].value
+                            val valueList = formatter.stringToWords(value)
+                            val checkBoxList = ArrayList<CheckBox>()
+                            checkBoxList.addAll(listOf(
+                                rootView.checkboxViralLoad,
+                                rootView.checkboxAdverseReactions,
+                                rootView.checkboxInteraction,
+                                rootView.checkboxTrimester
+                            ))
+                            valueList.forEach {
+
+                                val valueData = it.replace(" ", "").toLowerCase()
+                                checkBoxList.forEach { checkBox ->
+                                    if (checkBox.text.toString().replace(" ", "").lowercase() == valueData){
+                                        checkBox.isChecked = true
+                                    }
+                                }
+
+                            }
+                        }
+                        if (otherReason.isNotEmpty()){
+                            val value = otherReason[0].value
+                            rootView.etOther.setText(value)
+                        }
+                        if (viralLoadChange.isNotEmpty()){
+                            val value = viralLoadChange[0].value
+                            val valueData = formatter.getValues(value, 0)
+                            rootView.tvDate.setText(valueData)
+                        }
+                        if (viralLoadResults.isNotEmpty()){
+                            val value = viralLoadResults[0].value
+                            rootView.etVLResults.setText(value)
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 

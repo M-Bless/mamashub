@@ -14,7 +14,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -26,6 +30,9 @@ import kotlinx.android.synthetic.main.fragment_pmtct1.view.navigation
 import kotlinx.android.synthetic.main.fragment_pmtct1.view.tvDate
 import kotlinx.android.synthetic.main.fragment_pmtct3.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,6 +51,10 @@ class FragmentPmtct1 : Fragment() {
     private  var day = 0
     private var lifeART = false
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -54,6 +65,13 @@ class FragmentPmtct1 : Fragment() {
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -288,6 +306,101 @@ class FragmentPmtct1 : Fragment() {
 
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PMTCT.name)
+                if (encounterId != null){
+
+                    val interventionGiven = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.INTERVENTION_GIVEN.name), encounterId)
+                    val dateStarted = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DATE_STARTED.name), encounterId)
+                    val regimen = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REGIMEN.name), encounterId)
+                    val otherRegimen = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.OTHER_REGIMEN.name), encounterId)
+
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (interventionGiven.isNotEmpty()){
+                            val value = interventionGiven[0].value
+                            val valueList = formatter.stringToWords(value)
+                            val checkBoxList = ArrayList<CheckBox>()
+                            checkBoxList.addAll(listOf(
+                                rootView.checkboxART,
+                                rootView.checkboxVL))
+                            valueList.forEach {
+
+                                val valueData = it.replace(" ", "").toLowerCase()
+                                checkBoxList.forEach { checkBox ->
+                                    if (checkBox.text.toString().replace(" ", "").lowercase() == valueData){
+                                        checkBox.isChecked = true
+                                    }
+                                }
+
+                            }
+
+                        }
+                        if (dateStarted.isNotEmpty()){
+                            val dateStartedValue = dateStarted[0].value
+                            val valueNo = formatter.getValues(dateStartedValue,0)
+                            rootView.tvDate.setText(valueNo)
+                        }
+                        if (regimen.isNotEmpty()){
+                            val value = regimen[0].value
+                            val valueList = formatter.stringToWords(value)
+
+                            val checkBoxList = ArrayList<CheckBox>()
+                            checkBoxList.addAll(listOf(
+                                rootView.checkboxDolutegravir,
+                                rootView.checkboxEmtricitabine,
+                                rootView.checkboxTenofovir,
+                                rootView.checkboxOvarian,
+                                rootView.checkboxZidovudine,
+                                rootView.checkboxLamivudine,
+                                rootView.checkboxNevirapine,
+                                rootView.checkboxEfavirenz,
+                            ))
+                            valueList.forEach {
+
+                                val valueData = it.replace(" ", "").toLowerCase()
+
+                                checkBoxList.forEach { checkBox ->
+                                    if (checkBox.text.toString().replace(" ", "").lowercase() == valueData){
+                                        checkBox.isChecked = true
+                                    }
+                                }
+
+                            }
+                        }
+                        if (otherRegimen.isNotEmpty()){
+                            val value = otherRegimen[0].value
+                            rootView.etOther.setText(value)
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 

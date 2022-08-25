@@ -53,10 +53,10 @@ class IfasView2 : AppCompatActivity() {
 
         title = "IFAS"
 
-//        btnPhysicalExamination.setOnClickListener {
-//            val intent = Intent(this, PhysicalExamination::class.java)
-//            startActivity(intent)
-//        }
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, Ifas::class.java)
+            startActivity(intent)
+        }
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()

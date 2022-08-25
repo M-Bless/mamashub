@@ -15,7 +15,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -35,6 +39,9 @@ import kotlinx.android.synthetic.main.fragment_ifas1.view.tvDate
 import kotlinx.android.synthetic.main.fragment_ifas1.view.tvTabletNo
 import kotlinx.android.synthetic.main.fragment_ifas2.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -57,6 +64,10 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
         "ANC Contact 4", "ANC Contact 5", "ANC Contact 6", "ANC Contact 7","ANC Contact 8")
     private var spinnerContactNumberValue  = contactNumberList[0]
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -65,6 +76,14 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
         rootView = inflater.inflate(R.layout.fragment_ifas1, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
+
 
         formatter.saveCurrentPage("1", requireContext())
 
@@ -431,6 +450,8 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
         super.onStart()
 
         getPageDetails()
+
+        getSavedData()
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -445,6 +466,98 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
         }
 
+
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.IFAS.name)
+
+                if (encounterId != null) {
+
+                    val ironSuppliment = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.IRON_SUPPLIMENTS.name), encounterId)
+                    val drugGiven = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DRUG_GIVEN.name), encounterId)
+                    val reason = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REASON_FOR_NOT_PROVIDING_IRON_SUPPLIMENTS.name), encounterId)
+                    val otherSupplement = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.OTHER_SUPPLIMENTS.name), encounterId)
+                    val contactTiming = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.CONTACT_TIMING.name), encounterId)
+                    val ancContact = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ANC_CONTACT.name), encounterId)
+                    val tabletNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TABLET_NUMBER.name), encounterId)
+                    val dosageAmnt = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DOSAGE_AMOUNT.name), encounterId)
+                    val dosageFreq = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DOSAGE_FREQUENCY.name), encounterId)
+                    val dosageDate = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DOSAGE_DATE_GIVEN.name), encounterId)
+                    val ifas = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.IRON_AND_FOLIC_COUNSELLING.name), encounterId)
+
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (ironSuppliment.isNotEmpty()){
+                            val value = ironSuppliment[0].value
+                            if(value.contains("Yes", ignoreCase = true)) rootView.radioGrpIronSuppliment.check(R.id.radioYesSupplement)
+                            if(value.contains("No", ignoreCase = true)) rootView.radioGrpIronSuppliment.check(R.id.radioNoSupplement)
+                        }
+                        if (drugGiven.isNotEmpty()){
+                            val value = drugGiven[0].value
+                            if (value.contains("Element", ignoreCase = true)) rootView.radioGrpDrugGvn.check(R.id.radioYesDrugGvn)
+                            if (value.contains("Combined", ignoreCase = true)) rootView.radioGrpDrugGvn.check(R.id.radioNoDrugGvn)
+                        }
+                        if (reason.isNotEmpty()){
+                            val value = reason[0].value
+                            rootView.etProvideReason.setText(value)
+                        }
+                        if (otherSupplement.isNotEmpty()){
+                            val value = otherSupplement[0].value
+                            rootView.etOtherDrug.setText(value)
+                        }
+                        if (contactTiming.isNotEmpty()){
+                            val value = contactTiming[0].value
+                            val valueNo = value.substring(0, value.length-1)
+                            rootView.spinnerAncContact.setSelection(contactNumberList.indexOf(valueNo))
+                        }
+                        if (dosageAmnt.isNotEmpty()){
+                            val value = dosageAmnt[0].value
+                            val valueNo = formatter.getValues(value, 3)
+                            rootView.etDosageAmount.setText(valueNo)
+                        }
+                        if (dosageFreq.isNotEmpty()){
+                            val value = dosageFreq[0].value
+                            rootView.etFrequency.setText(value)
+                        }
+                        if (dosageDate.isNotEmpty()){
+                            val value = dosageDate[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvDate.setText(valueNo)
+                        }
+                        if (ifas.isNotEmpty()){
+                            val value = ifas[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpBenefits.check(R.id.radioYesBenefit)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpBenefits.check(R.id.radioNoBenefit)
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 }

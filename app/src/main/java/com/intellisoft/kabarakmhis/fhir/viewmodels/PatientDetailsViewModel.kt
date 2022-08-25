@@ -518,9 +518,6 @@ class PatientDetailsViewModel(
                 }
             val valueString = "$value $valueUnit"
 
-            Log.e("-----valueString , ", "$valueString")
-            Log.e("-----Code , ", "$code")
-
             return ObservationItem(
                 id,
                 code,

@@ -79,6 +79,8 @@ class IfasList : AppCompatActivity() {
 
             val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.IFAS.name)
 
+            formatter.deleteSharedPreference(this@IfasList, DbResourceViews.IFAS.name)
+
             CoroutineScope(Dispatchers.Main).launch {
 
                 if (observationList.isNotEmpty()){
