@@ -94,6 +94,8 @@ class PreventiveServiceList : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
+            formatter.deleteSharedPreference(this@PreventiveServiceList, DbResourceViews.TETENUS_DIPTHERIA.name)
+
             val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.TETENUS_DIPTHERIA.name)
 
             CoroutineScope(Dispatchers.Main).launch {

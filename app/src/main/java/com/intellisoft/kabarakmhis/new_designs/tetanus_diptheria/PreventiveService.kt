@@ -11,7 +11,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -26,6 +30,9 @@ import kotlinx.android.synthetic.main.activity_preventive_service.navigation
 import kotlinx.android.synthetic.main.activity_preventive_service.tvAncId
 import kotlinx.android.synthetic.main.activity_preventive_service.tvPatient
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -39,6 +46,10 @@ class PreventiveService : AppCompatActivity() {
     private lateinit var calendar : Calendar
     private lateinit var kabarakViewModel: KabarakViewModel
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preventive_service)
@@ -50,6 +61,14 @@ class PreventiveService : AppCompatActivity() {
 
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
+
 
         radioGrpTD.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -238,6 +257,58 @@ class PreventiveService : AppCompatActivity() {
 
     private fun getData() {
 
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+
+                val encounterId = formatter.retrieveSharedPreference(this@PreventiveService,
+                    DbResourceViews.TETENUS_DIPTHERIA.name)
+
+                if (encounterId != null){
+
+                    val ttImmunization = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TT_PROVIDED.name), encounterId)
+
+                    val nextVisit = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name), encounterId)
+
+                    val ttResults = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TT_RESULTS.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (ttImmunization.isNotEmpty()){
+                            val ttImmunizationValue = ttImmunization[0].value
+                            if (ttImmunizationValue.contains("Yes", ignoreCase = true)) radioGrpTD.check(R.id.radioBtnYes)
+                            if (ttImmunizationValue.contains("No", ignoreCase = true)) radioGrpTD.check(R.id.radioBtnNo)
+                        }
+
+                        if (nextVisit.isNotEmpty()){
+                            val nextVisitValue = nextVisit[0].value
+                            val nextVisitDate = formatter.getValues(nextVisitValue, 0)
+                            tvDate.text = nextVisitDate
+
+                        }
+
+                        if (ttResults.isNotEmpty()){
+                            val ttResultsValue = ttResults[0].value
+                            val ttResultsDate = formatter.getValues(ttResultsValue, 0)
+                            tvTTDate.text = ttResultsDate
+
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
 
     }

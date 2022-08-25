@@ -1098,6 +1098,9 @@ class FormatterClass {
             DbObservationValues.MUAC.name -> {
                 "284473002"
             }
+            DbObservationValues.PALLOR.name -> {
+                "274643008"
+            }
             DbObservationValues.FUNDAL_HEIGHT.name -> {
                 "249016007"
             }

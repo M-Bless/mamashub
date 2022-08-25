@@ -60,6 +60,11 @@ class PresentPregnancyView : AppCompatActivity() {
 
         title = "Present Pregnancy View"
 
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, PresentPregnancyAdd::class.java)
+            startActivity(intent)
+        }
+
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()

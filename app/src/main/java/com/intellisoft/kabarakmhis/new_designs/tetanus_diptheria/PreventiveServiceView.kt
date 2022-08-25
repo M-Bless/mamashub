@@ -24,10 +24,7 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_preventive_service_view.no_record
-import kotlinx.android.synthetic.main.activity_preventive_service_view.recycler_view
-import kotlinx.android.synthetic.main.activity_preventive_service_view.tvAncId
-import kotlinx.android.synthetic.main.activity_preventive_service_view.tvPatient
+import kotlinx.android.synthetic.main.activity_preventive_service_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,11 +47,11 @@ class PreventiveServiceView : AppCompatActivity() {
         setContentView(R.layout.activity_preventive_service_view)
 
         title = "Tetanus Diphtheria Details"
-        
-//        btnPhysicalExamination.setOnClickListener {
-//            val intent = Intent(this, PreventiveService::class.java)
-//            startActivity(intent)
-//        }
+
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, PreventiveService::class.java)
+            startActivity(intent)
+        }
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()

@@ -22,14 +22,14 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_weight="1"
                 android:textStyle="bold"
-                android:text="Patient Records"
+                android:text="Client Records"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <Button
                 android:id="@+id/btnRegisterPatient"
                 android:textAllCaps="false"
-                android:text="Record New Patient"
+                android:text="Record New Client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -71,7 +71,7 @@
                 android:id="@+id/patient_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0 Patients" />
+                android:text="0 Client" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/patient_list"

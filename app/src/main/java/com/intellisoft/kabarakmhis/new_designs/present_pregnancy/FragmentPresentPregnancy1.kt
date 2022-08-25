@@ -332,7 +332,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                         errorList.add("Urine Results is required")
                     }
 
-                    addData("MUAC",muac, DbObservationValues.MUAC.name)
+                    addData("MUAC (cm)",muac, DbObservationValues.MUAC.name)
                     addData("Pregnancy Contact",spinnerContactNumberValue, DbObservationValues.CONTACT_NUMBER.name)
                     for (items in observationList){
 
@@ -349,8 +349,8 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                     observationList.clear()
 
 
-                    addData("Systolic Blood Pressure",systolic, DbObservationValues.SYSTOLIC_BP.name)
-                    addData("Diastolic Blood Pressure",diastolic, DbObservationValues.DIASTOLIC_BP.name)
+                    addData("Systolic Blood Pressure (mmHG)",systolic, DbObservationValues.SYSTOLIC_BP.name)
+                    addData("Diastolic Blood Pressure (mmHG)",diastolic, DbObservationValues.DIASTOLIC_BP.name)
                     for (items in observationList){
 
                         val key = items.key
@@ -603,7 +603,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                         }
                         if (muac.isNotEmpty()){
                             val value = muac[0].value
-                            val valueNo = formatter.getValues(value, 0)
+                            val valueNo = formatter.getValues(value, 3)
                             rootView.etMuac.setText(valueNo)
                         }
                         if (systolicBp.isNotEmpty()){
@@ -632,11 +632,13 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
                         }
                         if (gestation.isNotEmpty()){
                             val value = gestation[0].value
-                            rootView.etGestation.setText(value)
+                            val valueNo = formatter.getValues(value, 6)
+                            rootView.etGestation.setText(valueNo)
                         }
                         if (fundalHeight.isNotEmpty()){
                             val value = fundalHeight[0].value
-                            rootView.etFundal.setText(value)
+                            val valueNo = formatter.getValues(value, 3)
+                            rootView.etFundal.setText(valueNo)
                         }
 
 
