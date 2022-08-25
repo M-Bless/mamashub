@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.matenal_serology
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
@@ -13,7 +14,11 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -27,6 +32,9 @@ import kotlinx.android.synthetic.main.activity_maternal_serology.navigation
 import kotlinx.android.synthetic.main.activity_maternal_serology.tvDate
 import kotlinx.android.synthetic.main.activity_maternal_serology.tvNextVisit
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -42,6 +50,10 @@ class MaternalSerology : AppCompatActivity() {
     private  var day = 0
     private lateinit var kabarakViewModel: KabarakViewModel
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maternal_serology)
@@ -53,6 +65,14 @@ class MaternalSerology : AppCompatActivity() {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         kabarakViewModel = KabarakViewModel(application)
+
+        patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
+
 
         radioGrpRepeatSerology.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -189,7 +209,11 @@ class MaternalSerology : AppCompatActivity() {
         super.onStart()
 
         getUserData()
+
+        getSavedData()
     }
+
+
 
     private fun getUserData() {
 
@@ -231,6 +255,7 @@ class MaternalSerology : AppCompatActivity() {
             val repeatSerologyValue = DbDataList("Was repeat serology test done", repeatSerology,
                 DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name,
                 DbObservationValues.REPEAT_SEROLOGY.name)
+
             dbDataList.add(repeatSerologyValue)
 
 
@@ -255,7 +280,8 @@ class MaternalSerology : AppCompatActivity() {
                 val testDoneDate = tvDate.text.toString()
                 if (!TextUtils.isEmpty(testDoneDate)){
                     val valueName = DbDataList("Date Test was done", testDoneDate,
-                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_RESULTS_YES.name)
+                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name,
+                        DbObservationValues.REPEAT_SEROLOGY_RESULTS_YES.name)
                     dbDataList.add(valueName)
                 }else{
                     errorList.add("Test Done Date is required")
@@ -266,7 +292,8 @@ class MaternalSerology : AppCompatActivity() {
                 if (radioGrpTestResults != ""){
 
                     val valueName = DbDataList("Test Results", radioGrpTestResults,
-                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name, DbObservationValues.REPEAT_SEROLOGY_DETAILS.name)
+                        DbSummaryTitle.A_MATERNAL_SEROLOGY.name, DbResourceType.Observation.name,
+                        DbObservationValues.REPEAT_SEROLOGY_DETAILS.name)
                     dbDataList.add(valueName)
 
                     if (linearReactive.visibility == View.VISIBLE){
@@ -364,5 +391,95 @@ class MaternalSerology : AppCompatActivity() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(this@MaternalSerology,
+                    DbResourceViews.MATERNAL_SEROLOGY.name)
+
+                if (encounterId != null){
+
+                    val repeatSerology = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REPEAT_SEROLOGY.name), encounterId)
+
+                    val yesRepeatSerology = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REPEAT_SEROLOGY_RESULTS_YES.name), encounterId)
+                    val noRepeatSerology = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REPEAT_SEROLOGY_RESULTS_NO.name), encounterId)
+
+                    val repeatSerologyResults = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REPEAT_SEROLOGY_DETAILS.name), encounterId)
+                    val repeatSerologyPmtct = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REACTIVE_MATERNAL_SEROLOGY_PMTCT.name), encounterId)
+                    val repeatSerologyPartner = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PARTNER_REACTIVE_SEROLOGY.name), encounterId)
+                    val nonReactiveBook = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NON_REACTIVE_SEROLOGY_BOOK.name), encounterId)
+                    val nonReactiveContinue = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NON_REACTIVE_SEROLOGY_CONTINUE_TEST.name), encounterId)
+                    val nonReactiveNextAppointment = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NON_REACTIVE_SEROLOGY_APPOINTMENT.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if (repeatSerology.isNotEmpty()){
+                            val value = repeatSerology[0].value
+                            if (value.contains("Yes", ignoreCase = true)) radioGrpRepeatSerology.check(R.id.radioBtnSeroYes)
+                            if (value.contains("No", ignoreCase = true)) radioGrpRepeatSerology.check(R.id.radioBtnSeroNo)
+                        }
+                        if (yesRepeatSerology.isNotEmpty()){
+                            val value = yesRepeatSerology[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvDate.setText(valueNo)
+                        }
+                        if (noRepeatSerology.isNotEmpty()){
+                            val value = noRepeatSerology[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvNoNextAppointment.setText(valueNo)
+                        }
+                        if (repeatSerologyResults.isNotEmpty()){
+                            val value = repeatSerologyResults[0].value
+                            if (value.contains("R", ignoreCase = true)) radioGrpTestResults.check(R.id.radioBtnTestR)
+                            if (value.contains("NR", ignoreCase = true)) radioGrpTestResults.check(R.id.radioBtnTestNR)
+                        }
+                        if (repeatSerologyPmtct.isNotEmpty()){
+                            val value = repeatSerologyPmtct[0].value
+                            etPMTCTClinic.setText(value)
+                        }
+                        if (repeatSerologyPartner.isNotEmpty()){
+                            val value = repeatSerologyPartner[0].value
+                            etTestPartner.setText(value)
+                        }
+                        if (nonReactiveBook.isNotEmpty()){
+                            val value = nonReactiveBook[0].value
+                            etRepeatSerology.setText(value)
+                        }
+                        if (nonReactiveContinue.isNotEmpty()){
+                            val value = nonReactiveContinue[0].value
+                            etContinueTest.setText(value)
+                        }
+                        if (nonReactiveNextAppointment.isNotEmpty()){
+                            val value = nonReactiveNextAppointment[0].value
+                            val valueNo = formatter.getValues(value, 0)
+                            tvNextVisit.setText(valueNo)
+                        }
+
+
+                    }
+
+
+                }
+
+
+            }
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
     }
 }

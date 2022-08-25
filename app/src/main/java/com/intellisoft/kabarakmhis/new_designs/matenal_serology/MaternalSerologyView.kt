@@ -21,7 +21,6 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationFhirData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
-import kotlinx.android.synthetic.main.activity_birth_plan_view.*
 import kotlinx.android.synthetic.main.activity_maternal_serology_view.*
 import kotlinx.android.synthetic.main.activity_maternal_serology_view.no_record
 import kotlinx.android.synthetic.main.activity_maternal_serology_view.recycler_view
@@ -94,8 +93,18 @@ class MaternalSerologyView : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             getObservationDetails()
-
         }
+        getUserData()
+
+    }
+
+    private fun getUserData() {
+
+        val identifier = formatter.retrieveSharedPreference(this, "identifier")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
+
+        tvPatient.text = patientName
+        tvAncId.text = identifier
 
     }
 
@@ -108,7 +117,7 @@ class MaternalSerologyView : AppCompatActivity() {
 
             val text1 = DbObservationFhirData(
                 DbSummaryTitle.A_MATERNAL_SEROLOGY.name,
-                listOf("412690006","412690006-Y","412690006-N","412690006"))
+                listOf("412690006","412690006-Y","412690006-N","412690006-R"))
             val text2 = DbObservationFhirData(
                 DbSummaryTitle.B_REACTIVE.name,
                 listOf("412690006-RRPMCT","412690006-PR"))

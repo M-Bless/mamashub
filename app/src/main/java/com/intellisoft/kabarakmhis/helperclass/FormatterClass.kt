@@ -1158,7 +1158,7 @@ class FormatterClass {
                 "412690006-N"
             }
             DbObservationValues.REPEAT_SEROLOGY_DETAILS.name -> {
-                "412690006"
+                "412690006-R"
             }
             DbObservationValues.REACTIVE_MATERNAL_SEROLOGY_PMTCT.name -> {
                 "412690006-RRPMCT"
