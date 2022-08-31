@@ -182,6 +182,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         rootView.tvIPTNextVisit.setOnClickListener { onCreateDialog(998) }
         rootView.tvUltraSound1.setOnClickListener { onCreateDialog(997) }
         rootView.tvUltraSound2.setOnClickListener { onCreateDialog(996) }
+        rootView.tvLastCCC.setOnClickListener { onCreateDialog(995) }
 
         initSpinner()
 
@@ -442,6 +443,12 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
             errorList.add("Please select HIV status before 1st ANC")
         }
 
+        val lastCCC = rootView.tvLastCCC.text.toString()
+        if (!TextUtils.isEmpty(lastCCC)) {
+            addData("Last CCC", lastCCC, DbObservationValues.LAST_CCC.name)
+        }else{
+            errorList.add("Please enter Last CCC")
+        }
 
 
         if(spinnerPartnerHivValue != "") {
@@ -532,6 +539,13 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
                 datePickerDialog.show()
 
             }
+            995 -> {
+                val datePickerDialog = DatePickerDialog( requireContext(),
+                    myDateCCC, year, month, day)
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+                datePickerDialog.show()
+
+            }
             else -> null
         }
 
@@ -577,6 +591,15 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
             // arg3 = day
             val date = showDate(arg1, arg2 + 1, arg3)
             rootView.tvUltraSound2.text = date
+
+        }
+    private val myDateCCC =
+        DatePickerDialog.OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            val date = showDate(arg1, arg2 + 1, arg3)
+            rootView.tvLastCCC.text = date
 
         }
 

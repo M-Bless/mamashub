@@ -113,22 +113,9 @@ class FragmentConfirmDetails : Fragment(){
 
                     if (encounterDetailsList.isNotEmpty()){
 
-                        var isUpdate = false
-                        var encounterId = ""
-//
-//                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(), "saveEncounterId")
-//
-//                        if (saveEncounterId != null){
-//                            isUpdate = true
-//                            encounterId = saveEncounterId.toString()
-//                        }else{
-//                            isUpdate = false
-//                            formatter.generateUuid()
-//                        }
+                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(), "saveEncounterId")
 
-                        encounterId = formatter.generateUuid()
-
-
+                        val encounterId = saveEncounterId ?: formatter.generateUuid()
 
                         val patientReference = Reference("Patient/$patientId")
 
@@ -176,7 +163,7 @@ class FragmentConfirmDetails : Fragment(){
 
                         viewModel.createEncounter(
                             patientReference,
-                            DbEncounterUpdateData(encounterId, isUpdate),
+                            encounterId,
                             questionnaireResponse,
                             dataCodeList,
                             dataQuantityList,

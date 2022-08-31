@@ -86,7 +86,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
 
     fun createEncounter(
         patientReference: Reference,
-        dBEncounterUpdateData: DbEncounterUpdateData,
+        encounterId: String,
         questionnaireResponse: QuestionnaireResponse,
         dataCodeList: ArrayList<CodingObservation>,
         dataQuantityList: ArrayList<QuantityObservation>,
@@ -125,7 +125,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     .request.url = "Observation"
             }
 
-            saveResources(bundle, patientReference, dBEncounterUpdateData, encounterReason)
+            saveResources(bundle, patientReference, encounterId, encounterReason)
 
         }
 
@@ -134,12 +134,10 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
     private suspend fun saveResources(
         bundle: Bundle,
         subjectReference: Reference,
-        dBEncounterUpdateData: DbEncounterUpdateData,
+        encounterId: String,
         encounterReason: String,
     ) {
 
-        val encounterId = dBEncounterUpdateData.encounterId
-        val isUpdate = dBEncounterUpdateData.isUpdate
 
         val encounterReference = Reference("Encounter/$encounterId")
 
@@ -152,7 +150,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                         resource.subject = subjectReference
                         resource.encounter = encounterReference
                         resource.issued = Date()
-                        saveResourceToDatabase(resource, isUpdate)
+                        saveResourceToDatabase(resource)
                     }
 
                 }
@@ -165,7 +163,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     resource.reasonCodeFirstRep.text = encounterReason
                     resource.reasonCodeFirstRep.codingFirstRep.code = encounterReason
                     resource.status = Encounter.EncounterStatus.INPROGRESS
-                    saveResourceToDatabase(resource, isUpdate)
+                    saveResourceToDatabase(resource)
                 }
 
 //                is CarePlan -> {
@@ -180,7 +178,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         }
     }
 
-    private suspend fun saveResourceToDatabase(resource: Resource, isUpdate: Boolean) {
+    private suspend fun saveResourceToDatabase(resource: Resource) {
 
         fhirEngine.create(resource)
     }

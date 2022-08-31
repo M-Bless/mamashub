@@ -27,6 +27,8 @@ import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_new_main.no_record
 import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.stream.Collectors
 
 
@@ -121,19 +123,19 @@ class NewMainActivity : AppCompatActivity() {
             no_record.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
 
-            val filteredList: Collection<DbPatientDetails> = patientList.stream()
-                .collect(
-                    Collectors.toMap(
-                        DbPatientDetails::name, { p -> p }) { p1, p2 -> p2 })
-                .values
+            patientList.sortedByDescending { it.lastUpdated }
 
-            val list = ArrayList<DbPatientDetails>()
-            if (filteredList.isNotEmpty()) {
-                list.addAll(filteredList)
+            val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val result = patientList.sortedByDescending {
+                (if (it.lastUpdated != ""){
+                    LocalDate.parse(it.lastUpdated, dateTimeFormatter)
+                }else{
+                    it.name
+                }).toString()
+
             }
 
-
-            val adapter = PatientsListAdapter(list, this@NewMainActivity)
+            val adapter = PatientsListAdapter(result, this@NewMainActivity)
             recyclerView.adapter = adapter
         }
 

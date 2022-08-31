@@ -548,6 +548,32 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last CCC clinic"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+                        <TextView
+                            android:id="@+id/tvLastCCC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint=""
+                            android:textColor="@color/black"
+                            app:drawableEndCompat="@drawable/ic_action_date" />
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:visibility="gone"
                         android:id="@+id/linearARTEligibility"
                         android:layout_marginTop="@dimen/_5dp"

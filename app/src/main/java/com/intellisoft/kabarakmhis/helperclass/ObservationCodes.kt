@@ -146,6 +146,7 @@ enum class DbObservationValues{
     HIV_STATUS_BEFORE_1_ANC,
     ART_ELIGIBILITY,
     PARTNER_HIV,
+    LAST_CCC,
 
     ARV_ANC,
     HAART_ANC,

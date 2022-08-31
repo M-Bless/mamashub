@@ -517,10 +517,6 @@ class PatientDetailsViewModel(
             .map { createEncounterItem(it, getApplication<Application>().resources) }
             .let { encounter.addAll(it) }
 
-        Log.e("******", "*****")
-        println(encounter.forEach { println(it) })
-
-
         return encounter
     }
 
@@ -560,8 +556,6 @@ class PatientDetailsViewModel(
                     ""
                 }
             val valueString = "$value $valueUnit"
-
-            Log.d("xxx", "Observation: $id, $text, $code, $valueString, $dateTimeString")
 
             return ObservationItem(
                 id,

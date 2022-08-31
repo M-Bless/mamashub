@@ -65,8 +65,6 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
             FormatterClass().patientData(patient, index + 1)
         }.let { patientsList.addAll(it) }
 
-        patientsList.sortWith(compareBy({ it.lastUpdated }, { it.name }))
-
         return patientsList
     }
 

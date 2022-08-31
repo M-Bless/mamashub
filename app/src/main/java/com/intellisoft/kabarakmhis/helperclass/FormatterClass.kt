@@ -952,6 +952,9 @@ class FormatterClass {
             DbObservationValues.PARTNER_HIV.name -> {
                 "278977008-P"
             }
+            DbObservationValues.LAST_CCC.name -> {
+                "84251009"
+            }
             DbObservationValues.ARV_ANC.name -> {
                 "120841000"
             }
