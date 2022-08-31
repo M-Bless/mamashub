@@ -27,6 +27,7 @@ import com.intellisoft.kabarakmhis.new_designs.chw.referral.ReferralView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbIdentifier
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.deworming.DewormingView
 import com.intellisoft.kabarakmhis.new_designs.ifas.IfasList
 import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisList
@@ -190,6 +191,13 @@ class PatientProfile : AppCompatActivity() {
                     //Patient details has been retrieved from the local database
                     showClientDetails(patientLocalName, patientLocalDob, patientLocalIdentifier, patientLocalKinName, patientLocalKinPhone)
 
+                }
+
+                val observationList = patientDetailsViewModel.getObservationFromEncounter(
+                    DbResourceViews.PATIENT_INFO.name)
+                if (observationList.isNotEmpty()) {
+                    val encounterId = observationList[0].id
+                    formatter.saveSharedPreference(this@PatientProfile, DbResourceViews.PATIENT_INFO.name, encounterId)
                 }
 
                 viewModel.poll()

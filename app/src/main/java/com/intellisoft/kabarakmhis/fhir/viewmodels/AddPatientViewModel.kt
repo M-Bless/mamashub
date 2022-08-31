@@ -42,7 +42,9 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
     fun savePatient(
         dbPatientFhirInformation: DbPatientFhirInformation,
-        questionnaireResponse: QuestionnaireResponse){
+        questionnaireResponse: QuestionnaireResponse,
+        encounterId: String
+        ){
 
         viewModelScope.launch {
 
@@ -172,7 +174,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 delay(2000)
 
                 val patientReference = Reference("Patient/$patientId")
-                val encounterId = FormatterClass().generateUuid()
+
 
                 val dataCodeList = dbPatientFhirInformation.dataCodeList
                 val dataQuantityList = dbPatientFhirInformation.dataQuantityList

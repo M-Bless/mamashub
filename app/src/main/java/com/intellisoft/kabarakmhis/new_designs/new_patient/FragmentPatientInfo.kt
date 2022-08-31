@@ -81,6 +81,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
+
+
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         rootView = inflater.inflate(R.layout.fragment_info, container, false)
@@ -424,11 +426,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         rootView.spinnerRshp!!.adapter = kinRshp
         rootView.spinnerRshp.onItemSelectedListener = this
 
-//        for (county in allCountyList){
-//            val name = county.name
-//            countyList.add(name)
-//        }
-
         countyList.add("")
         for (county in countyDataList){
             val name = county.countyName
@@ -467,6 +464,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
     private fun initWard() {
 
         wardDataList.add("")
+        wardDataList.clear()
 
         val wardList = kabarakViewModel.getWards(spinnerSubCountyValue)
         for (ward in wardList){
@@ -494,6 +492,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
                 val subCountyList = kabarakViewModel.getSubCounty(countyId)
                 subCountyDataList.add("")
+                subCountyDataList.clear()
+
                 for(subCounty in subCountyList){
                     val subCountyName = subCounty.constituencyName
                     subCountyDataList.add(subCountyName)

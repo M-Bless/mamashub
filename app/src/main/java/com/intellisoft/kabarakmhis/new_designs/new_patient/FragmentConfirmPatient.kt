@@ -239,6 +239,14 @@ class FragmentConfirmPatient : Fragment(){
                         formatter.generateUuid()
                     }
 
+                    var encounterId = ""
+                    val encounterDataId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PATIENT_INFO.name)
+                    if (encounterDataId != null){
+                        encounterId = encounterDataId
+                    }else{
+                        formatter.generateUuid()
+                    }
+
 
                     val dbPatientFhirInformation = DbPatientFhirInformation(
                         id, clientName, telecomList,"female", dob, addressList,
@@ -248,7 +256,11 @@ class FragmentConfirmPatient : Fragment(){
                     val questionnaireFragment = childFragmentManager.findFragmentByTag(
                         QUESTIONNAIRE_FRAGMENT_TAG
                     ) as QuestionnaireFragment
-                    savePatient(dbPatientFhirInformation, questionnaireFragment.getQuestionnaireResponse())
+                    savePatient(
+                        dbPatientFhirInformation,
+                        questionnaireFragment.getQuestionnaireResponse(),
+                        encounterId
+                    )
 
                 }.join()
 
@@ -276,10 +288,11 @@ class FragmentConfirmPatient : Fragment(){
 
     private fun savePatient(
         dbPatientFhirInformation: DbPatientFhirInformation,
-        questionnaireResponse: QuestionnaireResponse
+        questionnaireResponse: QuestionnaireResponse,
+        encounterId: String
     ) {
 
-        viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse)
+        viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse, encounterId)
     }
 
     private fun updateArguments(){
