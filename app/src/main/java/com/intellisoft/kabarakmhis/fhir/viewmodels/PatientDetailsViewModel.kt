@@ -89,7 +89,36 @@ class PatientDetailsViewModel(
             else
                 ""
         } else ""
+        val kinRelationship = if (patientResource.hasContact()){
+
+            if (patientResource.contact[0].hasRelationship())
+                patientResource.contact[0].relationship[0].text
+            else
+                ""
+        } else ""
+
         val phone = if (patientResource.hasTelecom()) patientResource.telecom[0].value else ""
+
+        val maritalStatus = if (patientResource.hasMaritalStatus()) patientResource.maritalStatus.text else ""
+
+        val addressDataList = ArrayList<DbAddressData>()
+        if (patientResource.hasAddress()){
+
+            val address = patientResource.address
+            if (!address.isNullOrEmpty()){
+
+                val addressList = patientResource.address[0]
+
+                val text = if (addressList.hasText()) addressList.text else ""
+                val city = if (addressList.hasCity()) addressList.city else ""
+                val district = if (addressList.hasDistrict()) addressList.district else ""
+                val state = if (addressList.hasState()) addressList.state else ""
+
+                val dbAddressData = DbAddressData(text, city, district, state)
+                addressDataList.add(dbAddressData)
+            }
+
+        }
 
 
         val identifierList = ArrayList<DbIdentifier>()
@@ -124,8 +153,6 @@ class PatientDetailsViewModel(
                 val lastUpdated = encounter.effective
                 val reasonCode = encounter.code
                 val value = encounter.value
-
-                Log.e("------reasonCode", reasonCode.toString())
 
                 FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
                     value, encounterId)
@@ -378,9 +405,12 @@ class PatientDetailsViewModel(
             phone = phone,
             kinData = DbKinData(
                 name = kinName,
-                phone = kinPhone
+                phone = kinPhone,
+                relationship = kinRelationship
             ),
-            identifier = identifierList
+            identifier = identifierList,
+            maritalStatus = maritalStatus,
+            address = addressDataList,
         )
 
     }
@@ -487,7 +517,8 @@ class PatientDetailsViewModel(
             .map { createEncounterItem(it, getApplication<Application>().resources) }
             .let { encounter.addAll(it) }
 
-
+        Log.e("******", "*****")
+        println(encounter.forEach { println(it) })
 
 
         return encounter
@@ -580,7 +611,6 @@ class PatientDetailsViewModel(
             }
 
 
-            Log.e("------", encounter.logicalId)
 
             return EncounterItem(
                 encounter.logicalId,

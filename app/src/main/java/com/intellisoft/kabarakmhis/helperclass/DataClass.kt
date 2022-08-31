@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbIdentifier
 import org.hl7.fhir.r4.model.Identifier
+import org.hl7.fhir.r4.model.codesystems.V3MaritalStatus
 import java.time.LocalDate
 
 enum class UrlData(var message: Int) {
@@ -160,17 +161,27 @@ data class DbData(
     val email: String,
     val role: String
 )
+
+data class DbAddressData(
+    val text: String,
+    val city: String,
+    val district: String,
+    val state: String
+)
 data class DbPatientRecord(
     val id: String,
     val name: String,
     val dob: String,
     val phone: String?,
     val kinData: DbKinData,
-    val identifier: ArrayList<DbIdentifier>
+    val identifier: ArrayList<DbIdentifier>,
+    val maritalStatus: String,
+    val address: ArrayList<DbAddressData>,
 )
 data class DbKinData(
     val name: String,
-    val phone: String
+    val phone: String,
+    val relationship: String
 )
 data class DbObservationLabel(
     val value: String,

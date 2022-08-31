@@ -17,21 +17,27 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.physical_examination.FragmentPhysicalExam2
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
-import kotlinx.android.synthetic.main.activity_password_reset.*
-import kotlinx.android.synthetic.main.fragment_antenatal1.view.*
 import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_details.view.*
 import kotlinx.android.synthetic.main.fragment_details.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
@@ -56,7 +62,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
     private var isAnc = false
 
-
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private var patientId: String? = null
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -177,7 +185,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         var ancCodeValue = ""
                         if (isAnc){
 
-                            
+
                             /**
                              * GET YEAR AND MONTH FROM System.currentTimeMillis()
                              */
@@ -321,12 +329,145 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
     private fun getPastData() {
 
-        val dob = formatter.retrieveSharedPreference(requireContext(), "dob")
-        val lmp = formatter.retrieveSharedPreference(requireContext(), "LMP")
+        try {
 
-        if (dob != null) rootView.etDoB.text = dob
-        if (lmp != null) rootView.etLmp.text = lmp
+            CoroutineScope(Dispatchers.IO).launch {
 
+                patientId = formatter.retrieveSharedPreference(requireContext(), "patientId")
+                if (patientId != null){
+
+                    fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+                    patientDetailsViewModel = ViewModelProvider(this@FragmentPatientDetails,
+                        PatientDetailsViewModel.PatientDetailsViewModelFactory(
+                            requireContext().applicationContext as Application, fhirEngine, patientId.toString())
+                    )[PatientDetailsViewModel::class.java]
+
+                    val observationList = patientDetailsViewModel.getObservationFromEncounter(
+                        DbResourceViews.PATIENT_INFO.name)
+
+                    if (observationList.isNotEmpty()){
+
+                        val encounterId = observationList[0].id
+
+                        val facilityName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.FACILITY_NAME.name), encounterId)
+                        val kmhflCode = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.KMHFL_CODE.name), encounterId)
+                        val gravida = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.GRAVIDA.name), encounterId)
+                        val parity = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.PARITY.name), encounterId)
+                        val lmp = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.LMP.name), encounterId)
+                        val edd = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.EDD.name), encounterId)
+                        val height = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.HEIGHT.name), encounterId)
+                        val weight = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.WEIGHT.name), encounterId)
+                        val educationLevel = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                            formatter.getCodes(DbObservationValues.EDUCATION_LEVEL.name), encounterId)
+
+                        val clientDetails = patientDetailsViewModel.getPatientData()
+                        val dob = clientDetails.dob
+                        val maritalStatus = clientDetails.maritalStatus
+                        val clientName = clientDetails.name
+
+                        val identifierList = clientDetails.identifier
+                        var identifier = ""
+                        var nationalId = ""
+
+                        identifierList.forEach {
+
+                            if (it.id == "ANC_NUMBER"){
+                                identifier = it.value
+                            }
+                            if (it.id == "NATIONAL_ID"){
+                                nationalId = it.value
+                            }
+
+                        }
+
+                        CoroutineScope(Dispatchers.Main).launch {
+
+                            if (clientName.isNotEmpty()){
+                                rootView.etClientName.setText(clientName)
+                            }
+
+                            if (facilityName.isNotEmpty()){
+                                rootView.etFacilityName.setText(facilityName[0].value)
+                            }
+                            if (kmhflCode.isNotEmpty()){
+                                rootView.etKmhflCode.setText(kmhflCode[0].value)
+                            }
+                            if (gravida.isNotEmpty()){
+                                val valueNo = formatter.getValues(gravida[0].value, 0)
+                                rootView.etGravida.setText(valueNo)
+                            }
+                            if (parity.isNotEmpty()){
+                                val valueNo = formatter.getValues(parity[0].value, 0)
+                                rootView.etParity.setText(valueNo)
+                            }
+                            if (lmp.isNotEmpty()){
+                                rootView.etLmp.setText(lmp[0].value)
+                            }
+                            if (edd.isNotEmpty()){
+                                rootView.etEdd.setText(edd[0].value)
+                            }
+                            if (height.isNotEmpty()){
+                                val valueNo = formatter.getValues(height[0].value, 0)
+                                rootView.etHeight.setText(valueNo)
+                            }
+                            if (weight.isNotEmpty()){
+                                val valueNo = formatter.getValues(weight[0].value, 0)
+                                rootView.etWeight.setText(valueNo)
+                            }
+                            if (educationLevel.isNotEmpty()){
+                                val value = educationLevel[0].value
+                                val valueNo = value.substring(0, value.length-1)
+
+                                Log.e("noValue", valueNo)
+
+                                rootView.spinnerEducation.setSelection(educationLevelList.indexOf(valueNo))
+                            }
+                            if (maritalStatus != ""){
+                                Log.e("maritalStatus", maritalStatus)
+                                rootView.spinnerMarital.setSelection(maritalStatusList.indexOf(maritalStatus))
+                            }
+                            if (dob != ""){
+                                rootView.etDoB.setText(dob)
+                                val age = formatter.calculateAge(dob).toString()
+                                rootView.etAge.setText(age)
+                            }
+
+                            if (identifier != ""){
+                                val reversedId = identifier.reversed()
+                                reversedId.substring(0, 4).reversed()
+                                rootView.etAnc.setText(reversedId)
+                            }
+                            if (nationalId != ""){
+                                rootView.etNationalId.setText(nationalId)
+                            }
+
+                        }
+
+
+
+                    }
+
+
+
+                }
+
+
+
+            }
+
+
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
 
     }
 
@@ -460,6 +601,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
     override fun onNothingSelected(p0: AdapterView<*>?) {
 
     }
+
 
 
 }

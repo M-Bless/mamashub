@@ -168,6 +168,14 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     saveResourceToDatabase(resource, isUpdate)
                 }
 
+//                is CarePlan -> {
+//                    resource.id = FormatterClass().generateUuid()
+//                    resource.subject = subjectReference
+//                    resource.encounter = encounterReference
+//                    resource.status = CarePlan.CarePlanStatus.ACTIVE
+//                    saveResourceToDatabase(resource, isUpdate)
+//                }
+
             }
         }
     }

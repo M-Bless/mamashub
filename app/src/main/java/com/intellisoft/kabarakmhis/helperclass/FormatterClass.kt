@@ -647,11 +647,9 @@ class FormatterClass {
             DbObservationValues.HEIGHT.name -> { "1153637007" }
             DbObservationValues.WEIGHT.name -> { "726527001" }
             DbObservationValues.LMP.name -> { "21840007" }
-            DbObservationValues.KMHFL_CODE.name -> { "76967697"
-            }DbObservationValues.ANC_NO.name -> { "9889789"
-            }
-            DbObservationValues.EDUCATION_LEVEL.name -> { "276031006"
-            }
+            DbObservationValues.KMHFL_CODE.name -> { "76967697" }
+            DbObservationValues.ANC_NO.name -> { "9889789" }
+            DbObservationValues.EDUCATION_LEVEL.name -> { "276031006" }
             DbObservationValues.EDD.name -> { "161714006"
             }
 
@@ -1418,9 +1416,8 @@ class FormatterClass {
 
     }
 
+    //Save Data to Shared Preferences
     fun saveDataLocal(context: Context, key: String, value: String){
-
-        Log.e("saveDataLocal", "key: $key, value: $value")
 
         val localData = "KabarakMHIS_DATA"
         val sharedPreferences = context.getSharedPreferences(localData, Context.MODE_PRIVATE)

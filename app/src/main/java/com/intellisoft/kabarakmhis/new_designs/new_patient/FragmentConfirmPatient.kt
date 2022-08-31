@@ -230,7 +230,15 @@ class FragmentConfirmPatient : Fragment(){
                         kinName, kinPhoneList)
                     kinContactList.add(kinContact)
 
-                    val id = formatter.generateUuid()
+                    var id = ""
+
+                    val fhirId = formatter.retrieveSharedPreference(requireContext(), "patientId")
+                    if (fhirId != null){
+                        id = fhirId
+                    }else{
+                        formatter.generateUuid()
+                    }
+
 
                     val dbPatientFhirInformation = DbPatientFhirInformation(
                         id, clientName, telecomList,"female", dob, addressList,
@@ -271,10 +279,7 @@ class FragmentConfirmPatient : Fragment(){
         questionnaireResponse: QuestionnaireResponse
     ) {
 
-
         viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse)
-
-
     }
 
     private fun updateArguments(){

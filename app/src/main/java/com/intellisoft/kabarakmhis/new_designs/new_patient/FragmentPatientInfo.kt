@@ -16,10 +16,14 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.dave.validations.PhoneNumberValidation
+import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientViewModel
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
@@ -32,6 +36,10 @@ import kotlinx.android.synthetic.main.fragment_info.*
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import kotlinx.android.synthetic.main.fragment_info.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import java.util.*
 import kotlin.collections.ArrayList
@@ -63,6 +71,10 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
     private val viewModel: AddPatientViewModel by viewModels()
     val subCountyDataList = HashSet<String>()
     val wardDataList = ArrayList<String>()
+
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private var patientId: String? = null
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -123,7 +135,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
             if(!TextUtils.isEmpty(subCounty)) {
                 rootView.spinnerSubCounty.setSelection(subCountyDataList.indexOf(subCounty))
                 spinnerSubCountyValue = subCounty.toString()
-                
+
                 initWard()
 
                 if(!TextUtils.isEmpty(ward)) rootView.spinnerWard.setSelection(wardDataList.indexOf(ward))
@@ -133,8 +145,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         }
 
 
-
-
         if(!TextUtils.isEmpty(town)) rootView.etTown.setText(town)
         if(!TextUtils.isEmpty(address)) rootView.etAddress.setText(address)
         if(!TextUtils.isEmpty(estate)) rootView.etEstate.setText(estate)
@@ -142,6 +152,97 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         if(!TextUtils.isEmpty(companionPhone)) rootView.etTelePhonKin.setText(companionPhone)
         if(!TextUtils.isEmpty(companionRelationship)) rootView.spinnerRshp.setSelection(relationshipList.indexOf(companionRelationship))
         if(!TextUtils.isEmpty(companionName)) rootView.etKinName.setText(companionName)
+
+        getSavedFhirData()
+
+    }
+
+    private fun getSavedFhirData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                patientId = formatter.retrieveSharedPreference(requireContext(), "patientId")
+
+                if (patientId != null){
+
+                    fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+                    patientDetailsViewModel = ViewModelProvider(this@FragmentPatientInfo,
+                        PatientDetailsViewModel.PatientDetailsViewModelFactory(
+                            requireContext().applicationContext as Application, fhirEngine, patientId.toString())
+                    )[PatientDetailsViewModel::class.java]
+
+                    val observationList = patientDetailsViewModel.getObservationFromEncounter(
+                        DbResourceViews.PATIENT_INFO.name)
+
+                    if(observationList.isNotEmpty()){
+
+                        CoroutineScope(Dispatchers.Main).launch {
+
+                            val clientDetails = patientDetailsViewModel.getPatientData()
+                            val phone = clientDetails.phone
+                            val kinData = clientDetails.kinData
+                            val address = clientDetails.address
+
+                            val kinName = kinData.name
+                            val kinPhone = kinData.phone
+                            val kinRshp = kinData.relationship
+
+                            if (kinName != "") rootView.etKinName.setText(kinName)
+                            if (kinPhone != "") rootView.etTelePhonKin.setText(kinPhone)
+                            if (kinRshp != "") rootView.spinnerRshp.setSelection(relationshipList.indexOf(kinRshp))
+
+                            if(phone != "") rootView.etTelePhone.setText(phone)
+
+
+                            if (address.isNotEmpty()){
+
+                                val dbAddress = address[0]
+                                val text = dbAddress.text
+                                val city = dbAddress.city
+                                val district = dbAddress.district
+                                val state = dbAddress.state
+
+                                if (state != ""){
+                                    rootView.spinnerCounty.setSelection(countyList.indexOf(state))
+                                    spinnerCountyValue = state.toString()
+                                    initSubCounty(spinnerCountyValue)
+
+                                    if (district != ""){
+
+                                        spinnerSubCountyValue = district.toString()
+                                        rootView.spinnerSubCounty.setSelection(subCountyDataList.indexOf(district))
+                                        initWard()
+
+                                        if (city != ""){
+                                            rootView.spinnerWard.setSelection(wardDataList.indexOf(city))
+                                        }
+                                    }
+
+                                }
+
+                                if (text != ""){
+                                    rootView.etAddress.setText(text)
+                                }
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
+
+
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
     }
 
@@ -156,6 +257,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
     }
 
     private fun saveData() {
+
+        val errorList = ArrayList<String>()
 
         val townName = rootView.etTown.text.toString()
         val addressName = rootView.etAddress.text.toString()
@@ -254,28 +357,28 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
             }else{
 
-                Toast.makeText(requireContext(), "Please provide Kenyan valid phone numbers", Toast.LENGTH_SHORT).show()
+                if (patientNo == null) errorList.add("Client phone number is required")
+                if (kinNo == null) errorList.add("Next of kin Number is required")
 
+                formatter.showErrorDialog(errorList, requireContext())
             }
 
 
 
         }else{
 
-            val validateFieldsList = ArrayList<Any>()
-            validateFieldsList.addAll(
-                listOf(
-                rootView.etTown, rootView.etAddress,rootView.etEstate, rootView.etTelePhone,
-                    rootView.etKinName,rootView.etTelePhonKin)
-            )
-            formatter.validate(validateFieldsList,requireContext())
+            if (TextUtils.isEmpty(townName)) errorList.add("Please provide a town name")
+            if (TextUtils.isEmpty(addressName)) errorList.add("Please provide an address")
+            if (TextUtils.isEmpty(estateName)) errorList.add("Please provide an estate")
+            if (TextUtils.isEmpty(telephoneName)) errorList.add("Please provide a phone number")
+            if (TextUtils.isEmpty(kinName)) errorList.add("Please provide a next of kin name")
+            if (TextUtils.isEmpty(kinPhone)) errorList.add("Please provide a next of kin phone number")
 
-            if (spinnerCountyValue == "Please Select county") Toast.makeText(requireContext(), "Please select county", Toast.LENGTH_SHORT).show()
-            if (spinnerSubCountyValue == "Please Select Sub-county") Toast.makeText(requireContext(), "Please select sub-county", Toast.LENGTH_SHORT).show()
-            if (spinnerWardValue == "Please Select Ward") Toast.makeText(requireContext(), "Please select ward", Toast.LENGTH_SHORT).show()
+            if (spinnerCountyValue == "Please Select county" || spinnerCountyValue == "") errorList.add("Please select a county")
+            if (spinnerSubCountyValue == "Please Select Sub-county" || spinnerSubCountyValue == "") errorList.add("Please select a sub-county")
+            if (spinnerWardValue == "Please Select Ward" || spinnerWardValue == "") errorList.add("Please select a ward")
 
-
-            Toast.makeText(requireContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show()
+            formatter.showErrorDialog(errorList, requireContext())
         }
 
     }
@@ -384,9 +487,11 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
     private fun initSubCounty(countyName: String) {
 
         val countyData = kabarakViewModel.getCountyNameData(countyName)
+
         if (countyData != null){
             val countyId = countyData.id
             if (countyId != null){
+
                 val subCountyList = kabarakViewModel.getSubCounty(countyId)
                 subCountyDataList.add("")
                 for(subCounty in subCountyList){

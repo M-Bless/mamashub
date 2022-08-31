@@ -334,11 +334,6 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
                     CoroutineScope(Dispatchers.Main).launch {
 
-                        Log.e("------", "deliveryMode: $deliveryMode")
-                        Log.e("------", "babySex: $babySex")
-                        Log.e("------", "babyOutcome: $babyOutcome")
-                        Log.e("------", "babyPurperium: $babyPurperium")
-
                         if (pregnancyOrder.isNotEmpty()){
                             val value = pregnancyOrder[0].value
                             rootView.spinnerPregOrder.setSelection(pregnancyOrderList.indexOf(value))
