@@ -84,6 +84,8 @@ class PreventiveServiceView : AppCompatActivity() {
 
             if (encounterId != null) {
 
+                formatter.saveSharedPreference(this@PreventiveServiceView, "saveEncounterId", encounterId)
+
                 val text1 = DbObservationFhirData(
                     DbSummaryTitle.A_TETANUS_DIPHTHERIA.name,
                     listOf("73152006","73152006-R","390840006"))

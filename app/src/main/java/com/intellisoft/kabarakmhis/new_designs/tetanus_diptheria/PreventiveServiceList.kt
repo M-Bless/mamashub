@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -116,6 +117,8 @@ class PreventiveServiceList : AppCompatActivity() {
                     val id = encounterItem.id
                     val encounterName = "TT $pos"
                     val encounterType = encounterItem.code
+
+                    Log.d("**** id", id)
 
                     val dbFhirEncounter = DbFhirEncounter(
                         id = id,

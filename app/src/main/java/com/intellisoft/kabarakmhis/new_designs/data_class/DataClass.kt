@@ -240,7 +240,10 @@ data class DbConfirmDetails(
     val titleData: String,
     val detailsList : List<DbObserveValue>
 )
-
+data class DbEncounterUpdateData(
+    val encounterId: String,
+    val isUpdate: Boolean,
+)
 data class DbObserveValue(
     val title: String,
     val value : String
@@ -272,10 +275,15 @@ data class DbPatientFhirInformation(
     val kinList: List<DbKinDetails>,
     val maritalStatus: String,
     val identifier: String,
+    val nationalId: String,
 
     val dataCodeList: ArrayList<CodingObservation>,
     val dataQuantityList: ArrayList<QuantityObservation>,
 
+)
+data class DbIdentifier(
+    val id: String,
+    val value: String
 )
 data class DbKinDetails(
     val relationship:String,

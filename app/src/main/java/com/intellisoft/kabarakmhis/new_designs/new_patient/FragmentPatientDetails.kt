@@ -151,13 +151,14 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         val dob = rootView.etDoB.text.toString()
         val lmp = rootView.etLmp.text.toString()
         val edd = rootView.etEdd.text.toString()
+        val nationalID = rootView.etNationalId.text.toString()
 
         if (
             !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(kmhflCode) &&
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(gravida) &&
             !TextUtils.isEmpty(parity) && !TextUtils.isEmpty(height) &&
             !TextUtils.isEmpty(weight) && !TextUtils.isEmpty(dob) &&
-            !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd) &&
+            !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd) && !TextUtils.isEmpty(nationalID) &&
             spinnerMaritalValue != "" && educationLevelValue != "") {
 
             val isWeight = formatter.validateWeight(weight)
@@ -171,11 +172,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         .show()
                 }else{
 
-
-
-
                     if (anc.length == 4){
-
 
                         var ancCodeValue = ""
                         if (isAnc){
@@ -209,16 +206,17 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         val nameClient = DbDataList("Client Name", clientName, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.CLIENT_NAME.name)
                         val dateOfBirth = DbDataList("Date Of Birth", dob, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.DATE_OF_BIRTH.name)
                         val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.MARITAL_STATUS.name )
+                        val nationalIDValue = DbDataList("National Identification", nationalID, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.NATIONAL_ID.name )
 
                         val gravidaData = DbDataList("Gravida", gravida, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.GRAVIDA.name)
                         val parityData = DbDataList("Parity", parity, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.PARITY.name)
-                        val heightData = DbDataList("Height", height, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
-                        val weightData = DbDataList("Weight", weight, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.WEIGHT.name)
+                        val heightData = DbDataList("Height (cm)", height, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
+                        val weightData = DbDataList("Weight (kg)", weight, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.WEIGHT.name)
                         val eddData = DbDataList("Expected Date of Delivery", edd, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.EDD.name)
                         val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
 
                         dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
-                            gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage))
+                            gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage, nationalIDValue))
 
                         val dbDataDetailsList = ArrayList<DbDataDetails>()
                         val dbDataDetails = DbDataDetails(dbDataList)
@@ -281,6 +279,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             if (TextUtils.isEmpty(rootView.etGravida.text.toString())) rootView.etGravida.error = "Please enter a valid gravida"
             if (TextUtils.isEmpty(rootView.etParity.text.toString())) rootView.etParity.error = "Please enter a valid parity"
             if (TextUtils.isEmpty(rootView.etDoB.text.toString())) rootView.etDoB.error = "Please enter a valid date of birth"
+            if (TextUtils.isEmpty(nationalID)) rootView.etNationalId.error = "Please enter an identification number"
 
             val ancCode = rootView.etAnc.text.toString()
             val pncNo = rootView.etPnc.text.toString()

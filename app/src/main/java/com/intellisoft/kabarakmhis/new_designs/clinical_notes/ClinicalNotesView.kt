@@ -107,6 +107,9 @@ class ClinicalNotesView : AppCompatActivity() {
                 DbResourceViews.CLINICAL_NOTES.name)
 
             if (encounterId != null) {
+
+                formatter.saveSharedPreference(this@ClinicalNotesView, "saveEncounterId", encounterId)
+
                 val text1 = DbObservationFhirData(
                     DbSummaryTitle.A_CLINICAL_NOTES.name,
                     listOf("410671006","371524004","390840006"))

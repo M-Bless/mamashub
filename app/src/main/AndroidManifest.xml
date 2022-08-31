@@ -16,6 +16,10 @@
         android:theme="@style/Theme.KabarakMHIS"
         android:usesCleartextTraffic="true">
         <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.screens.PatientDetails"
+            android:exported="false" />
+        <activity
             android:name=".new_designs.chw.referral.ReferralAdd"
             android:exported="false" />
         <activity

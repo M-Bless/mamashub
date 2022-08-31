@@ -87,6 +87,8 @@ class IfasView2 : AppCompatActivity() {
 
             if (encounterId != null) {
 
+                formatter.saveSharedPreference(this@IfasView2, "saveEncounterId", encounterId)
+
                 val text1 = DbObservationFhirData(
                     DbSummaryTitle.A_SUPPLIMENTS_ISSUING_TO_CLIENT.name,
                     listOf("74935093","6709950","410666004","26462991"))

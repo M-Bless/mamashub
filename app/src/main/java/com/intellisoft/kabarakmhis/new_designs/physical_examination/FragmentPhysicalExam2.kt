@@ -242,9 +242,9 @@ class FragmentPhysicalExam2 : Fragment() {
             if (auscultationDoneValue == "Yes"){
                 val auscultationValue = rootView.etAuscalation.text.toString()
                 if(!TextUtils.isEmpty(auscultationValue)){
-                    addData("Specify the auscalation done",auscultationValue, DbObservationValues.SPECIFY_ABDOMINAL_AUSCALATION.name)
+                    addData("Specify the Auscultation done",auscultationValue, DbObservationValues.SPECIFY_ABDOMINAL_AUSCALATION.name)
                 }else{
-                    errorList.add("If yes on auscultation, please specify")
+                    errorList.add("If yes on Auscultation, please specify")
                 }
             }
 
@@ -342,7 +342,7 @@ class FragmentPhysicalExam2 : Fragment() {
                 val fgmList = ArrayList<String>()
 
                 if (rootView.checkboxScarring.isChecked) fgmList.add("Scarring")
-                if (rootView.checkboxDyspaneuria.isChecked) fgmList.add("Dyspaneuria")
+                if (rootView.checkboxDyspaneuria.isChecked) fgmList.add("Dyspareunia")
                 if (rootView.checkboxKeloids.isChecked) fgmList.add("Keloids")
                 if (rootView.checkboxUTI.isChecked) fgmList.add("UTI")
 

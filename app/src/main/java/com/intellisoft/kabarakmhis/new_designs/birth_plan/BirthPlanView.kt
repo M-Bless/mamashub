@@ -101,6 +101,8 @@ class BirthPlanView : AppCompatActivity() {
             DbResourceViews.BIRTH_PLAN.name)
         if (encounterId != null) {
 
+            formatter.saveSharedPreference(this, "saveEncounterId", encounterId)
+
             val text1 = DbObservationFhirData(
                 DbSummaryTitle.A_BIRTH_PLAN.name,
                 listOf("161714006","257622000","257622000-N"))

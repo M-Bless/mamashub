@@ -11,12 +11,13 @@ import ca.uhn.fhir.context.FhirVersionEnum
 import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.mapping.ResourceMapper
 import com.google.android.fhir.datacapture.validation.QuestionnaireResponseValidator
-import com.google.android.fhir.delete
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.helperclass.QuestionnaireHelper
 import com.intellisoft.kabarakmhis.new_designs.data_class.CodingObservation
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbEncounterUpdateData
 import com.intellisoft.kabarakmhis.new_designs.data_class.QuantityObservation
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import kotlinx.coroutines.launch
 import org.hl7.fhir.r4.model.*
@@ -82,87 +83,10 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
 
     }
 
-    fun updateEncounter(
-        patientReference: Reference,
-        encounterId: String,
-        questionnaireResponse: QuestionnaireResponse,
-        dataCodeList: ArrayList<CodingObservation>,
-        dataQuantityList: ArrayList<QuantityObservation>,
-    ){
-
-        viewModelScope.launch {
-            val bundle =
-                ResourceMapper.extract(
-                    questionnaireResource,
-                    questionnaireResponse)
-
-            val questionnaireHelper = QuestionnaireHelper()
-            dataCodeList.forEach {
-                bundle.addEntry()
-                    .setResource(
-                        questionnaireHelper.codingQuestionnaire(
-                            it.code,
-                            it.display,
-                            it.value
-                        )
-                    )
-                    .request.url = "Observation"
-            }
-            dataQuantityList.forEach {
-                bundle.addEntry()
-                    .setResource(
-                        questionnaireHelper.quantityQuestionnaire(
-                            it.code,
-                            it.display,
-                            it.display,
-                            it.value,
-                            it.unit,
-                        )
-                    )
-                    .request.url = "Observation"
-            }
-
-            updateEncounterResource(
-                patientReference,
-                encounterId,
-                bundle
-            )
-
-
-
-        }
-
-    }
-
-    private suspend fun updateEncounterResource(
-        patientReference: Reference,
-        encounterId: String,
-        bundle: Bundle
-    ) {
-
-        val encounterReference = Reference("Encounter/$encounterId")
-
-        bundle.entry.forEach {
-            when (val resource = it.resource) {
-                is Observation -> {
-                    if (resource.hasCode()) {
-                        resource.id = FormatterClass().generateUuid()
-                        resource.subject = patientReference
-                        resource.encounter = encounterReference
-                        resource.issued = Date()
-                        saveResourceToDatabase(resource)
-                    }
-                }
-
-
-            }
-        }
-    }
-
 
     fun createEncounter(
         patientReference: Reference,
-        encounterId: String,
+        dBEncounterUpdateData: DbEncounterUpdateData,
         questionnaireResponse: QuestionnaireResponse,
         dataCodeList: ArrayList<CodingObservation>,
         dataQuantityList: ArrayList<QuantityObservation>,
@@ -201,7 +125,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     .request.url = "Observation"
             }
 
-            saveResources(bundle, patientReference, encounterId, encounterReason)
+            saveResources(bundle, patientReference, dBEncounterUpdateData, encounterReason)
 
         }
 
@@ -210,10 +134,12 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
     private suspend fun saveResources(
         bundle: Bundle,
         subjectReference: Reference,
-        encounterId: String,
-        reason: String,
+        dBEncounterUpdateData: DbEncounterUpdateData,
+        encounterReason: String,
     ) {
 
+        val encounterId = dBEncounterUpdateData.encounterId
+        val isUpdate = dBEncounterUpdateData.isUpdate
 
         val encounterReference = Reference("Encounter/$encounterId")
 
@@ -226,31 +152,29 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                         resource.subject = subjectReference
                         resource.encounter = encounterReference
                         resource.issued = Date()
-                        saveResourceToDatabase(resource)
+                        saveResourceToDatabase(resource, isUpdate)
                     }
 
                 }
+                /**
+                 * Add a location to the encounter; the location is the KMFL CODE
+                 */
                 is Encounter -> {
                     resource.subject = subjectReference
                     resource.id = encounterId
-                    resource.reasonCodeFirstRep.text = reason
-                    resource.reasonCodeFirstRep.codingFirstRep.code = reason
+                    resource.reasonCodeFirstRep.text = encounterReason
+                    resource.reasonCodeFirstRep.codingFirstRep.code = encounterReason
                     resource.status = Encounter.EncounterStatus.INPROGRESS
-                    saveResourceToDatabase(resource)
+                    saveResourceToDatabase(resource, isUpdate)
                 }
 
             }
         }
     }
 
-    private suspend fun saveResourceToDatabase(resource: Resource) {
+    private suspend fun saveResourceToDatabase(resource: Resource, isUpdate: Boolean) {
 
-        val saved = fhirEngine.create(resource)
-        Log.e("****Observations ", saved.toString())
-
-    }
-    private suspend fun updateResourceToDatabase(resource: Resource) {
-        val update = fhirEngine.create(resource)
+        fhirEngine.create(resource)
     }
 
 

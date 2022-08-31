@@ -26,6 +26,7 @@ import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.chw.referral.ReferralView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbIdentifier
 import com.intellisoft.kabarakmhis.new_designs.deworming.DewormingView
 import com.intellisoft.kabarakmhis.new_designs.ifas.IfasList
 import com.intellisoft.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisList
@@ -38,11 +39,14 @@ import com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServi
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
+import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_patient_profile.*
+import kotlinx.android.synthetic.main.activity_patient_profile.refreshLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 
 class PatientProfile : AppCompatActivity() {
 
@@ -63,6 +67,11 @@ class PatientProfile : AppCompatActivity() {
 
         kabarakViewModel = KabarakViewModel(this.application)
 
+        refreshLayout.setOnRefreshListener{
+
+            getData()
+            refreshLayout.isRefreshing = false
+        }
 
         patientDetailsViewModel = ViewModelProvider(this,
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
@@ -81,6 +90,12 @@ class PatientProfile : AppCompatActivity() {
 
 
         navigate()
+
+    }
+
+    private fun getData() {
+
+
 
     }
 
@@ -124,6 +139,7 @@ class PatientProfile : AppCompatActivity() {
                         var dob = ""
                         var kinName = ""
                         var kinPhone = ""
+                        var identifierList: ArrayList<DbIdentifier>
                         var identifier = ""
 
                         val job = Job()
@@ -136,7 +152,15 @@ class PatientProfile : AppCompatActivity() {
 
                             kinName = patientData.kinData.name
                             kinPhone = patientData.kinData.phone
-                            identifier = patientData.identifier
+                            identifierList = patientData.identifier
+
+
+                            identifierList.forEach {
+                                if (it.id == "ANC_NUMBER"){
+                                    identifier = it.value
+                                }
+                            }
+
 
                             val edd = patientDetailsViewModel.getObservationsPerCode("161714006")
                             if (edd.isNotEmpty()){
@@ -233,6 +257,7 @@ class PatientProfile : AppCompatActivity() {
         navigateDeworming.setOnClickListener { startActivity(Intent(this, DewormingView::class.java))}
         navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}
         navigateReferral.setOnClickListener { startActivity(Intent(this, ReferralView::class.java))}
+        navigatePatientDetails.setOnClickListener { startActivity(Intent(this, PatientDetails::class.java))}
 
     }
 

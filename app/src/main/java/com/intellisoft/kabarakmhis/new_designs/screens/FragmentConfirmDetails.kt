@@ -76,20 +76,6 @@ class FragmentConfirmDetails : Fragment(){
             //Go back to the previous activity
             requireActivity().onBackPressed()
 
-            encounterDetailsList.forEach { obs ->
-
-                obs.detailsList.forEach {
-
-                    val title = it.title
-                    val value = it.value
-
-                    val titleValue = title.replace(" ", "_")
-
-                    formatter.saveDataLocal(requireContext(), titleValue, value)
-
-                }
-
-            }
         }
 
         updateArguments()
@@ -127,7 +113,23 @@ class FragmentConfirmDetails : Fragment(){
 
                     if (encounterDetailsList.isNotEmpty()){
 
-                        val encounterId = formatter.generateUuid()
+                        var isUpdate = false
+                        var encounterId = ""
+//
+//                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(), "saveEncounterId")
+//
+//                        if (saveEncounterId != null){
+//                            isUpdate = true
+//                            encounterId = saveEncounterId.toString()
+//                        }else{
+//                            isUpdate = false
+//                            formatter.generateUuid()
+//                        }
+
+                        encounterId = formatter.generateUuid()
+
+
+
                         val patientReference = Reference("Patient/$patientId")
 
                         val questionnaireFragment =
@@ -174,7 +176,7 @@ class FragmentConfirmDetails : Fragment(){
 
                         viewModel.createEncounter(
                             patientReference,
-                            encounterId,
+                            DbEncounterUpdateData(encounterId, isUpdate),
                             questionnaireResponse,
                             dataCodeList,
                             dataQuantityList,
@@ -188,6 +190,10 @@ class FragmentConfirmDetails : Fragment(){
                             progressDialog.dismiss()
                         }
 
+                        CoroutineScope(Dispatchers.IO).launch {
+                            kabarakViewModel.deleteTitleTable(encounter, requireContext())
+                        }
+
                         if (encounter == DbResourceViews.PATIENT_INFO.name){
                             val intent = Intent(requireContext(), NewMainActivity::class.java)
                             startActivity(intent)
@@ -199,10 +205,6 @@ class FragmentConfirmDetails : Fragment(){
                             startActivity(intent)
                             activity?.finish()
                         }
-
-
-
-
 
 
                     }else{

@@ -13,7 +13,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -23,6 +27,9 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_couselling1.view.*
 import kotlinx.android.synthetic.main.fragment_couselling1.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FragmentCounselling1 : Fragment() {
@@ -34,6 +41,10 @@ class FragmentCounselling1 : Fragment() {
 
     private lateinit var rootView: View
 
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -43,6 +54,13 @@ class FragmentCounselling1 : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_couselling1, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
+
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         formatter.saveCurrentPage("1", requireContext())
 
@@ -167,6 +185,125 @@ class FragmentCounselling1 : Fragment() {
 
         }
 
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.COUNSELLING.name)
+                if (encounterId != null){
+
+                    val dangerSigns = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DANGER_SIGNS.name), encounterId)
+                    val dentalHealth = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DENTAL_HEALTH.name), encounterId)
+                    val birthPlan = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.BIRTH_PLAN.name), encounterId)
+                    val rhNegative = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.RH_NEGATIVE.name), encounterId)
+                    val eatOneMeal = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EAT_ONE_MEAL.name), encounterId)
+                    val eatMoreMeals = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EAT_MORE_MEALS.name), encounterId)
+                    val drinkWater = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.DRINK_WATER.name), encounterId)
+                    val takeIfas = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.TAKE_IFAS.name), encounterId)
+                    val avoidWork = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.AVOID_HEAVY_WORK.name), encounterId)
+                    val sleepLLIn = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SLEEP_UNDER_LLIN.name), encounterId)
+                    val goAnc = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.GO_FOR_ANC.name), encounterId)
+                    val nonStrenous = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.NON_STRENUOUS_ACTIVITY.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                        if (dangerSigns.isNotEmpty()){
+                            val value = dangerSigns[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpDanger.check(R.id.radioYesDanger)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpDanger.check(R.id.radioNoDanger)
+                        }
+                        if (dentalHealth.isNotEmpty()){
+                            val value = dentalHealth[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpDental.check(R.id.radioYesDental)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpDental.check(R.id.radioNoDental)
+                        }
+                        if (birthPlan.isNotEmpty()){
+                            val value = birthPlan[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpBirth.check(R.id.radioYesBirth)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpBirth.check(R.id.radioNoBirth)
+                        }
+                        if (rhNegative.isNotEmpty()){
+                            val value = rhNegative[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpRh.check(R.id.radioYesRh)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpRh.check(R.id.radioNoRh)
+                        }
+                        if (eatOneMeal.isNotEmpty()){
+                            val value = eatOneMeal[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpExtraMeal.check(R.id.radioYesExtraMeal)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpExtraMeal.check(R.id.radioNoExtraMeal)
+                        }
+                        if (eatMoreMeals.isNotEmpty()){
+                            val value = eatMoreMeals[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpEveryDay.check(R.id.radioYesEveryDay)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpEveryDay.check(R.id.radioNoEveryDay)
+                        }
+                        if (drinkWater.isNotEmpty()){
+                            val value = drinkWater[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpWater.check(R.id.radioYesWater)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpWater.check(R.id.radioNoWater)
+                        }
+                        if (takeIfas.isNotEmpty()){
+                            val value = takeIfas[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpIFAS.check(R.id.radioYesIFAS)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpIFAS.check(R.id.radioNoIFAS)
+                        }
+                        if (avoidWork.isNotEmpty()){
+                            val value = avoidWork[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpHeavyWork.check(R.id.radioYesHeavyWork)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpHeavyWork.check(R.id.radioNoHeavyWork)
+                        }
+                        if (sleepLLIn.isNotEmpty()){
+                            val value = sleepLLIn[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpHeavyLLIN.check(R.id.radioYesLLIN)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpHeavyLLIN.check(R.id.radioNoLLIN)
+                        }
+                        if (goAnc.isNotEmpty()){
+                            val value = goAnc[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpAncVisits.check(R.id.radioYesAncVisits)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpAncVisits.check(R.id.radioNoAncVisits)
+                        }
+                        if (nonStrenous.isNotEmpty()){
+                            val value = nonStrenous[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpAncNonStrenuous.check(R.id.radioYesNonStrenuous)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpAncNonStrenuous.check(R.id.radioNoNonStrenuous)
+                        }
+
+                    }
+
+
+
+                }
+
+
+            }
+
+        }catch (e: Exception){
+         println(e)
+        }
 
     }
 

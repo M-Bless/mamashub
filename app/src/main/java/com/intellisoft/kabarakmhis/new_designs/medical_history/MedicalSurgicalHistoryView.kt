@@ -95,6 +95,9 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
             )
             if (encounterId != null) {
 
+                formatter.saveSharedPreference(this@MedicalSurgicalHistoryView, "saveEncounterId", encounterId)
+
+
                 val surgical = DbObservationFhirData(DbSummaryTitle.A_SURGICAL_HISTORY.name,
                     listOf("161615003","12658000","12658000"))
                 val medical = DbObservationFhirData(DbSummaryTitle.B_MEDICAL_HISTORY.name,

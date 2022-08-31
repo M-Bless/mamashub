@@ -115,6 +115,8 @@ class MaternalSerologyView : AppCompatActivity() {
 
         if (encounterId != null) {
 
+            formatter.saveSharedPreference(this@MaternalSerologyView, "saveEncounterId", encounterId)
+
             val text1 = DbObservationFhirData(
                 DbSummaryTitle.A_MATERNAL_SEROLOGY.name,
                 listOf("412690006","412690006-Y","412690006-N","412690006-R"))

@@ -92,6 +92,8 @@ class MalariaProphylaxisView : AppCompatActivity() {
 
             if (encounterId != null) {
 
+                formatter.saveSharedPreference(this@MalariaProphylaxisView, "saveEncounterId", encounterId)
+
                 val text1 = DbObservationFhirData(
                     DbSummaryTitle.A_ANC_VISIT.name,
                     listOf("46645665","39234792","520474952","388435640-Y","388435640-N","390840006"))

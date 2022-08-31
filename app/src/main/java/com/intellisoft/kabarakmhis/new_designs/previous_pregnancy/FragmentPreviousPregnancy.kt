@@ -172,20 +172,20 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
 
             val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
             if (radioGrpPurperium != ""){
-                addData("Purperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
+                addData("Puerperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
 
                 if (rootView.linearPurperium.visibility == View.VISIBLE){
                     val text = rootView.etAbnormal.text.toString()
                     if (!TextUtils.isEmpty(text)){
-                        addData("If Purperium is Abnormal, ",text, DbObservationValues.ABNORMAL_BABY_PURPERIUM.name)
+                        addData("If Puerperium is Abnormal, ",text, DbObservationValues.ABNORMAL_BABY_PURPERIUM.name)
                     }else{
-                        errorList.add("If purperium is abnormal, please enter abnormal details")
+                        errorList.add("If Puerperium is abnormal, please enter abnormal details")
                     }
 
                 }
 
             }else{
-                errorList.add("Please select purperium")
+                errorList.add("Please select Puerperium")
             }
 
             for (items in observationList){

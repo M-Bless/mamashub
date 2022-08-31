@@ -17,7 +17,7 @@
     </string-array>
     <string name="query_hint_patient_search">Find by Client Name</string>
     <string name="menu_patient_edit">@string/edit_patient</string>
-    <string name="edit_patient">Edit Client Details</string>
+    <string name="edit_patient">Client Details</string>
     <string name="unknown">UNKNOWN</string>
     <string name="none">none</string>
     <string name="message_no_datetime">No effective DateTime</string>

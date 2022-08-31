@@ -14,7 +14,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.FhirApplication
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
@@ -25,6 +29,9 @@ import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.fragment_couselling2.view.*
 import kotlinx.android.synthetic.main.fragment_couselling2.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class FragmentCounselling2 : Fragment() {
@@ -35,7 +42,9 @@ class FragmentCounselling2 : Fragment() {
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
-
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientId: String
+    private lateinit var fhirEngine: FhirEngine
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -45,7 +54,12 @@ class FragmentCounselling2 : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_couselling2, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
+        patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(requireContext())
 
+        patientDetailsViewModel = ViewModelProvider(this,
+            PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
+        )[PatientDetailsViewModel::class.java]
 
         formatter.saveCurrentPage("2", requireContext())
         getPageDetails()
@@ -171,6 +185,117 @@ class FragmentCounselling2 : Fragment() {
 
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        getSavedData()
+    }
+
+    private fun getSavedData() {
+
+        try {
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                val encounterId = formatter.retrieveSharedPreference(
+                    requireContext(),
+                    DbResourceViews.COUNSELLING.name
+                )
+                if (encounterId != null) {
+
+                    val infantFeeding = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.INFANT_FEEDING.name), encounterId)
+                    val breast = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.EXCLUSIVE_BREASTFEEDING.name), encounterId)
+                    val motherPale = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.MOTHER_PALE.name), encounterId)
+                    val severeHeadache = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SEVERE_HEADACHE.name), encounterId)
+                    val vaginalBleeding = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.VAGINAL_BLEEDING.name), encounterId)
+                    val abdominalPain = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.ABDOMINAL_PAIN.name), encounterId)
+                    val reducedMovement = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.REDUCED_MOVEMENT.name), encounterId)
+                    val motherFits = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.MOTHER_FITS.name), encounterId)
+                    val waterBreaking = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.WATER_BREAKING.name), encounterId)
+                    val swollenFace = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.SWOLLEN_FACE.name), encounterId)
+                    val fever = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.FEVER.name), encounterId)
+
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if (infantFeeding.isNotEmpty()){
+                            val value = infantFeeding[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpInfantFeeding.check(R.id.radioYesInfantFeeding)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpInfantFeeding.check(R.id.radioNoInfantFeeding)
+                        }
+                        if (breast.isNotEmpty()){
+                            val value = breast[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpColostrum.check(R.id.radioYesColostrum)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpColostrum.check(R.id.radioNoColostrum)
+                        }
+                        if (motherPale.isNotEmpty()){
+                            val value = motherPale[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpMotherPale.check(R.id.radioYesMotherPale)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpMotherPale.check(R.id.radioNoMotherPale)
+                        }
+                        if (severeHeadache.isNotEmpty()){
+                            val value = severeHeadache[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpHeadAche.check(R.id.radioYesHeadAche)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpHeadAche.check(R.id.radioNoHeadAche)
+                        }
+                        if (vaginalBleeding.isNotEmpty()){
+                            val value = vaginalBleeding[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpVaginalBleeding.check(R.id.radioYesVaginalBleeding)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpVaginalBleeding.check(R.id.radioNoVaginalBleeding)
+                        }
+                        if (abdominalPain.isNotEmpty()){
+                            val value = abdominalPain[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpAbdominalPain.check(R.id.radioYesAbdominalPain)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpAbdominalPain.check(R.id.radioNoAbdominalPain)
+                        }
+                        if (reducedMovement.isNotEmpty()){
+                            val value = reducedMovement[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpBabyMovement.check(R.id.radioYesBabyMovement)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpBabyMovement.check(R.id.radioNoBabyMovement)
+                        }
+                        if (motherFits.isNotEmpty()){
+                            val value = motherFits[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpConvulsions.check(R.id.radioYesConvulsions)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpConvulsions.check(R.id.radioNoConvulsions)
+                        }
+                        if (waterBreaking.isNotEmpty()){
+                            val value = waterBreaking[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpWaterBreaking.check(R.id.radioYesWaterBreaking)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpWaterBreaking.check(R.id.radioNoWaterBreaking)
+                        }
+                        if (swollenFace.isNotEmpty()){
+                            val value = swollenFace[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpSwollenFace.check(R.id.radioYesSwollenFace)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpSwollenFace.check(R.id.radioNoWaterSwollenFace)
+                        }
+                        if (fever.isNotEmpty()){
+                            val value = fever[0].value
+                            if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpMotherFever.check(R.id.radioYesMotherFever)
+                            if (value.contains("No", ignoreCase = true)) rootView.radioGrpMotherFever.check(R.id.radioNoMotherFever)
+                        }
+                    }
+
+
+
+                }
+
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
     }
 

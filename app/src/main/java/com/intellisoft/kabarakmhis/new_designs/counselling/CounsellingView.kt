@@ -94,6 +94,7 @@ class CounsellingView : AppCompatActivity() {
         val encounterId = formatter.retrieveSharedPreference(this@CounsellingView,
             DbResourceViews.COUNSELLING.name)
         if (encounterId != null) {
+            formatter.saveSharedPreference(this@CounsellingView, "saveEncounterId", encounterId)
 
             val text1 = DbObservationFhirData(
                 DbSummaryTitle.A_COUNSELLING_DONE.name,

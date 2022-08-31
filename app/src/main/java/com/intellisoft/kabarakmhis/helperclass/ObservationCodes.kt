@@ -9,6 +9,7 @@ enum class DbObservationValues{
     CLIENT_NAME,
     DATE_OF_BIRTH,
     MARITAL_STATUS,
+    NATIONAL_ID,
 
     COUNTY_NAME,
     SUB_COUNTY_NAME,

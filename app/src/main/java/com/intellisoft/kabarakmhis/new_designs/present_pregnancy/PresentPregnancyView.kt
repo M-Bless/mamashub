@@ -95,6 +95,9 @@ class PresentPregnancyView : AppCompatActivity() {
 
             if (encounterId != null) {
 
+                formatter.saveSharedPreference(this@PresentPregnancyView, "saveEncounterId", encounterId)
+
+
                 val text1 = DbObservationFhirData(
                     DbSummaryTitle.A_CURRENT_PREGNANCY.name,
                     listOf("424525001","390840006","27171005","45295008","284473002"))

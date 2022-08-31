@@ -91,6 +91,9 @@ class PhysicalExaminationView : AppCompatActivity() {
 
             if (encounterId != null) {
 
+                formatter.saveSharedPreference(this@PhysicalExaminationView, "saveEncounterId", encounterId)
+
+
                 val physicalExamination = DbObservationFhirData(DbSummaryTitle.A_PHYSICAL_EXAMINATION.name,
                     listOf("25656009","25656009-A"))
                 val bloodPressure = DbObservationFhirData(DbSummaryTitle.B_PHYSICAL_BLOOD_PRESSURE.name,

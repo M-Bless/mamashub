@@ -46,9 +46,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
     }
 
     private suspend fun getSearchResults(nameQuery: String = ""): List<DbPatientDetails> {
-        val patients: MutableList<DbPatientDetails> = mutableListOf()
-
-
+        val patientsList: MutableList<DbPatientDetails> = mutableListOf()
 
         fhirEngine.search<Patient> {
 
@@ -64,15 +62,12 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
             from = 0
 
         }.mapIndexed { index, patient ->
+            FormatterClass().patientData(patient, index + 1)
+        }.let { patientsList.addAll(it) }
 
+        patientsList.sortWith(compareBy({ it.lastUpdated }, { it.name }))
 
-            FormatterClass().patientData(patient, index + 1)}
-            .let {
-
-                patients.addAll(it)
-            }
-
-        return patients
+        return patientsList
     }
 
     private fun filterCity(search: Search) {

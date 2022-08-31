@@ -80,9 +80,9 @@ class ReferralAdd : AppCompatActivity() {
 
             if (officerCheckNo != null && chvCheckNo != null){
 
-                addData("Name of officer ", officerName, DbObservationValues.OFFICER_NAME.name)
+                addData("Name of referring officer ", officerName, DbObservationValues.OFFICER_NAME.name)
                 addData("Mobile number ", officerCheckNo, DbObservationValues.OFFICER_NUMBER.name)
-                addData("Name of CHV ", chvName, DbObservationValues.CHV_NAME.name)
+                addData("Name of receiving Community Health Volunteer (CHV) ", chvName, DbObservationValues.CHV_NAME.name)
                 addData("Mobile number ", chvCheckNo, DbObservationValues.CHV_NUMBER.name)
                 addData("Name of community health unit ", communityHealthWork, DbObservationValues.COMMUNITY_HEALTH_UNIT.name)
 

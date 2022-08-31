@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/linearHiv"
                     android:background="@drawable/layout_dotted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -190,12 +190,17 @@ class PreventiveService : AppCompatActivity() {
         if (tdProvided != ""){
             addData("Was TT Immunization provided",tdProvided, DbObservationValues.TT_PROVIDED.name)
 
-            val ttImmunization = tvTTDate.text. toString()
-            if (!TextUtils.isEmpty(ttImmunization)){
-                addData("Immunization Date",ttImmunization, DbObservationValues.TT_RESULTS.name)
-            }else{
-                errorList.add("Immunization Date is required")
+            if (linearTTYes.visibility == View.VISIBLE){
+
+                val ttImmunization = tvTTDate.text. toString()
+                if (!TextUtils.isEmpty(ttImmunization)){
+                    addData("Immunization Date",ttImmunization, DbObservationValues.TT_RESULTS.name)
+                }else{
+                    errorList.add("Immunization Date is required")
+                }
+
             }
+
         }else{
             errorList.add("Immunization selection is required")
         }

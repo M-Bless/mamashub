@@ -370,7 +370,7 @@
 
                         <TextView
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Purperium"
+                            android:text="Puerperium"
                             android:layout_weight="1"
                             android:gravity="start|center"
                             android:layout_width="wrap_content"

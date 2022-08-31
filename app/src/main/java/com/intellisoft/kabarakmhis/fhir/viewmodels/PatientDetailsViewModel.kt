@@ -91,12 +91,19 @@ class PatientDetailsViewModel(
         } else ""
         val phone = if (patientResource.hasTelecom()) patientResource.telecom[0].value else ""
 
-        val identifier = if (patientResource.hasIdentifier()){
-            if (patientResource.identifier[0].hasValue())
-                patientResource.identifier[0].value
-            else
-                ""
-        } else ""
+
+        val identifierList = ArrayList<DbIdentifier>()
+        if (patientResource.hasIdentifier()){
+            for (identifier in patientResource.identifier){
+                val system = identifier.id
+                val value = identifier.value
+                if (value != null){
+                    identifierList.add(DbIdentifier(system, value))
+                }
+
+            }
+        }
+
 
         val encountersList = getEncounterDetails()
 
@@ -118,7 +125,7 @@ class PatientDetailsViewModel(
                 val reasonCode = encounter.code
                 val value = encounter.value
 
-                Log.e("lastUpdated", lastUpdated.toString())
+                Log.e("------reasonCode", reasonCode.toString())
 
                 FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
                     value, encounterId)
@@ -373,7 +380,7 @@ class PatientDetailsViewModel(
                 name = kinName,
                 phone = kinPhone
             ),
-            identifier = identifier
+            identifier = identifierList
         )
 
     }
@@ -386,9 +393,14 @@ class PatientDetailsViewModel(
 
         val encounter = mutableListOf<EncounterItem>()
 
+        /**
+         * Filter encounters by Location which will be the KMFL Code from the logged in person
+         */
+
         fhirEngine.search<Encounter>{
             filter(Encounter.REASON_CODE, {value = of(Coding().apply { code = encounterName })})
             filter(Encounter.SUBJECT, {value = "Patient/$patientId"})
+//            filter(Encounter.LOCATION, {value = "Location/$locationId"})
             sort(Encounter.DATE, Order.ASCENDING)
         }.take(Int.MAX_VALUE)
             .map { createEncounterItem(it, getApplication<Application>().resources) }
@@ -517,6 +529,8 @@ class PatientDetailsViewModel(
                     ""
                 }
             val valueString = "$value $valueUnit"
+
+            Log.d("xxx", "Observation: $id, $text, $code, $valueString, $dateTimeString")
 
             return ObservationItem(
                 id,

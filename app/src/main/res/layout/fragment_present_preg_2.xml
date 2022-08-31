@@ -124,7 +124,7 @@
 
                         <TextView
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Foetal heart rate"
+                            android:text="Foetal movement"
                             android:gravity="start|center"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>
@@ -163,7 +163,7 @@
 
                         <TextView
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Foetal movement"
+                            android:text="Foetal heart rate"
                             android:gravity="start|center"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>

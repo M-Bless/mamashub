@@ -98,9 +98,11 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
             if (isChecked) {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "P" || checkedBtn == "Kp") {
+                    formatter.saveSharedPreference(requireContext(), "hivStatus", "true")
                     changeVisibility(rootView.linearARTEligibility, true)
                     changeVisibility(rootView.linearMaternalHAART, true)
                 } else {
+                    formatter.saveSharedPreference(requireContext(), "hivStatus", "false")
                     changeVisibility(rootView.linearARTEligibility, false)
                     changeVisibility(rootView.linearMaternalHAART, false)
                 }

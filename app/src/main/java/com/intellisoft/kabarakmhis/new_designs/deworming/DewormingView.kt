@@ -100,6 +100,8 @@ class DewormingView : AppCompatActivity() {
             DbResourceViews.DEWORMING.name)
         if (encounterId != null) {
 
+            formatter.saveSharedPreference(this@DewormingView, "saveEncounterId", encounterId)
+
             val text1 = DbObservationFhirData(
                 DbSummaryTitle.A_DEWORMING.name,
                 listOf("14369007","410671006"))

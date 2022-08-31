@@ -46,6 +46,12 @@ class FormatterClass {
         // Show nothing if no values available for gender and date of birth.
         val patientId = if (hasIdElement()) idElement.idPart else ""
         val name = if (hasName()) name[0].family else ""
+        val dateUpdated = if (hasMeta()) meta.lastUpdated else ""
+        val lastUpdated = if (dateUpdated != "") {
+            convertFhirDate(dateUpdated.toString()) ?: ""
+        } else {
+            ""
+        }
 
 
 //        val gender = if (hasGenderElement()) genderElement.valueAsString else ""
@@ -60,7 +66,8 @@ class FormatterClass {
 //        val html: String = if (hasText()) text.div.valueAsString else ""
         return DbPatientDetails(
             id = patientId,
-            name = name
+            name = name,
+            lastUpdated = lastUpdated,
         )
     }
 
@@ -352,7 +359,10 @@ class FormatterClass {
             DbObservationValues.COMPANION_NUMBER.name,
             DbObservationValues.COMPANION_RELATIONSHIP.name,
             DbObservationValues.COMPANION_NAME.name,
-            "dob", "LMP"
+
+            "dob", "LMP","kinName","edd","patientId",
+            "FHIRID","kinPhone","saveEncounterId"
+
             ))
 
         for (items in encounterList){

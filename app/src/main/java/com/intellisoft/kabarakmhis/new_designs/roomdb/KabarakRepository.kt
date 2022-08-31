@@ -128,6 +128,14 @@ class KabarakRepository(private val roomDao: RoomDao) {
         roomDao.deleteTypeTable(type, fhirId, loggedInUser)
 
     }
+    suspend fun deleteTitleTable(context: Context, title: String){
+
+        val fhirId = getSharedPref(context, "FHIRID").toString()
+        val loggedInUser = getSharedPref(context, "USERID").toString()
+
+        roomDao.deleteTitleTable(title, fhirId, loggedInUser)
+
+    }
 
     suspend fun getTittlePatientData(title:String, context: Context):ArrayList<DbTypeDataValue>{
 

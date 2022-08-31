@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.helperclass
 
 import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbIdentifier
 import org.hl7.fhir.r4.model.Identifier
 import java.time.LocalDate
 
@@ -46,6 +47,7 @@ data class PatientItem(
 data class DbPatientDetails(
     val id : String,
     val name : String,
+    val lastUpdated: String
 )
 
 data class RiskAssessmentItem(
@@ -164,7 +166,7 @@ data class DbPatientRecord(
     val dob: String,
     val phone: String?,
     val kinData: DbKinData,
-    val identifier: String
+    val identifier: ArrayList<DbIdentifier>
 )
 data class DbKinData(
     val name: String,

@@ -144,13 +144,14 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
         val dbDataList = ArrayList<DbDataList>()
 
         val lieText = formatter.getRadioText(rootView.radioGrpLie)
-        val foetalHeartRate = formatter.getRadioText(rootView.radGrpFoetalHeartRate)
+        val foetalMovement = formatter.getRadioText(rootView.radGrpFoetalHeartRate)
 
-        val foetalMovement = rootView.etFoetalMovement.text.toString()
+        val foetalHeartRate = rootView.etFoetalMovement.text.toString()
 
         val date = tvDate.text.toString()
 
-        if (lieText != "" && foetalHeartRate != "" && !TextUtils.isEmpty(foetalMovement) && !TextUtils.isEmpty(date) && spinnerPresentationValue != "") {
+        if (lieText != "" && foetalHeartRate != "" && !TextUtils.isEmpty(foetalMovement)
+            && !TextUtils.isEmpty(date) && spinnerPresentationValue != "") {
 
             addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
 

@@ -77,6 +77,9 @@ class PMTCTInterventionsView : AppCompatActivity() {
             DbResourceViews.PMTCT.name)
         if (encounterId != null) {
 
+            formatter.saveSharedPreference(this@PMTCTInterventionsView, "saveEncounterId", encounterId)
+
+
             val text1 = DbObservationFhirData(
                 DbSummaryTitle.A_INTERVENTION_GIVEN.name,
                 listOf("82261064"))

@@ -104,6 +104,8 @@ class AntenatalProfileView : AppCompatActivity() {
             DbResourceViews.ANTENATAL_PROFILE.name)
         if (encounterId != null) {
 
+            formatter.saveSharedPreference(this, "saveEncounterId", encounterId)
+
             val bloodTest = DbObservationFhirData(DbSummaryTitle.A_BLOOD_TESTS.name,
                 listOf("302763003","302763003-S","365636006","365636006-S","169676009","169676009-S","33747003","33747003-S"))
             val urineTest = DbObservationFhirData(DbSummaryTitle.B_URINE_TESTS.name,

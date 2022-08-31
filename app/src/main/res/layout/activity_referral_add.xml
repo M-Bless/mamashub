@@ -57,7 +57,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Name of officer"
+                            android:text="Name of referring officer"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText
@@ -105,7 +105,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Name of CHV"
+                            android:text="Name of receiving Community Health Volunteer (CHV)"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText

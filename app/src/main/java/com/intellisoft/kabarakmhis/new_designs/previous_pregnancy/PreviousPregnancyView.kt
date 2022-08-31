@@ -88,6 +88,9 @@ class PreviousPregnancyView : AppCompatActivity() {
 
             if (encounterId != null) {
 
+                formatter.saveSharedPreference(this@PreviousPregnancyView, "saveEncounterId", encounterId)
+
+
                 val pregnancyDetails = DbObservationFhirData(DbSummaryTitle.A_PREGNANCY_DETAILS.name,
                     listOf("818602026","258707000","424525001","257557008","77386006","289248003","386216000"))
                 val babyDetails = DbObservationFhirData(DbSummaryTitle.B_BABY_DETAILS.name,

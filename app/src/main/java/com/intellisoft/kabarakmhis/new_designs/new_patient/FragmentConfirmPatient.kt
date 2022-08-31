@@ -112,6 +112,7 @@ class FragmentConfirmPatient : Fragment(){
                     var clientName = ""
                     var dob = ""
                     var maritalStatus = ""
+                    var nationalId = ""
                     var telephoneName = ""
                     var spinnerCountyValue = ""
                     var spinnerSubCountyValue = ""
@@ -142,6 +143,7 @@ class FragmentConfirmPatient : Fragment(){
                             DbObservationValues.CLIENT_NAME.name -> { clientName = value }
                             DbObservationValues.DATE_OF_BIRTH.name -> { dob = value }
                             DbObservationValues.MARITAL_STATUS.name -> { maritalStatus = value }
+                            DbObservationValues.NATIONAL_ID.name -> { nationalId = value }
                             DbObservationValues.COUNTY_NAME.name -> { spinnerCountyValue = value }
                             DbObservationValues.SUB_COUNTY_NAME.name -> { spinnerSubCountyValue = value }
                             DbObservationValues.WARD_NAME.name -> { spinnerWardValue = value }
@@ -160,8 +162,6 @@ class FragmentConfirmPatient : Fragment(){
                                 val checkObservation = formatter.checkObservations(title)
                                 if (codeValue != ""){
 
-                                    Log.e("*****3 ", codeLabel)
-
                                     if (checkObservation == ""){
                                         //Save as a value string
 
@@ -170,8 +170,6 @@ class FragmentConfirmPatient : Fragment(){
                                             title,
                                             value)
                                         dataCodeList.add(codingObservation)
-
-                                        Log.e("*****1 ", "$codeValue $title $value")
 
                                     }else{
                                         //Save as a value quantity
@@ -182,8 +180,6 @@ class FragmentConfirmPatient : Fragment(){
                                             checkObservation
                                         )
                                         dataQuantityList.add(quantityObservation)
-
-                                        Log.e("*****2 ", "$codeValue $title $value")
 
                                     }
 
@@ -238,7 +234,7 @@ class FragmentConfirmPatient : Fragment(){
 
                     val dbPatientFhirInformation = DbPatientFhirInformation(
                         id, clientName, telecomList,"female", dob, addressList,
-                        kinContactList, maritalStatus,ancCode,
+                        kinContactList, maritalStatus,ancCode, nationalId,
                         dataCodeList, dataQuantityList)
 
                     val questionnaireFragment = childFragmentManager.findFragmentByTag(

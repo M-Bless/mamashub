@@ -141,8 +141,24 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     patient.id = patientId
 
                     val ancCode = dbPatientFhirInformation.identifier
+                    val nationalId = dbPatientFhirInformation.nationalId
 
                     val identifierList = ArrayList<Identifier>()
+
+
+                    /**
+                     * TODO: Leave identifierNumber.value empty for now.
+                     * TODO: Identifier value should be generated from the server
+                     * TODO: Identifier assigner should be the KMFL CODE
+                     *
+                     * TODO: The KMFL CODE should be Attached to the encounter as a Location
+                     */
+
+                    val identifierNumber = Identifier()
+                    identifierNumber.id = "NATIONAL_ID"
+                    identifierNumber.value = nationalId
+                    identifierList.add(identifierNumber)
+
                     val identifier = Identifier()
                     identifier.id = "ANC_NUMBER"
                     identifier.value = ancCode

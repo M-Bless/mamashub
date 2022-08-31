@@ -183,6 +183,53 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:text="Identification"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <RadioGroup
+                            android:id="@+id/rgClientType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RadioButton
+                                android:id="@+id/rbId"
+                                android:text="National Id"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioButton
+                                android:id="@+id/rbPassport"
+                                android:text="Passport Number"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioButton
+                                android:id="@+id/rbCertNo"
+                                android:text="Birth Certificate Number"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </RadioGroup>
+
+                        <EditText
+                            android:id="@+id/etNationalId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </LinearLayout>
+
                     <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

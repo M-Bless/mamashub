@@ -73,7 +73,9 @@ class FragmentAntenatal3 : Fragment() {
         year = calendar.get(Calendar.YEAR);
 
         month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+
+
 
         rootView.radioGrpHiv.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -256,44 +258,54 @@ class FragmentAntenatal3 : Fragment() {
 
         val errorList = ArrayList<String>()
 
-        val hivTest = formatter.getRadioText(rootView.radioGrpHiv)
-        if (hivTest != "") {
-            addData("HIV Testing", hivTest, DbObservationValues.HIV_TESTING.name)
-            if (rootView.linearTestDate.visibility == View.VISIBLE) {
+        if (rootView.linearHiv.visibility == View.VISIBLE){
 
-                val value = rootView.tvHivDate.text.toString()
+            val hivTest = formatter.getRadioText(rootView.radioGrpHiv)
+            if (hivTest != "") {
+                addData("HIV Testing", hivTest, DbObservationValues.HIV_TESTING.name)
+                if (rootView.linearTestDate.visibility == View.VISIBLE) {
+
+                    val value = rootView.tvHivDate.text.toString()
+                    if (!TextUtils.isEmpty(value)) {
+                        addData("HIV Test Date", value , DbObservationValues.YES_HIV_RESULTS.name)
+                    } else {
+                        errorList.add("Please select HIV Test Date")
+                    }
+                }
+            }else{
+                errorList.add("Please select HIV Testing")
+            }
+
+            if (rootView.linearNo.visibility == View.VISIBLE) {
+                val value = rootView.etTb.text.toString()
                 if (!TextUtils.isEmpty(value)) {
-                    addData("HIV Test Date", value , DbObservationValues.YES_HIV_RESULTS.name)
+                    addData("HIV Further counselling", value , DbObservationValues.NO_HIV_RESULTS.name)
+                } else {
+                    errorList.add("Please enter HIV Further counselling")
+                }
+            }
+
+
+            val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
+            if (hivStatus != "") {
+                addData("HIV Status", hivStatus , DbObservationValues.HIV_MOTHER_STATUS.name)
+            }else{
+                errorList.add("Please select HIV Status")
+            }
+            if (rootView.linearNR.visibility == View.VISIBLE) {
+                val value = rootView.tvHivTestDate.text.toString()
+                if (!TextUtils.isEmpty(value)) {
+                    addData("HIV Test Date", value , DbObservationValues.HIV_NR_DATE.name)
                 } else {
                     errorList.add("Please select HIV Test Date")
                 }
             }
-        }else{
-            errorList.add("Please select HIV Testing")
+
+            Log.e("errorList", observationList.toString())
+
         }
 
-        if (rootView.linearNo.visibility == View.VISIBLE) {
-            val value = rootView.etTb.text.toString()
-            if (!TextUtils.isEmpty(value)) {
-                addData("HIV Further counselling", value , DbObservationValues.NO_HIV_RESULTS.name)
-            } else {
-                errorList.add("Please enter HIV Further counselling")
-            }
-        }
-        val hivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
-        if (hivStatus != "") {
-            addData("HIV Status", hivStatus , DbObservationValues.HIV_MOTHER_STATUS.name)
-        }else{
-            errorList.add("Please select HIV Status")
-        }
-        if (rootView.linearNR.visibility == View.VISIBLE) {
-            val value = rootView.tvHivTestDate.text.toString()
-            if (!TextUtils.isEmpty(value)) {
-                addData("HIV Test Date", value , DbObservationValues.HIV_NR_DATE.name)
-            } else {
-                errorList.add("Please select HIV Test Date")
-            }
-        }
+
         for (items in observationList){
 
             val key = items.key
@@ -454,6 +466,14 @@ class FragmentAntenatal3 : Fragment() {
         try {
 
             CoroutineScope(Dispatchers.IO).launch {
+
+                val hivTesting = formatter.retrieveSharedPreference(requireContext(), "hivStatus")
+                if (hivTesting != null){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if (hivTesting == "Yes") rootView.linearHiv.visibility = View.VISIBLE else rootView.linearHiv.visibility = View.GONE
+                    }
+                }
+
 
                 val encounterId = formatter.retrieveSharedPreference(requireContext(),
                     DbResourceViews.ANTENATAL_PROFILE.name)
