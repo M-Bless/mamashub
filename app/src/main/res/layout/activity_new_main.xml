@@ -53,6 +53,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SearchView
+            android:layout_margin="10dp"
             android:layout_marginTop="10dp"
             app:queryBackground="@android:color/transparent"
             android:background="@drawable/search_round"

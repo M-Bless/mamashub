@@ -81,7 +81,7 @@ class PatientProfile : AppCompatActivity() {
             val txtCall = tvKinDetails.text.toString()
             calluser(txtCall)
         }
-
+        getData()
 
         navigate()
 
@@ -89,7 +89,7 @@ class PatientProfile : AppCompatActivity() {
 
     private fun getData() {
 
-
+        viewModel.poll()
 
     }
 
@@ -114,7 +114,7 @@ class PatientProfile : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
 
             try {
-
+                getData()
                 val patientLocalName = formatter.retrieveSharedPreference(this@PatientProfile, "patientName")
                 val patientLocalDob = formatter.retrieveSharedPreference(this@PatientProfile, "dob")
                 val patientLocalIdentifier = formatter.retrieveSharedPreference(this@PatientProfile, "identifier")

@@ -6,7 +6,9 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import kotlinx.android.synthetic.main.activity_patient_profile.*
@@ -26,6 +28,7 @@ import kotlinx.coroutines.launch
 class Summary : AppCompatActivity() {
 
     private val formatter = FormatterClass()
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,8 @@ class Summary : AppCompatActivity() {
     }
 
     private fun getSavedData() {
+
+        viewModel.poll()
 
         try {
 
