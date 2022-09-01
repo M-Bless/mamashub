@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs.screens
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_patient_details.no_record
 import kotlinx.android.synthetic.main.activity_patient_details.recycler_view
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.stream.Stream
 
@@ -100,197 +102,193 @@ class PatientDetails : AppCompatActivity() {
 
         try {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.Main).launch {
 
-                //Get Client Details
-                val clientDetails = patientDetailsViewModel.getPatientData()
-                val id = clientDetails.id
-                val name = clientDetails.name
-                val dob = clientDetails.dob
-                val phone = clientDetails.phone
-                val kinData = clientDetails.kinData
-                val identifierList = clientDetails.identifier
-                val maritalStatus = clientDetails.maritalStatus
-                val address = clientDetails.address
+                val progressDialog = ProgressDialog(this@PatientDetails)
+                progressDialog.setTitle("Please wait..")
+                progressDialog.setMessage("Loading patient details")
+                progressDialog.setCanceledOnTouchOutside(false)
+                progressDialog.show()
 
-                val observationList = patientDetailsViewModel.getObservationFromEncounter(
-                    DbResourceViews.PATIENT_INFO.name)
+                val job = Job()
+                CoroutineScope(Dispatchers.IO + job).launch {
 
-                if (observationList.isNotEmpty()){
-                    val encounterId = observationList[0].id
 
-                    val text1 = DbObservationFhirData(
-                        DbSummaryTitle.A_FACILITY_DETAILS.name, listOf(
-                            formatter.getCodes(DbObservationValues.FACILITY_NAME.name),
-                            formatter.getCodes(DbObservationValues.KMHFL_CODE.name)))
+                    //Get Client Details
+                    val clientDetails = patientDetailsViewModel.getPatientData()
+                    val id = clientDetails.id
+                    val name = clientDetails.name
+                    val dob = clientDetails.dob
+                    val phone = clientDetails.phone
+                    val kinData = clientDetails.kinData
+                    val identifierList = clientDetails.identifier
+                    val maritalStatus = clientDetails.maritalStatus
+                    val address = clientDetails.address
 
-                    val text2 = DbObservationFhirData(
-                        DbSummaryTitle.C_CLINICAL_INFORMATION.name,
-                        listOf(
-                            formatter.getCodes(DbObservationValues.GRAVIDA.name),formatter.getCodes(DbObservationValues.PARITY.name),
-                            formatter.getCodes(DbObservationValues.HEIGHT.name),formatter.getCodes(DbObservationValues.WEIGHT.name),
-                            formatter.getCodes(DbObservationValues.EDD.name),formatter.getCodes(DbObservationValues.LMP.name),
-                        ))
+                    val observationList = patientDetailsViewModel.getObservationFromEncounter(
+                        DbResourceViews.PATIENT_INFO.name)
 
-                    val text3 = DbObservationFhirData(
-                        DbSummaryTitle.B_PATIENT_DETAILS.name,
-                        listOf(
-                            formatter.getCodes(DbObservationValues.EDUCATION_LEVEL.name)
+                    if (observationList.isNotEmpty()){
+                        val encounterId = observationList[0].id
+
+                        val text1 = DbObservationFhirData(
+                            DbSummaryTitle.A_FACILITY_DETAILS.name, listOf(
+                                formatter.getCodes(DbObservationValues.FACILITY_NAME.name),
+                                formatter.getCodes(DbObservationValues.KMHFL_CODE.name)))
+
+                        val text2 = DbObservationFhirData(
+                            DbSummaryTitle.C_CLINICAL_INFORMATION.name,
+                            listOf(
+                                formatter.getCodes(DbObservationValues.GRAVIDA.name),formatter.getCodes(DbObservationValues.PARITY.name),
+                                formatter.getCodes(DbObservationValues.HEIGHT.name),formatter.getCodes(DbObservationValues.WEIGHT.name),
+                                formatter.getCodes(DbObservationValues.EDD.name),formatter.getCodes(DbObservationValues.LMP.name),
+                            ))
+
+                        val text3 = DbObservationFhirData(
+                            DbSummaryTitle.B_PATIENT_DETAILS.name,
+                            listOf(
+                                formatter.getCodes(DbObservationValues.EDUCATION_LEVEL.name)
+                            )
                         )
-                    )
 
 
-                    val patientList = ArrayList<DbConfirmDetails>()
+                        val patientList = ArrayList<DbConfirmDetails>()
 
-                    var identifier = ""
-                    var nationalId = ""
+                        var identifier = ""
+                        var nationalId = ""
 
-                    identifierList.forEach {
+                        identifierList.forEach {
 
-                        if (it.id == "ANC_NUMBER"){
-                            identifier = it.value
+                            if (it.id == "ANC_NUMBER"){
+                                identifier = it.value
+                            }
+                            if (it.id == "NATIONAL_ID"){
+                                nationalId = it.value
+                            }
+
                         }
-                        if (it.id == "NATIONAL_ID"){
-                            nationalId = it.value
+
+                        val dbPatientList = ArrayList<DbObserveValue>()
+                        val dbAncCode = DbObserveValue("ANC code", identifier.toString())
+                        val dbNational = DbObserveValue("National Id", nationalId.toString())
+                        val dbName = DbObserveValue("Name of client", name.toString())
+
+                        val age = "${formatter.calculateAge(dob)} years"
+                        val dbDob = DbObserveValue("Age", age.toString())
+                        val dbMaritalStatus = DbObserveValue("Marital Status", maritalStatus.toString())
+
+
+                        val dbContactList = ArrayList<DbConfirmDetails>()
+
+                        val dbObserveValueList = ArrayList<DbObserveValue>()
+                        val dbObserveValue = DbObserveValue("Telephone", phone.toString())
+                        dbObserveValueList.add(dbObserveValue)
+                        val dbConfirmDetails = DbConfirmDetails(DbSummaryTitle.E_CONTACT_INFORMATION.name, dbObserveValueList)
+                        dbContactList.add(dbConfirmDetails)
+
+                        //Next of Kin
+                        val dbKinList = ArrayList<DbConfirmDetails>()
+
+                        val dbKinValueList = ArrayList<DbObserveValue>()
+                        val kinName = kinData.name
+                        val kinPhone = kinData.phone
+                        val kinRshp = kinData.relationship
+                        val dbKinName = DbObserveValue("Name", kinName.toString())
+                        val dbKinPhone = DbObserveValue("Telephone", kinPhone.toString())
+                        val dbKinRshp = DbObserveValue("Relationship", kinRshp.toString())
+                        dbKinValueList.addAll(listOf(dbKinName, dbKinPhone,dbKinRshp))
+
+                        val dbKinDetails = DbConfirmDetails(DbSummaryTitle.F_NEXT_OF_KIN.name, dbKinValueList)
+                        dbKinList.add(dbKinDetails)
+
+                        //Address
+
+                        val dbResedentialDataList = ArrayList<DbConfirmDetails>()
+                        val dbResidentialList = ArrayList<DbObserveValue>()
+                        if (address.isNotEmpty()){
+                            val dbAddress = address[0]
+                            val text = dbAddress.text
+                            val city = dbAddress.city
+                            val district = dbAddress.district
+                            val state = dbAddress.state
+
+                            if (text != "") {
+                                val dbAddressText = DbObserveValue("text", text)
+                                dbResidentialList.add(dbAddressText)
+                            }
+                            if (city != "") {
+                                val dbAddressCity = DbObserveValue("city", city)
+                                dbResidentialList.add(dbAddressCity)
+                            }
+                            if (district != "") {
+                                val dbAddressDistrict = DbObserveValue("district", district)
+                                dbResidentialList.add(dbAddressDistrict)
+                            }
+                            if (state != "") {
+                                val dbAddressState = DbObserveValue("state", state)
+                                dbResidentialList.add(dbAddressState)
+                            }
                         }
+
+                        val dbResidentialInfo = DbConfirmDetails(DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, dbResidentialList)
+                        dbResedentialDataList.add(dbResidentialInfo)
+
+                        val text1List = formatter.getObservationList(patientDetailsViewModel, text1, encounterId)
+                        val text2List = formatter.getObservationList(patientDetailsViewModel, text2, encounterId)
+                        val text3List = formatter.getObservationList(patientDetailsViewModel, text3, encounterId)
+
+                        //Get Patient Details
+                        if (text3List.isNotEmpty()){
+
+                            val detailsList = text3List[0].detailsList
+                            detailsList.forEach { it ->
+
+                                val dbEducationValue = DbObserveValue(it.title, it.value)
+                                dbPatientList.add(dbEducationValue)}
+
+                        }
+
+                        dbPatientList.addAll(listOf(dbAncCode, dbName, dbDob, dbNational,dbMaritalStatus))
+
+                        val dbPatient = DbConfirmDetails(DbSummaryTitle.B_PATIENT_DETAILS.name, dbPatientList)
+                        patientList.add(dbPatient)
+
+                        val observationDataList = merge(text1List,patientList, text2List, dbContactList, dbKinList,dbResedentialDataList)
+                        CoroutineScope(Dispatchers.Main).launch {
+
+                            progressDialog.dismiss()
+
+                            if (observationDataList.isNotEmpty()) {
+                                btnAdd.visibility = View.VISIBLE
+                                no_record.visibility = View.GONE
+                                recycler_view.visibility = View.VISIBLE
+                            } else {
+                                btnAdd.visibility = View.GONE
+                                no_record.visibility = View.VISIBLE
+                                recycler_view.visibility = View.GONE
+                            }
+
+                            val confirmParentAdapter = ConfirmParentAdapter(observationDataList,this@PatientDetails)
+                            recyclerView.adapter = confirmParentAdapter
+
+
+                        }
+
+
+
 
                     }
 
-                    val dbPatientList = ArrayList<DbObserveValue>()
-                    val dbAncCode = DbObserveValue("ANC code", identifier.toString())
-                    val dbNational = DbObserveValue("National Id", nationalId.toString())
-                    val dbName = DbObserveValue("Name of client", name.toString())
-
-                    val age = "${formatter.calculateAge(dob)} years"
-                    val dbDob = DbObserveValue("Age", age.toString())
-                    val dbMaritalStatus = DbObserveValue("Marital Status", maritalStatus.toString())
-
-
-                    val dbContactList = ArrayList<DbConfirmDetails>()
-
-                    val dbObserveValueList = ArrayList<DbObserveValue>()
-                    val dbObserveValue = DbObserveValue("Telephone", phone.toString())
-                    dbObserveValueList.add(dbObserveValue)
-                    val dbConfirmDetails = DbConfirmDetails(DbSummaryTitle.E_CONTACT_INFORMATION.name, dbObserveValueList)
-                    dbContactList.add(dbConfirmDetails)
-
-                    //Next of Kin
-                    val dbKinList = ArrayList<DbConfirmDetails>()
-
-                    val dbKinValueList = ArrayList<DbObserveValue>()
-                    val kinName = kinData.name
-                    val kinPhone = kinData.phone
-                    val kinRshp = kinData.relationship
-                    val dbKinName = DbObserveValue("Name", kinName.toString())
-                    val dbKinPhone = DbObserveValue("Telephone", kinPhone.toString())
-                    val dbKinRshp = DbObserveValue("Relationship", kinRshp.toString())
-                    dbKinValueList.addAll(listOf(dbKinName, dbKinPhone,dbKinRshp))
-
-                    val dbKinDetails = DbConfirmDetails(DbSummaryTitle.F_NEXT_OF_KIN.name, dbKinValueList)
-                    dbKinList.add(dbKinDetails)
-
-                    //Address
-
-                    val dbResedentialDataList = ArrayList<DbConfirmDetails>()
-                    val dbResidentialList = ArrayList<DbObserveValue>()
-                    if (address.isNotEmpty()){
-                        val dbAddress = address[0]
-                        val text = dbAddress.text
-                        val city = dbAddress.city
-                        val district = dbAddress.district
-                        val state = dbAddress.state
-
-                        if (text != "") {
-                            val dbAddressText = DbObserveValue("text", text)
-                            dbResidentialList.add(dbAddressText)
-                        }
-                        if (city != "") {
-                            val dbAddressCity = DbObserveValue("city", city)
-                            dbResidentialList.add(dbAddressCity)
-                        }
-                        if (district != "") {
-                            val dbAddressDistrict = DbObserveValue("district", district)
-                            dbResidentialList.add(dbAddressDistrict)
-                        }
-                        if (state != "") {
-                            val dbAddressState = DbObserveValue("state", state)
-                            dbResidentialList.add(dbAddressState)
-                        }
-                    }
-
-                    val dbResidentialInfo = DbConfirmDetails(DbSummaryTitle.D_RESIDENTIAL_INFORMATION.name, dbResidentialList)
-                    dbResedentialDataList.add(dbResidentialInfo)
-
-                    val text1List = formatter.getObservationList(patientDetailsViewModel, text1, encounterId)
-                    val text2List = formatter.getObservationList(patientDetailsViewModel, text2, encounterId)
-                    val text3List = formatter.getObservationList(patientDetailsViewModel, text3, encounterId)
-
-                    //Get Patient Details
-                    if (text3List.isNotEmpty()){
-
-                        val detailsList = text3List[0].detailsList
-                        detailsList.forEach { it ->
-
-                            val dbEducationValue = DbObserveValue(it.title, it.value)
-                            dbPatientList.add(dbEducationValue)}
-
-                    }
-
-                    dbPatientList.addAll(listOf(dbAncCode, dbName, dbDob, dbNational,dbMaritalStatus))
-
-                    val dbPatient = DbConfirmDetails(DbSummaryTitle.B_PATIENT_DETAILS.name, dbPatientList)
-                    patientList.add(dbPatient)
-
-                    val observationDataList = merge(text1List,patientList, text2List, dbContactList, dbKinList,dbResedentialDataList)
-                    CoroutineScope(Dispatchers.Main).launch {
-                        if (observationDataList.isNotEmpty()) {
-                            no_record.visibility = View.GONE
-                            recycler_view.visibility = View.VISIBLE
-                        } else {
-                            no_record.visibility = View.VISIBLE
-                            recycler_view.visibility = View.GONE
-                        }
-
-                        val confirmParentAdapter = ConfirmParentAdapter(observationDataList,this@PatientDetails)
-                        recyclerView.adapter = confirmParentAdapter
-                    }
-
-//                    saveListShared(observationDataList)
-
-
-
-                }
-
-
-
+                }.join()
             }
+
+
 
         } catch (e: Exception){
             e.printStackTrace()
         }
 
     }
-
-//    private fun saveListShared(list: List<DbConfirmDetails>?) {
-//        //Save to shared preferences
-//        if (!list.isNullOrEmpty()){
-//            var xxx = ""
-//            list.forEach { it ->
-//
-//                val detailsList = it.detailsList
-//                detailsList.forEach {
-//
-//                    val title = it.title.toUpperCase().replace(" ", "_")
-//                    val value = it.value
-//                    xxx = "$xxx$title,"
-//                    formatter.saveDataLocal(this, title, value)
-//                }
-//            }
-//
-//            Log.e("xxx-----", xxx)
-//        }
-//
-//    }
 
     private fun <T> merge(first: List<T>, second: List<T>, third: List<T>, fourth:List<T>, fifth: List<T>, sixth: List<T>): List<T> {
         val list: MutableList<T> = ArrayList()

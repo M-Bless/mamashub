@@ -125,9 +125,31 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     .request.url = "Observation"
             }
 
+            createCarePlan(patientReference, encounterId, encounterReason)
             saveResources(bundle, patientReference, encounterId, encounterReason)
 
         }
+
+    }
+
+    //Create CarePlan
+    private suspend fun createCarePlan(
+        patientReference: Reference,
+        encounterId: String,
+        encounterReason: String
+    ) {
+
+        val encounterReference = Reference("Encounter/$encounterId")
+
+        val carePlan = CarePlan()
+        carePlan.id = FormatterClass().generateUuid()
+        carePlan.subject = patientReference
+        carePlan.status = CarePlan.CarePlanStatus.ACTIVE
+        carePlan.intent = CarePlan.CarePlanIntent.PLAN
+        carePlan.encounter = encounterReference
+        carePlan.title = encounterReason
+
+        fhirEngine.create(carePlan)
 
     }
 
@@ -137,7 +159,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         encounterId: String,
         encounterReason: String,
     ) {
-
 
         val encounterReference = Reference("Encounter/$encounterId")
 
@@ -163,23 +184,17 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     resource.reasonCodeFirstRep.text = encounterReason
                     resource.reasonCodeFirstRep.codingFirstRep.code = encounterReason
                     resource.status = Encounter.EncounterStatus.INPROGRESS
+                    resource.period = Period().setStart(Date())
                     saveResourceToDatabase(resource)
                 }
 
-//                is CarePlan -> {
-//                    resource.id = FormatterClass().generateUuid()
-//                    resource.subject = subjectReference
-//                    resource.encounter = encounterReference
-//                    resource.status = CarePlan.CarePlanStatus.ACTIVE
-//                    saveResourceToDatabase(resource, isUpdate)
-//                }
+
 
             }
         }
     }
 
     private suspend fun saveResourceToDatabase(resource: Resource) {
-
         fhirEngine.create(resource)
     }
 

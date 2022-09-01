@@ -15,7 +15,10 @@
         <item name="android:textColor">@color/textColor</item>
     </style>
     <style name="CircularProgress" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@android:color/holo_green_dark</item>
+        <item name="colorAccent">@color/save</item>
+    </style>
+    <style name="SummaryProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/primary</item>
     </style>
 
 

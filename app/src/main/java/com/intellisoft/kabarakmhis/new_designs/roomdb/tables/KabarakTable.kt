@@ -49,6 +49,7 @@ data class FhirEncounter(
         var encounterId: String ,
         var encounterName: String ,
         var encounterType: String ,
+        var encounterDate: String ,
         var fhirId: String ,
         var loggedUserId: String ,
 

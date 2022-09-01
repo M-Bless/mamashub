@@ -42,7 +42,6 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
 import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_patient_profile.*
-import kotlinx.android.synthetic.main.activity_patient_profile.refreshLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -67,12 +66,6 @@ class PatientProfile : AppCompatActivity() {
         fhirEngine = FhirApplication.fhirEngine(this)
 
         kabarakViewModel = KabarakViewModel(this.application)
-
-        refreshLayout.setOnRefreshListener{
-
-            getData()
-            refreshLayout.isRefreshing = false
-        }
 
         patientDetailsViewModel = ViewModelProvider(this,
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
@@ -112,6 +105,8 @@ class PatientProfile : AppCompatActivity() {
 
         getPatientData()
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getPatientData() {
@@ -266,6 +261,8 @@ class PatientProfile : AppCompatActivity() {
         navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}
         navigateReferral.setOnClickListener { startActivity(Intent(this, ReferralView::class.java))}
         navigatePatientDetails.setOnClickListener { startActivity(Intent(this, PatientDetails::class.java))}
+
+        navigateSummary.setOnClickListener { startActivity(Intent(this, Summary::class.java))}
 
     }
 

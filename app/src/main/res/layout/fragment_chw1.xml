@@ -10,6 +10,11 @@
         android:orientation="vertical">
 
         <include
+            android:visibility="gone"
+            android:id="@+id/userView"
+            layout="@layout/user_details" />
+
+        <include
             android:id="@+id/progress_bar"
             layout="@layout/progress_bar" />
 
@@ -69,13 +74,21 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
+                            <TextView
+                                android:layout_weight="1"
+                                android:text="Sex"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
                             <CheckBox
                                 android:id="@+id/checkboxNoPast"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Female" />
@@ -296,28 +309,8 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:backgroundTint="@color/cancel"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnNext"
-            android:backgroundTint="@color/save"
-            android:layout_marginStart="@dimen/_15dp"
-            android:layout_weight="1"
-            android:text="Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
 
 </RelativeLayout>

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.chw.FragmentConfirmChvPatient
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentConfirmPatient
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
@@ -216,6 +217,11 @@ class FormatterClass {
         val date = Date()
         return formatter.format(date)
     }
+    fun getTodayTimeNoDate(): String {
+        val formatter = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
+        val date = Date()
+        return formatter.format(date)
+    }
 
 
     fun refineLMP(dateStr: String): String {
@@ -287,6 +293,18 @@ class FormatterClass {
                 else -> resources.getQuantityString(R.plurals.ageDay, it.days, it.days)
             }
         }
+    }
+
+    fun getProgress(value: String):Pair<Int, Int>{
+
+        //Get value before of
+        val valueBeforeOf = value.substringBefore(" of ").toInt()
+        //Get value after of
+        val valueAfterOf = value.substringAfter(" of ").toInt()
+
+        return Pair(valueBeforeOf, valueAfterOf)
+
+
     }
 
     fun saveSharedPreference(
@@ -361,7 +379,14 @@ class FormatterClass {
             DbObservationValues.COMPANION_NAME.name,
 
             "dob", "LMP","kinName","edd","patientId",
-            "FHIRID","kinPhone","saveEncounterId"
+            "FHIRID","kinPhone","saveEncounterId","pageConfirmDetails",
+            "hivStatus",
+
+            "${DbResourceViews.PHYSICAL_EXAMINATION.name}_SUMMARY",
+            "${DbResourceViews.PRESENT_PREGNANCY.name}_SUMMARY",
+            "${DbResourceViews.TETENUS_DIPTHERIA.name}_SUMMARY",
+            "${DbResourceViews.MALARIA_PROPHYLAXIS.name}_SUMMARY",
+            "${DbResourceViews.IFAS.name}_SUMMARY"
 
             ))
 
@@ -562,11 +587,26 @@ class FormatterClass {
 
         saveSharedPreference(context, "encounterTitle", encounterName)
 
-        val frag = FragmentConfirmDetails()
-        val bundle = Bundle()
-        bundle.putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "client.json")
-        frag.arguments = bundle
-        return frag
+        if (encounterName == DbResourceViews.COMMUNITY_REFERRAL_WORKER.name){
+
+            val frag = FragmentConfirmDetails()
+            val bundle = Bundle()
+            bundle.putString(FragmentConfirmChvPatient.QUESTIONNAIRE_FILE_PATH_KEY, "client.json")
+            frag.arguments = bundle
+            return frag
+
+        }else{
+
+            val frag = FragmentConfirmDetails()
+            val bundle = Bundle()
+            bundle.putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "client.json")
+            frag.arguments = bundle
+            return frag
+
+        }
+
+
+
     }
 
     fun getObservationList(patientDetailsViewModel : PatientDetailsViewModel,
@@ -1366,6 +1406,7 @@ class FormatterClass {
             DbObservationValues.REFERRING_OFFICER.name -> { "420942008" }
             DbObservationValues.CLIENT_SERVICE.name -> { "224930009" }
             DbObservationValues.SIGNATURE.name -> { "700856009" }
+            DbObservationValues.PROFESSION.name -> { "14679004" }
 
             else -> {
                 ""

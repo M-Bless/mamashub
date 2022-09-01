@@ -17,7 +17,7 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.SubCounty
             SubCounty::class,
             FhirEncounter::class,
         ],
-        version = 2,
+        version = 3,
         exportSchema = false)
 public abstract class KabarakDatabase : RoomDatabase() {
 

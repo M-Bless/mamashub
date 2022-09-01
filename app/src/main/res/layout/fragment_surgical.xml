@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Specify gynaecological procedure"
+                    android:text="Specify past gynaecological procedure"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <LinearLayout

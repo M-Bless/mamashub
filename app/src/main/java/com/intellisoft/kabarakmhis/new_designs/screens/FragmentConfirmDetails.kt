@@ -28,6 +28,7 @@ import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
+import com.intellisoft.kabarakmhis.new_designs.chw.PatientList
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.coroutines.CoroutineScope

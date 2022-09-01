@@ -81,8 +81,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-
-
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         rootView = inflater.inflate(R.layout.fragment_info, container, false)
@@ -325,7 +323,7 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                     spinnerWardValue,
                     spinnerSubCountyValue,
                     spinnerCountyValue,
-                    "KENYA-KABARAK-MHIS5")
+                    "KENYA-KABARAK-MHIS6")
                 addressList.add(address)
 
                 val kinContactList = ArrayList<DbKinDetails>()
@@ -463,8 +461,9 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
     private fun initWard() {
 
-        wardDataList.add("")
         wardDataList.clear()
+        wardDataList.add("")
+
 
         val wardList = kabarakViewModel.getWards(spinnerSubCountyValue)
         for (ward in wardList){
@@ -491,8 +490,10 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
             if (countyId != null){
 
                 val subCountyList = kabarakViewModel.getSubCounty(countyId)
-                subCountyDataList.add("")
+
                 subCountyDataList.clear()
+                subCountyDataList.add("")
+
 
                 for(subCounty in subCountyList){
                     val subCountyName = subCounty.constituencyName

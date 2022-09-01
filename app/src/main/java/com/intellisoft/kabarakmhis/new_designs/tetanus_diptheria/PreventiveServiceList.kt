@@ -118,8 +118,6 @@ class PreventiveServiceList : AppCompatActivity() {
                     val encounterName = "TT $pos"
                     val encounterType = encounterItem.code
 
-                    Log.d("**** id", id)
-
                     val dbFhirEncounter = DbFhirEncounter(
                         id = id,
                         encounterName = encounterName,

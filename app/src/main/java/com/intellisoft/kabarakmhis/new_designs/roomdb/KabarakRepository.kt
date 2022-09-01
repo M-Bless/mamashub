@@ -32,6 +32,10 @@ class KabarakRepository(private val roomDao: RoomDao) {
             val encounterId = dbFhirEncounter.id
             val encounterName = dbFhirEncounter.encounterName
             val encounterType = dbFhirEncounter.encounterType
+            val encounterDate = dbFhirEncounter.encounterDate
+
+            var encounterDateValue = ""
+            encounterDateValue = encounterDate?.toString() ?: ""
 
             val loggedInUser = getSharedPref(context, "USERID").toString()
             val fhirId = getSharedPref(context, "FHIRID").toString()
@@ -43,6 +47,7 @@ class KabarakRepository(private val roomDao: RoomDao) {
                     encounterId = encounterId,
                     encounterName = encounterName,
                     encounterType = encounterType,
+                    encounterDate = encounterDateValue,
                     fhirId = fhirId,
                     loggedUserId = loggedInUser
                 )

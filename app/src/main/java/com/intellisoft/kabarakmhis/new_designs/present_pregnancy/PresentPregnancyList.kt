@@ -77,6 +77,8 @@ class PresentPregnancyList : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
 
             val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.PRESENT_PREGNANCY.name)
+            formatter.deleteSharedPreference(this@PresentPregnancyList, DbResourceViews.PRESENT_PREGNANCY.name)
+
 
             CoroutineScope(Dispatchers.Main).launch {
 

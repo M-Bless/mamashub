@@ -11,7 +11,7 @@ import org.hl7.fhir.exceptions.FHIRException
 import org.hl7.fhir.r4.model.*
 
 const val MAX_RESOURCE_COUNT = 40
-const val SYNC_VALUE = "KENYA-KABARAK-MHIS5"
+const val SYNC_VALUE = "KENYA-KABARAK-MHIS6"
 const val USER_ADDRESS = "NAIROBI"
 const val USER_COUNTRY = "KE"
 const val SYNC_PARAM = "address-country"
@@ -76,11 +76,9 @@ class DownloadManagerImpl : DownloadWorkManager {
                     val care = no.encounter.reference
                     val encounterUrl = "$DEMO_SERVER$care/\$everything"
                     urls.add(encounterUrl)
-
                 }
+
             }
-
-
 
             val nextUrl =
                 response.link.firstOrNull { component -> component.relation == "next" }?.url
@@ -111,15 +109,21 @@ private fun affixLastUpdatedTimestamp(url: String, lastUpdated: String): String 
     // Affix lastUpdate to a $everything query using _since as per:
     // https://hl7.org/fhir/operation-patient-everything.html
     if (downloadUrl.contains("\$everything")) {
-//        downloadUrl = "$downloadUrl?_since=$lastUpdated"
-        downloadUrl = "$downloadUrl"
+        downloadUrl = "$downloadUrl?_since=$lastUpdated"
+//        downloadUrl = "$downloadUrl"
     }
 
     // Affix lastUpdate to non-$everything queries as per:
     // https://hl7.org/fhir/operation-patient-everything.html
     if (!downloadUrl.contains("\$everything")) {
-//        downloadUrl = "$downloadUrl&_lastUpdated=gt$lastUpdated"
-        downloadUrl = "$downloadUrl"
+
+        downloadUrl = if (downloadUrl.contains("CarePlan")) {
+            downloadUrl
+        } else {
+            "$downloadUrl&_lastUpdated=gt$lastUpdated"
+        }
+
+
     }
 
     // Do not modify any URL set by a server that specifies the token of the page to return.

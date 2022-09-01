@@ -1,4 +1,4 @@
-package com.intellisoft.kabarakmhis.new_designs.new_patient
+package com.intellisoft.kabarakmhis.new_designs.chw
 
 import android.app.Application
 import android.app.ProgressDialog
@@ -39,7 +39,7 @@ import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Reference
 
 
-class FragmentConfirmPatient : Fragment(){
+class FragmentConfirmChvPatient : Fragment(){
 
     private val formatter = FormatterClass()
 
@@ -156,7 +156,6 @@ class FragmentConfirmPatient : Fragment(){
                             DbObservationValues.PHONE_NUMBER.name -> { telephoneName = value }
                             //Patient Observation resource
                             else ->{
-
 
                                 val codeValue = formatter.getCodes(codeLabel)
                                 val checkObservation = formatter.checkObservations(title)

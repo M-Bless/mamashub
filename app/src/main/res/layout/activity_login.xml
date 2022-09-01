@@ -21,6 +21,7 @@
         android:orientation="vertical">
 
         <ScrollView
+            android:layout_marginBottom="@dimen/_50dp"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

@@ -223,7 +223,9 @@ enum class DbResourceViews {
     CHW_1,
     CHW_2,
 
-    COMMUNITY_REFERRAL
+    COMMUNITY_REFERRAL,
+
+    COMMUNITY_REFERRAL_WORKER,
 }
 
 data class DbObservationFhirData(
@@ -294,7 +296,8 @@ data class DbKinDetails(
 data class DbFhirEncounter(
     val id: String,
     val encounterName: String,
-    val encounterType: String
+    val encounterType: String,
+    val encounterDate: String? = null,
 )
 
 

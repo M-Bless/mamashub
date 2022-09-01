@@ -30,7 +30,7 @@
         <entry key="app/src/main/res/layout/activity_ifas.xml" value="0.14792646430098333" />
         <entry key="app/src/main/res/layout/activity_ifas_list.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_ifas_view2.xml" value="0.242973708068903" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.3129315710371467" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.7271825396825397" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_malaria_prophylaxis.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_malaria_prophylaxis_list.xml" value="0.33133817870884996" />
@@ -64,11 +64,12 @@
         <entry key="app/src/main/res/layout/activity_referral_view.xml" value="0.3189397178281317" />
         <entry key="app/src/main/res/layout/activity_register_new_patient.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_summary.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/activity_weight_monitoring_chart.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/clinical_notes.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/confirm_children_details.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/confirm_details.xml" value="0.23129542539546816" />
-        <entry key="app/src/main/res/layout/confirm_parent_details.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/confirm_parent_details.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/confrim_details_child.xml" value="0.23129542539546816" />
         <entry key="app/src/main/res/layout/details_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />
@@ -80,7 +81,7 @@
         <entry key="app/src/main/res/layout/fragment_birthplan1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_birthplan2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_chw1.xml" value="0.33133817870884996" />
-        <entry key="app/src/main/res/layout/fragment_chw2.xml" value="0.33133817870884996" />
+        <entry key="app/src/main/res/layout/fragment_chw2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_confirm_patient.xml" value="0.2321504916631039" />
         <entry key="app/src/main/res/layout/fragment_couselling1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_couselling2.xml" value="0.25" />

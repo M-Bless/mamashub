@@ -36,7 +36,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -479,6 +481,13 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             999 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateDobListener, year, month, day)
+
+                val tenYearsAgo = TimeUnit.DAYS.toMillis(365 * 10)
+                val fiftyYearsAgo = TimeUnit.DAYS.toMillis(365 * 50)
+
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis().minus(tenYearsAgo)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis().minus(fiftyYearsAgo)
+
                 datePickerDialog.show()
 
             }
@@ -486,7 +495,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateLMPListener, year, month, day)
 
+                val fourtyWeeksAgo = TimeUnit.DAYS.toMillis(98)
+                val twoWeeksAgo = TimeUnit.DAYS.toMillis(14)
 
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis().minus(twoWeeksAgo)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis().minus(fourtyWeeksAgo)
+                datePickerDialog.show()
 
                 datePickerDialog.show()
 
@@ -508,15 +522,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             val ageNumber = formatter.getAge(arg1, arg2 + 1, arg3)
             if (ageNumber != null){
 
-                if (ageNumber.toInt() > 9){
-
-                    rootView.etDoB.text = date
-                    val age = "$ageNumber years"
-                    rootView.etAge.setText(age)
-
-                }else{
-                    Toast.makeText(requireContext(), "Please select a higher age.", Toast.LENGTH_SHORT).show()
-                }
+                rootView.etDoB.text = date
+                val age = "$ageNumber years"
+                rootView.etAge.setText(age)
 
             }else{
                 Toast.makeText(requireContext(), "The age is invalid!", Toast.LENGTH_SHORT).show()
@@ -543,7 +551,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             val hours = minutes / 60
             val days = hours / 24
 
-            if (days >= 28){
+            if (days >= 14){
 
                 rootView.etLmp.text = date
                 val edd = formatter.getCalculations(date)
