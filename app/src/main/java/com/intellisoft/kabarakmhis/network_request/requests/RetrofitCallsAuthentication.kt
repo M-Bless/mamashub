@@ -10,6 +10,7 @@ import com.intellisoft.kabarakmhis.network_request.interfaces.Interface
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.helperclass.*
+import com.intellisoft.kabarakmhis.new_designs.chw.PatientList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -84,9 +85,6 @@ class RetrofitCallsAuthentication {
 
 
                             FhirApplication.setLoggedIn(context, true)
-
-                            val intent = Intent(context, NewMainActivity::class.java)
-                            context.startActivity(intent)
 
                             CoroutineScope(Dispatchers.Main).launch {
 
@@ -179,13 +177,23 @@ class RetrofitCallsAuthentication {
                         val id = data.id
                         val names = data.names
                         val email = data.email
-
-                        Log.e("----", "id: $id, names: $names, email: $email")
+                        val role = data.role
 
                         formatter.saveSharedPreference(context, "id", id)
                         formatter.saveSharedPreference(context, "USERID", id)
                         formatter.saveSharedPreference(context, "names", names)
                         formatter.saveSharedPreference(context, "email", email)
+                        formatter.saveSharedPreference(context, "role", role)
+
+                        if (role == "CHW"){
+                            val intent = Intent(context, PatientList::class.java)
+                            context.startActivity(intent)
+                        }else{
+                            val intent = Intent(context, NewMainActivity::class.java)
+                            context.startActivity(intent)
+                        }
+
+
 
                     }
 

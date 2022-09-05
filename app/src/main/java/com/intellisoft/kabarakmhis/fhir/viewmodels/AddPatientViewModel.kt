@@ -196,6 +196,26 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
     }
 
+    //Create CarePlan
+    private suspend fun createCarePlan(
+        patientReference: Reference,
+        encounterId: String,
+        encounterReason: String
+    ) {
+
+        val encounterReference = Reference("Encounter/$encounterId")
+
+        val carePlan = CarePlan()
+        carePlan.id = FormatterClass().generateUuid()
+        carePlan.subject = patientReference
+        carePlan.status = CarePlan.CarePlanStatus.ACTIVE
+        carePlan.intent = CarePlan.CarePlanIntent.PLAN
+        carePlan.encounter = encounterReference
+        carePlan.title = encounterReason
+
+        fhirEngine.create(carePlan)
+
+    }
 
     private fun createEncounter(
         patientReference: Reference,
@@ -237,6 +257,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     .request.url = "Observation"
             }
 
+            createCarePlan(patientReference, encounterId, encounterReason)
             saveResources(bundle, patientReference, encounterId, encounterReason)
 
         }

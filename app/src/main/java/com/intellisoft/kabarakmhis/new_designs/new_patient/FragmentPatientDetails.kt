@@ -187,11 +187,19 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         var ancCodeValue = ""
                         if (isAnc){
 
+                            //Get current year
+                            val currentYear = LocalDate.now().year
+                            //Get current month
+                            val currentMonth = LocalDate.now().monthValue
+
+                            Log.e("--------", "-----")
+                            println(currentYear)
+                            println(currentMonth)
 
                             /**
                              * GET YEAR AND MONTH FROM System.currentTimeMillis()
                              */
-                            ancCodeValue = "2022-08-${anc}"
+                            ancCodeValue = "$currentYear-$currentMonth-${anc}"
                         }
                         val ancCode = DbDataList("ANC Code", ancCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name,
                             DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
@@ -202,8 +210,16 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         }
                         val pncNo =  DbDataList("PNC Code", pncCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
 
-                        val fhirId = formatter.generateUuid()
-                        formatter.saveSharedPreference(requireContext(), "FHIRID",fhirId)
+                        var patientId = ""
+
+                        val patientSavedId = formatter.retrieveSharedPreference(requireContext(), "FHIRID")
+                        patientId = if (patientSavedId != null){
+                            patientSavedId
+                        }else{
+                            formatter.generateUuid()
+                        }
+
+
 
                         val dbDataList = ArrayList<DbDataList>()
 
@@ -235,7 +251,8 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                         formatter.saveSharedPreference(requireContext(), "dob", dob)
                         formatter.saveSharedPreference(requireContext(), "clientName", clientName)
-                        formatter.saveSharedPreference(requireContext(), "FHIRID", formatter.generateUuid())
+                        formatter.saveSharedPreference(requireContext(), "FHIRID", patientId)
+                        formatter.saveSharedPreference(requireContext(), "patientId", patientId)
                         formatter.saveSharedPreference(requireContext(), "maritalStatus", spinnerMaritalValue)
 
                         formatter.saveSharedPreference(requireContext(), "dob", dob)
@@ -482,7 +499,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateDobListener, year, month, day)
 
-                val tenYearsAgo = TimeUnit.DAYS.toMillis(365 * 10)
+                val tenYearsAgo = TimeUnit.DAYS.toMillis(365 * 11)
                 val fiftyYearsAgo = TimeUnit.DAYS.toMillis(365 * 50)
 
                 datePickerDialog.datePicker.maxDate = System.currentTimeMillis().minus(tenYearsAgo)

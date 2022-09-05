@@ -1,6 +1,7 @@
 package com.intellisoft.kabarakmhis.new_designs.chw
 
 import android.app.Application
+import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -18,8 +19,13 @@ import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.fragment_chw1.*
 import kotlinx.android.synthetic.main.fragment_chw1.view.*
+import kotlinx.android.synthetic.main.fragment_chw1.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 class FragmentCHW1 : Fragment() {
@@ -30,7 +36,10 @@ class FragmentCHW1 : Fragment() {
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
-
+    private lateinit var calendar : Calendar
+    private var year = 0
+    private  var month = 0
+    private  var day = 0
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -44,8 +53,72 @@ class FragmentCHW1 : Fragment() {
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        rootView.tvDob.setOnClickListener { onCreateDialog(999) }
+
 
         return rootView
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun onCreateDialog(id: Int) {
+        // TODO Auto-generated method stub
+
+        when (id) {
+            999 -> {
+                val datePickerDialog = DatePickerDialog( requireContext(),
+                    myDateDobListener, year, month, day)
+
+                val tenYearsAgo = TimeUnit.DAYS.toMillis(365 * 10)
+                val fiftyYearsAgo = TimeUnit.DAYS.toMillis(365 * 50)
+
+                datePickerDialog.datePicker.maxDate = System.currentTimeMillis().minus(tenYearsAgo)
+                datePickerDialog.datePicker.minDate = System.currentTimeMillis().minus(fiftyYearsAgo)
+
+                datePickerDialog.show()
+
+            }
+        
+            else -> null
+        }
+
+
+    }
+
+    private val myDateDobListener =
+        DatePickerDialog.OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            val date = showDate(arg1, arg2 + 1, arg3)
+
+            //Check if age is right
+            rootView.tvDob.text = date
+
+
+        }
+
+    private fun showDate(year: Int, month: Int, day: Int) :String{
+
+        var dayDate = day.toString()
+        if (day.toString().length == 1){
+            dayDate = "0$day"
+        }
+        var monthDate = month.toString()
+        if (month.toString().length == 1){
+            monthDate = "0$monthDate"
+        }
+
+        val date = StringBuilder().append(year).append("-")
+            .append(monthDate).append("-").append(dayDate)
+
+        return date.toString()
+
     }
 
     override fun onStart() {
@@ -70,7 +143,7 @@ class FragmentCHW1 : Fragment() {
         val dbDataList = ArrayList<DbDataList>()
 
         val clientName = rootView.etPatientName.text.toString()
-        val age = rootView.etPatientName.text.toString()
+        val age = rootView.tvDob.text.toString()
 
         val communityHealthUnit = rootView.etCommunityHealthUnit.text.toString()
         val healthUnit = rootView.etHealthFacility.text.toString()
@@ -87,6 +160,9 @@ class FragmentCHW1 : Fragment() {
             !TextUtils.isEmpty(communityHealthUnit) && !TextUtils.isEmpty(healthUnit) &&
             !TextUtils.isEmpty(reason) && !TextUtils.isEmpty(mainProblem) &&
             !TextUtils.isEmpty(interventionGiven) && !TextUtils.isEmpty(comments) && isFemaleChecked) {
+
+            val id = FormatterClass().generateUuid()
+            formatter.saveSharedPreference(requireContext(), "FHIRID", id)
 
             val date = formatter.getTodayDateNoTime()
             val time = formatter.getTodayTimeNoDate()
@@ -113,12 +189,12 @@ class FragmentCHW1 : Fragment() {
             observationList.clear()
 
 
-            addData("Name of community health unit",communityHealthUnit, DbObservationValues.CLIENT_NAME.name)
-            addData("Name of link health facility",healthUnit, DbObservationValues.CLIENT_NAME.name)
-            addData("Reason(s) for referral",reason, DbObservationValues.CLIENT_NAME.name)
-            addData("Main problem(s)",mainProblem, DbObservationValues.CLIENT_NAME.name)
-            addData("Intervention given",interventionGiven, DbObservationValues.CLIENT_NAME.name)
-            addData("Comments",comments, DbObservationValues.CLIENT_NAME.name)
+            addData("Name of community health unit",communityHealthUnit, DbObservationValues.COMMUNITY_HEALTH_UNIT.name)
+            addData("Name of link health facility",healthUnit, DbObservationValues.COMMUNITY_HEALTH_LINK.name)
+            addData("Reason(s) for referral",reason, DbObservationValues.REFERRAL_REASON.name)
+            addData("Main problem(s)",mainProblem, DbObservationValues.MAIN_PROBLEM.name)
+            addData("Intervention given",interventionGiven, DbObservationValues.CHW_INTERVENTION_GIVEN.name)
+            addData("Comments",comments, DbObservationValues.CHW_COMMENTS.name)
 
             for (items in observationList){
 

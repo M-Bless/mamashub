@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -26,13 +28,11 @@ import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_new_main.no_record
-import kotlinx.android.synthetic.main.activity_previous_pregnancy_list.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.stream.Collectors
 
 
-class NewMainActivity : AppCompatActivity() {
+class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListener{
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var recyclerView: RecyclerView
@@ -44,6 +44,9 @@ class NewMainActivity : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
 
     private var formatter = FormatterClass()
+
+    var clientList = arrayOf("","All", "Referred", "Not referred")
+    private var spinnerClientValue  = clientList[0]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,8 +73,6 @@ class NewMainActivity : AppCompatActivity() {
 
         getData()
 
-
-
         btnRegisterPatient.setOnClickListener {
             startActivity(Intent(this, RegisterNewPatient::class.java))
         }
@@ -90,7 +91,7 @@ class NewMainActivity : AppCompatActivity() {
 
                 val txtSearch = newText.toString()
                 if (!TextUtils.isEmpty(txtSearch)) {
-                    patientListViewModel.searchPatientsByName(txtSearch)
+                    patientListViewModel.searchPatientsByName(txtSearch, spinnerClientValue)
                 } else {
                     val patientList = patientListViewModel.getPatientList()
                     showPatients(patientList)
@@ -108,8 +109,36 @@ class NewMainActivity : AppCompatActivity() {
         }
 
 
+        initSpinner()
+    }
+
+    private fun initSpinner() {
+
+        val filterValue =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, clientList)
+        filterValue.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner!!.adapter = filterValue
+        mySpinner.onItemSelectedListener = this
 
     }
+
+
+
+
+    override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
+        when (arg0.id) {
+            R.id.mySpinner -> {
+                spinnerClientValue = mySpinner.selectedItem.toString()
+
+            }
+            else -> {}
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+    }
+
 
     private fun showPatients(patientList: List<DbPatientDetails>) {
 
@@ -143,6 +172,8 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     private fun getData() {
+
+
         patientListViewModel.liveSearchedPatients.observe(this) {
             showPatients(it)
         }

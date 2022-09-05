@@ -125,6 +125,7 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
                     .request.url = "Observation"
             }
 
+
             createCarePlan(patientReference, encounterId, encounterReason)
             saveResources(bundle, patientReference, encounterId, encounterReason)
 

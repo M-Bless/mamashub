@@ -47,7 +47,6 @@ class FhirApplication : Application() {
         )
         Sync.oneTimeSync<FhirPeriodicSyncWorker>(this)
 
-
     }
 
 

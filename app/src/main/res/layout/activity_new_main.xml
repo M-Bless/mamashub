@@ -21,8 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
-
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:text="Register New Client"
@@ -34,34 +32,43 @@
                 android:layout_height="wrap_content"/>
 
 
-
         </LinearLayout>
 
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/mySpinner"
+            <androidx.appcompat.widget.SearchView
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                app:queryBackground="@android:color/transparent"
+                android:background="@drawable/search_round"
+                android:id="@+id/search"
                 android:layout_width="match_parent"
-                android:spinnerMode="dialog"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:iconifiedByDefault="false"
+                app:queryHint="@string/query_hint_patient_search" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:gravity="end"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.SearchView
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            app:queryBackground="@android:color/transparent"
-            android:background="@drawable/search_round"
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:iconifiedByDefault="false"
-            app:queryHint="@string/query_hint_patient_search" />
+                <Spinner
+                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:id="@+id/mySpinner"
+                    android:layout_width="wrap_content"
+                    android:spinnerMode="dialog"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <include
             android:visibility="gone"

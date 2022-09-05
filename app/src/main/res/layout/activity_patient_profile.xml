@@ -410,6 +410,7 @@
                     </TableRow>
 
                     <TableRow
+                        android:id="@+id/linearRow1"
                         android:layout_marginTop="@dimen/_15dp">
 
                         <LinearLayout
@@ -557,6 +558,7 @@
                     </TableRow>
 
                     <TableRow
+                        android:id="@+id/linearRow2"
                         android:layout_marginTop="@dimen/_15dp">
 
                         <LinearLayout
@@ -707,6 +709,7 @@
                     </TableRow>
 
                     <TableRow
+                        android:id="@+id/linearRow3"
                         android:layout_marginTop="@dimen/_15dp">
                         <LinearLayout
                             android:id="@+id/navigatePreventiveService"
@@ -851,8 +854,8 @@
 
                     </TableRow>
 
-
                     <TableRow
+                        android:id="@+id/linearRow4"
                         android:layout_marginTop="@dimen/_15dp">
 
                         <LinearLayout
@@ -1003,7 +1006,9 @@
 
 
                     </TableRow>
+
                     <TableRow
+                        android:id="@+id/linearRow5"
                         android:layout_marginTop="@dimen/_15dp">
 
                         <LinearLayout

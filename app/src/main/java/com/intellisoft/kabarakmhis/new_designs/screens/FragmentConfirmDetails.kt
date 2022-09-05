@@ -31,6 +31,7 @@ import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.chw.PatientList
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -114,9 +115,16 @@ class FragmentConfirmDetails : Fragment(){
 
                     if (encounterDetailsList.isNotEmpty()){
 
-                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(), "saveEncounterId")
+                        val encounterId = formatter.generateUuid()
 
-                        val encounterId = saveEncounterId ?: formatter.generateUuid()
+//                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(), "saveEncounterId")
+//                        if (saveEncounterId != null){
+//                            encounterId = saveEncounterId.toString()
+//                        }else{
+//                            formatter.generateUuid()
+//                        }
+
+                        Log.e("EncounterId", encounterId)
 
                         val patientReference = Reference("Patient/$patientId")
 
@@ -244,8 +252,20 @@ class FragmentConfirmDetails : Fragment(){
         val confirmParentAdapter = ConfirmParentAdapter(encounterDetailsList,requireContext())
         recyclerView.adapter = confirmParentAdapter
 
-        formatter.setUserDetails(requireContext(), rootView)
+        getUserDetails()
 
+
+    }
+
+    private fun getUserDetails() {
+
+        val identifier = formatter.retrieveSharedPreference(requireContext(), "identifier")
+        val patientName = formatter.retrieveSharedPreference(requireContext(), "patientName")
+
+        if (identifier != null && patientName != null) {
+            tvPatient.text = patientName
+            tvAncId.text = identifier
+        }
 
     }
 

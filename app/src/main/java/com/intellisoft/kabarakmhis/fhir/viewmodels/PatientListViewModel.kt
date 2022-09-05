@@ -30,8 +30,8 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
         updatePatientListAndPatientCount { getSearchResults() }
     }
 
-    fun searchPatientsByName(nameQuery: String) {
-        updatePatientListAndPatientCount { getSearchResults(nameQuery) }
+    fun searchPatientsByName(nameQuery: String, spinnerClientValue: String) {
+        updatePatientListAndPatientCount { getSearchResults(nameQuery, spinnerClientValue) }
     }
 
     fun getPatientList() = runBlocking{
@@ -45,7 +45,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
         }
     }
 
-    private suspend fun getSearchResults(nameQuery: String = ""): List<DbPatientDetails> {
+    private suspend fun getSearchResults(nameQuery: String = "", spinnerClientValue: String=""): List<DbPatientDetails> {
         val patientsList: MutableList<DbPatientDetails> = mutableListOf()
 
         fhirEngine.search<Patient> {
@@ -56,7 +56,18 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
                     value = nameQuery
                 })
             }
-            filterCity(this)
+
+            if (spinnerClientValue.isNotEmpty()){
+                if (spinnerClientValue =="Referred"){
+                    filterChvCity(this)
+                }else{
+                    filterCity(this)
+                }
+            }else{
+                filterCity(this)
+            }
+
+
             sort(Patient.FAMILY, Order.ASCENDING)
             count = 100
             from = 0
@@ -68,7 +79,16 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
         return patientsList
     }
 
+    private fun filterChvCity(search: Search) {
+
+        FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
+            "status", "referred")
+        search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS-CHW" })
+    }
+
     private fun filterCity(search: Search) {
+        FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
+            "status", "all")
         search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS6" })
     }
 

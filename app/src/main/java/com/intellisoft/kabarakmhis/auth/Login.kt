@@ -49,28 +49,15 @@ class Login : AppCompatActivity() {
 
         if (!TextUtils.isEmpty(emailAddress) && !TextUtils.isEmpty(password)){
 
-            if (emailAddress == "chw_staff@gmail.com"){
+            val isEmailAddress = formatterClass.validateEmail(emailAddress)
+            if (isEmailAddress){
 
-                val intent = Intent(this, PatientList::class.java)
-                startActivity(intent)
-                finish()
-
+                val userLogin = UserLogin(emailAddress, password)
+                retrofitCallsAuthentication.loginUser(this, userLogin)
 
             }else{
-
-                val isEmailAddress = formatterClass.validateEmail(emailAddress)
-                if (isEmailAddress){
-
-                    val userLogin = UserLogin(emailAddress, password)
-                    retrofitCallsAuthentication.loginUser(this, userLogin)
-
-                }else{
-                    etEmailAddress.error = "Provide a valid email address."
-                }
-
+                etEmailAddress.error = "Provide a valid email address."
             }
-
-
 
 
         }else{

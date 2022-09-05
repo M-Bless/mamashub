@@ -78,6 +78,7 @@ class PatientDetailsViewModel(
 
         val patientId = if (patientResource.hasIdElement()) patientResource.idElement.idPart else ""
         val name = if (patientResource.hasName()) patientResource.name[0].family else ""
+
         val dob =
             if (patientResource.hasBirthDateElement())
                 LocalDate.parse(patientResource.birthDateElement.valueAsString, DateTimeFormatter.ISO_DATE)
@@ -164,6 +165,7 @@ class PatientDetailsViewModel(
                 val dbEncounter = DbEncounterResult(encounterId,value, encounterDate, reasonCode, observationsList)
                 dbEncounterList.add(dbEncounter)
 
+                Log.e("value", value)
 
                 when (value) {
                     DbResourceViews.TETENUS_DIPTHERIA.name -> {
@@ -627,10 +629,6 @@ class PatientDetailsViewModel(
                 } else {
                     ""
                 }
-
-            val encounterType = encounter.type.firstOrNull()?.coding?.firstOrNull()?.display ?: ""
-            val encounterLocation = encounter.location.firstOrNull()?.location?.display ?: ""
-            val encounterStatus = encounter.status.display
 
             var lastUpdatedValue = ""
 

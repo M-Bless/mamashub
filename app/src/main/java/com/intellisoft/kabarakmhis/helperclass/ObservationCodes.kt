@@ -220,6 +220,7 @@ enum class DbObservationValues{
     TT_RESULTS,
 
     TIMING_CONTACT,
+    TIMING_CONTACT_CHW,
     DOSE,
     IPTP_SP,
     IPTP_RESULT_YES,
@@ -306,7 +307,14 @@ enum class DbObservationValues{
     CLIENT_SERVICE,
     SIGNATURE,
     PROFESSION,
-    ACTION_TAKEN
+    ACTION_TAKEN,
+
+    COMMUNITY_HEALTH_LINK,
+    REFERRAL_REASON,
+    MAIN_PROBLEM,
+    CHW_INTERVENTION_GIVEN,
+    CHW_COMMENTS
+
 
 
 

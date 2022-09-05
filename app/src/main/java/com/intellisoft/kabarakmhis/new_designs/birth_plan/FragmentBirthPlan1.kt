@@ -85,8 +85,8 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
 
         rootView.etEdd.setOnClickListener { createDialog(999) }
 

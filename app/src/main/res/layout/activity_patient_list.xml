@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/refreshLayout"
     tools:context=".new_designs.chw.PatientList">
 
     <LinearLayout
@@ -54,13 +55,20 @@
             android:layout_marginTop="10dp"
             app:queryBackground="@android:color/transparent"
             android:background="@drawable/search_round"
-            android:id="@+id/search"
+            android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
             app:queryHint="@string/query_hint_patient_search" />
 
+        <include
+            android:visibility="gone"
+            android:id="@+id/no_record"
+            layout="@layout/no_record" />
+
         <LinearLayout
+            android:layout_margin="@dimen/_5dp"
+            android:background="@drawable/layout_dotted"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -72,6 +80,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0 Client" />
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="#"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_marginStart="15dp"
+                    android:text="Client name"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/patient_list"
@@ -86,7 +124,9 @@
 
         </LinearLayout>
 
+
+
     </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

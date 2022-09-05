@@ -32,6 +32,7 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.roomdb.tables.County
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
 import kotlinx.android.synthetic.main.fragment_info.*
 import kotlinx.android.synthetic.main.fragment_info.view.*
 import kotlinx.android.synthetic.main.fragment_info.view.navigation
@@ -345,16 +346,6 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
                 ft.addToBackStack(null)
                 ft.commit()
 
-//                val dbPatientFhirInformation = DbPatientFhirInformation(
-//                    clientName, telecomList,"female", dob, addressList,
-//                    kinContactList, maritalStatus
-//                )
-
-//                val questionnaireFragment = childFragmentManager.findFragmentByTag(
-//                    QUESTIONNAIRE_FRAGMENT_TAG
-//                ) as QuestionnaireFragment
-//                savePatient(dbPatientFhirInformation, questionnaireFragment.getQuestionnaireResponse())
-
             }else{
 
                 if (patientNo == null) errorList.add("Client phone number is required")
@@ -415,6 +406,8 @@ class FragmentPatientInfo : Fragment() , AdapterView.OnItemSelectedListener{
 
 
     }
+
+
 
     private fun initSpinner() {
 

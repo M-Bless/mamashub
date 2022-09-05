@@ -2,7 +2,9 @@ package com.intellisoft.kabarakmhis.helperclass
 
 import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.new_designs.data_class.CodingObservation
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbIdentifier
+import com.intellisoft.kabarakmhis.new_designs.data_class.QuantityObservation
 import org.hl7.fhir.r4.model.Identifier
 import org.hl7.fhir.r4.model.codesystems.V3MaritalStatus
 import java.time.LocalDate
@@ -190,4 +192,11 @@ data class DbObservationLabel(
 data class DbWeightChart(
     val gestation: Float,
     val weight: Float,
+)
+data class DbChwData(
+    val id: String,
+    val name: String,
+    val dob: String,
+    val dataQuantityList: ArrayList<QuantityObservation>,
+    val dataCodeList: ArrayList<CodingObservation>,
 )

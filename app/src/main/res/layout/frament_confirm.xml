@@ -18,9 +18,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/userView"
-                layout="@layout/user_details" />
+            <LinearLayout
+                android:padding="@dimen/_5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/textColor_light"
+                    android:textStyle="bold"
+                    android:text="Client: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textColor="@color/textColor_light"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:id="@+id/tvPatient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textColor="@color/textColor_light"
+                    android:textStyle="bold"
+                    android:text="ANC ID: "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textColor="@color/textColor_light"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:id="@+id/tvAncId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

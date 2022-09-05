@@ -54,6 +54,7 @@ class FormatterClass {
             ""
         }
 
+        Log.e("------", name)
 
 //        val gender = if (hasGenderElement()) genderElement.valueAsString else ""
 //        val dob =
@@ -635,7 +636,18 @@ class FormatterClass {
     fun startFragmentPatient(context: Context, encounterName: String): FragmentConfirmPatient {
 
         saveSharedPreference(context, "encounterTitle", encounterName)
+
         val frag = FragmentConfirmPatient()
+        val bundle = Bundle()
+        bundle.putString(FragmentConfirmPatient.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
+        frag.arguments = bundle
+        return frag
+    }
+    fun startChvFragmentPatient(context: Context, encounterName: String): FragmentConfirmChvPatient {
+
+        saveSharedPreference(context, "encounterTitle", encounterName)
+
+        val frag = FragmentConfirmChvPatient()
         val bundle = Bundle()
         bundle.putString(FragmentConfirmPatient.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
         frag.arguments = bundle
@@ -1195,6 +1207,13 @@ class FormatterClass {
                 "784030374-Y"
             }
 
+            DbObservationValues.TIMING_CONTACT_CHW.name -> {
+                "657575557"
+            }
+            DbObservationValues.TIMING_CONTACT.name -> {
+                "6877878876"
+            }
+
 
 
 
@@ -1391,12 +1410,6 @@ class FormatterClass {
                 "35317232"
             }
 
-
-
-
-
-
-
             DbObservationValues.OFFICER_NAME.name -> { "106292003" }
             DbObservationValues.OFFICER_NUMBER.name -> { "408402003-1" }
             DbObservationValues.CHV_NAME.name -> { "303119007" }
@@ -1407,6 +1420,18 @@ class FormatterClass {
             DbObservationValues.CLIENT_SERVICE.name -> { "224930009" }
             DbObservationValues.SIGNATURE.name -> { "700856009" }
             DbObservationValues.PROFESSION.name -> { "14679004" }
+
+            DbObservationValues.COMMUNITY_HEALTH_LINK.name -> { "89696967" }
+            DbObservationValues.REFERRAL_REASON.name -> { "762883008" }
+            DbObservationValues.MAIN_PROBLEM.name -> { "55607006" }
+            DbObservationValues.CHW_INTERVENTION_GIVEN.name -> { "225334002" }
+            DbObservationValues.CHW_COMMENTS.name -> { "281296001" }
+
+            DbObservationValues.TOWN_NAME.name -> { "288521009" }
+            DbObservationValues.SUB_COUNTY_NAME.name -> { "223922000-S" }
+            DbObservationValues.COUNTY_NAME.name -> { "223922000" }
+
+            DbObservationValues.ACTION_TAKEN.name -> { "273248003" }
 
             else -> {
                 ""

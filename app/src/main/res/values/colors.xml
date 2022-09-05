@@ -49,6 +49,7 @@
     <color name="headerColor">@color/black</color>
     <color name="contentColor">@color/black</color>
 
+    <color name="textColor_light">@color/black</color>
 
 
 

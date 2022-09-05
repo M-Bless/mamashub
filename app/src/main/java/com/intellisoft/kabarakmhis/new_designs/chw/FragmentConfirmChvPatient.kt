@@ -27,9 +27,11 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientDetailsViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientViewModel
+import com.intellisoft.kabarakmhis.helperclass.DbChwData
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
+import com.intellisoft.kabarakmhis.new_designs.chw.viewmodel.AddChwPatientViewModel
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
@@ -53,7 +55,7 @@ class FragmentConfirmChvPatient : Fragment(){
     private lateinit var btnSave: Button
 
     private lateinit var fhirEngine: FhirEngine
-    private val viewModel: AddPatientViewModel by viewModels()
+    private val viewModel: AddChwPatientViewModel by viewModels()
 
     private lateinit var btnEditDetails: Button
 
@@ -111,21 +113,8 @@ class FragmentConfirmChvPatient : Fragment(){
 
                     var clientName = ""
                     var dob = ""
-                    var maritalStatus = ""
-                    var nationalId = ""
-                    var telephoneName = ""
-                    var spinnerCountyValue = ""
-                    var spinnerSubCountyValue = ""
-                    var spinnerWardValue = ""
+                    val id = formatter.retrieveSharedPreference(requireContext(), "FHIRID").toString()
 
-                    var townName = ""
-                    var addressName = ""
-                    var estateName = ""
-
-                    var kinPhone = ""
-                    var spinnerRshpValue = ""
-                    var kinName = ""
-                    var ancCode = ""
 
                     val dataQuantityList = ArrayList<QuantityObservation>()
                     val dataCodeList = ArrayList<CodingObservation>()
@@ -142,18 +131,7 @@ class FragmentConfirmChvPatient : Fragment(){
                             //Patient resource
                             DbObservationValues.CLIENT_NAME.name -> { clientName = value }
                             DbObservationValues.DATE_OF_BIRTH.name -> { dob = value }
-                            DbObservationValues.MARITAL_STATUS.name -> { maritalStatus = value }
-                            DbObservationValues.NATIONAL_ID.name -> { nationalId = value }
-                            DbObservationValues.COUNTY_NAME.name -> { spinnerCountyValue = value }
-                            DbObservationValues.SUB_COUNTY_NAME.name -> { spinnerSubCountyValue = value }
-                            DbObservationValues.WARD_NAME.name -> { spinnerWardValue = value }
-                            DbObservationValues.TOWN_NAME.name -> { townName = value }
-                            DbObservationValues.ADDRESS_NAME.name -> { addressName = value }
-                            DbObservationValues.ESTATE_NAME.name -> { estateName = value }
-                            DbObservationValues.RELATIONSHIP.name -> { spinnerRshpValue = value }
-                            DbObservationValues.COMPANION_NAME.name -> { kinName = value }
-                            DbObservationValues.COMPANION_NUMBER.name -> { kinPhone = value }
-                            DbObservationValues.PHONE_NUMBER.name -> { telephoneName = value }
+
                             //Patient Observation resource
                             else ->{
 
@@ -184,79 +162,22 @@ class FragmentConfirmChvPatient : Fragment(){
 
                                 }
 
-
-
                             }
 
                         }
 
-                        if (title == "ANC Code"){
-                            if (title != ""){
-                                ancCode = value
-                            }else{
-                                if (title == "PNC Code"){
-                                    ancCode = value
-                                }
-                            }
-                        }
-
-                    }
-
-                    val lineString = ArrayList<String>()
-                    lineString.add(townName)
-                    lineString.add(estateName)
-
-                    val addressList = ArrayList<DbAddress>()
-                    val address = DbAddress(
-                        addressName,
-                        lineString,
-                        spinnerWardValue,
-                        spinnerSubCountyValue,
-                        spinnerCountyValue,
-                        "KENYA-KABARAK-MHIS6")
-                    addressList.add(address)
-
-                    val telecomList = ArrayList<DbTelecom>()
-                    val dbTelecom1 = DbTelecom("phone", telephoneName)
-                    telecomList.add(dbTelecom1)
-
-                    val kinContactList = ArrayList<DbKinDetails>()
-                    val kinPhoneList = ArrayList<DbTelecom>()
-                    val dbTelecom = DbTelecom("phone", kinPhone)
-                    kinPhoneList.add(dbTelecom)
-                    val kinContact = DbKinDetails(
-                        spinnerRshpValue,
-                        kinName, kinPhoneList)
-                    kinContactList.add(kinContact)
-
-                    var id = ""
-
-                    val fhirId = formatter.retrieveSharedPreference(requireContext(), "patientId")
-                    if (fhirId != null){
-                        id = fhirId
-                    }else{
-                        formatter.generateUuid()
-                    }
-
-                    var encounterId = ""
-                    val encounterDataId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PATIENT_INFO.name)
-                    if (encounterDataId != null){
-                        encounterId = encounterDataId
-                    }else{
-                        formatter.generateUuid()
                     }
 
 
-                    val dbPatientFhirInformation = DbPatientFhirInformation(
-                        id, clientName, telecomList,"female", dob, addressList,
-                        kinContactList, maritalStatus,ancCode, nationalId,
-                        dataCodeList, dataQuantityList)
+                    val dbChwData = DbChwData(id, clientName, dob, dataQuantityList, dataCodeList)
+
+                    val encounterId = formatter.generateUuid()
 
                     val questionnaireFragment = childFragmentManager.findFragmentByTag(
                         QUESTIONNAIRE_FRAGMENT_TAG
                     ) as QuestionnaireFragment
                     savePatient(
-                        dbPatientFhirInformation,
+                        dbChwData,
                         questionnaireFragment.getQuestionnaireResponse(),
                         encounterId
                     )
@@ -267,7 +188,7 @@ class FragmentConfirmChvPatient : Fragment(){
 
                 progressDialog.dismiss()
 
-                val intent = Intent(requireContext(), NewMainActivity::class.java)
+                val intent = Intent(requireContext(), PatientList::class.java)
                 startActivity(intent)
                 requireActivity().finish()
 
@@ -286,11 +207,10 @@ class FragmentConfirmChvPatient : Fragment(){
     }
 
     private fun savePatient(
-        dbPatientFhirInformation: DbPatientFhirInformation,
+        dbPatientFhirInformation: DbChwData,
         questionnaireResponse: QuestionnaireResponse,
         encounterId: String
     ) {
-
         viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse, encounterId)
     }
 

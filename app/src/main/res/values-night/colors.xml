@@ -47,7 +47,7 @@
     <color name="headerColor">@color/white</color>
     <color name="contentColor">@color/white</color>
 
-
+    <color name="textColor_light">@color/white</color>
 
 
 </resources>

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
@@ -89,8 +90,26 @@ class PatientProfile : AppCompatActivity() {
 
     private fun getData() {
 
-        viewModel.poll()
+        val status = formatterClass.retrieveSharedPreference(this, "status")
+        if (status != null && status != "") {
 
+            if (status=="referred"){
+                changeVisibility()
+            }
+
+        }
+
+//        viewModel.poll()
+
+    }
+
+    private fun changeVisibility(){
+        navigateMedicalHistory.visibility = View.GONE
+        linearRow1.visibility = View.GONE
+        linearRow2.visibility = View.GONE
+        linearRow3.visibility = View.GONE
+        linearRow4.visibility = View.GONE
+        linearRow5.visibility = View.GONE
     }
 
     private fun calluser(value: String){
@@ -195,7 +214,7 @@ class PatientProfile : AppCompatActivity() {
                     formatter.saveSharedPreference(this@PatientProfile, DbResourceViews.PATIENT_INFO.name, encounterId)
                 }
 
-                viewModel.poll()
+//                viewModel.poll()
 
             }catch (e: Exception){
                 Log.e("Error", e.message.toString())

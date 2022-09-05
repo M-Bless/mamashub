@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/layout/activity_antenatal_profile_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_birth_plan.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_birth_plan_view.xml" value="0.25977653631284914" />
+        <entry key="app/src/main/res/layout/activity_chw_client_details.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_add.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_list.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/activity_clinical_notes_view.xml" value="0.33133817870884996" />
@@ -30,7 +31,7 @@
         <entry key="app/src/main/res/layout/activity_ifas.xml" value="0.14792646430098333" />
         <entry key="app/src/main/res/layout/activity_ifas_list.xml" value="0.242973708068903" />
         <entry key="app/src/main/res/layout/activity_ifas_view2.xml" value="0.242973708068903" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.7271825396825397" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/activity_malaria_prophylaxis.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_malaria_prophylaxis_list.xml" value="0.33133817870884996" />

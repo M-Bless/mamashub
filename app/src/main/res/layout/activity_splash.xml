@@ -6,8 +6,9 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:background="@color/background"
-    android:layout_height="match_parent"
-    tools:context=".Splash">
+    android:layout_height="match_parent">
+
+
 
     <LinearLayout
         android:orientation="vertical"

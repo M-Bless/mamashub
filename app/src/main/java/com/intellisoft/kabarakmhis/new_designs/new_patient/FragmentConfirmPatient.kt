@@ -34,6 +34,7 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
+import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
 import kotlinx.coroutines.*
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Reference
@@ -230,22 +231,27 @@ class FragmentConfirmPatient : Fragment(){
                         kinName, kinPhoneList)
                     kinContactList.add(kinContact)
 
-                    var id = ""
+                    val id = formatter.retrieveSharedPreference(requireContext(), "FHIRID").toString()
+                    Log.d("FHIRID", id)
 
-                    val fhirId = formatter.retrieveSharedPreference(requireContext(), "patientId")
-                    if (fhirId != null){
-                        id = fhirId
-                    }else{
-                        formatter.generateUuid()
-                    }
+//                    val fhirId = formatter.retrieveSharedPreference(requireContext(), "patientId")
+//                    if (fhirId != null){
+//                        id = fhirId
+//                    }else{
+//                        formatter.generateUuid()
+//                    }
 
-                    var encounterId = ""
-                    val encounterDataId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PATIENT_INFO.name)
-                    if (encounterDataId != null){
-                        encounterId = encounterDataId
-                    }else{
-                        formatter.generateUuid()
-                    }
+                    val encounterId = formatter.generateUuid()
+
+//                    val encounterDataId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PATIENT_INFO.name)
+//                    if (encounterDataId != null){
+//                        encounterId = encounterDataId
+//                    }else{
+//                        formatter.generateUuid()
+//                    }
+
+                    Log.e("EncounterId", encounterId)
+                    Log.e("patientId", id)
 
 
                     val dbPatientFhirInformation = DbPatientFhirInformation(
@@ -319,7 +325,20 @@ class FragmentConfirmPatient : Fragment(){
         val confirmParentAdapter = ConfirmParentAdapter(encounterDetailsList,requireContext())
         recyclerView.adapter = confirmParentAdapter
 
+        getUserDetails()
 
+
+    }
+
+    private fun getUserDetails() {
+
+        val identifier = formatter.retrieveSharedPreference(requireContext(), "identifier")
+        val patientName = formatter.retrieveSharedPreference(requireContext(), "patientName")
+
+        if (identifier != null && patientName != null) {
+            tvPatient.text = patientName
+            tvAncId.text = identifier
+        }
 
     }
 
