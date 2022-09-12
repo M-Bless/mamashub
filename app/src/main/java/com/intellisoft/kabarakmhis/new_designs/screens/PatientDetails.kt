@@ -191,7 +191,7 @@ class PatientDetails : AppCompatActivity() {
                             val state = dbAddress.state
 
                             if (text != "") {
-                                val dbAddressText = DbObserveValue("text", text)
+                                val dbAddressText = DbObserveValue("area", text)
                                 dbResidentialList.add(dbAddressText)
                             }
                             if (city != "") {

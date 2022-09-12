@@ -64,6 +64,8 @@ class FhirEncounterAdapter(private var entryList: ArrayList<DbFhirEncounter>,
                 context.startActivity(Intent(context, IfasView2::class.java))
             }
             FormatterClass().saveSharedPreference(context, encounterType, id)
+            FormatterClass().saveSharedPreference(context, "savedEncounter", id)
+
 
 
         }

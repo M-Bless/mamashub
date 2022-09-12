@@ -381,7 +381,7 @@ class FormatterClass {
 
             "dob", "LMP","kinName","edd","patientId",
             "FHIRID","kinPhone","saveEncounterId","pageConfirmDetails",
-            "hivStatus",
+            "hivStatus","savedEncounter",
 
             "${DbResourceViews.PHYSICAL_EXAMINATION.name}_SUMMARY",
             "${DbResourceViews.PRESENT_PREGNANCY.name}_SUMMARY",
@@ -1151,7 +1151,7 @@ class FormatterClass {
                 "371524004"
             }
             DbObservationValues.CLINICAL_NOTES_NEXT_VISIT.name -> {
-                "390840006"
+                "390840007"
             }
 
             DbObservationValues.CONTACT_NUMBER.name -> {

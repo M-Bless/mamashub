@@ -36,7 +36,6 @@ class RetrofitCallsFhir {
 
     private suspend fun createPatientBac(context: Context, dbPatient: DbPatient) {
 
-
         val job1 = Job()
         CoroutineScope(Dispatchers.Main + job1).launch {
 

@@ -134,6 +134,9 @@ class PatientProfile : AppCompatActivity() {
 
             try {
                 getData()
+
+                formatter.deleteSharedPreference(this@PatientProfile, "savedEncounter")
+
                 val patientLocalName = formatter.retrieveSharedPreference(this@PatientProfile, "patientName")
                 val patientLocalDob = formatter.retrieveSharedPreference(this@PatientProfile, "dob")
                 val patientLocalIdentifier = formatter.retrieveSharedPreference(this@PatientProfile, "identifier")

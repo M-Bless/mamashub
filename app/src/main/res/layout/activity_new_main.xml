@@ -52,6 +52,7 @@
                 app:queryHint="@string/query_hint_patient_search" />
 
             <LinearLayout
+                android:layout_marginEnd="50dp"
                 android:gravity="end"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"

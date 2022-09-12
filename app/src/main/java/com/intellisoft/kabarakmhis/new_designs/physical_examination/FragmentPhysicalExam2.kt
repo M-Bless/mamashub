@@ -234,7 +234,7 @@ class FragmentPhysicalExam2 : Fragment() {
             errorList.add("Please make a selection on Palpation")
         }
 
-        val auscultationDoneValue = formatter.getRadioText(rootView.radioGrpPalpation)
+        val auscultationDoneValue = formatter.getRadioText(rootView.radioGrpAuscalation)
         if (auscultationDoneValue != ""){
 
             addData("Auscultation Done",auscultationDoneValue, DbObservationValues.ABDOMINAL_AUSCALATION.name)
@@ -247,8 +247,6 @@ class FragmentPhysicalExam2 : Fragment() {
                     errorList.add("If yes on Auscultation, please specify")
                 }
             }
-
-
 
         }else{
             errorList.add("Please make a selection on auscultation")
@@ -349,6 +347,8 @@ class FragmentPhysicalExam2 : Fragment() {
                 if (fgmList.isNotEmpty()){
                     addData("FGM Complications ", fgmList.joinToString(","),
                         DbObservationValues.COMPLICATIONS_EXTERNAL_FGM.name)
+                }else{
+                    errorList.add("Please make a selection on FGM complications")
                 }
 
             }
@@ -502,8 +502,6 @@ class FragmentPhysicalExam2 : Fragment() {
                             rootView.etAbnomality.setText(value)
                         }
 
-                        Log.e("------- ", "------")
-                        println(specifyAbdominalExam)
 
                         if (abdominalExamPalpation.isNotEmpty()){
                             val value = abdominalExamPalpation[0].value

@@ -38,8 +38,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
     private var questionnaireJson : String? = null
 
     fun savePatient(questionnaireResponse: QuestionnaireResponse){
-        Log.e("******* ", "questionnaireResponse")
-        println(questionnaireResponse)
 
         viewModelScope.launch {
             if (QuestionnaireResponseValidator.validateQuestionnaireResponse(
@@ -160,6 +158,9 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         encounterId: String,
         encounterReason: String,
     ) {
+
+        Log.e("******* ", "*****")
+        println(encounterId)
 
         val encounterReference = Reference("Encounter/$encounterId")
 

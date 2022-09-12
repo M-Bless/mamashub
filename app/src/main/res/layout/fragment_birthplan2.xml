@@ -259,7 +259,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Finacial Plan for childbirth"
+                            android:text="Financial Plan for childbirth"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <EditText

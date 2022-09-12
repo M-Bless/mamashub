@@ -488,6 +488,8 @@ class PatientDetailsViewModel(
             .map { createEncounterItem(it, getApplication<Application>().resources) }
             .let { encounter.addAll(it) }
 
+        encounter.sortBy { it.effective}
+
         return encounter
     }
 
@@ -498,6 +500,8 @@ class PatientDetailsViewModel(
 
     //Get all observations for patient under the selected encounter
     private suspend fun getPatientObservations(encounterId: String): List<ObservationItem> {
+
+
 
         val observations = mutableListOf<ObservationItem>()
         fhirEngine

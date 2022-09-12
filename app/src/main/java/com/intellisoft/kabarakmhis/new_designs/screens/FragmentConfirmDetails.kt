@@ -115,14 +115,11 @@ class FragmentConfirmDetails : Fragment(){
 
                     if (encounterDetailsList.isNotEmpty()){
 
-                        val encounterId = formatter.generateUuid()
 
-//                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(), "saveEncounterId")
-//                        if (saveEncounterId != null){
-//                            encounterId = saveEncounterId.toString()
-//                        }else{
-//                            formatter.generateUuid()
-//                        }
+                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(),
+                            "savedEncounter")
+
+                        var encounterId = saveEncounterId ?: formatter.generateUuid()
 
                         Log.e("EncounterId", encounterId)
 

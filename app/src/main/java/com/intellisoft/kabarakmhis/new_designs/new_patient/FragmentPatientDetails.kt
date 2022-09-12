@@ -192,9 +192,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                             //Get current month
                             val currentMonth = LocalDate.now().monthValue
 
-                            Log.e("--------", "-----")
-                            println(currentYear)
-                            println(currentMonth)
 
                             /**
                              * GET YEAR AND MONTH FROM System.currentTimeMillis()

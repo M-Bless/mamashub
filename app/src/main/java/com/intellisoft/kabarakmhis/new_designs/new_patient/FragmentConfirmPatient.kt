@@ -232,23 +232,16 @@ class FragmentConfirmPatient : Fragment(){
                     kinContactList.add(kinContact)
 
                     val id = formatter.retrieveSharedPreference(requireContext(), "FHIRID").toString()
-                    Log.d("FHIRID", id)
 
-//                    val fhirId = formatter.retrieveSharedPreference(requireContext(), "patientId")
-//                    if (fhirId != null){
-//                        id = fhirId
-//                    }else{
-//                        formatter.generateUuid()
-//                    }
+                    var encounterId = ""
 
-                    val encounterId = formatter.generateUuid()
+                    val savedEncounter = formatter.retrieveSharedPreference(requireContext(), "savedEncounter")
+                    if (savedEncounter != null) {
+                        encounterId = savedEncounter
+                    }else{
+                        formatter.generateUuid()
+                    }
 
-//                    val encounterDataId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PATIENT_INFO.name)
-//                    if (encounterDataId != null){
-//                        encounterId = encounterDataId
-//                    }else{
-//                        formatter.generateUuid()
-//                    }
 
                     Log.e("EncounterId", encounterId)
                     Log.e("patientId", id)
@@ -262,11 +255,11 @@ class FragmentConfirmPatient : Fragment(){
                     val questionnaireFragment = childFragmentManager.findFragmentByTag(
                         QUESTIONNAIRE_FRAGMENT_TAG
                     ) as QuestionnaireFragment
-                    savePatient(
-                        dbPatientFhirInformation,
-                        questionnaireFragment.getQuestionnaireResponse(),
-                        encounterId
-                    )
+//                    savePatient(
+//                        dbPatientFhirInformation,
+//                        questionnaireFragment.getQuestionnaireResponse(),
+//                        encounterId
+//                    )
 
                 }.join()
 

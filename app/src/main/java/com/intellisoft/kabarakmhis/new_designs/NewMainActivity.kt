@@ -28,6 +28,9 @@ import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_new_main.no_record
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -90,12 +93,17 @@ class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListene
                 // listAdapter.getFilter().filter(query);
 
                 val txtSearch = newText.toString()
-                if (!TextUtils.isEmpty(txtSearch)) {
-                    patientListViewModel.searchPatientsByName(txtSearch, spinnerClientValue)
-                } else {
-                    val patientList = patientListViewModel.getPatientList()
-                    showPatients(patientList)
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (!TextUtils.isEmpty(txtSearch)) {
+                        patientListViewModel.searchPatientsByName(txtSearch, spinnerClientValue)
+                    } else {
+                        val patientList = patientListViewModel.getPatientList()
+                        showPatients(patientList)
+                    }
                 }
+
+
 
                 return false
             }
@@ -144,30 +152,33 @@ class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListene
 
         FormatterClass().nukeEncounters(this@NewMainActivity)
 
+        CoroutineScope(Dispatchers.Main).launch {
 
-        if (patientList.isEmpty()) {
-            no_record.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
-        } else {
-            no_record.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
+            if (patientList.isEmpty()) {
+                no_record.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                no_record.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
 
-            patientList.sortedByDescending { it.lastUpdated }
+                patientList.sortedByDescending { it.lastUpdated }
 
-            val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val result = patientList.sortedByDescending {
-                (if (it.lastUpdated != ""){
-                    LocalDate.parse(it.lastUpdated, dateTimeFormatter)
-                }else{
-                    it.name
-                }).toString()
+                val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val result = patientList.sortedByDescending {
+                    (if (it.lastUpdated != ""){
+                        LocalDate.parse(it.lastUpdated, dateTimeFormatter)
+                    }else{
+                        it.name
+                    }).toString()
 
+                }
+
+                val adapter = PatientsListAdapter(result, this@NewMainActivity)
+                recyclerView.adapter = adapter
             }
 
-            val adapter = PatientsListAdapter(result, this@NewMainActivity)
-            recyclerView.adapter = adapter
-        }
 
+        }
 
     }
 
