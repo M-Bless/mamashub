@@ -151,7 +151,15 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             997 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateNextVisitListener, year, month, day)
-                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                //Convert weeks to milliseconds
+
+                val nextContact = formatter.retrieveSharedPreference(this, DbAncSchedule.CONTACT_WEEK.name)
+                if (nextContact != null){
+                    val weeks = nextContact.toInt() * 7 * 24 * 60 * 60 * 1000L
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis() + weeks
+                }else{
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                }
                 datePickerDialog.show()
 
             }
@@ -165,14 +173,30 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             995 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateLLITNNextDateListener, year, month, day)
-                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                //Convert weeks to milliseconds
+
+                val nextContact = formatter.retrieveSharedPreference(this, DbAncSchedule.CONTACT_WEEK.name)
+                if (nextContact != null){
+                    val weeks = nextContact.toInt() * 7 * 24 * 60 * 60 * 1000L
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis() + weeks
+                }else{
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                }
                 datePickerDialog.show()
 
             }
             994 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateNoNextVisit, year, month, day)
-                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                //Convert weeks to milliseconds
+
+                val nextContact = formatter.retrieveSharedPreference(this, DbAncSchedule.CONTACT_WEEK.name)
+                if (nextContact != null){
+                    val weeks = nextContact.toInt() * 7 * 24 * 60 * 60 * 1000L
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis() + weeks
+                }else{
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                }
                 datePickerDialog.show()
 
             }

@@ -90,6 +90,7 @@
                              />
 
                         <TextView
+                            android:enabled="false"
                             app:drawableEndCompat="@drawable/ic_action_date"
                             android:id="@+id/tvDate"
                             android:layout_width="match_parent"

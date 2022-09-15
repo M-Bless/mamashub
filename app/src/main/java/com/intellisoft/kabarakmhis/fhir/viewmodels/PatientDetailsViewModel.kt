@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
+import ca.uhn.fhir.parser.RDFParser.ID
 import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.get
 import com.google.android.fhir.logicalId
@@ -492,6 +493,9 @@ class PatientDetailsViewModel(
 
         return encounter
     }
+
+    //Get encounter details from the encounter id
+
 
 
     fun getObservationsFromEncounter(encounterId: String) = runBlocking{

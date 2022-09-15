@@ -21,10 +21,12 @@ import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
+import com.intellisoft.kabarakmhis.helperclass.AncSchedulingCalculator
 import com.intellisoft.kabarakmhis.helperclass.DbPatientDetails
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_new_main.no_record

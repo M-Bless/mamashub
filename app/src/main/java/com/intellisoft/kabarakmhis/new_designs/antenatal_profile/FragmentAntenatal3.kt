@@ -182,7 +182,15 @@ class FragmentAntenatal3 : Fragment() {
             996 -> {
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateSound2Listener, year, month, day)
-                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                //Convert weeks to milliseconds
+
+                val nextContact = formatter.retrieveSharedPreference(requireContext(), DbAncSchedule.CONTACT_WEEK.name)
+                if (nextContact != null){
+                    val weeks = nextContact.toInt() * 7 * 24 * 60 * 60 * 1000L
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis() + weeks
+                }else{
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                }
                 datePickerDialog.show()
 
             }

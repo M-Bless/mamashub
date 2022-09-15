@@ -77,6 +77,32 @@ class FormatterClass {
         val formatter = SimpleDateFormat("yyyy-MM-dd")
         return formatter.parse(date)
     }
+    fun convertStringToLocalDate(date: String): String {
+
+        val cal = Calendar.getInstance()
+
+        val formatter = SimpleDateFormat("dd-MMM-yyyy")
+        val dateValue = formatter.parse(date)
+        cal.time = dateValue
+        cal.add(Calendar.DATE, -280)
+        val sdf1 = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        val newDate = cal.time
+
+        return sdf1.format(newDate)
+
+    }
+
+
+    //Calculate number of weeks between two dates
+    fun getWeeksBetweenDates(startDate: String, endDate: String): Int {
+
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val startDateString = formatter.parse(startDate)
+        val endDateString = formatter.parse(endDate)
+
+        val diff = endDateString.time - startDateString.time
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt() / 7
+    }
 
     fun validateEmail(emailAddress: String):Boolean{
         return emailAddress.matches(emailPattern.toRegex())
@@ -160,6 +186,7 @@ class FormatterClass {
         return diff
 
     }
+
 
     fun convertDate(convertDate:String):String{
 
@@ -1179,6 +1206,9 @@ class FormatterClass {
             DbObservationValues.FOETAL_MOVEMENT.name -> {
                 "169731002"
             }
+            DbObservationValues.NEXT_CURRENT_VISIT.name -> {
+                "390840006-C"
+            }
             DbObservationValues.NEXT_VISIT_DATE.name -> {
                 "390840006"
             }
@@ -1538,4 +1568,7 @@ class FormatterClass {
     fun isNumeric(toCheck: String): Boolean {
         return toCheck.all { char -> char.isDigit() }
     }
+
+
+
 }

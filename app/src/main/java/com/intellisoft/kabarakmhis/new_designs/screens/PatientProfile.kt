@@ -19,6 +19,7 @@ import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.intellisoft.kabarakmhis.helperclass.AncSchedulingCalculator
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
@@ -27,6 +28,7 @@ import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
 import com.intellisoft.kabarakmhis.new_designs.chw.referral.ReferralView
 import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbAncSchedule
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbIdentifier
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.deworming.DewormingView
@@ -41,7 +43,6 @@ import com.intellisoft.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServi
 import com.intellisoft.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
-import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_patient_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -90,6 +91,8 @@ class PatientProfile : AppCompatActivity() {
 
     private fun getData() {
 
+
+
         val status = formatterClass.retrieveSharedPreference(this, "status")
         if (status != null && status != "") {
 
@@ -100,6 +103,67 @@ class PatientProfile : AppCompatActivity() {
         }
 
 //        viewModel.poll()
+
+    }
+
+    private fun getAncSchedule(edd: String) {
+
+        val ancSchedulingCalculator = AncSchedulingCalculator()
+
+        val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.PRESENT_PREGNANCY.name)
+        formatter.deleteSharedPreference(this@PatientProfile, DbResourceViews.PRESENT_PREGNANCY.name)
+
+        if(observationList.isNotEmpty()){
+
+            val encounterId = observationList[0].id
+            val firstVisit = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                formatter.getCodes(DbObservationValues.NEXT_CURRENT_VISIT.name), encounterId)
+
+            /**
+             * TODO: Get first present pregnancy encounter (This is assumed to be the first contact) and get the observation of the date
+             * TODO: Get the date and calculate the anc schedule
+             * TODO: Save the anc schedule in shared preferences
+             * TODO: Get the anc schedule from shared preferences and display it
+             */
+
+            //Get first day of last menstrual period from EDD Change string to date and remove 280 days
+            val firstDayLMP = formatterClass.convertStringToLocalDate(edd)
+            //Get number of weeks from first day of last menstrual period to today
+
+            if (firstVisit.isNotEmpty()){
+
+                val firstVisitValue = firstVisit[0].value
+
+                //Get the number of weeks from first day of lmp to first visit
+                val firstContactWeek = formatter.getWeeksBetweenDates(firstDayLMP, firstVisitValue)
+
+                val list = ancSchedulingCalculator.ancSchedule(firstContactWeek)
+                list.add(0, firstContactWeek)
+                val contactVisits = observationList.size
+
+                val contactWeek = list[contactVisits]
+
+                //Calculate the next contact date from today
+                formatter.saveSharedPreference(this@PatientProfile, DbAncSchedule.CONTACT_WEEK.name, contactWeek.toString())
+
+
+            }
+
+        }else{
+
+            //Get first day of last menstrual period from EDD Change string to date and remove 280 days
+            val firstDayLMP = formatterClass.convertStringToLocalDate(edd)
+            //Get number of weeks from first day of last menstrual period to today
+            val contactWeek = formatter.getWeeksBetweenDates(firstDayLMP, formatterClass.getTodayDateNoTime())
+            val list = ancSchedulingCalculator.ancSchedule(contactWeek)
+
+            //Calculate the next contact date from today
+            formatter.saveSharedPreference(this@PatientProfile, DbAncSchedule.CONTACT_WEEK.name, contactWeek.toString())
+
+        }
+
+
+
 
     }
 
@@ -247,6 +311,14 @@ class PatientProfile : AppCompatActivity() {
         if (patientLocalDob != null) {
             val age = "${formatter.calculateAge(patientLocalDob)} years"
             tvAge.text = age
+        }
+
+        val edd = formatter.retrieveSharedPreference(this, "edd")
+        if (edd != null){
+
+            getAncSchedule(edd)
+
+
         }
 
 

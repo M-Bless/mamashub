@@ -125,14 +125,30 @@ class MaternalSerology : AppCompatActivity() {
             999 -> {
                 val datePickerDialog = DatePickerDialog(this,
                     myDateListener, year, month, day)
-                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                //Convert weeks to milliseconds
+
+                val nextContact = formatter.retrieveSharedPreference(this, DbAncSchedule.CONTACT_WEEK.name)
+                if (nextContact != null){
+                    val weeks = nextContact.toInt() * 7 * 24 * 60 * 60 * 1000L
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis() + weeks
+                }else{
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                }
                 datePickerDialog.show()
 
             }
             998 -> {
                 val datePickerDialog = DatePickerDialog(this,
                     myDateListener1, year, month, day)
-                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                //Convert weeks to milliseconds
+
+                val nextContact = formatter.retrieveSharedPreference(this, DbAncSchedule.CONTACT_WEEK.name)
+                if (nextContact != null){
+                    val weeks = nextContact.toInt() * 7 * 24 * 60 * 60 * 1000L
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis() + weeks
+                }else{
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                }
                 datePickerDialog.show()
 
             }

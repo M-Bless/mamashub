@@ -391,7 +391,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
                     addData("Gestation (Weeks)",gestation, DbObservationValues.GESTATION.name)
                     addData("Fundal Height (cm)",fundalHeight, DbObservationValues.FUNDAL_HEIGHT.name)
-                    addData("Date",date, DbObservationValues.NEXT_VISIT_DATE.name)
+                    addData("Date",date, DbObservationValues.NEXT_CURRENT_VISIT.name)
                     for (items in observationList){
 
                         val key = items.key
@@ -465,6 +465,8 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
         }
 
+        val todayDate = formatter.getTodayDateNoTime()
+        rootView.tvDate.text = todayDate
 
     }
 

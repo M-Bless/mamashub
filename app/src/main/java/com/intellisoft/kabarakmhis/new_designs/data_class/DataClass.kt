@@ -162,6 +162,10 @@ data class DbDataList(
 
     )
 
+enum class DbAncSchedule{
+    CONTACT_WEEK
+}
+
 enum class DbResourceType {
     Patient,
     Encounter,

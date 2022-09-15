@@ -214,6 +214,7 @@ enum class DbObservationValues{
     LIE,
     FOETAL_HEART_RATE,
     FOETAL_MOVEMENT,
+    NEXT_CURRENT_VISIT,
     NEXT_VISIT_DATE,
 
     TT_PROVIDED,

@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
@@ -185,7 +186,15 @@ class ClinicalNotesAdd : AppCompatActivity() {
             999 -> {
                 val datePickerDialog = DatePickerDialog( this,
                     myDateDobListener, year, month, day)
-                datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                //Convert weeks to milliseconds
+
+                val nextContact = formatter.retrieveSharedPreference(this, DbAncSchedule.CONTACT_WEEK.name)
+                if (nextContact != null){
+                    val weeks = nextContact.toInt() * 7 * 24 * 60 * 60 * 1000L
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis() + weeks
+                }else{
+                    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+                }
                 datePickerDialog.show()
 
             }
