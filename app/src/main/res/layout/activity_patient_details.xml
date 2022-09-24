@@ -13,13 +13,14 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/_5dp"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:scrollbars="vertical"
-            android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context=".PatientListActivity"
             tools:listitem="@layout/observation_view" />

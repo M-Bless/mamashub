@@ -216,8 +216,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                             formatter.generateUuid()
                         }
 
-
-
                         val dbDataList = ArrayList<DbDataList>()
 
                         val dbDataFacName = DbDataList("Facility Name", facilityName, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.FACILITY_NAME.name)

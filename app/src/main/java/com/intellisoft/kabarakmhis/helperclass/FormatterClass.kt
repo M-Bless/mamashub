@@ -188,13 +188,12 @@ class FormatterClass {
     }
 
 
-    fun convertDate(convertDate:String):String{
+    fun convertDate(convertDate: String): String {
 
         val originalFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
         val targetFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = originalFormat.parse(convertDate)
-        val formattedDate = targetFormat.format(date)
-        return formattedDate
+        return targetFormat.format(date)
     }
     fun convertFhirDate(convertDate: String): String? {
 
@@ -465,11 +464,36 @@ class FormatterClass {
         val tvPatient :TextView = userView.findViewById(R.id.tvPatient)
         val tvAncId :TextView = userView.findViewById(R.id.tvAncId)
 
+        val tvEdd :TextView = userView.findViewById(R.id.tvEdd)
+        val tvGravida :TextView = userView.findViewById(R.id.tvGravida)
+        val tvHeight :TextView = userView.findViewById(R.id.tvHeight)
+        val tvParity :TextView = userView.findViewById(R.id.tvParity)
+
         val identifier = retrieveSharedPreference(context, "identifier")
         val patientName = retrieveSharedPreference(context, "patientName")
 
+        val parity = retrieveSharedPreference(context, DbObservationValues.PARITY.name)
+        val gravida = retrieveSharedPreference(context, DbObservationValues.GRAVIDA.name)
+        val height = retrieveSharedPreference(context, DbObservationValues.HEIGHT.name)
+        val weight = retrieveSharedPreference(context, DbObservationValues.WEIGHT.name)
+        val edd = retrieveSharedPreference(context, "edd")
+
         tvPatient.text = patientName
         tvAncId.text = identifier
+
+        if (parity != null) {
+            tvParity.text = parity
+        }
+        if (height != null) {
+            tvHeight.text = height
+        }
+        if (gravida != null) {
+            tvGravida.text = gravida
+        }
+        if (parity != null) {
+            tvEdd.text = edd
+        }
+
     }
 
 
@@ -676,7 +700,7 @@ class FormatterClass {
 
         val frag = FragmentConfirmChvPatient()
         val bundle = Bundle()
-        bundle.putString(FragmentConfirmPatient.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
+        bundle.putString(FragmentConfirmChvPatient.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
         frag.arguments = bundle
         return frag
     }

@@ -243,10 +243,6 @@ class FragmentConfirmPatient : Fragment(){
                     }
 
 
-                    Log.e("EncounterId", encounterId)
-                    Log.e("patientId", id)
-
-
                     val dbPatientFhirInformation = DbPatientFhirInformation(
                         id, clientName, telecomList,"female", dob, addressList,
                         kinContactList, maritalStatus,ancCode, nationalId,
@@ -255,11 +251,11 @@ class FragmentConfirmPatient : Fragment(){
                     val questionnaireFragment = childFragmentManager.findFragmentByTag(
                         QUESTIONNAIRE_FRAGMENT_TAG
                     ) as QuestionnaireFragment
-//                    savePatient(
-//                        dbPatientFhirInformation,
-//                        questionnaireFragment.getQuestionnaireResponse(),
-//                        encounterId
-//                    )
+                    savePatient(
+                        dbPatientFhirInformation,
+                        questionnaireFragment.getQuestionnaireResponse(),
+                        encounterId
+                    )
 
                 }.join()
 

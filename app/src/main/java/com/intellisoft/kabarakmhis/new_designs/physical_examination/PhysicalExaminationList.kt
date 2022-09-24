@@ -96,8 +96,6 @@ class PhysicalExaminationList : AppCompatActivity() {
 
                 val encounterList = ArrayList<DbFhirEncounter>()
 
-                Log.e("observationList", observationList.toString())
-
                 observationList.sortedByDescending { it.effective }
 
                 observationList.forEachIndexed { index, encounterItem ->

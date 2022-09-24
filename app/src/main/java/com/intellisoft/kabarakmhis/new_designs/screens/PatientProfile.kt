@@ -174,6 +174,7 @@ class PatientProfile : AppCompatActivity() {
         linearRow3.visibility = View.GONE
         linearRow4.visibility = View.GONE
         linearRow5.visibility = View.GONE
+        linearRow6.visibility = View.GONE
     }
 
     private fun calluser(value: String){

@@ -102,7 +102,7 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
                     questionnaireResponse,
                     dataCodeList,
                     dataQuantityList,
-                    DbResourceViews.PATIENT_INFO.name
+                    DbResourceViews.PATIENT_INFO_CHV.name
                 )
 
             }

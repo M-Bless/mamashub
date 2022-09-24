@@ -47,137 +47,102 @@ class RetrofitCallsAuthentication {
             progressDialog.setCanceledOnTouchOutside(false)
             progressDialog.show()
 
-
             var messageToast = ""
             val job = Job()
             CoroutineScope(Dispatchers.IO + job).launch {
 
-                var formatter = FormatterClass()
-
+                val formatter = FormatterClass()
                 val baseUrl = context.getString(UrlData.BASE_URL.message)
-
                 val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
-                val apiInterface = apiService.loginUser(userLogin)
-                apiInterface.enqueue(object : Callback<AuthResponse> {
-                    override fun onResponse(
-                        call: Call<AuthResponse>,
-                        response: Response<AuthResponse>
-                    ) {
+                try {
 
-                        CoroutineScope(Dispatchers.Main).launch { progressDialog.dismiss() }
+                    val apiInterface = apiService.loginUser(userLogin)
+                    if (apiInterface.isSuccessful){
 
-                        if (response.isSuccessful) {
-                            messageToast = "User details verified successfully."
+                        val statusCode = apiInterface.code()
+                        val body = apiInterface.body()
 
-                            val responseData = response.body()
+                        if (statusCode == 200 || statusCode == 201){
 
-                            if (responseData != null){
+                            if (body != null){
 
-                                val token = responseData.token
-                                val expires = responseData.expires
+                                val token = body.token
+                                val expires = body.expires
 
                                 formatter.saveSharedPreference(context, "token", token)
                                 formatter.saveSharedPreference(context, "expires", expires)
 
                                 getUserData(context)
 
+                            }else{
+                                messageToast = "Error: Body is null"
                             }
 
-
-                            FhirApplication.setLoggedIn(context, true)
-
-                            CoroutineScope(Dispatchers.Main).launch {
-
-                                Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
-
-                            }
-
-                        } else {
-
-                            progressDialog.dismiss()
-
-                            val code = response.code()
-                            val message = response.errorBody().toString()
-
-                            if (code != 500) {
-
-                                val jObjError = JSONObject(response.errorBody()?.string())
-
-                                CoroutineScope(Dispatchers.IO).launch {
-
-                                    messageToast = "There was an issue."
-
-//                                    messageToast = Formatter().getObjectiveKeys(
-//                                        jObjError
-//                                    ).toString()
-
-                                    CoroutineScope(Dispatchers.Main).launch {
-                                        Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
-                                    }
-
-                                }
-
-                            } else {
-                                messageToast =
-                                    "We are experiencing some server issues. Please try again later"
-
-                                CoroutineScope(Dispatchers.Main).launch {
-                                    Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
-                                }
-                            }
-
-
+                        }else{
+                            messageToast = "Error: The request was not successful"
                         }
 
 
-                    }
 
-                    override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
-                        Log.e("-*-*error ", t.localizedMessage)
-                        messageToast = "There is something wrong. Please try again"
-                        CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(context, messageToast, Toast.LENGTH_SHORT).show()
+                    }else{
+                        apiInterface.errorBody()?.let {
+                            val errorBody = JSONObject(it.string())
+                            messageToast = errorBody.getString("message")
                         }
-
-                        progressDialog.dismiss()
                     }
-                })
 
+
+                }catch (e: Exception){
+
+                    messageToast = "There was an issue with the server"
+                }
 
 
             }.join()
+            CoroutineScope(Dispatchers.Main).launch{
+
+                progressDialog.dismiss()
+                Toast.makeText(context, messageToast, Toast.LENGTH_LONG).show()
+
+            }
 
         }
 
     }
 
-    private fun getUserData(context: Context) {
+    private suspend fun getUserData(context: Context) {
 
-        var formatter = FormatterClass()
+        var messageToast = ""
+        val formatter = FormatterClass()
         val stringStringMap = formatter.getHeaders(context)
 
         val baseUrl = context.getString(UrlData.BASE_URL.message)
 
         val apiService = RetrofitBuilder.getRetrofit(baseUrl).create(Interface::class.java)
-        val apiInterface = apiService.getUserData(stringStringMap)
-        apiInterface.enqueue(object : Callback<DbUserData> {
-            override fun onResponse(
-                call: Call<DbUserData>,
-                response: Response<DbUserData>
-            ) {
+        try {
 
+            val apiInterface = apiService.getUserData(stringStringMap)
 
-                if (response.isSuccessful) {
+            if (apiInterface.isSuccessful){
+                val statusCode = apiInterface.code()
+                val body = apiInterface.body()
 
-                    val responseData = response.body()
+                if (statusCode == 200 || statusCode == 201){
 
-                    if (responseData != null){
+                    if (body != null){
 
-                        val data = responseData.data
+                        messageToast = "Login successful"
+
+                        val data = body.data
                         val id = data.id
                         val names = data.names
                         val email = data.email
                         val role = data.role
+
+                        val kmhflCode = data.kmhflCode
+                        val facilityName = data.facilityName
+
+                        Log.e("TAG", "getUserData: $kmhflCode", )
 
                         formatter.saveSharedPreference(context, "id", id)
                         formatter.saveSharedPreference(context, "USERID", id)
@@ -185,44 +150,58 @@ class RetrofitCallsAuthentication {
                         formatter.saveSharedPreference(context, "email", email)
                         formatter.saveSharedPreference(context, "role", role)
 
-                        if (role == "CHW"){
-                            val intent = Intent(context, PatientList::class.java)
-                            context.startActivity(intent)
-                        }else{
-                            val intent = Intent(context, NewMainActivity::class.java)
-                            context.startActivity(intent)
+                        if (kmhflCode != null) formatter.saveSharedPreference(context, "kmhflCode", kmhflCode)
+                        if (facilityName != null) formatter.saveSharedPreference(context, "facilityName", facilityName)
+
+                        FhirApplication.setLoggedIn(context, true)
+
+                        when (role) {
+                            "CHW" -> {
+                                val intent = Intent(context, PatientList::class.java)
+                                context.startActivity(intent)
+                            }
+                            "CLINICIAN" -> {
+                                val intent = Intent(context, NewMainActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                            else -> {
+                                FhirApplication.setLoggedIn(context, false)
+                                messageToast = "Error: Role not recognized"
+                            }
                         }
 
-
-
+                    }else{
+                        messageToast = "Error: Body is null"
                     }
 
+                }else{
 
-                } else {
-
-                    val code = response.code()
-                    val message = response.errorBody().toString()
-
-                    if (code != 500) {
-
-                        val jObjError = JSONObject(response.errorBody()?.string())
-
-
-                    } else {
-
+                    messageToast = if (statusCode == 401){
+                        "Error: Invalid credentials"
+                    }else{
+                        "Error: Status code is $statusCode"
                     }
-
-
+                }
+            }else{
+                apiInterface.errorBody()?.let {
+                    val errorBody = JSONObject(it.string())
+                    messageToast = errorBody.getString("message")
                 }
 
-
             }
 
-            override fun onFailure(call: Call<DbUserData>, t: Throwable) {
-                Log.e("-*-*error ", t.localizedMessage)
+        }catch (e: Exception){
 
-            }
-        })
+            messageToast = "There was an issue with the server"
+        }
+
+        CoroutineScope(Dispatchers.Main).launch{
+
+                Toast.makeText(context, messageToast, Toast.LENGTH_LONG).show()
+
+        }
+
+
     }
 
 

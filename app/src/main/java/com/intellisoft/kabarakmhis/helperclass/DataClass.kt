@@ -161,7 +161,9 @@ data class DbData(
     val id: String,
     val names: String,
     val email: String,
-    val role: String
+    val role: String,
+    val kmhflCode: String? = null,
+    val facilityName: String? = null,
 )
 
 data class DbAddressData(
