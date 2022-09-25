@@ -469,6 +469,69 @@ class PatientDetailsViewModel(
 
     }
 
+    fun getClientAppointment(dbClientDetails: DbPatientDetails, encounterName: String) = runBlocking {
+        clientAppointments(dbClientDetails, encounterName)
+    }
+
+    private suspend fun clientAppointments(dbClientDetails: DbPatientDetails, encounterName: String): List<DbPatientDetails>{
+
+        val dbPatientDetailsList = mutableListOf<DbPatientDetails>()
+
+        val patientId = dbClientDetails.id
+        val name = dbClientDetails.name
+
+        val formatter = FormatterClass()
+
+        //Get the encounter details
+        val encounter = mutableListOf<EncounterItem>()
+        fhirEngine.search<Encounter>{
+            filter(Encounter.REASON_CODE, {value = of(Coding().apply { code = encounterName })})
+            filter(Encounter.SUBJECT, {value = "Patient/$patientId"})
+            sort(Encounter.DATE, Order.ASCENDING)
+        }.take(Int.MAX_VALUE)
+            .map { createEncounterItem(it, getApplication<Application>().resources) }
+            .let { encounter.addAll(it) }
+
+        encounter.forEach { encounterData->
+
+            //Get Observation Data on next visit from the encounter
+            val observationValues = getAppointmentData(patientId, encounterData.id, formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name))
+            observationValues.forEach {
+
+                val value = it.value
+
+                val dbPatientDetails = DbPatientDetails(
+                    id = patientId,
+                    name = name,
+                    lastUpdated = value
+                )
+
+                dbPatientDetailsList.add(dbPatientDetails)
+
+            }
+
+        }
+
+        return dbPatientDetailsList
+    }
+
+    private suspend fun getAppointmentData(patientId: String, encounterId: String, codeValue: String): List<ObservationItem>{
+
+        val observations = mutableListOf<ObservationItem>()
+        fhirEngine
+            .search<Observation> {
+                filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = codeValue })})
+                filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
+                filter(Observation.SUBJECT, {value = "Patient/$patientId"})
+                sort(Observation.DATE, Order.ASCENDING)
+            }
+            .take(1)
+            .map { createObservationItem(it, getApplication<Application>().resources) }
+            .let { observations.addAll(it) }
+        return observations
+
+    }
+
     fun getObservationFromEncounter(encounterName: String) = runBlocking {
         observationFromEncounter(encounterName)
     }
@@ -584,7 +647,7 @@ class PatientDetailsViewModel(
 
     companion object{
 
-        private fun createObservationItem(observation: Observation, resources: Resources): ObservationItem{
+        fun createObservationItem(observation: Observation, resources: Resources): ObservationItem{
 
 
             // Show nothing if no values available for datetime and value quantity.
@@ -625,7 +688,7 @@ class PatientDetailsViewModel(
             )
         }
 
-        private fun createEncounterItem(encounter: Encounter, resources: Resources): EncounterItem{
+        fun createEncounterItem(encounter: Encounter, resources: Resources): EncounterItem{
 
             val encounterDate =
                 if (encounter.hasPeriod()) {
@@ -639,8 +702,6 @@ class PatientDetailsViewModel(
                 }
 
             var lastUpdatedValue = ""
-
-
 
             if (encounter.hasMeta()){
                 if (encounter.meta.hasLastUpdated()){

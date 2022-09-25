@@ -29,6 +29,14 @@ enum class DbObservationValues{
     RELATIONSHIP,
     GESTATION,
 
+    STUDY_WORK,
+    HOME_SITUATION,
+    RELATIONSHIP_SURROUNDS,
+    RECENT_CHANGE,
+    RECENT_CHANGE_CLIENT,
+    SAFE_ENVIRONMENT,
+
+
     /**
      * Medical and Surgical History
      */

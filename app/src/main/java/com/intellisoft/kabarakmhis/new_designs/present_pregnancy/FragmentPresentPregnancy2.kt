@@ -198,6 +198,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
                 DbResourceViews.PRESENT_PREGNANCY.name))
             ft.addToBackStack(null)
             ft.commit()
+
         }else{
             formatter.showErrorDialog(errorList, requireContext())
         }

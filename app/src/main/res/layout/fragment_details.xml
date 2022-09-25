@@ -66,6 +66,7 @@
                                  />
 
                             <EditText
+                                android:enabled="false"
                                 android:id="@+id/etFacilityName"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -277,7 +278,159 @@
 
                         </TableRow>
 
+
+
                     </TableLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLessAge"
+                        android:layout_marginTop="@dimen/_15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If age &lt; 19yrs:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <TextView
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Does the client study or work:"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <RadioGroup
+                            android:orientation="horizontal"
+                            android:id="@+id/rgStudyWork"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RadioButton
+                                android:layout_weight="1"
+                                android:id="@+id/rbStudy"
+                                android:text="Study"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioButton
+                                android:layout_weight="1"
+                                android:id="@+id/rbWork"
+                                android:text="Work"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </RadioGroup>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="How does client perceive their home situation:"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <EditText
+                                android:id="@+id/etHomeSituation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="How does client perceive their relationship with their teachers and fellow students/employers and colleagues:"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <EditText
+                                android:id="@+id/etRelationship"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Have there been any recent changes in their situation:"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <EditText
+                                android:id="@+id/etSituationChange"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Have there been any recent changes in the client’s situation:"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <EditText
+                                android:id="@+id/etClientChange"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Does the client feel safe in their environment? (home, community, work,etc)"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <EditText
+                                android:id="@+id/etClientSafe"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

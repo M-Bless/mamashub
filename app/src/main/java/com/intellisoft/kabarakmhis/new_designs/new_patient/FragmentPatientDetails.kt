@@ -163,6 +163,8 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         val edd = rootView.etEdd.text.toString()
         val nationalID = rootView.etNationalId.text.toString()
 
+
+
         if (
             !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(kmhflCode) &&
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(gravida) &&
@@ -236,6 +238,56 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         val eddData = DbDataList("Expected Date of Delivery", edd, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.EDD.name)
                         val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
 
+                        val errorList = ArrayList<String>()
+
+                        if (rootView.linearLessAge.visibility == View.VISIBLE){
+
+
+                            val studyWork = formatter.getRadioText(rootView.rgStudyWork)
+                            if (studyWork != ""){
+                                val studyWorkData = DbDataList("Does client study or work", studyWork, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.STUDY_WORK.name)
+                                dbDataList.add(studyWorkData)
+
+                            }else{
+                                errorList.add("Study/Work is required.")
+                            }
+
+                            val homeSituation = rootView.etHomeSituation.text.toString()
+                            val relationship = rootView.etRelationship.text.toString()
+                            val situationShip = rootView.etSituationChange.text.toString()
+                            val clientChange = rootView.etClientChange.text.toString()
+                            val clientSafe = rootView.etClientSafe.text.toString()
+
+                            if (
+                                !TextUtils.isEmpty(homeSituation) && !TextUtils.isEmpty(relationship) &&
+                                !TextUtils.isEmpty(situationShip) && !TextUtils.isEmpty(clientChange) &&
+                                !TextUtils.isEmpty(clientSafe)){
+
+                                val homeSituationData = DbDataList("Client's perceive of their home situation", homeSituation, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.HOME_SITUATION.name)
+                                val relationshipData = DbDataList("Relationship with family members", relationship, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RELATIONSHIP_SURROUNDS.name)
+                                val situationShipData = DbDataList("Client's perception of changes in their relationship with family members", situationShip, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RECENT_CHANGE.name)
+                                val clientChangeData = DbDataList("Client's perception of changes in their situation", clientChange, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RECENT_CHANGE_CLIENT.name)
+                                val clientSafeData = DbDataList("Client's perception of their safety", clientSafe, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.SAFE_ENVIRONMENT.name)
+                                dbDataList.addAll(listOf(
+                                    homeSituationData, relationshipData, situationShipData, clientChangeData, clientSafeData
+                                ))
+
+
+
+                            }else{
+
+                                if(TextUtils.isEmpty(homeSituation)) errorList.add("Home Situation is required.")
+                                if(TextUtils.isEmpty(relationship)) errorList.add("Relationship is required.")
+                                if(TextUtils.isEmpty(situationShip)) errorList.add("Situation Change is required.")
+                                if(TextUtils.isEmpty(clientChange)) errorList.add("Client Change is required.")
+                                if(TextUtils.isEmpty(clientSafe)) errorList.add("Client Safe is required.")
+
+
+                            }
+
+
+                        }
+
                         dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
                             gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage, nationalIDValue))
 
@@ -256,18 +308,21 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         formatter.saveSharedPreference(requireContext(), "patientName", clientName)
                         formatter.saveSharedPreference(requireContext(), "identifier", ancCodeValue)
 
-//                        val ft = requireActivity().supportFragmentManager.beginTransaction()
-//                        ft.replace(R.id.fragmentHolder, formatter.startFragmentPatient(requireContext(),
-//                            DbResourceViews.PATIENT_INFO.name))
-//                        ft.addToBackStack(null)
-//                        ft.commit()
 
-                        kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+                        if (errorList.isNotEmpty()){
 
-                        val ft = requireActivity().supportFragmentManager.beginTransaction()
-                        ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
-                        ft.addToBackStack(null)
-                        ft.commit()
+                            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+                            val ft = requireActivity().supportFragmentManager.beginTransaction()
+                            ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
+                            ft.addToBackStack(null)
+                            ft.commit()
+
+                        }else{
+                            formatter.showErrorDialog(errorList, requireContext())
+                        }
+
+
 
                     }else{
                         Toast.makeText(requireContext(), "Please enter a valid anc", Toast.LENGTH_SHORT)
@@ -346,6 +401,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         try {
 
             CoroutineScope(Dispatchers.IO).launch {
+
+                val facilityName = formatter.retrieveSharedPreference(requireContext(), "facilityName")
+                val kmhflCode = formatter.retrieveSharedPreference(requireContext(), "kmhflCode")
+
+                rootView.etFacilityName.setText(facilityName)
+                rootView.etKmhflCode.setText(kmhflCode)
 
                 patientId = formatter.retrieveSharedPreference(requireContext(), "patientId")
                 if (patientId != null){
@@ -537,6 +598,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 rootView.etDoB.text = date
                 val age = "$ageNumber years"
                 rootView.etAge.setText(age)
+
+                if (ageNumber.toInt() < 18){
+                    rootView.linearLessAge.visibility = View.VISIBLE
+                }else{
+                    rootView.linearLessAge.visibility = View.GONE
+                }
 
             }else{
                 Toast.makeText(requireContext(), "The age is invalid!", Toast.LENGTH_SHORT).show()

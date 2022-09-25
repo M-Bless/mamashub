@@ -29,7 +29,6 @@ class PatientsAdapter(private var entryList: List<DBEntry>,
         View.OnClickListener {
 
         val tvName: TextView = itemView.findViewById(R.id.name)
-        val tvFieldName: TextView = itemView.findViewById(R.id.field_name)
         val tvId: TextView = itemView.findViewById(R.id.id)
 
         init {
@@ -109,7 +108,6 @@ class PatientsAdapter(private var entryList: List<DBEntry>,
 
         holder.tvId.text = pos
         holder.tvName.text = name[0].family
-        holder.tvFieldName.text = birthDate
 
 
     }

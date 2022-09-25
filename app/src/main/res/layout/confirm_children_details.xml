@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_marginTop="@dimen/_5dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,7 +16,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
             android:id="@+id/tvTitle"
-            android:text="Title : "
+            android:text="Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -25,8 +25,8 @@
             android:layout_marginStart="@dimen/_5dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:id="@+id/tvDesc"
-            android:text="Title"
-            android:layout_width="wrap_content"
+            android:text="Value"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

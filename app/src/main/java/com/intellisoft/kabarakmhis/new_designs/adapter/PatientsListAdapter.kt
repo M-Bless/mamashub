@@ -31,8 +31,8 @@ class PatientsListAdapter(private var entryList: List<DbPatientDetails>,
         View.OnClickListener {
 
         val tvName: TextView = itemView.findViewById(R.id.name)
-        val tvFieldName: TextView = itemView.findViewById(R.id.field_name)
         val tvId: TextView = itemView.findViewById(R.id.id)
+        val tvDate: TextView = itemView.findViewById(R.id.tvDate)
 
         init {
 
@@ -71,11 +71,13 @@ class PatientsListAdapter(private var entryList: List<DbPatientDetails>,
 
         val id = entryList[position].id
         val name = entryList[position].name
+        val date = entryList[position].lastUpdated
 
         val pos = "${position + 1}"
 
         holder.tvId.text = pos
         holder.tvName.text = name
+        holder.tvDate.text = date
 
     }
 

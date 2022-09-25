@@ -18,8 +18,7 @@ const val SYNC_PARAM = "address-country"
 
 class DownloadManagerImpl : DownloadWorkManager {
     private val resourceTypeList = ResourceType.values().map { it.name }
-    private val urls = LinkedList(
-        listOf("Patient?$SYNC_PARAM=$SYNC_VALUE", "CarePlan"))
+    private val urls = LinkedList(listOf("Patient?$SYNC_PARAM=$SYNC_VALUE", "CarePlan"))
 
     override suspend fun getNextRequestUrl(context: SyncDownloadContext): String? {
         var url = urls.poll() ?: return null
@@ -77,13 +76,13 @@ class DownloadManagerImpl : DownloadWorkManager {
                     val encounterUrl = "$DEMO_SERVER$care/\$everything"
                     urls.add(encounterUrl)
                 }
-//                if (type == "Encounter") {
-//                    val no = entry.resource as Encounter
-//                    if (no.hasPartOf()) {
-//                        val patientUrl = "${entry.fullUrl}/\$everything"
-//                        urls.add(patientUrl)
-//                    }
-//                }
+                if (type == "Encounter") {
+                    val no = entry.resource as Encounter
+                    if (no.hasPartOf()) {
+                        val patientUrl = "${entry.fullUrl}/\$everything"
+                        urls.add(patientUrl)
+                    }
+                }
 
             }
 

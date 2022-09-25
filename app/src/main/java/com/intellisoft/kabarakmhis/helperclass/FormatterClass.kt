@@ -54,18 +54,6 @@ class FormatterClass {
             ""
         }
 
-        Log.e("------", name)
-
-//        val gender = if (hasGenderElement()) genderElement.valueAsString else ""
-//        val dob =
-//            if (hasBirthDateElement())
-//                LocalDate.parse(birthDateElement.valueAsString, DateTimeFormatter.ISO_DATE)
-//            else null
-//        val phone = if (hasTelecom()) telecom[0].value else ""
-//        val city = if (hasAddress()) address[0].city else ""
-//        val country = if (hasAddress()) address[0].country else ""
-//        val isActive = active
-//        val html: String = if (hasText()) text.div.valueAsString else ""
         return DbPatientDetails(
             id = patientId,
             name = name,
@@ -758,8 +746,14 @@ class FormatterClass {
 
             DbObservationValues.RELATIONSHIP.name -> { "263498003"
             }
-            DbObservationValues.GESTATION.name -> { "77386006"
-            }
+            DbObservationValues.GESTATION.name -> { "77386006" }
+
+            DbObservationValues.STUDY_WORK.name -> { "773860062314" }
+            DbObservationValues.HOME_SITUATION.name -> { "77386006424" }
+            DbObservationValues.RELATIONSHIP_SURROUNDS.name -> { "773860064244" }
+            DbObservationValues.RECENT_CHANGE.name -> { "773860065367" }
+            DbObservationValues.RECENT_CHANGE_CLIENT.name -> { "7738600645642" }
+            DbObservationValues.SAFE_ENVIRONMENT.name -> { "773860062556" }
 
 
             DbObservationValues.SURGICAL_HISTORY.name -> {

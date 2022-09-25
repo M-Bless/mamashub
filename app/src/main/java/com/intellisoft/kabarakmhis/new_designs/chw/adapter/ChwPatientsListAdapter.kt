@@ -32,7 +32,6 @@ class ChwPatientsListAdapter(private var entryList: List<DbPatientDetails>,
         View.OnClickListener {
 
         val tvName: TextView = itemView.findViewById(R.id.name)
-        val tvFieldName: TextView = itemView.findViewById(R.id.field_name)
         val tvId: TextView = itemView.findViewById(R.id.id)
 
         init {
