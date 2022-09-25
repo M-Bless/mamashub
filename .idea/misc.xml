@@ -75,6 +75,8 @@
         <entry key="app/src/main/res/layout/details_view.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/encounter_list_item_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/encounter_view.xml" value="0.16193063100710406" />
+        <entry key="app/src/main/res/layout/fragment1.xml" value="0.32962804617357844" />
+        <entry key="app/src/main/res/layout/fragment2.xml" value="0.32962804617357844" />
         <entry key="app/src/main/res/layout/fragment_antenatal1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_antenatal2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_antenatal3.xml" value="0.25" />
@@ -106,6 +108,7 @@
         <entry key="app/src/main/res/layout/fragment_present_preg_2.xml" value="0.35542428335085413" />
         <entry key="app/src/main/res/layout/fragment_prev_pregnancy.xml" value="0.25224454895254383" />
         <entry key="app/src/main/res/layout/fragment_previous_pregnancy.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/fragment_smart_reading.xml" value="0.25224454895254383" />
         <entry key="app/src/main/res/layout/fragment_surgical.xml" value="0.33" />
         <entry key="app/src/main/res/layout/frament_confirm.xml" value="0.33" />
         <entry key="app/src/main/res/layout/navigation.xml" value="0.33133817870884996" />
@@ -119,6 +122,8 @@
         <entry key="app/src/main/res/layout/progress_bar.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/screener_encounter_fragment.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/user_details.xml" value="0.3304831124412142" />
+        <entry key="app/src/main/res/layout/watch_reading.xml" value="0.32962804617357844" />
+        <entry key="app/src/main/res/layout/watch_reading_child.xml" value="0.32962804617357844" />
         <entry key="app/src/main/res/menu/details_options_menu.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/menu/hidden_menu.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.33133817870884996" />

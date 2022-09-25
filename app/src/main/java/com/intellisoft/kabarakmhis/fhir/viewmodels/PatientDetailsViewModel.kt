@@ -469,68 +469,6 @@ class PatientDetailsViewModel(
 
     }
 
-    fun getClientAppointment(dbClientDetails: DbPatientDetails, encounterName: String) = runBlocking {
-        clientAppointments(dbClientDetails, encounterName)
-    }
-
-    private suspend fun clientAppointments(dbClientDetails: DbPatientDetails, encounterName: String): List<DbPatientDetails>{
-
-        val dbPatientDetailsList = mutableListOf<DbPatientDetails>()
-
-        val patientId = dbClientDetails.id
-        val name = dbClientDetails.name
-
-        val formatter = FormatterClass()
-
-        //Get the encounter details
-        val encounter = mutableListOf<EncounterItem>()
-        fhirEngine.search<Encounter>{
-            filter(Encounter.REASON_CODE, {value = of(Coding().apply { code = encounterName })})
-            filter(Encounter.SUBJECT, {value = "Patient/$patientId"})
-            sort(Encounter.DATE, Order.ASCENDING)
-        }.take(Int.MAX_VALUE)
-            .map { createEncounterItem(it, getApplication<Application>().resources) }
-            .let { encounter.addAll(it) }
-
-        encounter.forEach { encounterData->
-
-            //Get Observation Data on next visit from the encounter
-            val observationValues = getAppointmentData(patientId, encounterData.id, formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name))
-            observationValues.forEach {
-
-                val value = it.value
-
-                val dbPatientDetails = DbPatientDetails(
-                    id = patientId,
-                    name = name,
-                    lastUpdated = value
-                )
-
-                dbPatientDetailsList.add(dbPatientDetails)
-
-            }
-
-        }
-
-        return dbPatientDetailsList
-    }
-
-    private suspend fun getAppointmentData(patientId: String, encounterId: String, codeValue: String): List<ObservationItem>{
-
-        val observations = mutableListOf<ObservationItem>()
-        fhirEngine
-            .search<Observation> {
-                filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = codeValue })})
-                filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
-                filter(Observation.SUBJECT, {value = "Patient/$patientId"})
-                sort(Observation.DATE, Order.ASCENDING)
-            }
-            .take(1)
-            .map { createObservationItem(it, getApplication<Application>().resources) }
-            .let { observations.addAll(it) }
-        return observations
-
-    }
 
     fun getObservationFromEncounter(encounterName: String) = runBlocking {
         observationFromEncounter(encounterName)
@@ -651,12 +589,22 @@ class PatientDetailsViewModel(
 
 
             // Show nothing if no values available for datetime and value quantity.
-            val dateTimeString =
-                if (observation.hasEffectiveDateTimeType()) {
-                    observation.effectiveDateTimeType.asStringValue()
-                } else {
-                    resources.getText(R.string.message_no_datetime).toString()
+            var issuedDate = ""
+            if (observation.hasIssued()){
+                issuedDate = observation.issued.toString()
+            }else{
+
+                if (observation.hasMeta()){
+                    if (observation.meta.hasLastUpdated()){
+                        issuedDate = observation.meta.lastUpdated.toString()
+                    }else{
+                        ""
+                    }
+                }else{
+                    ""
                 }
+
+            }
 
 
             val id = observation.logicalId
@@ -680,11 +628,19 @@ class PatientDetailsViewModel(
                 }
             val valueString = "$value $valueUnit"
 
+            if (issuedDate != ""){
+                val newDate = FormatterClass().convertFhirDate(issuedDate)
+                if (newDate != null){
+                    issuedDate = newDate
+                }
+            }
+
             return ObservationItem(
                 id,
                 code,
                 text,
-                valueString
+                valueString,
+                issuedDate
             )
         }
 

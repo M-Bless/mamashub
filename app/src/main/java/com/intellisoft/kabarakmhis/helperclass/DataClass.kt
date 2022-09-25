@@ -72,7 +72,8 @@ data class ObservationItem(
     val id: String,
     val code: String?,
     val text: String,
-    val value: String
+    val value: String,
+    val issued: String? = null,
 )
 data class ConditionItem(
     val id: String,
@@ -201,4 +202,12 @@ data class DbChwData(
     val dob: String,
     val dataQuantityList: ArrayList<QuantityObservation>,
     val dataCodeList: ArrayList<CodingObservation>,
+)
+data class DbSmartWatchReadings(
+    val dateIssued: String,
+    val recordingList : ArrayList<DbWatchReading>
+)
+data class DbWatchReading(
+    val text: String,
+    val value: String
 )

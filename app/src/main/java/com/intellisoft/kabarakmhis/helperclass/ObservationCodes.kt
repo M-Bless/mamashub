@@ -70,6 +70,8 @@ enum class DbObservationValues{
     FAMILY_LIVING_HOUSEHOLD,
     FAMILIY_TB_SCREENING,
 
+    CLIENT_WEARABLE_RECORDING,
+
 
     /**
      * Physical Examination
