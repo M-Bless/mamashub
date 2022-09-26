@@ -14,6 +14,9 @@
     <color name="main_color_dark">#75296D</color>
     <color name="text_color">#151EEE</color>
 
+    <color name="maternal_head">#BFA6EE</color>
+    <color name="maternal_child">#6DBFA6EE</color>
+
 
     <color name="indigo_500">#3f51b5</color>
     <color name="indigo_700">#303f9f</color>

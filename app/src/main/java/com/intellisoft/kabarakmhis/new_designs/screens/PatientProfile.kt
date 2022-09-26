@@ -19,9 +19,7 @@ import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
-import com.intellisoft.kabarakmhis.helperclass.AncSchedulingCalculator
-import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
-import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.helperclass.*
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.antenatal_profile.AntenatalProfileView
 import com.intellisoft.kabarakmhis.new_designs.birth_plan.BirthPlanView
@@ -48,7 +46,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.ArrayList
+
 
 class PatientProfile : AppCompatActivity() {
 
@@ -59,6 +57,10 @@ class PatientProfile : AppCompatActivity() {
     private val formatterClass = FormatterClass()
     private lateinit var kabarakViewModel: KabarakViewModel
     private val viewModel: MainActivityViewModel by viewModels()
+
+    val modelList = ArrayList<Model>()
+    private var isPatient = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +89,90 @@ class PatientProfile : AppCompatActivity() {
 
         navigate()
 
+        initData()
+
+        setRecyclerView()
+
+
+    }
+
+    private fun setRecyclerView() {
+
+
+
+
+    }
+
+    private fun initData() {
+
+        val dbMaternalProfileList = ArrayList<DbMaternalProfile>()
+
+        //Clinical Information
+        val dbMaternalClientInfoList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild1 = DbMaternalProfileChild(1.1,resources.getDrawable(R.drawable.register), "Maternal Profile")
+        val dbMaternalProfileChild2 = DbMaternalProfileChild(1.2,resources.getDrawable(R.drawable.currentvisits), "Current Visit")
+        dbMaternalClientInfoList.addAll(listOf(dbMaternalProfileChild1, dbMaternalProfileChild2))
+
+        //History
+        val dbMaternalHistoryList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild3 = DbMaternalProfileChild(2.1,resources.getDrawable(R.drawable.surgery), "Medical and History")
+        val dbMaternalProfileChild4 = DbMaternalProfileChild(2.2,resources.getDrawable(R.drawable.pregnant), "Previous Pregnancy")
+        dbMaternalHistoryList.addAll(listOf(dbMaternalProfileChild3, dbMaternalProfileChild4))
+
+        //Mother and Fetal Assessment
+        val dbMaternalAssessmentList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild5 = DbMaternalProfileChild(3.1,resources.getDrawable(R.drawable.check), "Physical Examination")
+        val dbMaternalProfileChild6 = DbMaternalProfileChild(3.2,resources.getDrawable(R.drawable.antenatalprofile), "Antenatal Profile")
+        val dbMaternalProfileChild7 = DbMaternalProfileChild(3.3,resources.getDrawable(R.drawable.present_pregnancy), "Present Pregnancy")
+        val dbMaternalProfileChild8 = DbMaternalProfileChild(3.4,resources.getDrawable(R.drawable.weight_monitoring), "Weight Monitoring Chart")
+        val dbMaternalProfileChild9 = DbMaternalProfileChild(3.5,resources.getDrawable(R.drawable.clinical_notes), "Clinical Notes")
+        dbMaternalAssessmentList.addAll(listOf(dbMaternalProfileChild5, dbMaternalProfileChild6, dbMaternalProfileChild7, dbMaternalProfileChild8, dbMaternalProfileChild9))
+
+        //Preventive Services
+        val dbMaternalPreventiveServicesList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild10 = DbMaternalProfileChild(4.1,resources.getDrawable(R.drawable.tetanusinjection), "Tetanus Diphtheria")
+        val dbMaternalProfileChild12 = DbMaternalProfileChild(4.2,resources.getDrawable(R.drawable.malaria_prophylaxis), "Malaria Prophylaxis")
+        val dbMaternalProfileChild11 = DbMaternalProfileChild(4.3,resources.getDrawable(R.drawable.td), "IFAS")
+        val dbMaternalProfileChild13 = DbMaternalProfileChild(4.4,resources.getDrawable(R.drawable.maternal_serology), "Maternal Serology")
+        val dbMaternalProfileChild14 = DbMaternalProfileChild(4.5,resources.getDrawable(R.drawable.preventiveservices), "PMTCT Interventions")
+        val dbMaternalProfileChild15 = DbMaternalProfileChild(4.6,resources.getDrawable(R.drawable.deworming), "Deworming")
+        dbMaternalPreventiveServicesList.addAll(listOf(
+            dbMaternalProfileChild10, dbMaternalProfileChild11, dbMaternalProfileChild12,
+            dbMaternalProfileChild13, dbMaternalProfileChild14, dbMaternalProfileChild15))
+
+        //Birth Plan
+        val dbMaternalBirthPlanList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild16 = DbMaternalProfileChild(5.1,resources.getDrawable(R.drawable.birth_plan), "Birth Plan")
+        dbMaternalBirthPlanList.addAll(listOf(dbMaternalProfileChild16))
+
+        //Counseling
+        val dbMaternalCounselingList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild17 = DbMaternalProfileChild(6.1,resources.getDrawable(R.drawable.counselling1), "Counseling")
+        dbMaternalCounselingList.addAll(listOf(dbMaternalProfileChild17))
+
+        //Referral to community
+        val dbMaternalReferralList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild18 = DbMaternalProfileChild(7.1,resources.getDrawable(R.drawable.referral), "Referral")
+        dbMaternalReferralList.addAll(listOf(dbMaternalProfileChild18))
+
+
+        val dbMaternalProfile = DbMaternalProfile("Client Information", dbMaternalClientInfoList, true)
+        val dbMaternalMedicalHistory = DbMaternalProfile("History", dbMaternalHistoryList, isPatient)
+        val dbMaternalAssessment = DbMaternalProfile("Mother and Fetal Assessment", dbMaternalAssessmentList, isPatient)
+        val dbMaternalPreventiveServices = DbMaternalProfile("Preventive Services", dbMaternalPreventiveServicesList, isPatient)
+        val dbMaternalBirthPlan = DbMaternalProfile("Birth Plan", dbMaternalBirthPlanList, isPatient)
+        val dbMaternalCounseling = DbMaternalProfile("Counseling", dbMaternalCounselingList, isPatient)
+        val dbMaternalReferral = DbMaternalProfile("Referral to community", dbMaternalReferralList, isPatient)
+
+        dbMaternalProfileList.addAll(listOf(
+            dbMaternalProfile,dbMaternalMedicalHistory,dbMaternalAssessment,
+            dbMaternalPreventiveServices,dbMaternalBirthPlan,dbMaternalCounseling,dbMaternalReferral))
+
+        val adapter = ExpandableRecyclerAdapter(dbMaternalProfileList, this)
+        recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
+
+
     }
 
     private fun getData() {
@@ -94,12 +180,10 @@ class PatientProfile : AppCompatActivity() {
 
 
         val status = formatterClass.retrieveSharedPreference(this, "status")
-        if (status != null && status != "") {
-
-            if (status=="referred"){
-                changeVisibility()
-            }
-
+        isPatient = if (status != null && status != "") {
+            status != "referred"
+        }else{
+            false
         }
 
 //        viewModel.poll()
@@ -168,13 +252,13 @@ class PatientProfile : AppCompatActivity() {
     }
 
     private fun changeVisibility(){
-        navigateMedicalHistory.visibility = View.GONE
-        linearRow1.visibility = View.GONE
-        linearRow2.visibility = View.GONE
-        linearRow3.visibility = View.GONE
-        linearRow4.visibility = View.GONE
-        linearRow5.visibility = View.GONE
-        linearRow6.visibility = View.GONE
+//        navigateMedicalHistory.visibility = View.GONE
+//        linearRow1.visibility = View.GONE
+//        linearRow2.visibility = View.GONE
+//        linearRow3.visibility = View.GONE
+//        linearRow4.visibility = View.GONE
+//        linearRow5.visibility = View.GONE
+//        linearRow6.visibility = View.GONE
     }
 
     private fun calluser(value: String){
@@ -338,26 +422,26 @@ class PatientProfile : AppCompatActivity() {
 
 
     private fun navigate() {
-        navigateClinicalNotes.setOnClickListener { startActivity(Intent(this, ClinicalNotesList::class.java))}
-        navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlanView::class.java))}
-        navigatePresent.setOnClickListener { startActivity(Intent(this, PresentPregnancyList::class.java))}
-        navigatePhysicalExam.setOnClickListener { startActivity(Intent(this, PhysicalExaminationList::class.java))}
-        navigateWeight.setOnClickListener { startActivity(Intent(this, WeightMonitoringChart::class.java))}
-        navigateMedicalHistory.setOnClickListener { startActivity(Intent(this, MedicalSurgicalHistoryView::class.java))}
-        navigatePreviousPreg.setOnClickListener { startActivity(Intent(this, PreviousPregnancyList::class.java))}
-        navigateAntenatal.setOnClickListener { startActivity(Intent(this, AntenatalProfileView::class.java))}
-        navigatePreventiveService.setOnClickListener { startActivity(Intent(this, PreventiveServiceList::class.java))}
-        navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxisList::class.java))}
-        navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerologyView::class.java))}
-
-        navigateIfas.setOnClickListener { startActivity(Intent(this, IfasList::class.java))}
-        navigatePmtct.setOnClickListener { startActivity(Intent(this, PMTCTInterventionsView::class.java))}
-        navigateDeworming.setOnClickListener { startActivity(Intent(this, DewormingView::class.java))}
-        navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}
-        navigateReferral.setOnClickListener { startActivity(Intent(this, ReferralView::class.java))}
-        navigatePatientDetails.setOnClickListener { startActivity(Intent(this, PatientDetails::class.java))}
-
-        navigateSummary.setOnClickListener { startActivity(Intent(this, Summary::class.java))}
+//        navigateClinicalNotes.setOnClickListener { startActivity(Intent(this, ClinicalNotesList::class.java))}
+//        navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlanView::class.java))}
+//        navigatePresent.setOnClickListener { startActivity(Intent(this, PresentPregnancyList::class.java))}
+//        navigatePhysicalExam.setOnClickListener { startActivity(Intent(this, PhysicalExaminationList::class.java))}
+//        navigateWeight.setOnClickListener { startActivity(Intent(this, WeightMonitoringChart::class.java))}
+//        navigateMedicalHistory.setOnClickListener { startActivity(Intent(this, MedicalSurgicalHistoryView::class.java))}
+//        navigatePreviousPreg.setOnClickListener { startActivity(Intent(this, PreviousPregnancyList::class.java))}
+//        navigateAntenatal.setOnClickListener { startActivity(Intent(this, AntenatalProfileView::class.java))}
+//        navigatePreventiveService.setOnClickListener { startActivity(Intent(this, PreventiveServiceList::class.java))}
+//        navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxisList::class.java))}
+//        navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerologyView::class.java))}
+//
+//        navigateIfas.setOnClickListener { startActivity(Intent(this, IfasList::class.java))}
+//        navigatePmtct.setOnClickListener { startActivity(Intent(this, PMTCTInterventionsView::class.java))}
+//        navigateDeworming.setOnClickListener { startActivity(Intent(this, DewormingView::class.java))}
+//        navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}
+//        navigateReferral.setOnClickListener { startActivity(Intent(this, ReferralView::class.java))}
+//        navigatePatientDetails.setOnClickListener { startActivity(Intent(this, PatientDetails::class.java))}
+//
+//        navigateSummary.setOnClickListener { startActivity(Intent(this, Summary::class.java))}
 
     }
 

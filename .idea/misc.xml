@@ -111,6 +111,9 @@
         <entry key="app/src/main/res/layout/fragment_smart_reading.xml" value="0.25224454895254383" />
         <entry key="app/src/main/res/layout/fragment_surgical.xml" value="0.33" />
         <entry key="app/src/main/res/layout/frament_confirm.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_expandable.xml" value="0.31765711842667804" />
+        <entry key="app/src/main/res/layout/mater.xml" value="0.32962804617357844" />
+        <entry key="app/src/main/res/layout/maternal_children.xml" value="0.22937443336355395" />
         <entry key="app/src/main/res/layout/navigation.xml" value="0.33133817870884996" />
         <entry key="app/src/main/res/layout/no_record.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/observation_view.xml" value="0.223731884057971" />

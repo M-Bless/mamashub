@@ -1,5 +1,7 @@
 package com.intellisoft.kabarakmhis.helperclass
 
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import com.google.gson.annotations.SerializedName
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.new_designs.data_class.CodingObservation
@@ -210,4 +212,23 @@ data class DbSmartWatchReadings(
 data class DbWatchReading(
     val text: String,
     val value: String
+)
+data class Model(
+    val namehello: String,
+    val date:String,
+    val apilevel: String,
+    val description : String,
+    var expandable : Boolean = false)
+
+data class DbMaternalProfile(
+    val title: String,
+    val childrenList : ArrayList<DbMaternalProfileChild>,
+    val isPatient : Boolean,
+    var expandable : Boolean = false,
+
+)
+data class DbMaternalProfileChild(
+    val id:Double,
+    val image: Drawable,
+    val title: String,
 )
