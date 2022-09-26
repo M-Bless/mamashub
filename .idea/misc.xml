@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable/edit_outline1.xml" value="0.2685" />
         <entry key="app/src/main/res/drawable/edit_outline_trans.xml" value="0.1915" />
         <entry key="app/src/main/res/drawable/layout_dotted.xml" value="0.364" />
+        <entry key="app/src/main/res/drawable/round_corner.xml" value="0.281" />
         <entry key="app/src/main/res/drawable/round_edittext.xml" value="0.333" />
         <entry key="app/src/main/res/drawable/search_round.xml" value="0.3545" />
         <entry key="app/src/main/res/layout/activity_antenatal_profile.xml" value="0.19630192502532928" />
@@ -123,6 +124,8 @@
         <entry key="app/src/main/res/layout/patient_list_item_view.xml" value="0.30117753623188404" />
         <entry key="app/src/main/res/layout/patient_list_view.xml" value="0.30117753623188404" />
         <entry key="app/src/main/res/layout/progress_bar.xml" value="0.40260416666666665" />
+        <entry key="app/src/main/res/layout/regimen_pmtct.xml" value="0.3304831124412142" />
+        <entry key="app/src/main/res/layout/regimen_pmtct_view.xml" value="0.32962804617357844" />
         <entry key="app/src/main/res/layout/screener_encounter_fragment.xml" value="0.23777173913043478" />
         <entry key="app/src/main/res/layout/user_details.xml" value="0.3304831124412142" />
         <entry key="app/src/main/res/layout/watch_reading.xml" value="0.32962804617357844" />

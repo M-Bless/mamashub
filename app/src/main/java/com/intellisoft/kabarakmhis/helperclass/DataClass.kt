@@ -232,3 +232,9 @@ data class DbMaternalProfileChild(
     val image: Drawable,
     val title: String,
 )
+data class DbPMTCTRegimen(
+    val regimen: String,
+    val amount: Double,
+    val dosage: Double,
+    val frequency: Double,
+)

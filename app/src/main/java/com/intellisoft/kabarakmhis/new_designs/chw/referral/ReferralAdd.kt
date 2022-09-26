@@ -224,7 +224,7 @@ class ReferralAdd : AppCompatActivity() {
             if (confirmCheck){
                 saveData()
             }else{
-                Toast.makeText(this, "Please confirm that you have reviewed the information", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please confirm that this information is accurate.", Toast.LENGTH_SHORT).show()
             }
 
 

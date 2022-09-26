@@ -2,6 +2,9 @@ package com.intellisoft.kabarakmhis.new_designs.pmtct
 
 import android.app.Application
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -19,16 +22,13 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
-import com.intellisoft.kabarakmhis.helperclass.DbObservationLabel
-import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
-import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
-import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.helperclass.*
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.fragment_birthplan1.view.*
+import kotlinx.android.synthetic.main.fragment_pmtct1.*
 import kotlinx.android.synthetic.main.fragment_pmtct1.view.*
 import kotlinx.android.synthetic.main.fragment_pmtct1.view.navigation
-import kotlinx.android.synthetic.main.fragment_pmtct1.view.tvDate
-import kotlinx.android.synthetic.main.fragment_pmtct3.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,6 +55,11 @@ class FragmentPmtct1 : Fragment() {
     private lateinit var patientId: String
     private lateinit var fhirEngine: FhirEngine
 
+    var regimentList = arrayOf("Please select a regimen","Dolutegravir", "Emtricitabine", "Tenofovir alafenamide fumarate",
+        "Zidovudine", "Lamivudine", "Nevirapine", "Efavirenz", "Other")
+
+    private var dbPMTCTRegimenList = ArrayList<DbPMTCTRegimen>()
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -79,11 +84,6 @@ class FragmentPmtct1 : Fragment() {
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
-        rootView.tvDate.setOnClickListener {
-
-            onCreateDialog(999)
-
-        }
 
         rootView.checkboxART.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -92,60 +92,93 @@ class FragmentPmtct1 : Fragment() {
                 changeVisibility(rootView.linearART, false)
             }
         }
+        rootView.btnRegimen.setOnClickListener {
+
+            initDialog()
+
+        }
 
 
         handleNavigation()
 
         return rootView
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun onCreateDialog(id: Int) {
-        // TODO Auto-generated method stub
 
-        when (id) {
-            999 -> {
-                val datePickerDialog = DatePickerDialog( requireContext(),
-                    myDateListener, year, month, day)
+    private fun initDialog() {
 
-                datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+        val dialog = Dialog(requireContext())
 
-                datePickerDialog.show()
+        dialog.setContentView(R.layout.regimen_pmtct)
+        val btnSaveRegimen = dialog.findViewById<Button>(R.id.btnSaveRegimen)
+        val spinnerRegimen = dialog.findViewById<Spinner>(R.id.spinnerRegimen)
+        val etRegimen = dialog.findViewById<EditText>(R.id.etRegimen)
+
+        val etAmount = dialog.findViewById<EditText>(R.id.etAmount)
+        val etDosageAmount = dialog.findViewById<EditText>(R.id.etDosageAmount)
+        val etFrequency = dialog.findViewById<EditText>(R.id.etFrequency)
+
+
+        spinnerRegimen.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, regimentList)
+        spinnerRegimen.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                //Check if the user selected the last item
+                if (position == regimentList.size - 1) {
+                    //If the user selected the last item, show the dialog to add a new item
+                    etRegimen.isEnabled = true
+                } else {
+                    //If the user selected an item from the list, disable the edit text
+
+                    if (position != 0){
+                        val spinnerSelectedRegimen = regimentList[position]
+                        etRegimen.setText(spinnerSelectedRegimen)
+                    }
+
+                    etRegimen.isEnabled = false
+                }
 
             }
-            else -> null
+
         }
 
+
+        btnSaveRegimen.setOnClickListener {
+
+            val amount = etAmount.text.toString()
+            val dosageAmount = etDosageAmount.text.toString()
+            val frequency = etFrequency.text.toString()
+
+            val selectedRegimen = etRegimen.text.toString()
+            if(!TextUtils.isEmpty(selectedRegimen) && !TextUtils.isEmpty(amount)
+                && !TextUtils.isEmpty(dosageAmount) && !TextUtils.isEmpty(frequency)){
+
+                val dbPMTCTRegimen = DbPMTCTRegimen(selectedRegimen, amount.toDouble(), dosageAmount.toDouble(), frequency.toDouble())
+                dbPMTCTRegimenList.add(dbPMTCTRegimen)
+
+                showRegimenList()
+
+                dialog.dismiss()
+            }else{
+
+                if (TextUtils.isEmpty(selectedRegimen)) etRegimen.error = "Please enter a regimen"
+                if (TextUtils.isEmpty(amount)) etAmount.error = "Please enter an amount"
+                if (TextUtils.isEmpty(dosageAmount)) etDosageAmount.error = "Please enter a dosage amount"
+                if (TextUtils.isEmpty(frequency)) etFrequency.error = "Please enter a frequency"
+            }
+
+        }
+
+        dialog.show()
+    }
+
+    private fun showRegimenList() {
+
+        val regimenPmtctAdapter = RegimenPmtctAdapter(dbPMTCTRegimenList, requireContext())
+        recyclerView.adapter = regimenPmtctAdapter
 
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private val myDateListener =
-        DatePickerDialog.OnDateSetListener { arg0, arg1, arg2, arg3 -> // TODO Auto-generated method stub
-            // arg1 = year
-            // arg2 = month
-            // arg3 = day
-            val date = showDate(arg1, arg2 + 1, arg3)
 
-            rootView.tvDate.text = date
-
-
-        }
-    private fun showDate(year: Int, month: Int, day: Int) :String{
-
-        var dayDate = day.toString()
-        if (day.toString().length == 1){
-            dayDate = "0$day"
-        }
-        var monthDate = month.toString()
-        if (month.toString().length == 1){
-            monthDate = "0$monthDate"
-        }
-
-        val date = StringBuilder().append(year).append("-")
-            .append(monthDate).append("-").append(dayDate)
-
-        return date.toString()
-
-    }
 
 
     private fun handleNavigation() {
@@ -192,31 +225,22 @@ class FragmentPmtct1 : Fragment() {
         val checkBoxList = ArrayList<String>()
         if(rootView.linearART.visibility == View.VISIBLE){
 
-            if(rootView.checkboxDolutegravir.isChecked) checkBoxList.add(rootView.checkboxDolutegravir.text.toString())
-            if(rootView.checkboxEmtricitabine.isChecked) checkBoxList.add(rootView.checkboxEmtricitabine.text.toString())
-            if(rootView.checkboxTenofovir.isChecked) checkBoxList.add(rootView.checkboxTenofovir.text.toString())
-            if(rootView.checkboxOvarian.isChecked) checkBoxList.add(rootView.checkboxOvarian.text.toString())
-            if(rootView.checkboxZidovudine.isChecked) checkBoxList.add(rootView.checkboxZidovudine.text.toString())
-            if(rootView.checkboxLamivudine.isChecked) checkBoxList.add(rootView.checkboxLamivudine.text.toString())
-            if(rootView.checkboxNevirapine.isChecked) checkBoxList.add(rootView.checkboxNevirapine.text.toString())
-            if(rootView.checkboxEfavirenz.isChecked) checkBoxList.add(rootView.checkboxEfavirenz.text.toString())
+            dbPMTCTRegimenList.forEach {
+
+                val regimen = it.regimen
+                val amount = it.amount
+                val dosageAmount = it.dosage
+                val frequency = it.frequency
+
+                val regimenData = "Regimen: $regimen, Amount: $amount, Dosage: $dosageAmount, Frequency: $frequency"
+                checkBoxList.add(regimenData)
+
+            }
 
             if (checkBoxList.isNotEmpty()){
                 addData("Regimen Given", checkBoxList.joinToString(separator = ", "), DbObservationValues.REGIMEN.name)
             }
 
-            val otherRegimen = rootView.etOther.text.toString()
-
-            val artDate = rootView.tvDate.text.toString()
-            if (!TextUtils.isEmpty(artDate)){
-                addData("If yes, date started: ", artDate, DbObservationValues.DATE_STARTED.name)
-            }else{
-                errorList.add("If ART for life has been selected, provide date ")
-            }
-
-            if (!TextUtils.isEmpty(otherRegimen)){
-                addData("Other Regimen Applied",otherRegimen, DbObservationValues.OTHER_REGIMEN.name)
-            }
 
             for (items in observationList){
 
@@ -247,25 +271,6 @@ class FragmentPmtct1 : Fragment() {
             ft.addToBackStack(null)
             ft.commit()
 
-//            if (lifeART){
-//
-//                kabarakViewModel.deleteTypeTable(DbSummaryTitle.D_VL_SAMPLE.name, requireContext())
-//
-//                val ft = requireActivity().supportFragmentManager.beginTransaction()
-//                ft.replace(R.id.fragmentHolder, FragmentPmtct2())
-//                ft.addToBackStack(null)
-//                ft.commit()
-//
-//            }else{
-//
-//                kabarakViewModel.deleteTypeTable(DbSummaryTitle.B_ART_FOR_LIFE.name, requireContext())
-//
-//                val ft = requireActivity().supportFragmentManager.beginTransaction()
-//                ft.replace(R.id.fragmentHolder, FragmentPmtct3())
-//                ft.addToBackStack(null)
-//                ft.commit()
-//
-//            }
 
         }else{
             formatter.showErrorDialog(errorList, requireContext())
@@ -311,7 +316,7 @@ class FragmentPmtct1 : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
+        showRegimenList()
         getSavedData()
     }
 
@@ -326,13 +331,6 @@ class FragmentPmtct1 : Fragment() {
 
                     val interventionGiven = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.INTERVENTION_GIVEN.name), encounterId)
-                    val dateStarted = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
-                        formatter.getCodes(DbObservationValues.DATE_STARTED.name), encounterId)
-                    val regimen = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
-                        formatter.getCodes(DbObservationValues.REGIMEN.name), encounterId)
-                    val otherRegimen = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
-                        formatter.getCodes(DbObservationValues.OTHER_REGIMEN.name), encounterId)
-
 
                     CoroutineScope(Dispatchers.Main).launch {
 
@@ -354,42 +352,6 @@ class FragmentPmtct1 : Fragment() {
 
                             }
 
-                        }
-                        if (dateStarted.isNotEmpty()){
-                            val dateStartedValue = dateStarted[0].value
-                            val valueNo = formatter.getValues(dateStartedValue,0)
-                            rootView.tvDate.setText(valueNo)
-                        }
-                        if (regimen.isNotEmpty()){
-                            val value = regimen[0].value
-                            val valueList = formatter.stringToWords(value)
-
-                            val checkBoxList = ArrayList<CheckBox>()
-                            checkBoxList.addAll(listOf(
-                                rootView.checkboxDolutegravir,
-                                rootView.checkboxEmtricitabine,
-                                rootView.checkboxTenofovir,
-                                rootView.checkboxOvarian,
-                                rootView.checkboxZidovudine,
-                                rootView.checkboxLamivudine,
-                                rootView.checkboxNevirapine,
-                                rootView.checkboxEfavirenz,
-                            ))
-                            valueList.forEach {
-
-                                val valueData = it.replace(" ", "").toLowerCase()
-
-                                checkBoxList.forEach { checkBox ->
-                                    if (checkBox.text.toString().replace(" ", "").lowercase() == valueData){
-                                        checkBox.isChecked = true
-                                    }
-                                }
-
-                            }
-                        }
-                        if (otherRegimen.isNotEmpty()){
-                            val value = otherRegimen[0].value
-                            rootView.etOther.setText(value)
                         }
 
                     }

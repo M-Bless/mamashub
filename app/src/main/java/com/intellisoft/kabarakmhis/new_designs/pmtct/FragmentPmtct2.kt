@@ -170,21 +170,6 @@ class FragmentPmtct2 : Fragment() {
         val errorList = ArrayList<String>()
 
 
-        val artAmount = rootView.etDosageAmount.text.toString()
-
-        if (!TextUtils.isEmpty(artAmount)){
-            addData("ART Amount",artAmount, DbObservationValues.ART_DOSAGE.name)
-        }else{
-            errorList.add("ART Amount is required")
-        }
-
-        val frequency = rootView.etFrequency.text.toString()
-        if (!TextUtils.isEmpty(frequency)){
-            addData("ART Frequency",frequency, DbObservationValues.ART_FREQUENCY.name)
-        }else{
-            errorList.add("ART Frequency is required")
-        }
-
         val regimenChange = formatter.getRadioText(rootView.radioGrpRegimen)
         if (regimenChange != ""){
             addData("Was regimen changed? ",regimenChange, DbObservationValues.REGIMEN_CHANGE.name)
@@ -330,10 +315,6 @@ class FragmentPmtct2 : Fragment() {
                 val encounterId = formatter.retrieveSharedPreference(requireContext(), DbResourceViews.PMTCT.name)
                 if (encounterId != null){
 
-                    val artDosage = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
-                        formatter.getCodes(DbObservationValues.ART_DOSAGE.name), encounterId)
-                    val artFrequency = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
-                        formatter.getCodes(DbObservationValues.ART_FREQUENCY.name), encounterId)
                     val regimenChange = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.REGIMEN_CHANGE.name), encounterId)
                     val reason = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
@@ -347,14 +328,6 @@ class FragmentPmtct2 : Fragment() {
 
                     CoroutineScope(Dispatchers.Main).launch {
 
-                        if (artDosage.isNotEmpty()){
-                            val value = artDosage[0].value
-                            rootView.etDosageAmount.setText(value)
-                        }
-                        if (artFrequency.isNotEmpty()){
-                            val value = artFrequency[0].value
-                            rootView.etFrequency.setText(value)
-                        }
                         if (regimenChange.isNotEmpty()){
                             val value = regimenChange[0].value
                             if (value.contains("Yes", ignoreCase = true)) rootView.radioGrpRegimen.check(R.id.radioYesRegimen)
