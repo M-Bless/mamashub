@@ -31,6 +31,7 @@
             android:name=".new_designs.chw.referral.ReferralAdd"
             android:exported="false" />
         <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.chw.referral.ReferralView"
             android:exported="false" />
         <activity

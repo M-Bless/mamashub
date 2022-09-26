@@ -87,21 +87,11 @@ class PatientProfile : AppCompatActivity() {
         }
         getData()
 
-        navigate()
-
         initData()
 
-        setRecyclerView()
-
 
     }
 
-    private fun setRecyclerView() {
-
-
-
-
-    }
 
     private fun initData() {
 
@@ -421,29 +411,7 @@ class PatientProfile : AppCompatActivity() {
 
 
 
-    private fun navigate() {
-//        navigateClinicalNotes.setOnClickListener { startActivity(Intent(this, ClinicalNotesList::class.java))}
-//        navigateBirthPlan.setOnClickListener { startActivity(Intent(this, BirthPlanView::class.java))}
-//        navigatePresent.setOnClickListener { startActivity(Intent(this, PresentPregnancyList::class.java))}
-//        navigatePhysicalExam.setOnClickListener { startActivity(Intent(this, PhysicalExaminationList::class.java))}
-//        navigateWeight.setOnClickListener { startActivity(Intent(this, WeightMonitoringChart::class.java))}
-//        navigateMedicalHistory.setOnClickListener { startActivity(Intent(this, MedicalSurgicalHistoryView::class.java))}
-//        navigatePreviousPreg.setOnClickListener { startActivity(Intent(this, PreviousPregnancyList::class.java))}
-//        navigateAntenatal.setOnClickListener { startActivity(Intent(this, AntenatalProfileView::class.java))}
-//        navigatePreventiveService.setOnClickListener { startActivity(Intent(this, PreventiveServiceList::class.java))}
-//        navigateMalariaProphylaxis.setOnClickListener { startActivity(Intent(this, MalariaProphylaxisList::class.java))}
-//        navigateMaternalSerology.setOnClickListener { startActivity(Intent(this, MaternalSerologyView::class.java))}
-//
-//        navigateIfas.setOnClickListener { startActivity(Intent(this, IfasList::class.java))}
-//        navigatePmtct.setOnClickListener { startActivity(Intent(this, PMTCTInterventionsView::class.java))}
-//        navigateDeworming.setOnClickListener { startActivity(Intent(this, DewormingView::class.java))}
-//        navigateCounselling.setOnClickListener { startActivity(Intent(this, CounsellingView::class.java))}
-//        navigateReferral.setOnClickListener { startActivity(Intent(this, ReferralView::class.java))}
-//        navigatePatientDetails.setOnClickListener { startActivity(Intent(this, PatientDetails::class.java))}
-//
-//        navigateSummary.setOnClickListener { startActivity(Intent(this, Summary::class.java))}
 
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
