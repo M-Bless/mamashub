@@ -105,7 +105,6 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
                 if (!TextUtils.isEmpty(value)){
                     try {
                         validateFoetal(rootView.etFoetalMovement, value.toInt())
-
                     }catch (e: Exception){
                         e.printStackTrace()
                     }

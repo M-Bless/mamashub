@@ -97,11 +97,6 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
 
         }
 
-        //Sort out the list according to the appointment date
-
-
-        Log.e("Unsorted List", clientList.toString())
-
 
         return clientList
     }
@@ -145,13 +140,15 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
 
         FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
             "status", "referred")
-        search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS-CHW" })
+        search.filter(Patient.ORGANIZATION, {value = "CHW-TO-ORGANISATION"})
+        search.filter(Patient.ACTIVE, {value = of(false)})
     }
 
     private fun filterCity(search: Search) {
         FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
             "status", "all")
         search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS6" })
+
     }
 
     class FhirFormatterClassViewModelFactory(

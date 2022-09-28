@@ -21,6 +21,9 @@ import com.intellisoft.kabarakmhis.new_designs.data_class.*
 import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_chw1.*
 import kotlinx.android.synthetic.main.fragment_chw1.view.*
+import kotlinx.android.synthetic.main.fragment_chw1.view.etHealthFacility
+import kotlinx.android.synthetic.main.fragment_chw1.view.etOfficerName
+import kotlinx.android.synthetic.main.fragment_chw1.view.etPatientName
 import kotlinx.android.synthetic.main.fragment_chw1.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
@@ -49,9 +52,6 @@ class FragmentCHW1 : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_chw1, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
-
-        formatter.saveCurrentPage("1", requireContext())
-        getPageDetails()
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -153,12 +153,17 @@ class FragmentCHW1 : Fragment() {
 
         val comments = rootView.etComments.text.toString()
 
+        val officerName = rootView.etOfficerName.text.toString()
+        val actionTaken = rootView.etActionTaken.text.toString()
+
+
         val isFemaleChecked = rootView.checkboxNoPast.isChecked
 
         if (
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(age) &&
             !TextUtils.isEmpty(communityHealthUnit) && !TextUtils.isEmpty(healthUnit) &&
             !TextUtils.isEmpty(reason) && !TextUtils.isEmpty(mainProblem) &&
+            !TextUtils.isEmpty(officerName) && !TextUtils.isEmpty(actionTaken) &&
             !TextUtils.isEmpty(interventionGiven) && !TextUtils.isEmpty(comments) && isFemaleChecked) {
 
             val id = FormatterClass().generateUuid()
@@ -170,7 +175,7 @@ class FragmentCHW1 : Fragment() {
             addData("Name of client",clientName, DbObservationValues.CLIENT_NAME.name)
             addData("Sex","Female", DbObservationValues.BABY_SEX.name)
             addData("Age",age, DbObservationValues.DATE_OF_BIRTH.name)
-            addData("Date",date, DbObservationValues.DATE_STARTED.name)
+            addData("Date of referral",date, DbObservationValues.DATE_STARTED.name)
             addData("Time of referral",time, DbObservationValues.TIMING_CONTACT.name)
 
 
@@ -210,6 +215,23 @@ class FragmentCHW1 : Fragment() {
             }
             observationList.clear()
 
+            addData("Name of officer:",officerName, DbObservationValues.OFFICER_NAME.name)
+            addData("Action taken:",actionTaken, DbObservationValues.ACTION_TAKEN.name)
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, DbSummaryTitle.D_RECEIVING_OFFICER.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
+
+
             val dbDataDetailsList = ArrayList<DbDataDetails>()
             val dbDataDetails = DbDataDetails(dbDataList)
             dbDataDetailsList.add(dbDataDetails)
@@ -218,7 +240,8 @@ class FragmentCHW1 : Fragment() {
 
 
             val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragmentHolder, FragmentCHW2())
+            ft.replace(R.id.fragmentHolder, formatter.startChvFragmentPatient(requireContext(),
+                DbResourceViews.COMMUNITY_REFERRAL_WORKER.name))
             ft.addToBackStack(null)
             ft.commit()
 
@@ -233,6 +256,10 @@ class FragmentCHW1 : Fragment() {
             if (TextUtils.isEmpty(mainProblem)) errorList.add("Main Problem is required")
             if (TextUtils.isEmpty(interventionGiven)) errorList.add("Intervention Given is required")
             if (TextUtils.isEmpty(comments)) errorList.add("Comments is required")
+
+            if (TextUtils.isEmpty(officerName)) errorList.add("Officer Name is required")
+            if (TextUtils.isEmpty(actionTaken)) errorList.add("Action Taken is required")
+
             if (!isFemaleChecked) errorList.add("Please make a selection")
 
             formatter.showErrorDialog(errorList, requireContext())
@@ -250,19 +277,5 @@ class FragmentCHW1 : Fragment() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getPageDetails() {
-
-        val totalPages = formatter.retrieveSharedPreference(requireContext(), "totalPages")
-        val currentPage = formatter.retrieveSharedPreference(requireContext(), "currentPage")
-
-        if (totalPages != null && currentPage != null){
-
-            formatter.progressBarFun(requireContext(), currentPage.toInt(), totalPages.toInt(), rootView)
-
-        }
-
-
-    }
 
 }

@@ -53,11 +53,14 @@ class FormatterClass {
         } else {
             ""
         }
+        val dob = if (hasBirthDate()) birthDate else ""
+        val dobDate = convertFhirDate(dob.toString()) ?: ""
 
         return DbPatientDetails(
             id = patientId,
             name = name,
             lastUpdated = lastUpdated,
+            dob = dobDate,
         )
     }
 
@@ -70,6 +73,20 @@ class FormatterClass {
         val cal = Calendar.getInstance()
 
         val formatter = SimpleDateFormat("dd-MMM-yyyy")
+        val dateValue = formatter.parse(date)
+        cal.time = dateValue
+        cal.add(Calendar.DATE, -280)
+        val sdf1 = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        val newDate = cal.time
+
+        return sdf1.format(newDate)
+
+    }
+    fun convertYYYYMMDD(date: String): String {
+
+        val cal = Calendar.getInstance()
+
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
         val dateValue = formatter.parse(date)
         cal.time = dateValue
         cal.add(Calendar.DATE, -280)
@@ -395,7 +412,7 @@ class FormatterClass {
 
             "dob", "LMP","kinName","edd","patientId",
             "FHIRID","kinPhone","saveEncounterId","pageConfirmDetails",
-            "hivStatus","savedEncounter",
+            "hivStatus","savedEncounter","GRAVIDA","HEIGHT","PARITY","WEIGHT","clientName",
 
             "${DbResourceViews.PHYSICAL_EXAMINATION.name}_SUMMARY",
             "${DbResourceViews.PRESENT_PREGNANCY.name}_SUMMARY",
@@ -456,6 +473,7 @@ class FormatterClass {
         val tvGravida :TextView = userView.findViewById(R.id.tvGravida)
         val tvHeight :TextView = userView.findViewById(R.id.tvHeight)
         val tvParity :TextView = userView.findViewById(R.id.tvParity)
+        val tvGestation :TextView = userView.findViewById(R.id.tvGestation)
 
         val identifier = retrieveSharedPreference(context, "identifier")
         val patientName = retrieveSharedPreference(context, "patientName")
@@ -464,6 +482,8 @@ class FormatterClass {
         val gravida = retrieveSharedPreference(context, DbObservationValues.GRAVIDA.name)
         val height = retrieveSharedPreference(context, DbObservationValues.HEIGHT.name)
         val weight = retrieveSharedPreference(context, DbObservationValues.WEIGHT.name)
+        val gestation = retrieveSharedPreference(context, DbObservationValues.GESTATION.name)
+
         val edd = retrieveSharedPreference(context, "edd")
 
         tvPatient.text = patientName
@@ -480,6 +500,10 @@ class FormatterClass {
         }
         if (parity != null) {
             tvEdd.text = edd
+        }
+        if (gestation != null) {
+            val gestationValue = "$gestation weeks"
+            tvGestation.text = gestationValue
         }
 
     }

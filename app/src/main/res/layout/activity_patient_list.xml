@@ -36,30 +36,40 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/mySpinner"
+            <androidx.appcompat.widget.SearchView
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                app:queryBackground="@android:color/transparent"
+                android:background="@drawable/search_round"
+                android:id="@+id/search_round"
                 android:layout_width="match_parent"
-                android:spinnerMode="dialog"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:iconifiedByDefault="false"
+                app:queryHint="@string/query_hint_patient_search" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
+                android:gravity="end"
+                android:orientation="horizontal">
 
-        <androidx.appcompat.widget.SearchView
-            android:layout_marginTop="10dp"
-            app:queryBackground="@android:color/transparent"
-            android:background="@drawable/search_round"
-            android:id="@+id/etSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:iconifiedByDefault="false"
-            app:queryHint="@string/query_hint_patient_search" />
+                <Spinner
+                    android:id="@+id/mySpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:spinnerMode="dialog" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <include
             android:visibility="gone"
@@ -83,8 +93,6 @@
 
             <LinearLayout
                 android:layout_marginTop="@dimen/_5dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -102,10 +110,18 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
-
                 <TextView
                     android:textStyle="bold"
-                    android:text="Action"
+                    android:layout_marginEnd="@dimen/_15dp"
+                    android:layout_marginStart="15dp"
+                    android:text="DOB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginStart="15dp"
+                    android:textStyle="bold"
+                    android:text="Referral Date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -115,12 +131,10 @@
                 android:id="@+id/patient_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
                 android:scrollbars="vertical"
                 app:layoutManager="LinearLayoutManager"
                 tools:context=".PatientListActivity"
-                tools:listitem="@layout/patient_list_item_view" />
+                tools:listitem="@layout/chw_client_list" />
 
         </LinearLayout>
 

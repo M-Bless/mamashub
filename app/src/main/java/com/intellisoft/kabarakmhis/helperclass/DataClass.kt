@@ -52,8 +52,17 @@ data class PatientItem(
 data class DbPatientDetails(
     val id : String,
     val name : String,
-    val lastUpdated: String
+    val lastUpdated: String,
+    val dob: String = ""
 )
+data class DbChwPatientData(
+    val id : String,
+    val name : String,
+    val dob: String,
+    val referralDate: String,
+    val lastUpdated: String,
+
+    )
 
 data class RiskAssessmentItem(
     var riskStatusColor: Int,

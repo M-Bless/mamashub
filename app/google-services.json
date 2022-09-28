@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "387548181076",
+    "project_id": "nrf-kabarak",
+    "storage_bucket": "nrf-kabarak.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387548181076:android:34bb0a04fc5bb64a8ab3c1",
+        "android_client_info": {
+          "package_name": "com.clinkod.kabarak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387548181076-ieu2hftldui1rn4qr0ln48nqes00dgsr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvPjjNr580pB3HgkU0urG1dcxLCYHxQS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387548181076-ieu2hftldui1rn4qr0ln48nqes00dgsr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387548181076:android:6d114e48eb06bef48ab3c1",
+        "android_client_info": {
+          "package_name": "com.intellisoft.kabarakmhis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387548181076-ieu2hftldui1rn4qr0ln48nqes00dgsr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvPjjNr580pB3HgkU0urG1dcxLCYHxQS4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387548181076-ieu2hftldui1rn4qr0ln48nqes00dgsr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

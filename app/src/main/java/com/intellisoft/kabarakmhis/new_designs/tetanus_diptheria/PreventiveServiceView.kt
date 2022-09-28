@@ -107,8 +107,6 @@ class PreventiveServiceView : AppCompatActivity() {
 
                 }
 
-
-
             }
 
 

@@ -64,8 +64,8 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 3.5 -> { context.startActivity(Intent(context, ClinicalNotesList::class.java)) }
 
                 4.1 -> { context.startActivity(Intent(context, PreventiveServiceList::class.java)) }
-                4.2 -> { context.startActivity(Intent(context, IfasList::class.java)) }
-                4.3 -> { context.startActivity(Intent(context, MalariaProphylaxisList::class.java)) }
+                4.2 -> { context.startActivity(Intent(context, MalariaProphylaxisList::class.java)) }
+                4.3 -> { context.startActivity(Intent(context, IfasList::class.java)) }
                 4.4 -> { context.startActivity(Intent(context, MaternalSerologyView::class.java)) }
                 4.5 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java)) }
                 4.6 -> { context.startActivity(Intent(context, DewormingView::class.java)) }

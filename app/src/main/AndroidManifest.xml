@@ -150,6 +150,7 @@
             android:name=".new_designs.birth_plan.BirthPlan"
             android:exported="false" />
         <activity
+            android:parentActivityName=".new_designs.chw.PatientList"
             android:name=".new_designs.chw.CommunityHealthWorkerForm"
             android:exported="false" />
         <activity

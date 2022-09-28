@@ -87,6 +87,7 @@
                                  />
 
                             <EditText
+                                android:enabled="false"
                                 android:maxEms="6"
                                 android:id="@+id/etKmhflCode"
                                 android:layout_width="match_parent"
@@ -283,6 +284,7 @@
                     </TableLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearLessAge"
                         android:layout_marginTop="@dimen/_15dp"
                         android:layout_width="match_parent"

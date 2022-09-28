@@ -10,22 +10,22 @@ import com.google.android.fhir.search.Order
 import com.google.android.fhir.search.Search
 import com.google.android.fhir.search.StringFilterModifier
 import com.google.android.fhir.search.search
-import com.intellisoft.kabarakmhis.helperclass.DbPatientDetails
-import com.intellisoft.kabarakmhis.helperclass.FormatterClass
-import com.intellisoft.kabarakmhis.helperclass.PatientItem
-import org.hl7.fhir.r4.model.Patient
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
+import com.intellisoft.kabarakmhis.helperclass.*
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Arrays.sort
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.hl7.fhir.r4.model.Identifier
+import org.hl7.fhir.r4.model.*
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ChwPatientListViewModel (application: Application, private val fhirEngine: FhirEngine): AndroidViewModel(application) {
 
-    val liveSearchedPatients = MutableLiveData<List<DbPatientDetails>>()
+    val liveSearchedPatients = MutableLiveData<List<DbChwPatientData>>()
 
     init {
         updatePatientListAndPatientCount { getSearchResults() }
@@ -39,14 +39,14 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         getSearchResults()
     }
 
-    private fun updatePatientListAndPatientCount(search: suspend () -> List<DbPatientDetails>) {
+    private fun updatePatientListAndPatientCount(search: suspend () -> List<DbChwPatientData>) {
 
         viewModelScope.launch {
             liveSearchedPatients.value = search()
         }
     }
 
-    private suspend fun getSearchResults(nameQuery: String = ""): List<DbPatientDetails> {
+    private suspend fun getSearchResults(nameQuery: String = ""): List<DbChwPatientData> {
         val patientsList: MutableList<DbPatientDetails> = mutableListOf()
 
         fhirEngine.search<Patient> {
@@ -57,7 +57,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
                     value = nameQuery
                 })
             }
-            filterCity(this)
+            filterReferTo(this)
             sort(Patient.FAMILY, Order.ASCENDING)
             count = 100
             from = 0
@@ -66,12 +66,72 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
             FormatterClass().patientData(patient, index + 1)
         }.let { patientsList.addAll(it) }
 
-        return patientsList
+        val clientList = ArrayList<DbChwPatientData>()
+        patientsList.forEach {patient ->
+
+            val id = patient.id
+            val name = patient.name
+            val dob = patient.dob
+
+            val referralList = getReferralDate(id)
+            val appointment =if (referralList.isNotEmpty()){
+                referralList[0].value.trim()
+            }else{
+                "----/--/--"
+            }
+
+            val dbPatientDetails = DbChwPatientData(id, name, dob, appointment, "")
+            clientList.add(dbPatientDetails)
+
+        }
+
+        return clientList
     }
 
-    private fun filterCity(search: Search) {
+    private suspend fun getReferralDate(patientId: String):List<ObservationItem>  {
 
-        search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS-CHW" })
+        val formatter = FormatterClass()
+        val encounter = mutableListOf<EncounterItem>()
+        fhirEngine.search<Encounter>{
+            filter(Encounter.REASON_CODE, {value = of(Coding().apply { code = DbResourceViews.PATIENT_INFO_CHV.name })})
+            filter(Encounter.SUBJECT, {value = "Patient/$patientId"})
+            sort(Encounter.DATE, Order.ASCENDING)
+        }.take(Int.MAX_VALUE)
+            .map { PatientDetailsViewModel.createEncounterItem(it, getApplication<Application>().resources) }
+            .let { encounter.addAll(it) }
+
+        val observations = mutableListOf<ObservationItem>()
+
+        //Get next date observations from encounter
+        encounter.forEach { encounterItem ->
+
+            val encounterId = encounterItem.id
+
+            fhirEngine
+                .search<Observation> {
+                    filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = formatter.getCodes(DbObservationValues.DATE_STARTED.name) })})
+                    filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
+                    filter(Observation.SUBJECT, {value = "Patient/$patientId"})
+                    sort(Observation.DATE, Order.ASCENDING)
+                }
+                .take(1)
+                .map { PatientDetailsViewModel.createObservationItem(it, getApplication<Application>().resources)
+                }
+                .let { observations.addAll(it) }
+
+        }
+
+        return observations
+
+    }
+
+    private fun filterReferTo(search: Search) {
+
+        FormatterClass().saveSharedPreference(getApplication<Application>().applicationContext,
+            "chw-status", "Referred to")
+
+        search.filter(Patient.ACTIVE, {value = of(false)})
+        search.filter(Patient.ORGANIZATION, {value = "CHW-TO-ORGANISATION"})
     }
 
     class FhirFormatterClassViewModelFactory(

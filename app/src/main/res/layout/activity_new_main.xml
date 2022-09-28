@@ -52,20 +52,20 @@
                 app:queryHint="@string/query_hint_patient_search" />
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="50dp"
                 android:gravity="end"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
 
                 <Spinner
-                    android:gravity="end"
-                    android:layout_gravity="end"
                     android:id="@+id/mySpinner"
                     android:layout_width="wrap_content"
-                    android:spinnerMode="dialog"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:spinnerMode="dialog" />
 
             </LinearLayout>
 

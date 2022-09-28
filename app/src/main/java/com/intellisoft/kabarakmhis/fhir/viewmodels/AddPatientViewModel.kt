@@ -58,6 +58,9 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 CoroutineScope(Dispatchers.IO + job).launch {
 
                     val patient = Patient()
+
+                    patient.active = true
+
                     val name = dbPatientFhirInformation.name
 
                     val nameList = getNames(name, name)

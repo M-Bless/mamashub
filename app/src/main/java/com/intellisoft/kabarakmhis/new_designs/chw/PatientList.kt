@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -19,17 +21,25 @@ import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
+import com.intellisoft.kabarakmhis.helperclass.DbChwPatientData
 import com.intellisoft.kabarakmhis.helperclass.DbPatientDetails
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.chw.adapter.ChwPatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.chw.viewmodel.ChwPatientListViewModel
+import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_patient_list.*
 import kotlinx.android.synthetic.main.activity_patient_list.btnRegisterPatient
+import kotlinx.android.synthetic.main.activity_patient_list.mySpinner
+import kotlinx.android.synthetic.main.activity_patient_list.no_record
+import kotlinx.android.synthetic.main.activity_patient_list.refreshLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class PatientList : AppCompatActivity() {
+class PatientList : AppCompatActivity() , AdapterView.OnItemSelectedListener{
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
@@ -39,6 +49,9 @@ class PatientList : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
 
     private var formatter = FormatterClass()
+
+    var clientList = arrayOf("","All", "Referred to", "Referred from")
+    private var spinnerClientValue  = clientList[0]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +76,7 @@ class PatientList : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
-        etSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        search_round.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 // collapse the view ?
                 //menu.findItem(R.id.menu_search).collapseActionView();
@@ -76,11 +89,14 @@ class PatientList : AppCompatActivity() {
                 // listAdapter.getFilter().filter(query);
 
                 val txtSearch = newText.toString()
-                if (!TextUtils.isEmpty(txtSearch)) {
-                    patientListViewModel.searchPatientsByName(txtSearch)
-                } else {
-                    val patientList = patientListViewModel.getPatientList()
-                    showPatients(patientList)
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (!TextUtils.isEmpty(txtSearch)) {
+                        patientListViewModel.searchPatientsByName(txtSearch)
+                    } else {
+                        val patientList = patientListViewModel.getPatientList()
+                        showPatients(patientList)
+                    }
                 }
 
                 return false
@@ -104,7 +120,29 @@ class PatientList : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        initSpinner()
         getData()
+    }
+
+    private fun initSpinner() {
+
+        val filterValue =
+            ArrayAdapter(this, android.R.layout.simple_spinner_item, clientList)
+        filterValue.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner!!.adapter = filterValue
+        mySpinner.onItemSelectedListener = this
+
+    }
+
+    override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
+        when (arg0.id) {
+            R.id.mySpinner -> { spinnerClientValue = mySpinner.selectedItem.toString() }
+            else -> {}
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
     }
 
 
@@ -119,33 +157,43 @@ class PatientList : AppCompatActivity() {
         viewModel.poll()
     }
 
-    private fun showPatients(patientList: List<DbPatientDetails>) {
+    private fun showPatients(patientList: List<DbChwPatientData>) {
 
         FormatterClass().nukeEncounters(this@PatientList)
 
-        if (patientList.isEmpty()) {
-            no_record.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
-        } else {
-            no_record.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
+        CoroutineScope(Dispatchers.Main).launch {
 
-            patientList.sortedByDescending { it.lastUpdated }
+            if (patientList.isEmpty()) {
+                no_record.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                no_record.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
 
-            val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val result = patientList.sortedByDescending {
-                (if (it.lastUpdated != ""){
-                    LocalDate.parse(it.lastUpdated, dateTimeFormatter)
-                }else{
-                    it.name
-                }).toString()
+                val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val result = patientList.sortedByDescending {
+                    (if (it.referralDate != "----/--/--"){
 
+                        try {
+                            LocalDate.parse(it.referralDate, dateTimeFormatter)
+                        }catch (e: Exception){
+                            LocalDate.parse(it.referralDate, dateTimeFormatter1)
+                        }
+
+                    }else{
+                        it.name
+                    }).toString()
+
+                }
+                //Get referral date
+
+
+                val adapter = ChwPatientsListAdapter(result, this@PatientList)
+                recyclerView.adapter = adapter
             }
 
-            val adapter = ChwPatientsListAdapter(result, this@PatientList)
-            recyclerView.adapter = adapter
         }
-
 
     }
 

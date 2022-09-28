@@ -59,6 +59,12 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
                 CoroutineScope(Dispatchers.IO + job).launch {
 
                     val patient = Patient()
+                    patient.active = false
+
+                    val organisationReference = Reference()
+                    organisationReference.reference = "CHW-TO-ORGANISATION"
+                    patient.managingOrganization = organisationReference
+
                     val name = dbPatientFhirInformation.name
 
                     val nameList = getNames(name, name)

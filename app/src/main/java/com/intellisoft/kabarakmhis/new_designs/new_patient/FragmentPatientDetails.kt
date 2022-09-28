@@ -244,24 +244,20 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
 
                             val studyWork = formatter.getRadioText(rootView.rgStudyWork)
-                            if (studyWork != ""){
-                                val studyWorkData = DbDataList("Does client study or work", studyWork, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.STUDY_WORK.name)
-                                dbDataList.add(studyWorkData)
-
-                            }else{
-                                errorList.add("Study/Work is required.")
-                            }
-
                             val homeSituation = rootView.etHomeSituation.text.toString()
                             val relationship = rootView.etRelationship.text.toString()
                             val situationShip = rootView.etSituationChange.text.toString()
                             val clientChange = rootView.etClientChange.text.toString()
                             val clientSafe = rootView.etClientSafe.text.toString()
 
-                            if (
+                            if (studyWork != "" &&
                                 !TextUtils.isEmpty(homeSituation) && !TextUtils.isEmpty(relationship) &&
                                 !TextUtils.isEmpty(situationShip) && !TextUtils.isEmpty(clientChange) &&
                                 !TextUtils.isEmpty(clientSafe)){
+
+                                val studyWorkData = DbDataList("Does client study or work",
+                                    studyWork, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.STUDY_WORK.name)
+                                dbDataList.add(studyWorkData)
 
                                 val homeSituationData = DbDataList("Client's perceive of their home situation", homeSituation, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.HOME_SITUATION.name)
                                 val relationshipData = DbDataList("Relationship with family members", relationship, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RELATIONSHIP_SURROUNDS.name)
@@ -272,8 +268,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                                     homeSituationData, relationshipData, situationShipData, clientChangeData, clientSafeData
                                 ))
 
-
-
                             }else{
 
                                 if(TextUtils.isEmpty(homeSituation)) errorList.add("Home Situation is required.")
@@ -281,8 +275,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                                 if(TextUtils.isEmpty(situationShip)) errorList.add("Situation Change is required.")
                                 if(TextUtils.isEmpty(clientChange)) errorList.add("Client Change is required.")
                                 if(TextUtils.isEmpty(clientSafe)) errorList.add("Client Safe is required.")
-
-
+                                if(studyWork == "") errorList.add("Study/Work is required.")
                             }
 
 
@@ -308,8 +301,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         formatter.saveSharedPreference(requireContext(), "patientName", clientName)
                         formatter.saveSharedPreference(requireContext(), "identifier", ancCodeValue)
 
-
-                        if (errorList.isNotEmpty()){
+                        if (errorList.isEmpty()){
 
                             kabarakViewModel.insertInfo(requireContext(), dbPatientData)
 
@@ -319,6 +311,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                             ft.commit()
 
                         }else{
+
                             formatter.showErrorDialog(errorList, requireContext())
                         }
 
@@ -404,9 +397,27 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                 val facilityName = formatter.retrieveSharedPreference(requireContext(), "facilityName")
                 val kmhflCode = formatter.retrieveSharedPreference(requireContext(), "kmhflCode")
+                val clientName = formatter.retrieveSharedPreference(requireContext(), "clientName")
+                val dob1 = formatter.retrieveSharedPreference(requireContext(), "dob")
 
-                rootView.etFacilityName.setText(facilityName)
-                rootView.etKmhflCode.setText(kmhflCode)
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    if (facilityName != null) rootView.etFacilityName.setText(facilityName)
+                    if (kmhflCode != null) rootView.etKmhflCode.setText(kmhflCode)
+                    if (clientName != null) rootView.etClientName.setText(clientName)
+                    if (dob1 != null){
+                        rootView.etDoB.text = dob1
+                        val age = formatter.calculateAge(dob1).toString()
+                        rootView.etAge.setText(age)
+
+                        if (age.toInt() < 18){
+                            rootView.linearLessAge.visibility = View.VISIBLE
+                        }else{
+                            rootView.linearLessAge.visibility = View.GONE
+                        }
+                    }
+
+                }
 
                 patientId = formatter.retrieveSharedPreference(requireContext(), "patientId")
                 if (patientId != null){
@@ -425,10 +436,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                         val encounterId = observationList[0].id
 
-                        val facilityName = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
-                            formatter.getCodes(DbObservationValues.FACILITY_NAME.name), encounterId)
-                        val kmhflCode = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
-                            formatter.getCodes(DbObservationValues.KMHFL_CODE.name), encounterId)
                         val gravida = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                             formatter.getCodes(DbObservationValues.GRAVIDA.name), encounterId)
                         val parity = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
@@ -447,7 +454,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         val clientDetails = patientDetailsViewModel.getPatientData()
                         val dob = clientDetails.dob
                         val maritalStatus = clientDetails.maritalStatus
-                        val clientName = clientDetails.name
 
                         val identifierList = clientDetails.identifier
                         var identifier = ""
@@ -466,16 +472,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                         CoroutineScope(Dispatchers.Main).launch {
 
-                            if (clientName.isNotEmpty()){
-                                rootView.etClientName.setText(clientName)
-                            }
-
-                            if (facilityName.isNotEmpty()){
-                                rootView.etFacilityName.setText(facilityName[0].value)
-                            }
-                            if (kmhflCode.isNotEmpty()){
-                                rootView.etKmhflCode.setText(kmhflCode[0].value)
-                            }
                             if (gravida.isNotEmpty()){
                                 val valueNo = formatter.getValues(gravida[0].value, 0)
                                 rootView.etGravida.setText(valueNo)
@@ -502,8 +498,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                                 val value = educationLevel[0].value
                                 val valueNo = value.substring(0, value.length-1)
 
-                                Log.e("noValue", valueNo)
-
                                 rootView.spinnerEducation.setSelection(educationLevelList.indexOf(valueNo))
                             }
                             if (maritalStatus != ""){
@@ -514,6 +508,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                                 rootView.etDoB.setText(dob)
                                 val age = formatter.calculateAge(dob).toString()
                                 rootView.etAge.setText(age)
+
+                                if (age.toInt() < 18){
+                                    rootView.linearLessAge.visibility = View.VISIBLE
+                                }else{
+                                    rootView.linearLessAge.visibility = View.GONE
+                                }
                             }
 
                             if (identifier != ""){

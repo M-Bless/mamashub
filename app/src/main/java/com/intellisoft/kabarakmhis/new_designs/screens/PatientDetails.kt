@@ -126,6 +126,9 @@ class PatientDetails : AppCompatActivity() {
                     val maritalStatus = clientDetails.maritalStatus
                     val address = clientDetails.address
 
+                    formatter.saveSharedPreference(this@PatientDetails, "clientName", name)
+                    formatter.saveSharedPreference(this@PatientDetails, "dob", dob)
+
                     CoroutineScope(Dispatchers.Main).launch {
 
                         progressDialog.dismiss()

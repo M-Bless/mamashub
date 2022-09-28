@@ -28,6 +28,7 @@ import com.intellisoft.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList
 import com.intellisoft.kabarakmhis.new_designs.counselling.CounsellingView
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbAncSchedule
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbIdentifier
+import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationFhirData
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.deworming.DewormingView
 import com.intellisoft.kabarakmhis.new_designs.ifas.IfasList
@@ -325,6 +326,62 @@ class PatientProfile : AppCompatActivity() {
                                     formatter.saveSharedPreference(this@PatientProfile, "edd", it)
                                 }
                             }
+
+                            val observationList = patientDetailsViewModel.getObservationFromEncounter(
+                                DbResourceViews.PATIENT_INFO.name)
+                            if (observationList.isNotEmpty()){
+
+                                val encounterId = observationList[0].id
+                                val clinicalInfo = DbObservationFhirData(
+                                    DbSummaryTitle.C_CLINICAL_INFORMATION.name,
+                                    listOf(formatter.getCodes(DbObservationValues.GRAVIDA.name),
+                                        formatter.getCodes(DbObservationValues.PARITY.name),
+                                        formatter.getCodes(DbObservationValues.LMP.name),
+                                        formatter.getCodes(DbObservationValues.EDD.name),
+                                        formatter.getCodes(DbObservationValues.HEIGHT.name),
+                                        formatter.getCodes(DbObservationValues.WEIGHT.name)))
+                                val clinicalList = formatter.getObservationList(patientDetailsViewModel,clinicalInfo, encounterId)
+                                clinicalList.forEach {
+
+                                    val detailsList = it.detailsList
+                                    detailsList.forEach { obs ->
+
+                                        val code = obs.title.trim()
+                                        val value = obs.value.trim()
+
+                                        if (code == "Gravida"){
+                                            formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.GRAVIDA.name, value)
+                                        }
+                                        if (code == "Parity"){
+                                            formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.PARITY.name, value)
+                                        }
+                                        if (code == "Last Menstrual Date"){
+
+                                            //Get the gestation age from LMP
+                                            val firstDayLMP = formatterClass.convertYYYYMMDD(value)
+                                            val gestationAge = formatter.getWeeksBetweenDates(firstDayLMP, formatterClass.getTodayDateNoTime())
+                                            formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.LMP.name, value)
+                                            formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.GESTATION.name, gestationAge.toString())
+
+                                        }
+                                        if (code == "Expected Date of Delivery"){
+                                            formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.EDD.name, value)
+                                        }
+                                        if (code == "Height (cm)"){
+                                            formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.HEIGHT.name, value)
+                                        }
+                                        if (code == "Weight (kg)"){
+                                            formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.WEIGHT.name, value)
+                                        }
+
+
+
+                                    }
+
+                                }
+
+                            }
+
 
                             formatter.saveSharedPreference(this@PatientProfile, "patientName", patientName)
                             formatter.saveSharedPreference(this@PatientProfile, "dob", dob)

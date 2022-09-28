@@ -17,10 +17,10 @@ import com.google.android.fhir.FhirEngine
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
-import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
 import com.intellisoft.kabarakmhis.helperclass.DbSummaryTitle
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.new_designs.chw.viewmodel.ChwDetailsViewModel
 import com.intellisoft.kabarakmhis.new_designs.chw.viewmodel.ChwPatientListViewModel
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbConfirmDetails
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbObservationFhirData
@@ -40,7 +40,7 @@ class ChwClientDetails : AppCompatActivity() {
     private val formatter = FormatterClass()
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
-    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var patientDetailsViewModel: ChwDetailsViewModel
     private lateinit var patientId: String
     private lateinit var fhirEngine: FhirEngine
 
@@ -54,8 +54,8 @@ class ChwClientDetails : AppCompatActivity() {
         fhirEngine = FhirApplication.fhirEngine(this)
 
         patientDetailsViewModel = ViewModelProvider(this,
-            PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
-        )[PatientDetailsViewModel::class.java]
+            ChwDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
+        )[ChwDetailsViewModel::class.java]
         recyclerView = findViewById(R.id.recycler_view);
         layoutManager = LinearLayoutManager(
             this,
@@ -76,6 +76,8 @@ class ChwClientDetails : AppCompatActivity() {
     private fun getPatientDetails() {
 
         try {
+            
+            patientDetailsViewModel.getPatientData()
 
             CoroutineScope(Dispatchers.Main).launch {
 
@@ -90,81 +92,13 @@ class ChwClientDetails : AppCompatActivity() {
 
 
                     //Get Client Details
-                    val clientDetails = patientDetailsViewModel.getPatientData()
-                    val id = clientDetails.id
-                    val name = clientDetails.name
-                    val dob = clientDetails.dob
+                    val observationDataList = patientDetailsViewModel.getPatientData()
+
 
                     CoroutineScope(Dispatchers.Main).launch {
 
                         progressDialog.dismiss()
 
-                        val patientList = ArrayList<DbConfirmDetails>()
-
-                        //Address
-                        val observationList = patientDetailsViewModel.getObservationFromEncounter(
-                            DbResourceViews.PATIENT_INFO.name
-                        )
-
-
-                    if (observationList.isNotEmpty()){
-                        val encounterId = observationList[0].id
-//
-                        val text1 = DbObservationFhirData(
-                            DbSummaryTitle.A_PATIENT_DATA.name, listOf(
-                                formatter.getCodes(DbObservationValues.DATE_STARTED.name),
-                                formatter.getCodes(DbObservationValues.BABY_SEX.name),
-                                formatter.getCodes(DbObservationValues.TIMING_CONTACT.name)))
-
-                        val text2 = DbObservationFhirData(
-                            DbSummaryTitle.B_COMMUNITY_HEALTH_FACILITY_DETAILS.name,
-                            listOf(
-                                formatter.getCodes(DbObservationValues.COMMUNITY_HEALTH_UNIT.name),formatter.getCodes(DbObservationValues.COMMUNITY_HEALTH_LINK.name),
-                                formatter.getCodes(DbObservationValues.REFERRAL_REASON.name),formatter.getCodes(DbObservationValues.MAIN_PROBLEM.name),
-                                formatter.getCodes(DbObservationValues.CHW_INTERVENTION_GIVEN.name),formatter.getCodes(DbObservationValues.CHW_COMMENTS.name),
-                            ))
-
-                        val text3 = DbObservationFhirData(
-                            DbSummaryTitle.C_CHV_REFERRING_THE_PATIENT.name,
-                            listOf(
-                                formatter.getCodes(DbObservationValues.OFFICER_NAME.name),formatter.getCodes(DbObservationValues.OFFICER_NUMBER.name),
-                                formatter.getCodes(DbObservationValues.TOWN_NAME.name),formatter.getCodes(DbObservationValues.SUB_COUNTY_NAME.name),
-                                formatter.getCodes(DbObservationValues.COUNTY_NAME.name),formatter.getCodes(DbObservationValues.COMMUNITY_HEALTH_UNIT.name),
-                            )
-                        )
-                        val text4 = DbObservationFhirData(
-                            DbSummaryTitle.C_CHV_REFERRING_THE_PATIENT.name,
-                            listOf(
-                                formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name),formatter.getCodes(DbObservationValues.TIMING_CONTACT_CHW.name),
-                                formatter.getCodes(DbObservationValues.OFFICER_NAME.name),formatter.getCodes(DbObservationValues.PROFESSION.name),
-                                formatter.getCodes(DbObservationValues.FACILITY_NAME.name),formatter.getCodes(DbObservationValues.ACTION_TAKEN.name),
-                            )
-                        )
-                        val text1List = formatter.getObservationList(patientDetailsViewModel, text1, encounterId)
-                        val text2List = formatter.getObservationList(patientDetailsViewModel, text2, encounterId)
-                        val text3List = formatter.getObservationList(patientDetailsViewModel, text3, encounterId)
-                        val text4List = formatter.getObservationList(patientDetailsViewModel, text4, encounterId)
-
-                        val dbPatientList = ArrayList<DbObserveValue>()
-
-                        if (text1List.isNotEmpty()){
-
-                            val detailsList = text1List[0].detailsList
-                            detailsList.forEach {
-                                val dbObserveValue = DbObserveValue(it.title, it.value)
-                                dbPatientList.add(dbObserveValue)
-                            }
-
-                        }
-
-                        val dbObserveName = DbObserveValue("Client Name", name)
-                        val dbObserveDob = DbObserveValue("Date of birth", dob)
-                        dbPatientList.addAll(listOf(dbObserveName, dbObserveDob))
-
-                        val dbPatient = DbConfirmDetails(DbSummaryTitle.A_PATIENT_DATA.name, dbPatientList)
-                        patientList.add(dbPatient)
-
-                        val observationDataList = merge(patientList, text2List, text3List, text4List)
                         CoroutineScope(Dispatchers.Main).launch {
 
                             progressDialog.dismiss()
@@ -180,14 +114,6 @@ class ChwClientDetails : AppCompatActivity() {
                             val confirmParentAdapter = ConfirmParentAdapter(observationDataList,this@ChwClientDetails)
                             recyclerView.adapter = confirmParentAdapter
 
-
-                        }
-
-                    }else{
-                        CoroutineScope(Dispatchers.Main).launch {
-                            progressDialog.dismiss()
-                            Toast.makeText(this@ChwClientDetails, "No record found", Toast.LENGTH_SHORT).show()
-                        }
                     }
 
                     }.join()
