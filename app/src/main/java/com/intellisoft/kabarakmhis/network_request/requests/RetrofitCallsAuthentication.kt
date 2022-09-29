@@ -142,8 +142,6 @@ class RetrofitCallsAuthentication {
                         val kmhflCode = data.kmhflCode
                         val facilityName = data.facilityName
 
-                        Log.e("TAG", "getUserData: $kmhflCode", )
-
                         formatter.saveSharedPreference(context, "id", id)
                         formatter.saveSharedPreference(context, "USERID", id)
                         formatter.saveSharedPreference(context, "names", names)
@@ -161,6 +159,10 @@ class RetrofitCallsAuthentication {
                                 context.startActivity(intent)
                             }
                             "CLINICIAN" -> {
+                                val intent = Intent(context, NewMainActivity::class.java)
+                                context.startActivity(intent)
+                            }
+                            "NURSE" -> {
                                 val intent = Intent(context, NewMainActivity::class.java)
                                 context.startActivity(intent)
                             }

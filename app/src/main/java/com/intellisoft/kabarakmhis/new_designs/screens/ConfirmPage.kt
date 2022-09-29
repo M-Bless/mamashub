@@ -3,7 +3,10 @@ package com.intellisoft.kabarakmhis.new_designs.screens
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.intellisoft.kabarakmhis.R
+import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentPatientDetails
@@ -30,6 +33,25 @@ class ConfirmPage : AppCompatActivity() {
             }
 
 
+        }
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.log_out -> {
+
+                startActivity(Intent(this, Login::class.java))
+                finish()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

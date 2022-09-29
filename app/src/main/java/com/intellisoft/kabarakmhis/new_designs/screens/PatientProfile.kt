@@ -106,7 +106,7 @@ class PatientProfile : AppCompatActivity() {
 
         //History
         val dbMaternalHistoryList = ArrayList<DbMaternalProfileChild>()
-        val dbMaternalProfileChild3 = DbMaternalProfileChild(2.1,resources.getDrawable(R.drawable.surgery), "Medical and History")
+        val dbMaternalProfileChild3 = DbMaternalProfileChild(2.1,resources.getDrawable(R.drawable.surgery), "Medical and Surgical History")
         val dbMaternalProfileChild4 = DbMaternalProfileChild(2.2,resources.getDrawable(R.drawable.pregnant), "Previous Pregnancy")
         dbMaternalHistoryList.addAll(listOf(dbMaternalProfileChild3, dbMaternalProfileChild4))
 
@@ -359,7 +359,9 @@ class PatientProfile : AppCompatActivity() {
 
                                             //Get the gestation age from LMP
                                             val firstDayLMP = formatterClass.convertYYYYMMDD(value)
-                                            val gestationAge = formatter.getWeeksBetweenDates(firstDayLMP, formatterClass.getTodayDateNoTime())
+
+                                            val gestationAge = formatter.getGestationWeeks( firstDayLMP, formatterClass.getTodayDateNoTime())
+
                                             formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.LMP.name, value)
                                             formatter.saveSharedPreference(this@PatientProfile, DbObservationValues.GESTATION.name, gestationAge.toString())
 

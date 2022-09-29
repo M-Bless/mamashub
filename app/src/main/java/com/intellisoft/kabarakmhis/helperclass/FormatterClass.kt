@@ -28,9 +28,9 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 class FormatterClass {
 
@@ -89,7 +89,6 @@ class FormatterClass {
         val formatter = SimpleDateFormat("yyyy-MM-dd")
         val dateValue = formatter.parse(date)
         cal.time = dateValue
-        cal.add(Calendar.DATE, -280)
         val sdf1 = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         val newDate = cal.time
 
@@ -108,6 +107,28 @@ class FormatterClass {
         val diff = endDateString.time - startDateString.time
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt() / 7
     }
+
+    fun getGestationWeeks(lmpDate: String, todayDate: String): String {
+
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
+        val startDateString = formatter.parse(lmpDate)
+        val endDateString = formatter.parse(todayDate)
+
+        val diff = endDateString.time - startDateString.time
+
+        //Milliseconds to days
+        val dayNo = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
+
+        val weeks = dayNo / 7
+        val days = dayNo % 7
+
+        val dayWeekStr = "$weeks weeks, $days days"
+
+        return dayWeekStr
+    }
+
+
+
 
     fun validateEmail(emailAddress: String):Boolean{
         return emailAddress.matches(emailPattern.toRegex())
@@ -502,7 +523,7 @@ class FormatterClass {
             tvEdd.text = edd
         }
         if (gestation != null) {
-            val gestationValue = "$gestation weeks"
+            val gestationValue = "$gestation"
             tvGestation.text = gestationValue
         }
 
