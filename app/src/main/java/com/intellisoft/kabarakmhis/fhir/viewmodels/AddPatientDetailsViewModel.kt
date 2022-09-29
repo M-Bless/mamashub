@@ -37,35 +37,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
     private var fhirEngine: FhirEngine = FhirApplication.fhirEngine(application.applicationContext)
     private var questionnaireJson : String? = null
 
-    fun savePatient(questionnaireResponse: QuestionnaireResponse){
-
-        viewModelScope.launch {
-            if (QuestionnaireResponseValidator.validateQuestionnaireResponse(
-                    questionnaireResource, questionnaireResponse, getApplication())
-                    .values.flatten().any{
-                        Log.e("*******2 ", "questionnaireResponse")
-                        println(it)
-                        !it.isValid})
-            {
-
-
-                isPatientSaved.value = false
-                return@launch
-            }
-
-
-            val entry = ResourceMapper.extract(questionnaireResource, questionnaireResponse).entryFirstRep
-            if (entry.resource !is Patient){
-                return@launch
-            }
-
-            val patient = entry.resource as Patient
-            patient.id = FormatterClass().generateUuid()
-            fhirEngine.create(patient)
-            isPatientSaved.value = true
-        }
-
-    }
 
     private fun getQuestionnaireJson():String{
         questionnaireJson?.let { return it!! }
@@ -159,8 +130,6 @@ class AddPatientDetailsViewModel(application: Application, private val state: Sa
         encounterReason: String,
     ) {
 
-        Log.e("******* ", "*****")
-        println(encounterId)
 
         val encounterReference = Reference("Encounter/$encounterId")
 

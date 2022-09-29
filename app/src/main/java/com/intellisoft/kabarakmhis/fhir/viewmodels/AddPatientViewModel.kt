@@ -48,8 +48,6 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
         viewModelScope.launch {
 
-            val entry = ResourceMapper.extract(questionnaireResource, questionnaireResponse).entryFirstRep
-
             CoroutineScope(Dispatchers.IO).launch {
 
                 val patientId = dbPatientFhirInformation.id
@@ -174,10 +172,9 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     fhirEngine.create(patient)
 
                 }.join()
-                delay(2000)
+                delay(3500)
 
                 val patientReference = Reference("Patient/$patientId")
-
 
                 val dataCodeList = dbPatientFhirInformation.dataCodeList
                 val dataQuantityList = dbPatientFhirInformation.dataQuantityList
@@ -190,6 +187,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     dataQuantityList,
                     DbResourceViews.PATIENT_INFO.name
                 )
+
 
             }
 
@@ -260,9 +258,8 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     .request.url = "Observation"
             }
 
-            createCarePlan(patientReference, encounterId, encounterReason)
             saveResources(bundle, patientReference, encounterId, encounterReason)
-
+            createCarePlan(patientReference, encounterId, encounterReason)
         }
 
     }
@@ -290,6 +287,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
                 }
                 is Encounter -> {
+
                     resource.subject = subjectReference
                     resource.id = encounterId
                     resource.reasonCodeFirstRep.text = reason
@@ -304,10 +302,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
     }
 
     private suspend fun saveResourceToDatabase(resource: Resource) {
-        Log.e("++++ ", "4")
-        val saved = fhirEngine.create(resource)
-        Log.e("****Observations ", saved.toString())
-
+        fhirEngine.create(resource)
     }
 
     fun getNames(

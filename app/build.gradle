@@ -15,7 +15,7 @@ android {
         applicationId "com.intellisoft.kabarakmhis"
         minSdk 21
         targetSdk 32
-        versionCode 11
+        versionCode 12
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -78,8 +78,10 @@ dependencies {
 
 
     /*FHIR */
+//    implementation("com.google.android.fhir:engine:0.1.0-beta02")
     implementation("com.google.android.fhir:engine:0.1.0-beta01")
-    implementation("com.google.android.fhir:data-capture:0.1.0-beta03")
+    implementation("com.google.android.fhir:data-capture:0.1.0-beta05")
+//    implementation("com.google.android.fhir:data-capture:0.1.0-beta03")
 //    implementation 'ca.uhn.hapi.fhir:hapi-fhir-client:5.6.2'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.fhir.data
 
+import android.util.Log
 import com.google.android.fhir.sync.DownloadWorkManager
 
 import com.google.android.fhir.SyncDownloadContext
@@ -26,8 +27,9 @@ class DownloadManagerImpl : DownloadWorkManager {
         val resourceTypeToDownload =
             ResourceType.fromCode(url.findAnyOf(resourceTypeList, ignoreCase = true)!!.second)
         context.getLatestTimestampFor(resourceTypeToDownload)?.let {
-            url = affixLastUpdatedTimestamp(url, it)
+            url = affixLastUpdatedTimestamp(url!!, it)
         }
+
         return url
     }
 
@@ -64,7 +66,9 @@ class DownloadManagerImpl : DownloadWorkManager {
 
             for (entry in response.entry) {
 
+
                 val type = entry.resource.resourceType.toString()
+
                 if (type == "Patient") {
                     val patientUrl = "${entry.fullUrl}/\$everything"
                     urls.add(patientUrl)
@@ -75,6 +79,7 @@ class DownloadManagerImpl : DownloadWorkManager {
                     val care = no.encounter.reference
                     val encounterUrl = "$DEMO_SERVER$care/\$everything"
                     urls.add(encounterUrl)
+
                 }
                 if (type == "Encounter") {
                     val no = entry.resource as Encounter
@@ -82,12 +87,13 @@ class DownloadManagerImpl : DownloadWorkManager {
                         val patientUrl = "${entry.fullUrl}/\$everything"
                         urls.add(patientUrl)
                     }
+
                 }
 
             }
 
-            val nextUrl =
-                response.link.firstOrNull { component -> component.relation == "next" }?.url
+
+            val nextUrl = response.link.firstOrNull { component -> component.relation == "next" }?.url
             if (nextUrl != null) {
                 urls.add(nextUrl)
             }
@@ -98,6 +104,9 @@ class DownloadManagerImpl : DownloadWorkManager {
         if (response is Bundle && response.type == Bundle.BundleType.SEARCHSET) {
             bundleCollection = response.entry.map { it.resource }
         }
+
+
+
         return bundleCollection
     }
 }
@@ -131,6 +140,7 @@ private fun affixLastUpdatedTimestamp(url: String, lastUpdated: String): String 
 
 
     }
+
 
     // Do not modify any URL set by a server that specifies the token of the page to return.
     if (downloadUrl.contains("&page_token")) {

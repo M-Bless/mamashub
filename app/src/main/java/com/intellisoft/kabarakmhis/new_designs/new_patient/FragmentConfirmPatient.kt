@@ -233,15 +233,17 @@ class FragmentConfirmPatient : Fragment(){
 
                     val id = formatter.retrieveSharedPreference(requireContext(), "FHIRID").toString()
 
-                    var encounterId = ""
+                    var encounterId = formatter.generateUuid()
 
-                    val savedEncounter = formatter.retrieveSharedPreference(requireContext(), "savedEncounter")
-                    if (savedEncounter != null) {
-                        encounterId = savedEncounter
-                    }else{
-                        formatter.generateUuid()
-                    }
+//                    val savedEncounter = formatter.retrieveSharedPreference(requireContext(), "savedEncounter")
+//                    if (savedEncounter != null) {
+//                        encounterId = savedEncounter
+//                    }else{
+//                        formatter.generateUuid()
+//                    }
 
+                    Log.e("*****", "******")
+                    println(encounterId)
 
                     val dbPatientFhirInformation = DbPatientFhirInformation(
                         id, clientName, telecomList,"female", dob, addressList,
@@ -259,7 +261,7 @@ class FragmentConfirmPatient : Fragment(){
 
                 }.join()
 
-                delay(7000)
+                delay(8000)
 
                 progressDialog.dismiss()
 

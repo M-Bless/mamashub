@@ -119,9 +119,8 @@ class FragmentConfirmDetails : Fragment(){
                         val saveEncounterId = formatter.retrieveSharedPreference(requireContext(),
                             "savedEncounter")
 
-                        var encounterId = saveEncounterId ?: formatter.generateUuid()
-
-                        Log.e("EncounterId", encounterId)
+//                        var encounterId = saveEncounterId ?: formatter.generateUuid()
+                        var encounterId = formatter.generateUuid()
 
                         val patientReference = Reference("Patient/$patientId")
 

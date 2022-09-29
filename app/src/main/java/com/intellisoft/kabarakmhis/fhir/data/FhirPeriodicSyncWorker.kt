@@ -14,6 +14,6 @@ class FhirPeriodicSyncWorker(appContext: Context, workerParams: WorkerParameters
         return DownloadManagerImpl()
     }
 
-
     override fun getFhirEngine() = FhirApplication.fhirEngine(applicationContext)
+
 }
