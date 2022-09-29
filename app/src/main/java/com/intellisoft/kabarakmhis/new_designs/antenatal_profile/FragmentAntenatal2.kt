@@ -52,7 +52,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
     var artEligibilityList = arrayOf("","I", "II", "III", "IV")
     private var spinnerArtElligibilityValue  = artEligibilityList[0]
 
-    var partnerHivList = arrayOf("","Reactive", "Non-Reactive")
+    var partnerHivList = arrayOf("","Reactive", "Non-Reactive", "Unknown")
     private var spinnerPartnerHivValue  = partnerHivList[0]
 
     var arvBeforeFirstVisitList = arrayOf("","Y", "N", "NA", "Revisit")
@@ -407,15 +407,16 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
                     errorList.add("Please select ART Eligibility (WHO Stage)")
                 }
 
+                val lastCCC = rootView.tvLastCCC.text.toString()
+                if (!TextUtils.isEmpty(lastCCC)) {
+                    addData("Last CCC", lastCCC, DbObservationValues.LAST_CCC.name)
+                }else{
+                    errorList.add("Please enter Last CCC")
+                }
+
             }
 
             if (rootView.linearMaternalHAART.visibility == View.VISIBLE){
-
-                if (spinnerArtElligibilityValue != "") {
-                    addData("ART Eligibility (WHO Stage)", spinnerArtElligibilityValue, DbObservationValues.ART_ELIGIBILITY.name)
-                }else{
-                    errorList.add("Please select ART Eligibility (WHO Stage)")
-                }
 
                 if (spinnerCotrimoxazoleValue != "") {
                     addData("Cotrimoxazole Given", spinnerCotrimoxazoleValue, DbObservationValues.COTRIMOXAZOLE.name)
@@ -436,18 +437,8 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
 
             }
 
-
-
-
         }else{
             errorList.add("Please select HIV status before 1st ANC")
-        }
-
-        val lastCCC = rootView.tvLastCCC.text.toString()
-        if (!TextUtils.isEmpty(lastCCC)) {
-            addData("Last CCC", lastCCC, DbObservationValues.LAST_CCC.name)
-        }else{
-            errorList.add("Please enter Last CCC")
         }
 
 

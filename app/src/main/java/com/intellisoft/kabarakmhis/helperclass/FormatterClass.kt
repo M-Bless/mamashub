@@ -8,7 +8,6 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -28,7 +27,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -122,9 +120,7 @@ class FormatterClass {
         val weeks = dayNo / 7
         val days = dayNo % 7
 
-        val dayWeekStr = "$weeks weeks, $days days"
-
-        return dayWeekStr
+        return "$weeks weeks, $days days"
     }
 
 

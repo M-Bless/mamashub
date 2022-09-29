@@ -200,14 +200,10 @@ class FragmentAntenatal4 : Fragment() {
         val coupleCounselling = formatter.getRadioText(rootView.radioGrpHiv)
         if (coupleCounselling != ""){
             addData("Couple Counselling", coupleCounselling, DbObservationValues.COUPLE_HIV_TESTING.name)
-        }else{
-            errorList.add("Please select couple counselling")
         }
         val partnerHivStatus = formatter.getRadioText(rootView.radioGrpHIVStatus)
         if (partnerHivStatus != ""){
             addData("Partner HIV status", partnerHivStatus, DbObservationValues.PARTNER_HIV_STATUS.name)
-        }else{
-            errorList.add("Please select partner HIV status")
         }
         if (rootView.linearReactive.visibility == View.VISIBLE){
             val reactive = formatter.getRadioText(rootView.radioGrpReactive)

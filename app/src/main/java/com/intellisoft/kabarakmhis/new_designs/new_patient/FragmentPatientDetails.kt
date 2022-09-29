@@ -568,7 +568,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateLMPListener, year, month, day)
 
-                val fourtyWeeksAgo = TimeUnit.DAYS.toMillis(98)
+                val fourtyWeeksAgo = TimeUnit.DAYS.toMillis(280)
                 val twoWeeksAgo = TimeUnit.DAYS.toMillis(14)
 
                 datePickerDialog.datePicker.maxDate = System.currentTimeMillis().minus(twoWeeksAgo)

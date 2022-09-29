@@ -110,10 +110,10 @@ class FragmentAntenatal3 : Fragment() {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearSyphTestDate, true)
-                    changeVisibility(rootView.linearSyphNo, false)
+//                    changeVisibility(rootView.linearSyphNo, false)
                 } else {
                     changeVisibility(rootView.linearSyphTestDate, false)
-                    changeVisibility(rootView.linearSyphNo, true)
+//                    changeVisibility(rootView.linearSyphNo, true)
                 }
             }
         }
@@ -124,10 +124,10 @@ class FragmentAntenatal3 : Fragment() {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearHepatitis, true)
-                    changeVisibility(rootView.linearHepaNo, false)
+//                    changeVisibility(rootView.linearHepaNo, false)
                 } else {
                     changeVisibility(rootView.linearHepatitis, false)
-                    changeVisibility(rootView.linearHepaNo, true)
+//                    changeVisibility(rootView.linearHepaNo, true)
                 }
             }
         }
