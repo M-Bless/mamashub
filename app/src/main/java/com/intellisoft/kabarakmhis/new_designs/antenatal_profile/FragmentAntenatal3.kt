@@ -478,7 +478,7 @@ class FragmentAntenatal3 : Fragment() {
                 val hivTesting = formatter.retrieveSharedPreference(requireContext(), "hivStatus")
                 if (hivTesting != null){
                     CoroutineScope(Dispatchers.Main).launch {
-                        if (hivTesting == "Yes") rootView.linearHiv.visibility = View.VISIBLE else rootView.linearHiv.visibility = View.GONE
+                        if (hivTesting == "false") rootView.linearHiv.visibility = View.VISIBLE else rootView.linearHiv.visibility = View.GONE
                     }
                 }
 
