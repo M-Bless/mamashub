@@ -46,7 +46,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         }
     }
 
-    private suspend fun getSearchResults(nameQuery: String = ""): List<DbChwPatientData> {
+    private suspend fun getSearchResults(nameQuery: String = "", spinnerClientValue: String=""): List<DbChwPatientData> {
         val patientsList: MutableList<DbPatientDetails> = mutableListOf()
 
         fhirEngine.search<Patient> {
@@ -57,6 +57,17 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
                     value = nameQuery
                 })
             }
+
+            if (spinnerClientValue.isNotEmpty()){
+                if (spinnerClientValue =="Referred from"){
+                    filterFrom(this)
+                }else{
+                    filterTo(this)
+                }
+            }else{
+                filterTo(this)
+            }
+
             filterReferTo(this)
             sort(Patient.FAMILY, Order.ASCENDING)
             count = 100
@@ -86,6 +97,16 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         }
 
         return clientList
+    }
+
+    private fun filterTo(search: Search) {
+        search.filter(Patient.ORGANIZATION, {value = "CHW-TO-ORGANISATION"})
+        search.filter(Patient.ACTIVE, {value = of(false)})
+    }
+
+    private fun filterFrom(search: Search) {
+        search.filter(Patient.ORGANIZATION, {value = "ORGANISATION-TO-CHW"})
+        search.filter(Patient.ACTIVE, {value = of(true)})
     }
 
     private suspend fun getReferralDate(patientId: String):List<ObservationItem>  {

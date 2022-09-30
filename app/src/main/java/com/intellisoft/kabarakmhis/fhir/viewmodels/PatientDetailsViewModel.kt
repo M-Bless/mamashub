@@ -50,6 +50,24 @@ class PatientDetailsViewModel(
 //        viewModelScope.launch { livePatientData = getPatientDetailDataModel() }
     }
 
+    fun updateCHWUpdate() = runBlocking {
+        updateCHWReferred()
+    }
+
+    private suspend fun updateCHWReferred() {
+
+//        val patient = Patient()
+//        patient.id = patientId
+//
+//        patient.managingOrganization.display = "ORGANISATION-TO-CHW"
+//
+//        patient.active = true
+//
+//        fhirEngine.create(patient)
+
+
+    }
+
     fun getPatientData() = runBlocking{
         getPatientDetailDataModel()
     }
@@ -76,6 +94,12 @@ class PatientDetailsViewModel(
 
         val kabarakViewModel = KabarakViewModel(getApplication())
         val patientResource = getPatientResource()
+
+        if (patientResource.hasManagingOrganization()) {
+            Log.e("--------", "---------")
+            println(patientResource.managingOrganization.display)
+        }
+
 
         val patientId = if (patientResource.hasIdElement()) patientResource.idElement.idPart else ""
         val name = if (patientResource.hasName()) patientResource.name[0].family else ""

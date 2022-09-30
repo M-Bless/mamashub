@@ -305,6 +305,8 @@ class ReferralAdd : AppCompatActivity() {
 
                 kabarakViewModel.insertInfo(this, dbPatientData)
 
+//                patientDetailsViewModel.updateCHWUpdate()
+
                 formatter.saveSharedPreference(this, "pageConfirmDetails", DbResourceViews.COMMUNITY_REFERRAL.name)
 
                 val intent = Intent(this, ConfirmPage::class.java)
