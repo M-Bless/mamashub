@@ -27,9 +27,7 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientDetailsViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.AddPatientViewModel
-import com.intellisoft.kabarakmhis.helperclass.DbChwData
-import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
-import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.helperclass.*
 import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.chw.viewmodel.AddChwPatientViewModel
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
@@ -119,12 +117,45 @@ class FragmentConfirmChvPatient : Fragment(){
                     val dataQuantityList = ArrayList<QuantityObservation>()
                     val dataCodeList = ArrayList<CodingObservation>()
 
+                    var  actionTaken= ""
+                    val reasonCodeList = ArrayList<DbReasonCodeData>()
+                    val mainReasonList = ArrayList<DbSupportingInfo>()
+
+                    var providerName = ""
+
                     val observationList = kabarakViewModel.getAllObservations(requireContext())
                     observationList.forEach {
 
                         val title = it.title
                         val codeLabel = it.codeLabel
                         val value = it.value
+
+
+                        if(codeLabel == DbObservationValues.COMMUNITY_HEALTH_UNIT.name){
+
+                        }else if (codeLabel == DbObservationValues.COMMUNITY_HEALTH_LINK.name){
+
+                        }else if (codeLabel == DbObservationValues.REFERRAL_REASON.name){
+                            val codeValue = formatter.getCodes(codeLabel)
+                            val dbObservationValues = DbReasonCodeData(value, codeValue, title)
+                            reasonCodeList.add(dbObservationValues)
+                        }else if (codeLabel == DbObservationValues.MAIN_PROBLEM.name){
+                            val dbSupportingInfo = DbSupportingInfo(value, title)
+                            mainReasonList.add(dbSupportingInfo)
+                        }else if (codeLabel == DbObservationValues.CHW_INTERVENTION_GIVEN.name){
+                            val codeValue = formatter.getCodes(codeLabel)
+                            val dbObservationValues = DbReasonCodeData(value, codeValue, title)
+                            reasonCodeList.add(dbObservationValues)
+                        }else if (codeLabel == DbObservationValues.CHW_COMMENTS.name){
+                            val codeValue = formatter.getCodes(codeLabel)
+                            val dbObservationValues = DbReasonCodeData(value, codeValue, title)
+                            reasonCodeList.add(dbObservationValues)
+                        }else if (codeLabel == DbObservationValues.OFFICER_NAME.name){
+                            providerName = value
+                        }else if (codeLabel == DbObservationValues.ACTION_TAKEN.name){
+                            actionTaken = value
+                        }
+
 
                         when (codeLabel) {
 
@@ -166,7 +197,29 @@ class FragmentConfirmChvPatient : Fragment(){
 
                         }
 
+
                     }
+
+                    val kmflCode = formatter.retrieveSharedPreference(requireContext(), "kmhflCode").toString()
+                    val facilityName = formatter.retrieveSharedPreference(requireContext(), "facilityName").toString()
+                    val userId = formatter.retrieveSharedPreference(requireContext(), "USERID").toString()
+
+                    val dbChwDetails = DbChwDetails(userId, kmflCode)
+                    val dbClinicianDetails = DbClinicianDetails("NURSE", providerName)
+
+                    val dbLocation = DbLocation(facilityName, kmflCode)
+
+                    val dbServiceReferralRequest = DbServiceReferralRequest(
+                        "",
+                        "",
+                        "",
+                        "",
+                        reasonCodeList,
+                        mainReasonList,
+                        actionTaken,
+                        dbChwDetails,
+                        dbClinicianDetails,
+                        dbLocation)
 
 
                     val dbChwData = DbChwData(id, clientName, dob, dataQuantityList, dataCodeList)
@@ -179,7 +232,8 @@ class FragmentConfirmChvPatient : Fragment(){
                     savePatient(
                         dbChwData,
                         questionnaireFragment.getQuestionnaireResponse(),
-                        encounterId
+                        encounterId,
+                        dbServiceReferralRequest
                     )
 
                 }.join()
@@ -209,9 +263,15 @@ class FragmentConfirmChvPatient : Fragment(){
     private fun savePatient(
         dbPatientFhirInformation: DbChwData,
         questionnaireResponse: QuestionnaireResponse,
-        encounterId: String
+        encounterId: String,
+        dbServiceReferralRequest: DbServiceReferralRequest
     ) {
-        viewModel.savePatient(dbPatientFhirInformation, questionnaireResponse, encounterId)
+        viewModel.savePatient(
+            dbPatientFhirInformation,
+            questionnaireResponse,
+            encounterId,
+            dbServiceReferralRequest
+            )
     }
 
     private fun updateArguments(){

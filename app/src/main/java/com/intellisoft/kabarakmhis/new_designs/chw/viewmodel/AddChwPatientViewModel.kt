@@ -12,10 +12,7 @@ import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.mapping.ResourceMapper
 import com.google.android.fhir.datacapture.validation.QuestionnaireResponseValidator
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
-import com.intellisoft.kabarakmhis.helperclass.DbChwData
-import com.intellisoft.kabarakmhis.helperclass.DbObservationValues
-import com.intellisoft.kabarakmhis.helperclass.FormatterClass
-import com.intellisoft.kabarakmhis.helperclass.QuestionnaireHelper
+import com.intellisoft.kabarakmhis.helperclass.*
 import com.intellisoft.kabarakmhis.new_designs.data_class.CodingObservation
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbPatientFhirInformation
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
@@ -25,6 +22,7 @@ import com.intellisoft.kabarakmhis.new_designs.new_patient.FragmentPatientInfo
 import kotlinx.coroutines.*
 import org.hl7.fhir.r4.model.*
 import java.time.LocalDate
+import java.time.ZoneOffset
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -44,7 +42,8 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
     fun savePatient(
         dbPatientFhirInformation: DbChwData,
         questionnaireResponse: QuestionnaireResponse,
-        encounterId: String
+        encounterId: String,
+        dbServiceReferralRequest: DbServiceReferralRequest
         ){
 
         viewModelScope.launch {
@@ -58,28 +57,26 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
                 val job = Job()
                 CoroutineScope(Dispatchers.IO + job).launch {
 
+                    //Create Patient
                     val patient = Patient()
                     patient.active = false
 
+                    //Add organization from the kmfhl name
                     val organisationReference = Reference()
-                    organisationReference.reference = "CHW-TO-ORGANISATION"
+                    organisationReference.reference = dbServiceReferralRequest.chwDetails.loggedInChwUnit
                     patient.managingOrganization = organisationReference
 
+                    //Patient name
                     val name = dbPatientFhirInformation.name
 
                     val nameList = getNames(name, name)
                     patient.name = nameList
 
+                    //Patient dob
                     val birthDate = dbPatientFhirInformation.dob
                     patient.birthDate = FormatterClass().convertStringToDate(birthDate)
 
-                    val identifierList = ArrayList<Identifier>()
-                    val identifierNumber = Identifier()
-                    identifierNumber.system = "CHV-REFERRAL"
-                    identifierList.add(identifierNumber)
-                    patient.identifier = identifierList
-
-
+                    //Patient Address
                     val addressList = ArrayList<Address>()
 
                     val address = Address()
@@ -88,8 +85,9 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
 
                     patient.address = addressList
 
-
                     patient.id = patientId
+
+
 
                     fhirEngine.create(patient)
 
@@ -108,7 +106,8 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
                     questionnaireResponse,
                     dataCodeList,
                     dataQuantityList,
-                    DbResourceViews.PATIENT_INFO_CHV.name
+                    DbResourceViews.PATIENT_INFO_CHV.name,
+                    dbServiceReferralRequest
                 )
 
             }
@@ -146,7 +145,8 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
         questionnaireResponse: QuestionnaireResponse,
         dataCodeList: ArrayList<CodingObservation>,
         dataQuantityList: ArrayList<QuantityObservation>,
-        encounterReason: String
+        encounterReason: String,
+        dbServiceReferralRequest: DbServiceReferralRequest
     ) {
 
         viewModelScope.launch {
@@ -180,10 +180,116 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
                     .request.url = "Observation"
             }
 
+            createServiceRequest(patientReference, encounterId, dbServiceReferralRequest)
             createCarePlan(patientReference, encounterId, encounterReason)
             saveResources(bundle, patientReference, encounterId, encounterReason)
 
         }
+
+    }
+
+    private suspend fun createServiceRequest(
+        patientReference: Reference,
+        encounterId: String,
+        dbServiceReferralRequest: DbServiceReferralRequest) {
+
+        //Service Request for the referral
+        val serviceRequest = ServiceRequest()
+        serviceRequest.id = FormatterClass().generateUuid() //Generate a random id
+        serviceRequest.status = ServiceRequest.ServiceRequestStatus.ACTIVE
+
+        //Add Referral Type
+        val referralType = CodeableConcept()
+        val referralFacilityCode = FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
+        referralType.text = ReferralTypes.REFERRAL_TO_FACILITY.name
+        referralType.addCoding()
+            .setCode(referralFacilityCode)
+            .setDisplay(ReferralTypes.REFERRAL_TO_FACILITY.name)
+            .system = "http://snomed.info/sct" //Set the type of referral; Referral to facility or referral to chw
+        serviceRequest.code = referralType
+
+        serviceRequest.subject = patientReference //Set the patient reference
+        serviceRequest.encounter = Reference("Encounter/$encounterId") //Set the encounter reference
+
+        val todayDateStr = FormatterClass().getTodayDate()
+        val todayDate = FormatterClass().convertDdMMyyyy(todayDateStr)
+
+        serviceRequest.authoredOn = todayDate  //Set the date the referral was made
+
+        //Add the referral reason, intervention given, comments
+
+        val codeConceptList = ArrayList<CodeableConcept>()
+        val reasonCodeList = dbServiceReferralRequest.referralDetails
+        reasonCodeList.forEach {
+
+            val text = it.text
+            val code = it.code
+            val display = it.display
+
+            val codeableConcept = CodeableConcept()
+            codeableConcept.text = text
+            codeableConcept.addCoding()
+                .setCode(code)
+                .setDisplay(display)
+                .system = "http://snomed.info/sct"
+
+            codeConceptList.add(codeableConcept)
+        }
+
+
+        serviceRequest.reasonCode = codeConceptList
+
+        //Add the Main reason for referral using supporting info
+
+        val supportingReferenceList = ArrayList<Reference>()
+        val supportingInfoList = dbServiceReferralRequest.supportingInfo
+        supportingInfoList.forEach {
+
+            val reference = it.reference
+            val display = it.display
+
+            val supportingInfo = Reference()
+            supportingInfo.reference = reference
+            supportingInfo.display = display
+            supportingReferenceList.add(supportingInfo)
+        }
+
+
+        serviceRequest.supportingInfo = supportingReferenceList
+
+        //Add the action taken using note
+        val actionTaken = dbServiceReferralRequest.actionTaken
+        val note = Annotation()
+        note.text = actionTaken
+        serviceRequest.note = listOf(note)
+
+        //Who is requesting service
+
+        val chwDetails = dbServiceReferralRequest.chwDetails
+
+        val performerReference = Reference()
+        performerReference.reference = chwDetails.loggedInChwUnit //TODO: Change to the logged in chw unit details
+        performerReference.display = chwDetails.loggedInUserId //TODO: Change to the logged in chw's name/id
+        serviceRequest.requester = performerReference
+
+        //Person receiving the service
+
+        val dbClinicianDetails = dbServiceReferralRequest.clinicianDetails
+
+        val recipientReference = Reference()
+        recipientReference.reference = dbClinicianDetails.clinicianRole //TODO: Change to the provider's role
+        recipientReference.display = dbClinicianDetails.clinicianId //TODO: Change to the provider's name or id
+        serviceRequest.performer = listOf(recipientReference)
+
+        //Location receiving the service, which is the same as the one sending for now
+        val dbLocation = dbServiceReferralRequest.locationDetails
+
+        val locationReference = Reference()
+        locationReference.reference = dbLocation.facilityCode //TODO: Change to the facility kmfl code
+        locationReference.display = dbLocation.facilityName //TODO: Change to the facility name
+        serviceRequest.locationReference = listOf(locationReference) //Set the facility details
+
+        fhirEngine.create(serviceRequest)
 
     }
 
@@ -224,10 +330,7 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
     }
 
     private suspend fun saveResourceToDatabase(resource: Resource) {
-        Log.e("++++ ", "4")
-        val saved = fhirEngine.create(resource)
-        Log.e("****Observations ", saved.toString())
-
+        fhirEngine.create(resource)
     }
 
     fun getNames(

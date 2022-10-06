@@ -8,6 +8,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -22,6 +23,7 @@ import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.intellisoft.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import kotlinx.coroutines.*
 import org.hl7.fhir.r4.model.Patient
+import org.hl7.fhir.r4.model.ServiceRequest
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -29,12 +31,152 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class FormatterClass {
 
     private val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
 
+    fun serviceReferralRequest(serviceRequest: ServiceRequest, position: Int):DbServiceReferralRequest{
 
+        return serviceRequest.toServiceRequest()
+
+    }
+
+    private fun ServiceRequest.toServiceRequest(): DbServiceReferralRequest {
+
+        val serviceId = if (hasIdElement()) idElement.idPart else ""
+        var referralText = ""
+        if (hasCode()){
+            if (code.hasText()){
+                referralText = code.text
+            }else{
+                if (code.hasCoding()){
+                    if (code.coding[0].hasDisplay()){
+                        referralText = code.coding[0].display
+                    }
+                }
+            }
+        }
+
+        val patientReference = if (hasSubject()) subject.reference else ""
+        val authoredOn = if (hasAuthoredOn()) authoredOn.toString() else ""
+        val referralDetailsList = ArrayList<DbReasonCodeData>()
+        if (hasReasonCode()){
+            val reasonCodeList = reasonCode
+            if (reasonCodeList.isNotEmpty()){
+
+                reasonCodeList.forEach {
+
+                    val text = it.text
+                    if (it.hasCoding()){
+
+                        val coding = it.coding
+                        if (coding.isNotEmpty()){
+                            coding.forEach { cd ->
+                                val code = cd.code
+                                val display = cd.display
+                                val system = cd.system
+
+                                val reasonCode = DbReasonCodeData(text, code, display)
+                                referralDetailsList.add(reasonCode)
+                            }
+                        }
+                    }
+
+                }
+
+            }
+        }
+        val referralDetails = referralDetailsList.ifEmpty { ArrayList() }
+
+        val dbSupportingInfoList = ArrayList<DbSupportingInfo>()
+        if (hasSupportingInfo()){
+            val supportingInfo = supportingInfo
+            if (supportingInfo.isNotEmpty()){
+                supportingInfo.forEach {
+                    val reference = it.reference
+                    val display = it.display
+
+                    val dbSupportingInfo = DbSupportingInfo(reference, display)
+                    dbSupportingInfoList.add(dbSupportingInfo)
+                }
+            }
+        }
+        val supportingInfo = dbSupportingInfoList.ifEmpty { ArrayList() }
+
+        val actionTaken = if (hasNote()){
+            val note = note
+            if (note.isNotEmpty()){
+                note[0].text
+            }else{
+                ""
+            }
+        }else{
+            ""
+        }
+
+        var loggedInChwUnit = ""
+        var loggedInUserId = ""
+
+        if (hasRequester()){
+            val requester = requester
+            if(requester.hasReference() && requester.hasDisplay()){
+                loggedInChwUnit = requester.reference
+                loggedInUserId = requester.display
+            }
+        }
+        val dbChwDetails =  DbChwDetails(loggedInChwUnit, loggedInUserId)
+
+        var clinicianRole = ""
+        var clinicianId = ""
+        if (hasPerformer()){
+            val performer = performer
+            if (performer.isNotEmpty()){
+                performer.forEach {
+                    if (it.hasReference() && it.hasDisplay()){
+                        clinicianRole = it.reference
+                        clinicianId = it.display
+                    }
+                }
+            }
+        }
+        val dbClinicianDetails = DbClinicianDetails(clinicianRole, clinicianId)
+
+        var facilityKmflCode = ""
+        var facilityName = ""
+        if (hasLocationReference()){
+            val recipient = locationReference
+            if (recipient.isNotEmpty()){
+                recipient.forEach {
+                    if (it.hasReference() && it.hasDisplay()){
+                        facilityKmflCode = it.reference
+                        facilityName = it.display
+                    }
+                }
+            }
+        }
+        val dbFacilityDetails = DbLocation(facilityKmflCode, facilityName)
+
+        //Get character after the last slash
+        val patientId = patientReference.substring(patientReference.lastIndexOf('/') + 1)
+
+        val dateAuthored = convertFhirDate(authoredOn) ?: ""
+
+        return DbServiceReferralRequest(serviceId, referralText, patientId, dateAuthored,
+            referralDetails, supportingInfo, actionTaken, dbChwDetails,
+            dbClinicianDetails, dbFacilityDetails)
+
+    }
+
+    fun convertStringToDate(date: String): Date {
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        return formatter.parse(date)
+    }
+    fun convertDdMMyyyy(date: String): Date {
+        val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        return formatter.parse(date)
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     fun patientData(patient: Patient, position: Int):DbPatientDetails{
         return patient.toPatientItem(position)
@@ -62,10 +204,7 @@ class FormatterClass {
         )
     }
 
-    fun convertStringToDate(date: String): Date {
-        val formatter = SimpleDateFormat("yyyy-MM-dd")
-        return formatter.parse(date)
-    }
+
     fun convertStringToLocalDate(date: String): String {
 
         val cal = Calendar.getInstance()
@@ -426,6 +565,7 @@ class FormatterClass {
             DbObservationValues.COMPANION_NUMBER.name,
             DbObservationValues.COMPANION_RELATIONSHIP.name,
             DbObservationValues.COMPANION_NAME.name,
+            DbObservationValues.GESTATION.name,
 
             "dob", "LMP","kinName","edd","patientId",
             "FHIRID","kinPhone","saveEncounterId","pageConfirmDetails",
@@ -598,41 +738,6 @@ class FormatterClass {
 
         }else{
             ""
-        }
-
-    }
-
-    fun saveToFhir(dbPatientData: DbPatientData, context: Context, encounterType:String) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val kabarakViewModel = KabarakViewModel(context.applicationContext as Application)
-            val retrofitCallsFhir = RetrofitCallsFhir()
-
-            coroutineScope {
-                launch(Dispatchers.IO) {
-
-                    val job = Job()
-                    CoroutineScope(Dispatchers.IO + job).launch {
-
-                        kabarakViewModel.insertInfo(context, dbPatientData)
-
-                    }.join()
-
-                    val list = kabarakViewModel.getTittlePatientData(encounterType, context)
-                    val fhirObserveList = convertToFhir(list)
-
-                    val dbCode = createObservation(fhirObserveList, encounterType)
-
-                    val encounterId = retrieveSharedPreference(context, encounterType)
-                    if (encounterId != null){
-                        retrofitCallsFhir.createObservation(encounterId,context, dbCode)
-                    }else{
-                        retrofitCallsFhir.createFhirEncounter(context, dbCode, encounterType)
-                    }
-                }
-            }
-
         }
 
     }
@@ -1521,6 +1626,10 @@ class FormatterClass {
             DbObservationValues.COUNTY_NAME.name -> { "223922000" }
 
             DbObservationValues.ACTION_TAKEN.name -> { "273248003" }
+
+
+            ReferralTypes.REFERRAL_TO_FACILITY.name -> { "675765751" }
+            ReferralTypes.REFERRAL_TO_CHW.name -> { "675765751-C" }
 
             else -> {
                 ""

@@ -4,12 +4,12 @@ import android.app.Application
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.os.trace
 import androidx.lifecycle.*
 import com.google.android.fhir.FhirEngine
-import com.google.android.fhir.search.Order
-import com.google.android.fhir.search.Search
-import com.google.android.fhir.search.StringFilterModifier
-import com.google.android.fhir.search.search
+import com.google.android.fhir.get
+import com.google.android.fhir.search.*
+import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
 import com.intellisoft.kabarakmhis.helperclass.*
@@ -20,7 +20,7 @@ import java.util.Arrays.sort
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.hl7.fhir.r4.model.*
-
+import javax.xml.datatype.DatatypeConstants.EQUAL
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ChwPatientListViewModel (application: Application, private val fhirEngine: FhirEngine): AndroidViewModel(application) {
@@ -28,15 +28,15 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
     val liveSearchedPatients = MutableLiveData<List<DbChwPatientData>>()
 
     init {
-        updatePatientListAndPatientCount { getSearchResults() }
+        updatePatientListAndPatientCount { getChwSearchResults() }
     }
 
     fun searchPatientsByName(nameQuery: String) {
-        updatePatientListAndPatientCount { getSearchResults(nameQuery) }
+        updatePatientListAndPatientCount { getChwSearchResults(nameQuery) }
     }
 
     fun getPatientList() = runBlocking{
-        getSearchResults()
+        getChwSearchResults()
     }
 
     private fun updatePatientListAndPatientCount(search: suspend () -> List<DbChwPatientData>) {
@@ -44,6 +44,63 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         viewModelScope.launch {
             liveSearchedPatients.value = search()
         }
+    }
+
+    private suspend fun getChwSearchResults(nameQuery: String = ""):List<DbChwPatientData>{
+
+        val formatterClass = FormatterClass()
+        val spinnerClientValue = formatterClass.retrieveSharedPreference(
+            getApplication<Application>().applicationContext, "spinnerClientValue")
+
+        val patientList = mutableListOf<DbChwPatientData>()
+
+        val referralList: MutableList<DbServiceReferralRequest> = mutableListOf()
+
+        Log.e("-------", spinnerClientValue.toString())
+
+        var searchValue = ""
+        if (spinnerClientValue == "FACILITY_TO_FACILITY"){
+            searchValue = FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
+        }else if (spinnerClientValue == "FACILITY_TO_SPECIALIST"){
+            searchValue = FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_CHW.name)
+        }
+
+        fhirEngine.search<ServiceRequest>{
+
+            filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
+            sort(ServiceRequest.AUTHORED, Order.DESCENDING)
+
+            count = 100
+            from = 0
+        }.mapIndexed { index, serviceRequest ->
+            FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
+        }.let { referralList.addAll(it) }
+
+        //Get id of patients from filteredReferralList and get patient details
+        referralList.forEach {
+
+            val id = it.patient
+            val authoredOn = it.authoredOn
+
+            val patient = getPatientResource(id)
+            val dbPatientDetails = FormatterClass().patientData(patient, 0)
+
+            val patientId = dbPatientDetails.id
+            val patientName = dbPatientDetails.name
+            val dob = dbPatientDetails.dob
+
+            val dbChwPatientData = DbChwPatientData(patientId, patientName, dob, authoredOn, authoredOn)
+            patientList.add(dbChwPatientData)
+
+
+        }
+
+
+        return patientList
+    }
+
+    private suspend fun getPatientResource(patientId: String): Patient {
+        return fhirEngine.get(patientId)
     }
 
     private suspend fun getSearchResults(nameQuery: String = "", spinnerClientValue: String=""): List<DbChwPatientData> {
@@ -98,6 +155,8 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
 
         return clientList
     }
+
+
 
     private fun filterTo(search: Search) {
         search.filter(Patient.ORGANIZATION, {value = "CHW-TO-ORGANISATION"})

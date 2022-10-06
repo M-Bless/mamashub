@@ -6,21 +6,19 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.google.android.fhir.FhirEngine
+import com.google.android.fhir.get
 import com.google.android.fhir.search.Order
 import com.google.android.fhir.search.Search
 import com.google.android.fhir.search.StringFilterModifier
 import com.google.android.fhir.search.search
 import com.intellisoft.kabarakmhis.helperclass.*
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
-import org.hl7.fhir.r4.model.Patient
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Arrays.sort
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.hl7.fhir.r4.model.Coding
-import org.hl7.fhir.r4.model.Encounter
-import org.hl7.fhir.r4.model.Observation
+import org.hl7.fhir.r4.model.*
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -50,55 +48,99 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
     private suspend fun getSearchResults(nameQuery: String = "", spinnerClientValue: String=""): List<DbPatientDetails> {
 
         val clientList = ArrayList<DbPatientDetails>()
-
         val patientsList: MutableList<DbPatientDetails> = mutableListOf()
-        fhirEngine.search<Patient> {
 
-            if (nameQuery.isNotEmpty()){
-                filter(Patient.NAME, {
-                    modifier = StringFilterModifier.CONTAINS
-                    value = nameQuery
-                })
-            }
+        if (spinnerClientValue.isEmpty()){
 
-            if (spinnerClientValue.isNotEmpty()){
-                if (spinnerClientValue =="Referred"){
-                    filterChvCity(this)
-                }else{
-                    filterCity(this)
+            fhirEngine.search<Patient> {
+
+                if (nameQuery.isNotEmpty()){
+                    filter(Patient.NAME, {
+                        modifier = StringFilterModifier.CONTAINS
+                        value = nameQuery
+                    })
                 }
-            }else{
+
                 filterCity(this)
+                sort(Patient.FAMILY, Order.ASCENDING)
+                count = 100
+                from = 0
+
+            }.mapIndexed { index, patient ->
+                FormatterClass().patientData(patient, index + 1)
+            }.let { patientsList.addAll(it) }
+
+            patientsList.forEach {patient ->
+
+                val id = patient.id
+                val name = patient.name
+
+                val appointmentsList = getAppointmentEncounters(id)
+                val appointment =if (appointmentsList.isNotEmpty()){
+                    appointmentsList[0].value.trim()
+                }else{
+                    "-"
+                }
+
+                val dbPatientDetails = DbPatientDetails(id, name, appointment)
+                clientList.add(dbPatientDetails)
+
             }
 
 
-            sort(Patient.FAMILY, Order.ASCENDING)
-            count = 100
-            from = 0
+        }else{
 
-        }.mapIndexed { index, patient ->
-            FormatterClass().patientData(patient, index + 1)
-        }.let { patientsList.addAll(it) }
-
-        patientsList.forEach {patient ->
-
-            val id = patient.id
-            val name = patient.name
-
-            val appointmentsList = getAppointmentEncounters(id)
-            val appointment =if (appointmentsList.isNotEmpty()){
-                 appointmentsList[0].value.trim()
-            }else{
-                "-"
+            val referralType = when (spinnerClientValue) {
+                "Referred" -> { ReferralTypes.REFERRAL_TO_FACILITY.name }
+                "Referral from" -> { ReferralTypes.REFERRAL_TO_CHW.name }
+                else -> { ReferralTypes.REFERRAL_TO_FACILITY.name }
             }
 
-            val dbPatientDetails = DbPatientDetails(id, name, appointment)
-            clientList.add(dbPatientDetails)
+            val referralList: MutableList<DbServiceReferralRequest> = mutableListOf()
+
+            fhirEngine.search<ServiceRequest>{
+
+                sort(ServiceRequest.AUTHORED, Order.DESCENDING)
+                count = 100
+                from = 0
+            }.mapIndexed { index, serviceRequest ->
+                FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
+            }.let { referralList.addAll(it) }
+
+            //Filter referralList by referralType
+            val filteredReferralList = referralList.filter { it.referralType == referralType }
+
+            //Get id of patients from filteredReferralList and get patient details
+            filteredReferralList.forEach {
+
+                val id = it.patient
+                val authoredOn = it.authoredOn
+
+                val patient = getPatientResource(id)
+                val dbPatientDetails = FormatterClass().patientData(patient, 0)
+
+                val patientId = dbPatientDetails.id
+                val patientName = dbPatientDetails.name
+                val dob = dbPatientDetails.dob
+
+                val dbChwPatientData = DbPatientDetails(patientId, patientName, dob, authoredOn)
+                patientsList.add(dbChwPatientData)
+
+
+            }
+
 
         }
 
 
+
+
+
         return clientList
+    }
+
+    private suspend fun getPatientResource(patientId: String): Patient {
+        return fhirEngine.get(patientId)
     }
 
     private suspend fun getAppointmentEncounters(patientId: String): List<ObservationItem> {

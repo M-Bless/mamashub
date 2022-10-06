@@ -94,19 +94,10 @@ data class ConditionItem(
 ) {
     override fun toString(): String = code
 }
-enum class ViewTypes {
-    HEADER,
-    PATIENT,
-    PATIENT_PROPERTY,
-    ENCOUNTER,
-    OBSERVATION,
-    CONDITION;
-
-    companion object {
-        fun from(ordinal: Int): ViewTypes {
-            return values()[ordinal]
-        }
-    }
+enum class ReferralTypes {
+    REFERRAL_TO_FACILITY,
+    REFERRAL_TO_CHW,
+    REFERRAL_TYPE
 
 }
 data class EncounterItem(
@@ -246,4 +237,39 @@ data class DbPMTCTRegimen(
     val amount: Double,
     val dosage: Double,
     val frequency: Double,
+)
+data class DbServiceReferralRequest(
+    val id: String,
+    val referralType: String,
+    val patient: String,
+    val authoredOn: String,
+    val referralDetails: List<DbReasonCodeData>,
+    val supportingInfo: List<DbSupportingInfo>,
+    val actionTaken: String,
+
+    val chwDetails: DbChwDetails,
+    val clinicianDetails: DbClinicianDetails,
+    val locationDetails: DbLocation
+
+)
+data class DbLocation(
+    val facilityName: String,
+    val facilityCode: String,
+)
+data class DbClinicianDetails(
+    val clinicianRole: String,
+    val clinicianId: String
+)
+data class DbChwDetails(
+    val loggedInUserId: String,
+    val loggedInChwUnit: String
+)
+data class DbReasonCodeData(
+    val text: String,
+    val code: String,
+    val display: String
+)
+data class DbSupportingInfo(
+    val reference: String,
+    val display: String
 )

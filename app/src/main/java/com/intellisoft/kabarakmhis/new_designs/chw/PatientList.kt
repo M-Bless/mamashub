@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -20,17 +21,12 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.auth.Login
 import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
-import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbChwPatientData
-import com.intellisoft.kabarakmhis.helperclass.DbPatientDetails
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
-import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.chw.adapter.ChwPatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.chw.viewmodel.ChwPatientListViewModel
-import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_patient_list.*
 import kotlinx.android.synthetic.main.activity_patient_list.btnRegisterPatient
-import kotlinx.android.synthetic.main.activity_patient_list.mySpinner
 import kotlinx.android.synthetic.main.activity_patient_list.no_record
 import kotlinx.android.synthetic.main.activity_patient_list.refreshLayout
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +35,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class PatientList : AppCompatActivity() , AdapterView.OnItemSelectedListener{
+class PatientList : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
@@ -49,9 +45,6 @@ class PatientList : AppCompatActivity() , AdapterView.OnItemSelectedListener{
     private val viewModel: MainActivityViewModel by viewModels()
 
     private var formatter = FormatterClass()
-
-    var clientList = arrayOf("","All", "Referred to", "Referred from")
-    private var spinnerClientValue  = clientList[0]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +73,6 @@ class PatientList : AppCompatActivity() , AdapterView.OnItemSelectedListener{
             override fun onQueryTextSubmit(query: String): Boolean {
                 // collapse the view ?
                 //menu.findItem(R.id.menu_search).collapseActionView();
-                Log.e("queryText", query)
                 return false
             }
 
@@ -105,7 +97,7 @@ class PatientList : AppCompatActivity() , AdapterView.OnItemSelectedListener{
 
         refreshLayout.setOnRefreshListener{
 
-            getData()
+            getData("FACILITY_TO_FACILITY")
             refreshLayout.isRefreshing = false
         }
 
@@ -115,46 +107,46 @@ class PatientList : AppCompatActivity() , AdapterView.OnItemSelectedListener{
             startActivity(Intent(this@PatientList, CommunityHealthWorkerForm::class.java))
 
         }
+
+        radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val radio: RadioButton? = findViewById(checkedId)
+            when (radio?.text) {
+                resources.getString(R.string.facility_to_facility) -> {
+                    getData("FACILITY_TO_FACILITY")
+                }
+                resources.getString(R.string.facility_to_specialist) -> {
+                    getData("FACILITY_TO_SPECIALIST")
+                }
+            }
+
+        }
+
     }
 
     override fun onStart() {
         super.onStart()
 
-        initSpinner()
-        getData()
-    }
-
-    private fun initSpinner() {
-
-        val filterValue =
-            ArrayAdapter(this, android.R.layout.simple_spinner_item, clientList)
-        filterValue.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mySpinner!!.adapter = filterValue
-        mySpinner.onItemSelectedListener = this
-
-    }
-
-    override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
-        when (arg0.id) {
-            R.id.mySpinner -> { spinnerClientValue = mySpinner.selectedItem.toString() }
-            else -> {}
-        }
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
-
+        getData("FACILITY_TO_FACILITY")
     }
 
 
-    private fun getData() {
-        patientListViewModel.liveSearchedPatients.observe(this) {
-            showPatients(it)
+
+
+    private fun getData(selectedValue: String) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            formatter.saveSharedPreference(this@PatientList, "spinnerClientValue", selectedValue)
+            Log.e("******", "Facility to $selectedValue")
+
+            val patientList = patientListViewModel.getPatientList()
+            showPatients(patientList)
+
+
+            formatter.saveSharedPreference(this@PatientList, "patientName", "")
+            formatter.saveSharedPreference(this@PatientList, "identifier", "")
         }
 
-        formatter.saveSharedPreference(this@PatientList, "patientName", "")
-        formatter.saveSharedPreference(this@PatientList, "identifier", "")
 
-        viewModel.poll()
     }
 
     private fun showPatients(patientList: List<DbChwPatientData>) {
@@ -193,6 +185,7 @@ class PatientList : AppCompatActivity() , AdapterView.OnItemSelectedListener{
                 recyclerView.adapter = adapter
             }
 
+            viewModel.poll()
         }
 
     }
