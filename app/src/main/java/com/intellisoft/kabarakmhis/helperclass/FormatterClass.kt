@@ -156,7 +156,7 @@ class FormatterClass {
                 }
             }
         }
-        val dbFacilityDetails = DbLocation(facilityKmflCode, facilityName)
+        val dbFacilityDetails = DbLocation(facilityName, facilityKmflCode)
 
         //Get character after the last slash
         val patientId = patientReference.substring(patientReference.lastIndexOf('/') + 1)

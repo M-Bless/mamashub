@@ -19,6 +19,7 @@ import java.util.Arrays.sort
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.hl7.fhir.r4.model.*
+import java.util.stream.Stream.of
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -30,8 +31,8 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
         updatePatientListAndPatientCount { getSearchResults() }
     }
 
-    fun searchPatientsByName(nameQuery: String, spinnerClientValue: String) {
-        updatePatientListAndPatientCount { getSearchResults(nameQuery, spinnerClientValue) }
+    fun searchPatientsByName(nameQuery: String) {
+        updatePatientListAndPatientCount { getSearchResults(nameQuery) }
     }
 
     fun getPatientList() = runBlocking{
@@ -45,13 +46,21 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
         }
     }
 
-    private suspend fun getSearchResults(nameQuery: String = "", spinnerClientValue: String=""): List<DbPatientDetails> {
+    private suspend fun getSearchResults(nameQuery: String = ""): List<DbPatientDetails> {
 
         val clientList = ArrayList<DbPatientDetails>()
-        val patientsList: MutableList<DbPatientDetails> = mutableListOf()
 
-        if (spinnerClientValue.isEmpty()){
+        val formatterClass = FormatterClass()
+        val spinnerClientValue = formatterClass.retrieveSharedPreference(
+            getApplication<Application>().applicationContext, "spinnerClientValue")
 
+        val kmflCode = formatterClass.retrieveSharedPreference(
+            getApplication<Application>().applicationContext, "kmhflCode")
+
+        if (spinnerClientValue == "CLIENT_RECORDS"){
+
+            val patientsList: MutableList<DbPatientDetails> = mutableListOf()
+            //Get all records
             fhirEngine.search<Patient> {
 
                 if (nameQuery.isNotEmpty()){
@@ -88,52 +97,44 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
             }
 
 
-        }else{
-
-            val referralType = when (spinnerClientValue) {
-                "Referred" -> { ReferralTypes.REFERRAL_TO_FACILITY.name }
-                "Referral from" -> { ReferralTypes.REFERRAL_TO_CHW.name }
-                else -> { ReferralTypes.REFERRAL_TO_FACILITY.name }
-            }
+        }else if (spinnerClientValue == "REFERRED"){
 
             val referralList: MutableList<DbServiceReferralRequest> = mutableListOf()
 
+            //Get referred records from the service request
+            val searchValue = FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
             fhirEngine.search<ServiceRequest>{
 
+                filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
+
                 sort(ServiceRequest.AUTHORED, Order.DESCENDING)
+
                 count = 100
                 from = 0
             }.mapIndexed { index, serviceRequest ->
                 FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
             }.let { referralList.addAll(it) }
 
-            //Filter referralList by referralType
-            val filteredReferralList = referralList.filter { it.referralType == referralType }
+            //Remove any referrals that are not from the current facility
+            referralList.removeAll { referral -> referral.locationDetails.facilityCode != "72" }
 
-            //Get id of patients from filteredReferralList and get patient details
-            filteredReferralList.forEach {
+            referralList.forEach {
 
                 val id = it.patient
-                val authoredOn = it.authoredOn
-
                 val patient = getPatientResource(id)
-                val dbPatientDetails = FormatterClass().patientData(patient, 0)
+                val dbPatientDetailsData = FormatterClass().patientData(patient, 0)
 
-                val patientId = dbPatientDetails.id
-                val patientName = dbPatientDetails.name
-                val dob = dbPatientDetails.dob
+                val patientId = dbPatientDetailsData.id
+                val patientName = dbPatientDetailsData.name
+                val dob = dbPatientDetailsData.dob
 
-                val dbChwPatientData = DbPatientDetails(patientId, patientName, dob, authoredOn)
-                patientsList.add(dbChwPatientData)
-
+                val dbPatientDetails = DbPatientDetails(patientId, patientName, "-")
+                clientList.add(dbPatientDetails)
 
             }
 
 
         }
-
-
-
 
 
         return clientList

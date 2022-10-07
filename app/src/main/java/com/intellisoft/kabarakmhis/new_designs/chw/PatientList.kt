@@ -129,14 +129,10 @@ class PatientList : AppCompatActivity() {
         getData("FACILITY_TO_FACILITY")
     }
 
-
-
-
     private fun getData(selectedValue: String) {
 
         CoroutineScope(Dispatchers.IO).launch {
             formatter.saveSharedPreference(this@PatientList, "spinnerClientValue", selectedValue)
-            Log.e("******", "Facility to $selectedValue")
 
             val patientList = patientListViewModel.getPatientList()
             showPatients(patientList)

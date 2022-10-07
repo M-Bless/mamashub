@@ -56,6 +56,8 @@
     <string name="was_counselling_on_exclusive_breastfeeding_and_benefits_of_colostrum_done">Was counselling on exclusive breastfeeding and benefits of colostrum done</string>
     <string name="facility_to_facility">Facility to facility referrals</string>
     <string name="facility_to_specialist">Facility to specialist referral</string>
+    <string name="clients_records">Clients Records</string>
+    <string name="referrals_to_facility">Referrals to Facility</string>
 
     <string-array name="array_marital">
         <item>Married</item>

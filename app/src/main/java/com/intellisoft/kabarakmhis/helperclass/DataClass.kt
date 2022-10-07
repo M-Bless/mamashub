@@ -97,7 +97,10 @@ data class ConditionItem(
 enum class ReferralTypes {
     REFERRAL_TO_FACILITY,
     REFERRAL_TO_CHW,
-    REFERRAL_TYPE
+    REFERRAL_TYPE,
+
+    CLIENT_RECORDS,
+    REFERRED
 
 }
 data class EncounterItem(

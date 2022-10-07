@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -24,12 +25,16 @@ import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientListViewModel
 import com.intellisoft.kabarakmhis.helperclass.DbPatientDetails
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
+import com.intellisoft.kabarakmhis.helperclass.ReferralTypes
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import kotlinx.android.synthetic.main.activity_new_main.*
+import kotlinx.android.synthetic.main.activity_new_main.btnRegisterPatient
 import kotlinx.android.synthetic.main.activity_new_main.no_record
+import kotlinx.android.synthetic.main.activity_new_main.radioGroup
+import kotlinx.android.synthetic.main.activity_new_main.refreshLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +42,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListener{
+class NewMainActivity : AppCompatActivity() {
 
     private val retrofitCallsFhir = RetrofitCallsFhir()
     private lateinit var recyclerView: RecyclerView
@@ -50,8 +55,7 @@ class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListene
 
     private var formatter = FormatterClass()
 
-    var clientList = arrayOf("","All", "Referred", "Not referred")
-    private var spinnerClientValue  = clientList[0]
+
     private lateinit var patientDetailsViewModel: PatientDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +86,7 @@ class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListene
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
-        getData()
+        getData(ReferralTypes.CLIENT_RECORDS.name)
 
         btnRegisterPatient.setOnClickListener {
             startActivity(Intent(this, RegisterNewPatient::class.java))
@@ -104,14 +108,12 @@ class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListene
 
                 CoroutineScope(Dispatchers.IO).launch {
                     if (!TextUtils.isEmpty(txtSearch)) {
-                        patientListViewModel.searchPatientsByName(txtSearch, spinnerClientValue)
+                        patientListViewModel.searchPatientsByName(txtSearch)
                     } else {
                         val patientList = patientListViewModel.getPatientList()
                         showPatients(patientList)
                     }
                 }
-
-
 
                 return false
             }
@@ -120,40 +122,26 @@ class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListene
 
         refreshLayout.setOnRefreshListener{
 
-            getData()
+            getData(ReferralTypes.CLIENT_RECORDS.name)
             refreshLayout.isRefreshing = false
         }
 
-
-        initSpinner()
-    }
-
-    private fun initSpinner() {
-
-        val filterValue =
-            ArrayAdapter(this, android.R.layout.simple_spinner_item, clientList)
-        filterValue.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mySpinner!!.adapter = filterValue
-        mySpinner.onItemSelectedListener = this
-
-    }
-
-
-
-
-    override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
-        when (arg0.id) {
-            R.id.mySpinner -> {
-                spinnerClientValue = mySpinner.selectedItem.toString()
-
+        radioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val radio: RadioButton? = findViewById(checkedId)
+            when (radio?.text) {
+                resources.getString(R.string.clients_records) -> {
+                    getData(ReferralTypes.CLIENT_RECORDS.name)
+                }
+                resources.getString(R.string.referrals_to_facility) -> {
+                    getData(ReferralTypes.REFERRED.name)
+                }
             }
-            else -> {}
+
         }
-    }
-
-    override fun onNothingSelected(p0: AdapterView<*>?) {
 
     }
+
+
 
 
     private fun showPatients(dbPatientDetailsList: List<DbPatientDetails>) {
@@ -182,28 +170,35 @@ class NewMainActivity : AppCompatActivity()  , AdapterView.OnItemSelectedListene
                 recyclerView.adapter = adapter
             }
 
-
+            viewModel.poll()
         }
+
+
 
     }
 
-    private fun getData() {
+    private fun getData(selectedValue: String) {
+
+        CoroutineScope(Dispatchers.IO).launch {
 
 
-        patientListViewModel.liveSearchedPatients.observe(this) {
-            showPatients(it)
+            formatter.saveSharedPreference(this@NewMainActivity, "spinnerClientValue", selectedValue)
+
+            val patientList = patientListViewModel.getPatientList()
+            showPatients(patientList)
+
+            formatter.saveSharedPreference(this@NewMainActivity, "patientName", "")
+            formatter.saveSharedPreference(this@NewMainActivity, "identifier", "")
+
         }
 
-        formatter.saveSharedPreference(this@NewMainActivity, "patientName", "")
-        formatter.saveSharedPreference(this@NewMainActivity, "identifier", "")
 
-        viewModel.poll()
     }
 
     override fun onStart() {
         super.onStart()
 
-        getData()
+        getData(ReferralTypes.CLIENT_RECORDS.name)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

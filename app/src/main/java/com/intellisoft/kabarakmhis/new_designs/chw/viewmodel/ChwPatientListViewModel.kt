@@ -56,8 +56,6 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
 
         val referralList: MutableList<DbServiceReferralRequest> = mutableListOf()
 
-        Log.e("-------", spinnerClientValue.toString())
-
         var searchValue = ""
         if (spinnerClientValue == "FACILITY_TO_FACILITY"){
             searchValue = FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
@@ -92,9 +90,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
             val dbChwPatientData = DbChwPatientData(patientId, patientName, dob, authoredOn, authoredOn)
             patientList.add(dbChwPatientData)
 
-
         }
-
 
         return patientList
     }
