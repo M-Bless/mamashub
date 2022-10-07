@@ -151,7 +151,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         val kmhflCode = rootView.etKmhflCode.text.toString()
         val anc = rootView.etAnc.text.toString()
         val pnc = rootView.etPnc.text.toString()
-        val clientName = rootView.etClientName.text.toString()
+
+        val firstName = rootView.etFirstName.text.toString()
+        val secondName = rootView.etMiddleName.text.toString()
+        val surname = rootView.etSurname.text.toString()
+
+        val clientName = "$firstName $secondName $surname"
 
         val gravida = rootView.etGravida.text.toString()
         val parity = rootView.etParity.text.toString()
@@ -170,7 +175,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(gravida) &&
             !TextUtils.isEmpty(parity) && !TextUtils.isEmpty(height) &&
             !TextUtils.isEmpty(weight) && !TextUtils.isEmpty(dob) &&
-            !TextUtils.isEmpty(lmp) && !TextUtils.isEmpty(edd) && !TextUtils.isEmpty(nationalID) &&
+            !TextUtils.isEmpty(nationalID) &&
             spinnerMaritalValue != "" && educationLevelValue != "") {
 
             val isWeight = formatter.validateWeight(weight)
@@ -186,6 +191,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                     if (anc.length == 4){
 
+                        val kmflCode = formatter.retrieveSharedPreference(requireContext(), "kmhflCode")
                         var ancCodeValue = ""
                         if (isAnc){
 
@@ -198,7 +204,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                             /**
                              * GET YEAR AND MONTH FROM System.currentTimeMillis()
                              */
-                            ancCodeValue = "$currentYear-$currentMonth-${anc}"
+                            ancCodeValue = "$kmflCode-$currentYear-$currentMonth-${anc}"
                         }
                         val ancCode = DbDataList("ANC Code", ancCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name,
                             DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
@@ -235,8 +241,16 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         val parityData = DbDataList("Parity", parity, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.PARITY.name)
                         val heightData = DbDataList("Height (cm)", height, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
                         val weightData = DbDataList("Weight (kg)", weight, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.WEIGHT.name)
-                        val eddData = DbDataList("Expected Date of Delivery", edd, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.EDD.name)
-                        val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
+
+                        if (!TextUtils.isEmpty(lmp)){
+                            val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
+                            dbDataList.add(lmpData)
+                        }
+                        if (!TextUtils.isEmpty(edd)){
+                            val eddData = DbDataList("Expected Date of Delivery", edd, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.EDD.name)
+                            dbDataList.add(eddData)
+                        }
+
 
                         val errorList = ArrayList<String>()
 
@@ -282,7 +296,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         }
 
                         dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
-                            gravidaData, parityData, heightData, weightData, eddData, lmpData, nameClient, dateOfBirth, statusMarriage, nationalIDValue))
+                            gravidaData, parityData, heightData, weightData, nameClient, dateOfBirth, statusMarriage, nationalIDValue))
 
                         val dbDataDetailsList = ArrayList<DbDataDetails>()
                         val dbDataDetails = DbDataDetails(dbDataList)
@@ -339,13 +353,17 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
         }else{
 
+            if (TextUtils.isEmpty(rootView.etFirstName.text.toString())) rootView.etFirstName.error = "Please enter a valid client name"
+            if (TextUtils.isEmpty(rootView.etMiddleName.text.toString())) rootView.etMiddleName.error = "Please enter a valid client name"
+            if (TextUtils.isEmpty(rootView.etSurname.text.toString())) rootView.etSurname.error = "Please enter a valid client name"
+
+
             if (TextUtils.isEmpty(rootView.etFacilityName.text.toString())) rootView.etFacilityName.error = "Please enter a valid facility name"
             if (TextUtils.isEmpty(rootView.etKmhflCode.text.toString())) rootView.etKmhflCode.error = "Please enter a valid KMHFL code"
-            if (TextUtils.isEmpty(rootView.etClientName.text.toString())) rootView.etClientName.error = "Please enter a valid client name"
             if (TextUtils.isEmpty(rootView.etHeight.text.toString())) rootView.etHeight.error = "Please enter a valid height"
             if (TextUtils.isEmpty(rootView.etWeight.text.toString())) rootView.etWeight.error = "Please enter a valid weight"
-            if (TextUtils.isEmpty(rootView.etLmp.text.toString())) rootView.etLmp.error = "Please enter a valid lmp"
-            if (TextUtils.isEmpty(rootView.etEdd.text.toString())) rootView.etEdd.error = "Please enter a valid edd"
+//            if (TextUtils.isEmpty(rootView.etLmp.text.toString())) rootView.etLmp.error = "Please enter a valid lmp"
+//            if (TextUtils.isEmpty(rootView.etEdd.text.toString())) rootView.etEdd.error = "Please enter a valid edd"
             if (TextUtils.isEmpty(rootView.etGravida.text.toString())) rootView.etGravida.error = "Please enter a valid gravida"
             if (TextUtils.isEmpty(rootView.etParity.text.toString())) rootView.etParity.error = "Please enter a valid parity"
             if (TextUtils.isEmpty(rootView.etDoB.text.toString())) rootView.etDoB.error = "Please enter a valid date of birth"
@@ -402,9 +420,19 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                 CoroutineScope(Dispatchers.Main).launch {
 
+                    //Get first name, middle name and surname from client name
+                    val nameList = clientName?.split(" ")
+                    val firstName = nameList?.get(0)
+                    val middleName = nameList?.get(1)
+                    val surname = nameList?.get(2)
+
+                    if (firstName != null) rootView.etFirstName.setText(firstName)
+                    if (middleName != null) rootView.etMiddleName.setText(middleName)
+                    if (surname != null) rootView.etSurname.setText(surname)
+
                     if (facilityName != null) rootView.etFacilityName.setText(facilityName)
                     if (kmhflCode != null) rootView.etKmhflCode.setText(kmhflCode)
-                    if (clientName != null) rootView.etClientName.setText(clientName)
+
                     if (dob1 != null){
                         rootView.etDoB.text = dob1
                         val age = formatter.calculateAge(dob1).toString()

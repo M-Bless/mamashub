@@ -168,11 +168,9 @@ class PatientProfile : AppCompatActivity() {
 
     private fun getData() {
 
-
-
-        val status = formatterClass.retrieveSharedPreference(this, "status")
+        val status = formatterClass.retrieveSharedPreference(this, "spinnerClientValue")
         isPatient = if (status != null && status != "") {
-            status != "referred"
+            status != ReferralTypes.REFERRED.name
         }else{
             false
         }

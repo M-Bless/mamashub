@@ -116,7 +116,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
             }.let { referralList.addAll(it) }
 
             //Remove any referrals that are not from the current facility
-            referralList.removeAll { referral -> referral.locationDetails.facilityCode != "72" }
+            referralList.removeAll { referral -> referral.locationDetails.facilityCode != kmflCode }
 
             referralList.forEach {
 
