@@ -261,12 +261,6 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
                 errorList.add("Attendant phone number is not valid")
             }
 
-        }else{
-
-            if (TextUtils.isEmpty(attendantName)) errorList.add("Attendant name is required")
-            if (TextUtils.isEmpty(attendantPhone)) errorList.add("Attendant phone number is required")
-            if (spinnerDesignationValue1 == "") errorList.add("Attendant designation is required")
-
         }
 
 
