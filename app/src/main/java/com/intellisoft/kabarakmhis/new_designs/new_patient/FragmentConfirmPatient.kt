@@ -265,9 +265,9 @@ class FragmentConfirmPatient : Fragment(){
 
                 progressDialog.dismiss()
 
-                val intent = Intent(requireContext(), NewMainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
+//                val intent = Intent(requireContext(), NewMainActivity::class.java)
+//                startActivity(intent)
+//                requireActivity().finish()
 
             }
 

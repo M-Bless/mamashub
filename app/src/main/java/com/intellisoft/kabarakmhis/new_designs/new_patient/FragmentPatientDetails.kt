@@ -92,6 +92,43 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         rootView.etLmp.setOnClickListener {
             onCreateDialog(998)
         }
+        rootView.checkboxApproximateAge.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                rootView.etAge.isEnabled = true
+                rootView.etDoB.isEnabled = false
+                rootView.etDoB.text = ""
+
+            }else{
+                rootView.etAge.isEnabled = false
+                rootView.etDoB.isEnabled = true
+                rootView.etAge.setText("")
+            }
+        }
+
+        rootView.etAge.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isNotEmpty()){
+                    val age = s.toString().toInt()
+                    if (age > 10){
+
+                        val dob = LocalDate.now().minusYears(age.toLong())
+                        //Get the year from the date
+                        val year = dob.year
+                        val approximateDob = "$year-01-01"
+                        rootView.etDoB.text = approximateDob.toString()
+
+                    }else{
+                        rootView.etAge.error = "Age must be greater than 10"
+                    }
+
+
+                }else{
+                    rootView.etDoB.setText("")
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
 
         initSpinner()
@@ -152,9 +189,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         val anc = rootView.etAnc.text.toString()
         val pnc = rootView.etPnc.text.toString()
 
-        val firstName = rootView.etFirstName.text.toString()
-        val secondName = rootView.etMiddleName.text.toString()
-        val surname = rootView.etSurname.text.toString()
+        val firstName = rootView.etFirstName.text.toString().trim()
+        val secondName = rootView.etMiddleName.text.toString().trim()
+        val surname = rootView.etSurname.text.toString().trim()
 
         val clientName = "$firstName $secondName $surname"
 

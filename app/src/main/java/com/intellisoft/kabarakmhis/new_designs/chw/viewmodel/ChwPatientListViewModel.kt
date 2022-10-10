@@ -57,10 +57,16 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         val referralList: MutableList<DbServiceReferralRequest> = mutableListOf()
 
         var searchValue = ""
-        if (spinnerClientValue == "FACILITY_TO_FACILITY"){
-            searchValue = FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
-        }else if (spinnerClientValue == "FACILITY_TO_SPECIALIST"){
-            searchValue = FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_CHW.name)
+        searchValue = when (spinnerClientValue) {
+            "FACILITY_TO_FACILITY" -> {
+                FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
+            }
+            "FACILITY_TO_SPECIALIST" -> {
+                FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_CHW.name)
+            }
+            else -> {
+                FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
+            }
         }
 
         fhirEngine.search<ServiceRequest>{
@@ -73,6 +79,8 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         }.mapIndexed { index, serviceRequest ->
             FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
         }.let { referralList.addAll(it) }
+
+        Log.e("referralList", referralList.toString())
 
         //Get id of patients from filteredReferralList and get patient details
         referralList.forEach {
