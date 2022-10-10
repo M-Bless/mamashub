@@ -52,7 +52,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
     var artEligibilityList = arrayOf("","I", "II", "III", "IV")
     private var spinnerArtElligibilityValue  = artEligibilityList[0]
 
-    var partnerHivList = arrayOf("","Reactive", "Non-Reactive", "Unknown")
+    var partnerHivList = arrayOf("","N", "U", "Kp")
     private var spinnerPartnerHivValue  = partnerHivList[0]
 
     var arvBeforeFirstVisitList = arrayOf("","Y", "N", "NA", "Revisit")

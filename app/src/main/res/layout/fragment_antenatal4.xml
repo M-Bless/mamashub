@@ -94,12 +94,12 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:gravity="center|start"
-                            android:layout_weight="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:text="Partner HIV Status"/>
+                            android:layout_weight="1"
+                            android:gravity="center|start"
+                            android:text="Partner HIV Testing"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <RadioGroup
                             android:id="@+id/radioGrpHIVStatus"
@@ -120,6 +120,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Non Reactive" />
+
+                            <RadioButton
+                                android:id="@+id/radioInconclusiveHIVStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Inconclusive" />
 
 
                         </RadioGroup>
