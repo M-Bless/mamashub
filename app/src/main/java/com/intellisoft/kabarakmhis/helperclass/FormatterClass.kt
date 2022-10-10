@@ -768,6 +768,38 @@ class FormatterClass {
     fun validateHeight(height: String):Boolean{
         return height.toInt() in 101..199
     }
+    fun validateParityGravida(parityValue: String, gravida: String):Pair<Boolean, String>{
+
+        /**
+         * Remove spaces in parity
+         * Check if parity has atleast 3 digits
+         * Check if the first and last digits for parity are integers, and the middle digit is a '+'
+         * Check if the first digit is more than the last digit
+         * Check if summation of parity (first and last digit) is less than gravida
+         */
+        val parity = parityValue.replace("\\s".toRegex(), "")
+
+        val isParityValid = parity.length == 3 &&
+                parity[0].isDigit() && parity[2].isDigit() && parity[1] == '+' &&
+                parity[0].toString().toInt() > parity[2].toString().toInt() &&
+                parity[0].toString().toInt() + parity[2].toString().toInt() < gravida.toInt()
+
+        return if (isParityValid) {
+            Pair(true, "")
+        } else {
+
+            var error = ""
+            if (parity.length < 3) error+="Parity should be 3 digits long. eg 2 + 1 "
+            if (!parity[0].isDigit() || !parity[2].isDigit() || parity[1] != '+') error += "Parity must be in the format 2+1\n"
+            if (parity[0].toString().toInt() <= parity[2].toString().toInt()) error += "Parity's First digit must be more than the last digit\n"
+            if (parity[0].toString().toInt() + parity[2].toString().toInt() >= gravida.toInt()) error += "Summation of first and last digit in Parity must be less than gravida\n"
+
+            Pair(false, error)
+        }
+
+
+    }
+
 
     fun startFragmentConfirm(context: Context, encounterName: String): FragmentConfirmDetails {
 

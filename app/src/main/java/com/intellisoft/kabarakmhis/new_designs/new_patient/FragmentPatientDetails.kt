@@ -217,8 +217,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
             val isWeight = formatter.validateWeight(weight)
             val isHeight = formatter.validateHeight(height)
+            val parityGravidaPair = formatter.validateParityGravida(parity, gravida)
+            val isParityGravida = parityGravidaPair.first
 
-            if (isWeight && isHeight && parity.toInt() < gravida.toInt()){
+
+            if (isWeight && isHeight && isParityGravida){
 
                 if (TextUtils.isEmpty(anc) && TextUtils.isEmpty(pnc)) {
 
@@ -380,10 +383,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
             }else{
 
-                if (parity.toInt() >= gravida.toInt())Toast.makeText(requireContext(), "Parity cannot be higher than gravida.", Toast.LENGTH_SHORT).show()
+                val parityGravidaError = parityGravidaPair.second
+                if (!isParityGravida) Toast.makeText(requireContext(), parityGravidaError, Toast.LENGTH_SHORT).show()
+
                 if (weight.toInt() < 31 || weight.toInt() > 159)Toast.makeText(requireContext(), "Weight should be between 31 and 159 kg.", Toast.LENGTH_SHORT).show()
                 if (height.toInt() < 101 || height.toInt() > 199)Toast.makeText(requireContext(), "Height should be between 101 and 199 cm.", Toast.LENGTH_SHORT).show()
-
 
             }
 

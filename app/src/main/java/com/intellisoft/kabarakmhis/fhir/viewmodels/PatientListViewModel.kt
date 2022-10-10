@@ -106,7 +106,6 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
             fhirEngine.search<ServiceRequest>{
 
                 filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
-
                 sort(ServiceRequest.AUTHORED, Order.DESCENDING)
 
                 count = 100
@@ -115,8 +114,10 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
                 FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
             }.let { referralList.addAll(it) }
 
+            Log.e("referralList", referralList.toString())
+
             //Remove any referrals that are not from the current facility
-            referralList.removeAll { referral -> referral.locationDetails.facilityCode != kmflCode }
+//            referralList.removeAll { referral -> referral.locationDetails.facilityCode != kmflCode }
 
             referralList.forEach {
 
