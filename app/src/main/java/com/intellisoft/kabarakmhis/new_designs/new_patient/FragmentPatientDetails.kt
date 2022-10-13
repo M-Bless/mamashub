@@ -463,13 +463,25 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                     //Get first name, middle name and surname from client name
                     val nameList = clientName?.split(" ")
-                    val firstName = nameList?.get(0)
-                    val middleName = nameList?.get(1)
-                    val surname = nameList?.get(2)
+                    if (nameList?.isNotEmpty() == true){
 
-                    if (firstName != null) rootView.etFirstName.setText(firstName)
-                    if (middleName != null) rootView.etMiddleName.setText(middleName)
-                    if (surname != null) rootView.etSurname.setText(surname)
+                        when (nameList.size) {
+                            3 -> {
+                                rootView.etFirstName.setText(nameList[0])
+                                rootView.etMiddleName.setText(nameList[1])
+                                rootView.etSurname.setText(nameList[2])
+                            }
+                            2 -> {
+                                rootView.etFirstName.setText(nameList[0])
+                                rootView.etSurname.setText(nameList[1])
+                            }
+                            else -> {
+                                rootView.etFirstName.setText(nameList[0])
+                            }
+                        }
+
+
+                    }
 
                     if (facilityName != null) rootView.etFacilityName.setText(facilityName)
                     if (kmhflCode != null) rootView.etKmhflCode.setText(kmhflCode)

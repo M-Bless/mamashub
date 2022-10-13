@@ -81,78 +81,84 @@ class Summary : AppCompatActivity() {
                     val patientLocalKinName = formatter.retrieveSharedPreference(this@Summary, "kinName")
                     val patientLocalKinPhone = formatter.retrieveSharedPreference(this@Summary, "kinPhone")
 
-                    if (patientLocalName != "") tvName.text = patientLocalName
-                    if (patientLocalIdentifier != "") tvANCID.text = patientLocalIdentifier
-                    if (patientLocalKinName != "") tvKinName.text = patientLocalKinName
-                    if (patientLocalKinPhone != "") tvKinDetails.text = patientLocalKinPhone
-                    if (patientLocalDob != null) {
-                        val age = "${formatter.calculateAge(patientLocalDob)} years"
-                        tvAge.text = age
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if (patientLocalName != "") tvName.text = patientLocalName
+                        if (patientLocalIdentifier != "") tvANCID.text = patientLocalIdentifier
+                        if (patientLocalKinName != "") tvKinName.text = patientLocalKinName
+                        if (patientLocalKinPhone != "") tvKinDetails.text = patientLocalKinPhone
+                        if (patientLocalDob != null) {
+                            val age = "${formatter.calculateAge(patientLocalDob)} years"
+                            tvAge.text = age
+                        }
+
+                        /**
+                         * Get the patient's Summary
+                         */
+
+                        //Physical Exam
+                        val physicalExam = formatter.retrieveSharedPreference(this@Summary,
+                            "${DbResourceViews.PHYSICAL_EXAMINATION.name}_SUMMARY")
+                        if (physicalExam != null){
+                            val physicalExamPair = formatter.getProgress(physicalExam)
+                            val physicalExamStatus = physicalExamPair.first
+                            val physicalExamTotal = physicalExamPair.second
+                            progressBarPhysical.setProgress(physicalExamStatus, true)
+                            progressBarPhysical.max = physicalExamTotal
+                            tvPhysicalExam.text = physicalExam
+                        }
+
+                        //Present Pregnancy
+                        val presentPregnancy = formatter.retrieveSharedPreference(this@Summary,
+                            "${DbResourceViews.PRESENT_PREGNANCY.name}_SUMMARY")
+                        if (presentPregnancy != null){
+                            val presentPregnancyPair = formatter.getProgress(presentPregnancy)
+                            val presentPregnancyStatus = presentPregnancyPair.first
+                            val presentPregnancyTotal = presentPregnancyPair.second
+                            progressBarPresentPregnancy.setProgress(presentPregnancyStatus, true)
+                            progressBarPresentPregnancy.max = presentPregnancyTotal
+                            tvPresentPregnancy.text = presentPregnancy
+                        }
+
+                        //Tetatnus
+                        val tetanus = formatter.retrieveSharedPreference(this@Summary,
+                            "${DbResourceViews.TETENUS_DIPTHERIA.name}_SUMMARY")
+                        if (tetanus != null){
+                            val tetanusPair = formatter.getProgress(tetanus)
+                            val tetanusStatus = tetanusPair.first
+                            val tetanusTotal = tetanusPair.second
+                            progressBarTetanusDiphtheria.setProgress(tetanusStatus, true)
+                            progressBarTetanusDiphtheria.max = tetanusTotal
+                            tvTetanusDiphtheria.text = tetanus
+                        }
+
+                        //Malaria
+                        val malaria = formatter.retrieveSharedPreference(this@Summary,
+                            "${DbResourceViews.MALARIA_PROPHYLAXIS.name}_SUMMARY")
+                        if (malaria != null){
+                            val malariaPair = formatter.getProgress(malaria)
+                            val malariaStatus = malariaPair.first
+                            val malariaTotal = malariaPair.second
+                            progressBarMalariaProphylaxis.setProgress(malariaStatus, true)
+                            progressBarMalariaProphylaxis.max = malariaTotal
+                            tvMalariaProphylaxis.text = malaria
+                        }
+
+                        //IFAS
+                        val ifas = formatter.retrieveSharedPreference(this@Summary,
+                            "${DbResourceViews.IFAS.name}_SUMMARY")
+                        if (ifas != null){
+                            val ifasPair = formatter.getProgress(ifas)
+                            val ifasStatus = ifasPair.first
+                            val ifasTotal = ifasPair.second
+                            progressIFAS.setProgress(ifasStatus, true)
+                            progressIFAS.max = ifasTotal
+                            tvIfas.text = ifas
+                        }
                     }
 
-                    /**
-                     * Get the patient's Summary
-                     */
 
-                    //Physical Exam
-                    val physicalExam = formatter.retrieveSharedPreference(this@Summary,
-                        "${DbResourceViews.PHYSICAL_EXAMINATION.name}_SUMMARY")
-                    if (physicalExam != null){
-                        val physicalExamPair = formatter.getProgress(physicalExam)
-                        val physicalExamStatus = physicalExamPair.first
-                        val physicalExamTotal = physicalExamPair.second
-                        progressBarPhysical.setProgress(physicalExamStatus, true)
-                        progressBarPhysical.max = physicalExamTotal
-                        tvPhysicalExam.text = physicalExam
-                    }
 
-                    //Present Pregnancy
-                    val presentPregnancy = formatter.retrieveSharedPreference(this@Summary,
-                        "${DbResourceViews.PRESENT_PREGNANCY.name}_SUMMARY")
-                    if (presentPregnancy != null){
-                        val presentPregnancyPair = formatter.getProgress(presentPregnancy)
-                        val presentPregnancyStatus = presentPregnancyPair.first
-                        val presentPregnancyTotal = presentPregnancyPair.second
-                        progressBarPresentPregnancy.setProgress(presentPregnancyStatus, true)
-                        progressBarPresentPregnancy.max = presentPregnancyTotal
-                        tvPresentPregnancy.text = presentPregnancy
-                    }
 
-                    //Tetatnus
-                    val tetanus = formatter.retrieveSharedPreference(this@Summary,
-                        "${DbResourceViews.TETENUS_DIPTHERIA.name}_SUMMARY")
-                    if (tetanus != null){
-                        val tetanusPair = formatter.getProgress(tetanus)
-                        val tetanusStatus = tetanusPair.first
-                        val tetanusTotal = tetanusPair.second
-                        progressBarTetanusDiphtheria.setProgress(tetanusStatus, true)
-                        progressBarTetanusDiphtheria.max = tetanusTotal
-                        tvTetanusDiphtheria.text = tetanus
-                    }
-
-                    //Malaria
-                    val malaria = formatter.retrieveSharedPreference(this@Summary,
-                        "${DbResourceViews.MALARIA_PROPHYLAXIS.name}_SUMMARY")
-                    if (malaria != null){
-                        val malariaPair = formatter.getProgress(malaria)
-                        val malariaStatus = malariaPair.first
-                        val malariaTotal = malariaPair.second
-                        progressBarMalariaProphylaxis.setProgress(malariaStatus, true)
-                        progressBarMalariaProphylaxis.max = malariaTotal
-                        tvMalariaProphylaxis.text = malaria
-                    }
-
-                    //IFAS
-                    val ifas = formatter.retrieveSharedPreference(this@Summary,
-                        "${DbResourceViews.IFAS.name}_SUMMARY")
-                    if (ifas != null){
-                        val ifasPair = formatter.getProgress(ifas)
-                        val ifasStatus = ifasPair.first
-                        val ifasTotal = ifasPair.second
-                        progressIFAS.setProgress(ifasStatus, true)
-                        progressIFAS.max = ifasTotal
-                        tvIfas.text = ifas
-                    }
 
 
                 }.join()

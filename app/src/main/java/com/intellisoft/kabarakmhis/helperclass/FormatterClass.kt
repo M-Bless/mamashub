@@ -789,10 +789,19 @@ class FormatterClass {
         } else {
 
             var error = ""
-            if (parity.length < 3) error+="Parity should be 3 digits long. eg 2 + 1 "
-            if (!parity[0].isDigit() || !parity[2].isDigit() || parity[1] != '+') error += "Parity must be in the format 2+1\n"
-            if (parity[0].toString().toInt() <= parity[2].toString().toInt()) error += "Parity's First digit must be more than the last digit\n"
-            if (parity[0].toString().toInt() + parity[2].toString().toInt() >= gravida.toInt()) error += "Summation of first and last digit in Parity must be less than gravida\n"
+
+            if (parity.length >= 3){
+
+                if (!parity[0].isDigit() || !parity[2].isDigit() || parity[1] != '+') error += "Parity must be in the format 2+1\n"
+                if (parity[0].toString().toInt() <= parity[2].toString().toInt()) error += "Parity's First digit must be more than the last digit\n"
+                if (parity[0].toString().toInt() + parity[2].toString().toInt() >= gravida.toInt()) error += "Summation of first and last digit in\n Parity must be less than gravida\n"
+
+            }else{
+                if (parity.length < 3) error+="Parity should be 3 digits long. eg 2 + 1 "
+
+            }
+
+
 
             Pair(false, error)
         }
