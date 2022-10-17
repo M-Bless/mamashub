@@ -770,41 +770,70 @@ class FormatterClass {
     }
     fun validateParityGravida(parityValue: String, gravida: String):Pair<Boolean, String>{
 
-        /**
-         * Remove spaces in parity
-         * Check if parity has atleast 3 digits
-         * Check if the first and last digits for parity are integers, and the middle digit is a '+'
-         * Check if the first digit is more than the last digit
-         * Check if summation of parity (first and last digit) is less than gravida
-         */
-        val parity = parityValue.replace("\\s".toRegex(), "")
+        try {
 
-        val isParityValid = parity.length == 3 &&
-                parity[0].isDigit() && parity[2].isDigit() && parity[1] == '+' &&
-                parity[0].toString().toInt() > parity[2].toString().toInt() &&
-                parity[0].toString().toInt() + parity[2].toString().toInt() < gravida.toInt()
+            /**
+             * Remove spaces in parity
+             * Check if parity has atleast 3 digits
+             * Check if the first and last digits for parity are integers, and the middle digit is a '+'
+             * Check if the first digit is more than the last digit
+             * Check if summation of parity (first and last digit) is less than gravida
+             */
+            val parity = parityValue.replace("\\s".toRegex(), "")
 
-        return if (isParityValid) {
-            Pair(true, "")
-        } else {
+            val isParityValid = parity.length == 3 &&
+                    parity[0].isDigit() &&
+                    parity[2].isDigit() &&
+                    parity[1] == '+'
 
-            var error = ""
+            return if (isParityValid) {
 
-            if (parity.length >= 3){
+                //Get the first and last digits
+                val parityFirstDigit = parity[0].toString().toInt()
+                val parityLastDigit = parity[2].toString().toInt()
 
-                if (!parity[0].isDigit() || !parity[2].isDigit() || parity[1] != '+') error += "Parity must be in the format 2+1\n"
-                if (parity[0].toString().toInt() <= parity[2].toString().toInt()) error += "Parity's First digit must be more than the last digit\n"
-                if (parity[0].toString().toInt() + parity[2].toString().toInt() >= gravida.toInt()) error += "Summation of first and last digit in\n Parity must be less than gravida\n"
+                if (parityFirstDigit == 0 && parityLastDigit == 0) {
+                    Pair(true, "")
+                }else{
 
-            }else{
-                if (parity.length < 3) error+="Parity should be 3 digits long. eg 2 + 1 "
+                    //Check if the first digit is more than the last digit
+                    if (parityFirstDigit > parityLastDigit) {
 
+                        //Check if summation of parity (first and last digit) is less than gravida
+                        if (parityFirstDigit + parityLastDigit < gravida.toInt()) {
+                            Pair(true,"")
+                        }else{
+                            Pair(false, "Summation of parity (first and last digit) is more than gravida")
+                        }
+
+                    }else{
+                        Pair(false, "The first digit should be more than the last digit")
+                    }
+
+                }
+
+
+            } else {
+
+                var error = ""
+                if (parity.length != 3) {
+                    error = "Parity should have 3 digits e.g. 2+1"
+                } else if (!parity[0].isDigit()) {
+                    error = "The first digit should be an integer"
+                } else if (!parity[2].isDigit()) {
+                    error = "The last digit should be an integer"
+                } else if (parity[1] != '+') {
+                    error = "The middle digit should be a '+'"
+                }
+
+                Pair(false, error)
             }
 
-
-
-            Pair(false, error)
+        }catch (e: Exception){
+            return Pair(false, "Check on the parity and gravida value")
         }
+
+
 
 
     }

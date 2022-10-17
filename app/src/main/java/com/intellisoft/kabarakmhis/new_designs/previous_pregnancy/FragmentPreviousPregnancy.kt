@@ -78,6 +78,13 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
                 }
             }
         }
+        rootView.checkboxLabour.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked) {
+                changeVisibility(rootView.linearLabour, true)
+            } else {
+                changeVisibility(rootView.linearLabour, false)
+            }
+        }
 
 
         handleNavigation()
@@ -117,7 +124,14 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
         val ancTime = rootView.etVisitTime.text.toString()
         val birthPlace = rootView.etPlaceOfChildBirth.text.toString()
         val gestation = rootView.etGestation.text.toString()
-        val duration = rootView.etDuration.text.toString()
+
+        val duration = if (rootView.checkboxLabour.isChecked){
+            rootView.etDuration.text.toString()
+        }else{
+            "0"
+        }
+
+
 
         val babyWeight = rootView.etBabyWeight.text.toString()
 
@@ -351,7 +365,14 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
                             rootView.etGestation.setText(gestation[0].value)
                         }
                         if (duration.isNotEmpty()){
-                            rootView.etDuration.setText(duration[0].value)
+
+                            val value = duration[0].value
+                            //Check if value is a number
+                            if (value.matches("-?\\d+(\\.\\d+)?".toRegex())) {
+                                rootView.etDuration.setText(value)
+                            }else{
+                                rootView.checkboxLabour.isChecked = true
+                            }
                         }
                         if (deliveryMode.isNotEmpty()){
                             val value = deliveryMode[0].value

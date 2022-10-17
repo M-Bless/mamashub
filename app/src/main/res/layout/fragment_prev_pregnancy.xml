@@ -181,14 +181,31 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                              />
 
-                        <EditText
-                            android:inputType="numberDecimal"
-                            android:id="@+id/etDuration"
+                        <CheckBox
+                            android:id="@+id/checkboxLabour"
+                            android:text="No Labour"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
+                            android:layout_height="wrap_content"/>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:id="@+id/linearLabour"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:inputType="numberDecimal"
+                                android:id="@+id/etDuration"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="Duration of labour" />
+
+                        </LinearLayout>
+
+
 
                     </LinearLayout>
 

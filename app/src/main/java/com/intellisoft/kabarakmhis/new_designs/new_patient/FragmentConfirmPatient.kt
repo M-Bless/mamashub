@@ -242,8 +242,6 @@ class FragmentConfirmPatient : Fragment(){
 //                        formatter.generateUuid()
 //                    }
 
-                    Log.e("*****", "******")
-                    println(encounterId)
 
                     val dbPatientFhirInformation = DbPatientFhirInformation(
                         id, clientName, telecomList,"female", dob, addressList,
@@ -261,13 +259,13 @@ class FragmentConfirmPatient : Fragment(){
 
                 }.join()
 
-                delay(8000)
+                delay(7000)
 
                 progressDialog.dismiss()
 
-//                val intent = Intent(requireContext(), NewMainActivity::class.java)
-//                startActivity(intent)
-//                requireActivity().finish()
+                val intent = Intent(requireContext(), NewMainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
 
             }
 

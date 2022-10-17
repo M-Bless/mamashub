@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.new_designs.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -74,6 +75,8 @@ class PatientsListAdapter(private var entryList: List<DbPatientDetails>,
         val date = entryList[position].lastUpdated
 
         val pos = "${position + 1}"
+
+        holder.tvName.paint?.isUnderlineText = true
 
         holder.tvId.text = pos
         holder.tvName.text = name

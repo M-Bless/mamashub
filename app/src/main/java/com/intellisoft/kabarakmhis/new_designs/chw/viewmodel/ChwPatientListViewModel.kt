@@ -72,6 +72,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         fhirEngine.search<ServiceRequest>{
 
             filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
+
             sort(ServiceRequest.AUTHORED, Order.DESCENDING)
 
             count = 100
@@ -80,7 +81,8 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
             FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
         }.let { referralList.addAll(it) }
 
-        Log.e("referralList", referralList.toString())
+
+
 
         //Get id of patients from filteredReferralList and get patient details
         referralList.forEach {

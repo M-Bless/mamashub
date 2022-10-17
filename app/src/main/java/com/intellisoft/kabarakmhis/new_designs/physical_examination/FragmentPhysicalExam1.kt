@@ -81,7 +81,7 @@ class FragmentPhysicalExam1 : Fragment() {
     private fun initTabLayout() {
 
         tabLayout.addTab(tabLayout.newTab().setText("Physical Examination"))
-        tabLayout.addTab(tabLayout.newTab().setText("Smart Watch Reading"))
+        tabLayout.addTab(tabLayout.newTab().setText("BP Monitoring"))
 
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         val adapter = MyAdapter(requireContext(), parentFragmentManager, tabLayout.tabCount)

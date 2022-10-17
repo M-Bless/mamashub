@@ -240,12 +240,13 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                             //Get current month
                             val currentMonth = LocalDate.now().monthValue
 
-
                             /**
                              * GET YEAR AND MONTH FROM System.currentTimeMillis()
                              */
                             ancCodeValue = "$kmflCode-$currentYear-$currentMonth-${anc}"
                         }
+
+
                         val ancCode = DbDataList("ANC Code", ancCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name,
                             DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
 
