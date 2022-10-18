@@ -12,17 +12,19 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbSmartWatchReadings
 import com.intellisoft.kabarakmhis.helperclass.DbWatchDataValues
 import com.intellisoft.kabarakmhis.helperclass.DbWatchReading
+import com.intellisoft.kabarakmhis.helperclass.DbWatchTimeData
 
 
-class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchDataValues>,
+class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchTimeData>,
                                    private val context: Context) : RecyclerView.Adapter<SmartWatchReadingDataAdapter.PagerViewHolder>() {
 
     inner class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
         val tvTime: TextView = itemView.findViewById(R.id.tvTime)
-        val tvType: TextView = itemView.findViewById(R.id.tvType)
-        val tvValue: TextView = itemView.findViewById(R.id.tvValue)
+        val tvSys: TextView = itemView.findViewById(R.id.tvSys)
+        val tvDia: TextView = itemView.findViewById(R.id.tvDia)
+        val tvHr: TextView = itemView.findViewById(R.id.tvHr)
 
         init {
 
@@ -55,74 +57,14 @@ class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchDataV
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
 
-        val text = entryList[position].text
-        val value = entryList[position].value
         val time = entryList[position].time
-
         holder.tvTime.text = time
-        holder.tvValue.text = value
-        holder.tvType.text = text
 
-//        validateReadings(text, value, holder.tvValue)
+        val readingsData = entryList[position].readings
 
-
-    }
-
-    //Validate diastolic, sytolic and pulse readings
-    private fun validateReadings(text: String, valueData: String, textView: TextView) {
-
-
-        val reversedText = valueData.reversed()
-        if (text.contains("Systolic") || text.contains("Diastolic")) {
-
-            val value = reversedText.substring(4, reversedText.length)
-            val reversedValue = value.reversed().trim()
-
-            val valueInt = reversedValue.toInt()
-
-            if (text.contains("Systolic")) {
-                if (valueInt <= 70) {
-                    textView.setBackgroundColor(context.resources.getColor(R.color.moderate_risk))
-                } else if (valueInt <= 80) {
-                    textView.setBackgroundColor(context.resources.getColor(R.color.orange))
-                } else if (valueInt <= 110) {
-                    textView.setBackgroundColor(context.resources.getColor(R.color.yellow))
-                } else if (valueInt <= 130)
-                    textView.setBackgroundColor(context.resources.getColor(android.R.color.holo_green_light))
-                else {
-                    textView.setBackgroundColor(context.resources.getColor(R.color.moderate_risk))
-                }
-
-            }
-            if (text.contains("Diastolic")) {
-                if (valueInt <= 60) {
-                    textView.setBackgroundColor(context.resources.getColor(R.color.yellow))
-                } else if (valueInt <= 90) {
-                    textView.setBackgroundColor(context.resources.getColor(R.color.low_risk))
-                } else {
-                    textView.setBackgroundColor(context.resources.getColor(R.color.moderate_risk))
-                }
-            }
-
-        }
-
-        if (text.contains("Heart")) {
-            val value = reversedText.substring(3, reversedText.length)
-            val reversedValue = value.reversed().trim()
-            val valueInt = reversedValue.toInt()
-
-            Log.e("value", value.toString())
-            Log.e("valueInt", valueInt.toString())
-
-
-            if (valueInt <= 60) {
-                textView.setBackgroundColor(context.resources.getColor(R.color.moderate_risk))
-            } else if (valueInt <= 100) {
-                textView.setBackgroundColor(context.resources.getColor(R.color.low_risk))
-            } else {
-                textView.setBackgroundColor(context.resources.getColor(R.color.moderate_risk))
-            }
-        }
+        holder.tvSys.text = readingsData.systolic
+        holder.tvDia.text = readingsData.diastolic
+        holder.tvHr.text = readingsData.pulse
 
     }
 

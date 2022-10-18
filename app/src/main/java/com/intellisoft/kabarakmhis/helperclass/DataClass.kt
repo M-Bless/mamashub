@@ -296,3 +296,15 @@ data class DbWatchDataValues(
 )
 
 
+
+data class DbWatchTimeData(
+    val time: String,
+    val readings: DbWatchRecord
+)
+data class DbWatchRecord(
+    val systolic: String,
+    val diastolic: String,
+    val pulse: String,
+)
+
+

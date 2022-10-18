@@ -45,6 +45,7 @@ android {
         }
         resources.excludes.add("META-INF/*")
     }
+
 //    buildscript {
 //        ext{
 //            kotlinVersion = '1.4.20'
@@ -56,8 +57,7 @@ android {
 
 dependencies {
 
-//    implementation 'com.michalsvec:single-row-calednar:1.0.0'
-
+    implementation 'com.vivekkaushik.datepicker:datePickerTimeline:0.0.4'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

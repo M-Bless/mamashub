@@ -59,8 +59,8 @@ class SmartWatchReadingAdapter(private var entryList: ArrayList<DbWatchData>,
 
         holder.tvReadingDate.text = appointmentDate
 
-        val confirmParentAdapter = SmartWatchReadingDataAdapter(readingsList,context)
-        holder.recyclerView.adapter = confirmParentAdapter
+//        val confirmParentAdapter = SmartWatchReadingDataAdapter(readingsList,context)
+//        holder.recyclerView.adapter = confirmParentAdapter
 
 
 

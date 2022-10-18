@@ -459,7 +459,7 @@ class FormatterClass {
 
         return "$day-$month-$year"
     }
-    private fun getDateDetails(dateStr: String): Triple<Int?, Int?, Int?> {
+    fun getDateDetails(dateStr: String): Triple<Int?, Int?, Int?> {
 
         val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
