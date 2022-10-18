@@ -10,16 +10,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbSmartWatchReadings
+import com.intellisoft.kabarakmhis.helperclass.DbWatchDataValues
 import com.intellisoft.kabarakmhis.helperclass.DbWatchReading
 
 
-class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchReading>,
+class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchDataValues>,
                                    private val context: Context) : RecyclerView.Adapter<SmartWatchReadingDataAdapter.PagerViewHolder>() {
 
     inner class PagerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
-        val tvText: TextView = itemView.findViewById(R.id.tvText)
+        val tvTime: TextView = itemView.findViewById(R.id.tvTime)
+        val tvType: TextView = itemView.findViewById(R.id.tvType)
         val tvValue: TextView = itemView.findViewById(R.id.tvValue)
 
         init {
@@ -55,11 +57,13 @@ class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchReadi
 
         val text = entryList[position].text
         val value = entryList[position].value
+        val time = entryList[position].time
 
-        holder.tvText.text = text
+        holder.tvTime.text = time
         holder.tvValue.text = value
+        holder.tvType.text = text
 
-        validateReadings(text, value, holder.tvValue)
+//        validateReadings(text, value, holder.tvValue)
 
 
     }
@@ -101,8 +105,6 @@ class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchReadi
             }
 
         }
-
-        Log.e("TAG", "validateReadings: $text $valueData" )
 
         if (text.contains("Heart")) {
             val value = reversedText.substring(3, reversedText.length)

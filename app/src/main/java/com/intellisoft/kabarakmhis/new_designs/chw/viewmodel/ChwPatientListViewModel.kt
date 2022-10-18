@@ -205,6 +205,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
                 }
                 .let { observations.addAll(it) }
 
+
         }
 
         return observations

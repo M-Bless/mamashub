@@ -2,6 +2,7 @@ package com.intellisoft.kabarakmhis.fhir.viewmodels
 
 import android.app.Application
 import android.content.res.Resources
+import android.graphics.Paint
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -67,6 +68,30 @@ class PatientDetailsViewModel(
 
 
     }
+
+    //Get observations from code
+    fun getObservationFromCode(code: String) = runBlocking {
+        observationFromCode(code)
+    }
+
+    private suspend fun observationFromCode(codeValue: String): List<ObservationItem>{
+
+        val observations = mutableListOf<ObservationItem>()
+        fhirEngine
+            .search<Observation> {
+                filter(Observation.CODE, {value = of(Coding().apply {
+                    system = "http://snomed.info/sct"; code = codeValue
+                })})
+                filter(Observation.SUBJECT, {value = "Patient/$patientId"})
+            }
+            .take(1)
+            .map { createObservationItem(it, getApplication<Application>().resources) }
+            .let { observations.addAll(it) }
+
+        return observations
+
+    }
+
 
     fun getPatientData() = runBlocking{
         getPatientDetailDataModel()
@@ -530,8 +555,6 @@ class PatientDetailsViewModel(
     //Get all observations for patient under the selected encounter
     private suspend fun getPatientObservations(encounterId: String): List<ObservationItem> {
 
-
-
         val observations = mutableListOf<ObservationItem>()
         fhirEngine
             .search<Observation> {
@@ -540,7 +563,6 @@ class PatientDetailsViewModel(
             .take(Int.MAX_VALUE)
             .map { createObservationItem(it, getApplication<Application>().resources) }
             .let { observations.addAll(it) }
-
 
         return observations
     }
@@ -563,6 +585,7 @@ class PatientDetailsViewModel(
             .map { createObservationItem(it, getApplication<Application>().resources) }
             .let { observations.addAll(it) }
 
+
         return observations
 
     }
@@ -584,6 +607,7 @@ class PatientDetailsViewModel(
             .take(1)
             .map { createObservationItem(it, getApplication<Application>().resources) }
             .let { observations.addAll(it) }
+
 
         return observations
 
@@ -652,10 +676,21 @@ class PatientDetailsViewModel(
                 }
             val valueString = "$value $valueUnit"
 
+            //Get Date
+            var newDate = ""
             if (issuedDate != ""){
-                val newDate = FormatterClass().convertFhirDate(issuedDate)
-                if (newDate != null){
-                    issuedDate = newDate
+                val convertedDate = FormatterClass().convertFhirDate(issuedDate)
+                if (convertedDate != null){
+                    newDate = convertedDate
+                }
+            }
+
+            //Get Time
+            var newTime = ""
+            if (issuedDate != ""){
+                val convertedDate = FormatterClass().convertFhirTime(issuedDate)
+                if (convertedDate != null){
+                    newTime = convertedDate
                 }
             }
 
@@ -664,7 +699,8 @@ class PatientDetailsViewModel(
                 code,
                 text,
                 valueString,
-                issuedDate
+                newDate,
+                newTime
             )
         }
 

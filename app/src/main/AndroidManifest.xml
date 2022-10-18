@@ -17,9 +17,17 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustPan">
         <activity
-            android:parentActivityName=".new_designs.chw.PatientList"
-            android:name=".new_designs.chw.ChwClientDetails"
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.screens.UpcomingAppointments"
             android:exported="false" />
+        <activity
+            android:parentActivityName=".new_designs.screens.PatientProfile"
+            android:name=".new_designs.screens.BpMonitoring"
+            android:exported="false" />
+        <activity
+            android:name=".new_designs.chw.ChwClientDetails"
+            android:exported="false"
+            android:parentActivityName=".new_designs.chw.PatientList" />
         <activity
             android:name=".new_designs.screens.Summary"
             android:exported="false" />
@@ -28,13 +36,13 @@
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:parentActivityName=".new_designs.chw.referral.ReferralView"
             android:name=".new_designs.chw.referral.ReferralAdd"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.chw.referral.ReferralView" />
         <activity
-            android:parentActivityName=".new_designs.screens.PatientProfile"
             android:name=".new_designs.chw.referral.ReferralView"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
             android:name=".new_designs.screens.ConfirmPage"
             android:exported="false" />
@@ -150,9 +158,9 @@
             android:name=".new_designs.birth_plan.BirthPlan"
             android:exported="false" />
         <activity
-            android:parentActivityName=".new_designs.chw.PatientList"
             android:name=".new_designs.chw.CommunityHealthWorkerForm"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".new_designs.chw.PatientList" />
         <activity
             android:name=".new_designs.chw.PatientList"
             android:exported="false" />

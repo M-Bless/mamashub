@@ -348,6 +348,34 @@ class FormatterClass {
 
     }
 
+    //Convert date to new format
+    fun convertDate1(dateValue: String): String {
+
+        val ddMMyyyy = isDateFormat2(dateValue)
+        return if (ddMMyyyy){
+            //Convert to yyyy-MM-dd from dd-MMM-yyyy
+            val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+            val sdf2 = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val date = sdf.parse(dateValue)
+
+            sdf2.format(date)
+        }else{
+            dateValue
+        }
+
+    }
+
+    //Check if string is date in this format dd-MMM-yyyy
+    fun isDateFormat2(date: String): Boolean {
+        val sdf = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+        return try {
+            sdf.parse(date)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
 
     fun convertDate(convertDate: String): String {
 
@@ -360,6 +388,15 @@ class FormatterClass {
 
         val originalFormat: DateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
         val targetFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date = originalFormat.parse(convertDate)
+
+        return date?.let { targetFormat.format(it) }
+    }
+
+    fun convertFhirTime(convertDate: String): String? {
+
+        val originalFormat: DateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+        val targetFormat: DateFormat = SimpleDateFormat("HH:mm:ss")
         val date = originalFormat.parse(convertDate)
 
         return date?.let { targetFormat.format(it) }
@@ -835,6 +872,41 @@ class FormatterClass {
 
 
 
+
+    }
+
+
+    fun getDayOfWeek(dateValue: String): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = sdf.parse(dateValue)
+        val day = SimpleDateFormat("EEEE", Locale.getDefault()).format(date)
+        return day.substring(0, 3)
+    }
+
+    //Get Number of days from today date
+    fun getDaysFromToday(dateValue: String): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = sdf.parse(dateValue)
+        val today = Date()
+        val diff = date.time - today.time
+        val days = (diff / (1000 * 60 * 60 * 24)).toInt()
+        if (days > 1){
+
+            return if (days == 2){
+                "Tomorrow"
+            }else if (days == 3) {
+                "2 \ndays"
+            }else if (days in 8..29){
+                "${days / 7} \nweeks"
+            }else if (days > 30) {
+                "${days / 30} \nmonths"
+            }else{
+                "$days \ndays"
+            }
+
+        }else{
+            return "Today"
+        }
 
     }
 
@@ -1807,6 +1879,13 @@ class FormatterClass {
         return toCheck.all { char -> char.isDigit() }
     }
 
+    //Check if string is a date in the future
+    fun isDateInFuture(date: String): Boolean {
+        val sdf = SimpleDateFormat("yyyy-MM-dd",
+            Locale.getDefault())
+        val currentDate = sdf.format(Date())
+        return currentDate < date
+    }
 
 
 

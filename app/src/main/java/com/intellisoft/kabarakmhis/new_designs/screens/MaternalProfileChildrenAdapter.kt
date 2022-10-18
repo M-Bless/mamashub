@@ -54,6 +54,9 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 1.1 -> { context.startActivity(Intent(context, PatientDetails::class.java)) }
                 1.2 -> { context.startActivity(Intent(context, Summary::class.java)) }
 
+                1.3 -> { context.startActivity(Intent(context, BpMonitoring::class.java)) }
+                1.4 -> { context.startActivity(Intent(context, UpcomingAppointments::class.java)) }
+
                 2.1 -> { context.startActivity(Intent(context, MedicalSurgicalHistoryView::class.java)) }
                 2.2 -> { context.startActivity(Intent(context, PreviousPregnancyList::class.java)) }
 

@@ -1,11 +1,10 @@
-package com.intellisoft.kabarakmhis.new_designs.physical_examination.tab_layout
+package com.intellisoft.kabarakmhis.new_designs.screens
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,15 +15,14 @@ import com.intellisoft.kabarakmhis.fhir.FhirApplication
 import com.intellisoft.kabarakmhis.fhir.viewmodels.MainActivityViewModel
 import com.intellisoft.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import com.intellisoft.kabarakmhis.helperclass.*
-import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
+import com.intellisoft.kabarakmhis.new_designs.physical_examination.tab_layout.SmartWatchReadingAdapter
 import kotlinx.android.synthetic.main.fragment_smart_reading.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FragmentWatchReadings : Fragment() {
+class BpMonitoring : AppCompatActivity() {
 
-    private lateinit var rootView: View
     private lateinit var patientDetailsViewModel: PatientDetailsViewModel
     private lateinit var patientId: String
     private lateinit var fhirEngine: FhirEngine
@@ -34,34 +32,30 @@ class FragmentWatchReadings : Fragment() {
     private lateinit var layoutManager: RecyclerView.LayoutManager
 
     private lateinit var recyclerView: RecyclerView
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_smart_reading, container, false)
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_bp_monitoring)
 
         mainViewModel.poll()
 
-        patientId = formatterClass.retrieveSharedPreference(requireContext(), "patientId").toString()
-        fhirEngine = FhirApplication.fhirEngine(requireContext())
+        patientId = formatterClass.retrieveSharedPreference(this, "patientId").toString()
+        fhirEngine = FhirApplication.fhirEngine(this)
 
         patientDetailsViewModel = ViewModelProvider(this,
             PatientDetailsViewModel.
-            PatientDetailsViewModelFactory(requireActivity().application,fhirEngine, patientId)
+            PatientDetailsViewModelFactory(this.application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        recyclerView = rootView.findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         layoutManager = LinearLayoutManager(
-            requireContext(),
+            this,
             LinearLayoutManager.VERTICAL,
             false
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-
-        return rootView
+        
     }
 
     override fun onStart() {
@@ -69,39 +63,46 @@ class FragmentWatchReadings : Fragment() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val smartWatchReadingList = patientDetailsViewModel.getObservationFromEncounter(DbObservationValues.CLIENT_WEARABLE_RECORDING.name)
+            val smartWatchReadingList = patientDetailsViewModel.getObservationFromEncounter(
+                DbObservationValues.CLIENT_WEARABLE_RECORDING.name)
             if (smartWatchReadingList.isNotEmpty()){
 
                 //Get Observations
 
                 val id = smartWatchReadingList[0].id
 
-
                 val observationList = patientDetailsViewModel.getObservationsFromEncounter(id)
+
                 val dbWatchDataList = ArrayList<DbWatchData>()
 
                 observationList.groupBy { it.issued }.forEach { (issued, observationItems) ->
 
                     //Get the group date and convert to human readable date
                     val issuedDate = issued.toString()
-                    val newDate = FormatterClass().convertFhirDate(issuedDate)
 
                     val dbWatchDataValuesList = ArrayList<DbWatchDataValues>()
 
                     //Get the observations for the group date
                     observationItems.forEach {
 
-                        val time = FormatterClass().convertFhirTime(issuedDate)
-
-                        val dbSmartWatchReading = DbWatchDataValues(time = time.toString(), text = it.text, value = it.value)
+                        val dbSmartWatchReading = DbWatchDataValues(
+                            time = it.issuedTime.toString(),
+                            text = it.text,
+                            value = it.value)
                         dbWatchDataValuesList.add(dbSmartWatchReading)
 
                     }
 
-                    val dbWatchData = DbWatchData(date = newDate.toString(), readings = dbWatchDataValuesList)
+                    dbWatchDataValuesList.sortBy { it.time }
+
+                    val dbWatchData = DbWatchData(date = issuedDate, readings = dbWatchDataValuesList)
                     dbWatchDataList.add(dbWatchData)
 
+
+
                 }
+
+
 
 
 
@@ -116,11 +117,12 @@ class FragmentWatchReadings : Fragment() {
                     }
 
                     val configurationListingAdapter = SmartWatchReadingAdapter(
-                        dbWatchDataList,requireContext())
+                        dbWatchDataList,this@BpMonitoring)
                     recyclerView.adapter = configurationListingAdapter
 
                 }
 
+                Log.e("dbSmartWatchReadingsList", dbWatchDataList.toString())
 
 
             }

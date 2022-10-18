@@ -10,10 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.helperclass.DbSmartWatchReadings
+import com.intellisoft.kabarakmhis.helperclass.DbWatchData
 import com.intellisoft.kabarakmhis.new_designs.screens.ConfirmChildAdapter
 
 
-class SmartWatchReadingAdapter(private var entryList: ArrayList<DbSmartWatchReadings>,
+class SmartWatchReadingAdapter(private var entryList: ArrayList<DbWatchData>,
                                private val context: Context) : RecyclerView.Adapter<SmartWatchReadingAdapter.Pager2ViewHolder>() {
 
     inner class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -53,8 +54,8 @@ class SmartWatchReadingAdapter(private var entryList: ArrayList<DbSmartWatchRead
 
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
-        val appointmentDate = entryList[position].dateIssued
-        val readingsList = entryList[position].recordingList
+        val appointmentDate = entryList[position].date
+        val readingsList = entryList[position].readings
 
         holder.tvReadingDate.text = appointmentDate
 

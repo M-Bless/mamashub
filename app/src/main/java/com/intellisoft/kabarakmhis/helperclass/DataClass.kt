@@ -84,7 +84,8 @@ data class ObservationItem(
     val code: String?,
     val text: String,
     val value: String,
-    val issued: String? = null,
+    var issued: String? = null,
+    var issuedTime: String? = null,
 )
 data class ConditionItem(
     val id: String,
@@ -212,10 +213,7 @@ data class DbSmartWatchReadings(
     val dateIssued: String,
     val recordingList : ArrayList<DbWatchReading>
 )
-data class DbWatchReading(
-    val text: String,
-    val value: String
-)
+
 data class Model(
     val namehello: String,
     val date:String,
@@ -276,3 +274,25 @@ data class DbSupportingInfo(
     val reference: String,
     val display: String
 )
+data class DbAppointments(
+    val id: String,
+    val title: String,
+    val date: String,
+
+    )
+data class DbWatchReading(
+    val text: String,
+    val value: String
+)
+
+data class DbWatchData(
+    val date: String,
+    val readings: ArrayList<DbWatchDataValues>
+)
+data class DbWatchDataValues(
+    val time: String,
+    val text: String,
+    val value: String
+)
+
+
