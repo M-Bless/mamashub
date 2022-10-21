@@ -236,6 +236,29 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Danger signs and symptoms"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+                            <Spinner
+                                android:id="@+id/spinnerDangerSigns"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:spinnerMode="dialog" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
                             android:layout_marginTop="10dp"
                             android:orientation="vertical"
                             android:layout_width="match_parent"

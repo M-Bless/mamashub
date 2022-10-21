@@ -57,8 +57,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <RadioButton
+                    android:visibility="gone"
                     android:layout_weight="1"
-                    android:text="@string/facility_to_specialist"
+                    android:text="@string/facility_from_facility"
                     android:id="@+id/radioBtnSpecialist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

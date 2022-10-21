@@ -64,6 +64,9 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
             "FACILITY_TO_SPECIALIST" -> {
                 FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_CHW.name)
             }
+            "FACILITY_FROM_FACILITY" -> {
+                FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_CHW.name)
+            }
             else -> {
                 FormatterClass().getCodes(ReferralTypes.REFERRAL_TO_FACILITY.name)
             }
@@ -71,7 +74,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
 
         fhirEngine.search<ServiceRequest>{
 
-            filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
+//            filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
 
             sort(ServiceRequest.AUTHORED, Order.DESCENDING)
 
@@ -81,7 +84,9 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
             FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
         }.let { referralList.addAll(it) }
 
-
+        Log.e("---------", "-----")
+        println("searchValue $searchValue")
+        println("referralList $referralList")
 
 
         //Get id of patients from filteredReferralList and get patient details
@@ -101,6 +106,8 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
             patientList.add(dbChwPatientData)
 
         }
+
+
 
         return patientList
     }

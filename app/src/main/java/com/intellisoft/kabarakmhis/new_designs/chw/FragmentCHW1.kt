@@ -25,13 +25,14 @@ import kotlinx.android.synthetic.main.fragment_chw1.view.etHealthFacility
 import kotlinx.android.synthetic.main.fragment_chw1.view.etOfficerName
 import kotlinx.android.synthetic.main.fragment_chw1.view.etPatientName
 import kotlinx.android.synthetic.main.fragment_chw1.view.navigation
+import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
 import kotlinx.android.synthetic.main.navigation.view.*
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
-class FragmentCHW1 : Fragment() {
+class FragmentCHW1 : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val formatter = FormatterClass()
 
@@ -43,6 +44,23 @@ class FragmentCHW1 : Fragment() {
     private var year = 0
     private  var month = 0
     private  var day = 0
+
+    var dangerSignList = arrayOf(
+        "Please select one",
+        "Vaginal bleeding",
+        "Convulsions/fits",
+        "Increased blood pressure",
+        "Severe headaches with blurred vision",
+        "Fever and too weak to get out of bed",
+        "Severe abdominal pain",
+        "Fast or difficult breathing",
+        "Swelling of fingers, face and legs",
+        "Reduced / absence of fetal movements",
+        "Persistent nausea and vomiting",
+        "Leakage of amniotic fluid without labour",
+        "Foul smelling discharge/fluid from the vagina"
+    )
+    private var spinnerDangerSignValue  = dangerSignList[0]
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -61,8 +79,30 @@ class FragmentCHW1 : Fragment() {
 
         rootView.tvDob.setOnClickListener { onCreateDialog(999) }
 
+        initSpinner()
 
         return rootView
+    }
+
+    private fun initSpinner() {
+
+        val kinRshp = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, dangerSignList)
+        kinRshp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        rootView.spinnerDangerSigns!!.adapter = kinRshp
+
+        rootView.spinnerDangerSigns.onItemSelectedListener = this
+
+    }
+
+    override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
+        when (arg0.id) {
+            R.id.spinnerDangerSigns -> { spinnerDangerSignValue = rootView.spinnerDangerSigns.selectedItem.toString() }
+            else -> {}
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -164,7 +204,8 @@ class FragmentCHW1 : Fragment() {
             !TextUtils.isEmpty(communityHealthUnit) && !TextUtils.isEmpty(healthUnit) &&
             !TextUtils.isEmpty(reason) && !TextUtils.isEmpty(mainProblem) &&
             !TextUtils.isEmpty(officerName) && !TextUtils.isEmpty(actionTaken) &&
-            !TextUtils.isEmpty(interventionGiven) && !TextUtils.isEmpty(comments) && isFemaleChecked) {
+            !TextUtils.isEmpty(interventionGiven) && !TextUtils.isEmpty(comments) && isFemaleChecked &&
+                spinnerDangerSignValue != dangerSignList[0]) {
 
             val id = FormatterClass().generateUuid()
             formatter.saveSharedPreference(requireContext(), "FHIRID", id)
@@ -177,6 +218,7 @@ class FragmentCHW1 : Fragment() {
             addData("Age",age, DbObservationValues.DATE_OF_BIRTH.name)
             addData("Date of referral",date, DbObservationValues.DATE_STARTED.name)
             addData("Time of referral",time, DbObservationValues.TIMING_CONTACT.name)
+            addData("Danger signs and symptoms",spinnerDangerSignValue, DbObservationValues.DANGER_SIGNS.name)
 
 
             for (items in observationList){

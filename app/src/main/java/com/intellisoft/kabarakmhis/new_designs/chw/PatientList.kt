@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class PatientList : AppCompatActivity() {
+class  PatientList : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: RecyclerView.LayoutManager
@@ -114,8 +114,8 @@ class PatientList : AppCompatActivity() {
                 resources.getString(R.string.facility_to_facility) -> {
                     getData("FACILITY_TO_FACILITY")
                 }
-                resources.getString(R.string.facility_to_specialist) -> {
-                    getData("FACILITY_TO_SPECIALIST")
+                resources.getString(R.string.facility_from_facility) -> {
+                    getData("FACILITY_FROM_FACILITY")
                 }
             }
 
