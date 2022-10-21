@@ -55,8 +55,15 @@ class FragmentPmtct1 : Fragment() {
     private lateinit var patientId: String
     private lateinit var fhirEngine: FhirEngine
 
-    var regimentList = arrayOf("Please select a regimen","Dolutegravir", "Emtricitabine", "Tenofovir alafenamide fumarate",
-        "Zidovudine", "Lamivudine", "Nevirapine", "Efavirenz", "Other")
+    var regimentList = arrayOf("Please select a regimen",
+        "Dolutegravir (DTG)",
+        "Emtricitabine (FTC)",
+        "Tenofovir alafenamide fumarate (TDF)",
+        "Zidovudine (AZT)",
+        "Lamivudine (3TC)",
+        "Nevirapine (NVP)",
+        "Efavirenz (EFV)",
+        "Other")
 
     private var dbPMTCTRegimenList = ArrayList<DbPMTCTRegimen>()
 
@@ -117,6 +124,23 @@ class FragmentPmtct1 : Fragment() {
         val etDosageAmount = dialog.findViewById<EditText>(R.id.etDosageAmount)
         val etFrequency = dialog.findViewById<EditText>(R.id.etFrequency)
 
+        val radioGroupDosage = dialog.findViewById<RadioGroup>(R.id.radioGroupDosage)
+
+        val radioDosage1 = dialog.findViewById<RadioButton>(R.id.radioDosage1)
+        val radioDosage2 = dialog.findViewById<RadioButton>(R.id.radioDosage2)
+
+        val rowDosage = dialog.findViewById<TableRow>(R.id.rowDosage)
+
+        radioGroupDosage.setOnCheckedChangeListener { _, checkedId ->
+            //Check for null
+            if (checkedId != -1) {
+                val radio: RadioButton = dialog.findViewById(checkedId)
+                val radioText = radio.text.toString()
+                etDosageAmount.setText(radioText)
+            }
+
+        }
+
 
         spinnerRegimen.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, regimentList)
         spinnerRegimen.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -127,21 +151,63 @@ class FragmentPmtct1 : Fragment() {
                 if (position == regimentList.size - 1) {
                     //If the user selected the last item, show the dialog to add a new item
                     etRegimen.isEnabled = true
+                    etFrequency.isEnabled = true
                 } else {
                     //If the user selected an item from the list, disable the edit text
-
                     if (position != 0){
                         val spinnerSelectedRegimen = regimentList[position]
                         etRegimen.setText(spinnerSelectedRegimen)
                     }
-
                     etRegimen.isEnabled = false
+                    etFrequency.isEnabled = false
                 }
+                radioGroupDosage.clearCheck()
+                etDosageAmount.setText("")
+                //Get the selected position and add Dosages
+                when (position) {
+
+                    1 -> {
+                        rowDosage.visibility = View.VISIBLE
+                        radioDosage1.text = "50"
+                        radioDosage2.text = "100"
+                    }
+                    2 -> {
+                        rowDosage.visibility = View.GONE
+                        etDosageAmount.setText("50")
+                    }
+                    3 -> {
+                        rowDosage.visibility = View.GONE
+                        etDosageAmount.setText("300")
+                    }
+                    4 -> {
+                        rowDosage.visibility = View.GONE
+                        etDosageAmount.setText("150")
+                    }
+                    5 -> {
+                        rowDosage.visibility = View.VISIBLE
+                        radioDosage1.text = "150"
+                        radioDosage2.text = "300"
+                    }
+                    6 -> {
+                        rowDosage.visibility = View.GONE
+                        etDosageAmount.setText("200")
+                    }
+                    7 -> {
+                        rowDosage.visibility = View.VISIBLE
+                        radioDosage1.text = "200"
+                        radioDosage2.text = "400"
+                    }
+                    else -> {
+                        rowDosage.visibility = View.GONE
+                        etDosageAmount.setText("")
+                    }
+                }
+
+                Log.e("Spinner", "Selected item: $position")
 
             }
 
         }
-
 
         btnSaveRegimen.setOnClickListener {
 
@@ -153,7 +219,7 @@ class FragmentPmtct1 : Fragment() {
             if(!TextUtils.isEmpty(selectedRegimen) && !TextUtils.isEmpty(amount)
                 && !TextUtils.isEmpty(dosageAmount) && !TextUtils.isEmpty(frequency)){
 
-                val dbPMTCTRegimen = DbPMTCTRegimen(selectedRegimen, amount.toDouble(), dosageAmount.toDouble(), frequency.toDouble())
+                val dbPMTCTRegimen = DbPMTCTRegimen(selectedRegimen, amount.toDouble(), dosageAmount.toDouble(), frequency)
                 dbPMTCTRegimenList.add(dbPMTCTRegimen)
 
                 showRegimenList()

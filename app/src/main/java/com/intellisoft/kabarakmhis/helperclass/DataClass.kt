@@ -237,7 +237,7 @@ data class DbPMTCTRegimen(
     val regimen: String,
     val amount: Double,
     val dosage: Double,
-    val frequency: Double,
+    val frequency: String,
 )
 data class DbServiceReferralRequest(
     val id: String,

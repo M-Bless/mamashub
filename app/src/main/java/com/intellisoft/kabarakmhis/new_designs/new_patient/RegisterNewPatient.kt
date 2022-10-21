@@ -3,10 +3,13 @@ package com.intellisoft.kabarakmhis.new_designs.new_patient
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -15,7 +18,9 @@ import com.intellisoft.kabarakmhis.R
 import com.intellisoft.kabarakmhis.fhir.data.SYNC_VALUE
 import com.intellisoft.kabarakmhis.helperclass.FormatterClass
 import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import com.intellisoft.kabarakmhis.new_designs.NewMainActivity
 import com.intellisoft.kabarakmhis.new_designs.data_class.*
+import com.intellisoft.kabarakmhis.new_designs.screens.PatientProfile
 import kotlinx.android.synthetic.main.activity_register_new_patient.*
 import kotlinx.android.synthetic.main.patient_list_item_view.*
 import org.hl7.fhir.r4.model.*
@@ -85,6 +90,25 @@ class RegisterNewPatient : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.profile -> {
+
+                startActivity(Intent(this, NewMainActivity::class.java))
+                finish()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
 
 

@@ -19,8 +19,6 @@ import com.intellisoft.kabarakmhis.new_designs.physical_examination.tab_layout.S
 import com.vivekkaushik.datepicker.DatePickerTimeline
 import com.vivekkaushik.datepicker.OnDateSelectedListener
 import kotlinx.android.synthetic.main.activity_bp_monitoring.*
-import kotlinx.android.synthetic.main.fragment_smart_reading.*
-import kotlinx.android.synthetic.main.fragment_smart_reading.no_record
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -197,7 +195,7 @@ class BpMonitoring : AppCompatActivity() {
 
                     //Convert the list to string
                     val datesAvailableString = datesAvailable.joinToString(separator = " , ")
-                    tvDate.text = "Available dates: $datesAvailableString"
+                    tvDate.text = "Available Recordings: $datesAvailableString"
 
                     if (filteredList.isNotEmpty()){
                         no_record.visibility = View.GONE

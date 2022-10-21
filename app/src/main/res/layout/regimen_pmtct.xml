@@ -94,7 +94,7 @@
                 <TextView
                     android:textStyle="bold"
                     android:layout_weight="1"
-                    android:text="Dosage"
+                    android:text="Dosage (mg)"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -111,6 +111,43 @@
             </TableRow>
 
             <TableRow
+                android:visibility="gone"
+                android:id="@+id/rowDosage"
+                >
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:text="Select Dosage (mg)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioGroup
+                    android:id="@+id/radioGroupDosage"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioDosage1"
+                        android:layout_weight="1"
+                        android:text="50"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                        android:id="@+id/radioDosage2"
+                        android:layout_weight="1"
+                        android:text="100"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </RadioGroup>
+
+            </TableRow>
+
+            <TableRow
                 android:layout_marginTop="@dimen/_15dp">
 
                 <TextView
@@ -121,14 +158,13 @@
                     android:layout_height="wrap_content"/>
 
                 <EditText
+                    android:enabled="false"
                     android:id="@+id/etFrequency"
-                    android:inputType="numberDecimal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/edit_outline_trans"
-                    android:hint="0"
-                    android:textColor="@color/black" />
+                    android:text="Once a day" />
 
             </TableRow>
 
