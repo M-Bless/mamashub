@@ -75,6 +75,10 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
         repository.getCountyNameData(countyName)
     }
 
+    fun nukeTable() = runBlocking {
+        repository.nukePatientDataTable()
+    }
+
 
 
 }

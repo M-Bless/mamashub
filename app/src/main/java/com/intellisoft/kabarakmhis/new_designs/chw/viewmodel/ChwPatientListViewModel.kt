@@ -74,7 +74,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
 
         fhirEngine.search<ServiceRequest>{
 
-//            filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
+            filter(ServiceRequest.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = searchValue })})
 
             sort(ServiceRequest.AUTHORED, Order.DESCENDING)
 

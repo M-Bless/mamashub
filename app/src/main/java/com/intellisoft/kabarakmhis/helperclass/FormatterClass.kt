@@ -620,6 +620,9 @@ class FormatterClass {
             deleteSharedPreference(context, items)
         }
 
+
+
+
     }
 
     fun getHeaders(context: Context):HashMap<String, String>{

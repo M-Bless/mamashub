@@ -61,6 +61,9 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
     var relationshipList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
     private var spinnerRshpValue  = relationshipList[0]
 
+    var transportList = arrayOf("","Taxi", "Matatu", "Personal vehicle", "Donkey Cart", "Ambulance", "Motorcycle")
+    private var spinnerTransportValue  = transportList[0]
+
     private lateinit var patientDetailsViewModel: PatientDetailsViewModel
     private lateinit var patientId: String
     private lateinit var fhirEngine: FhirEngine
@@ -110,6 +113,12 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         val designation = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, designationList)
         designation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
+        val transport = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, transportList)
+        transport.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        rootView.spinnerTransportMeans!!.adapter = transport
+        rootView.spinnerTransportMeans.onItemSelectedListener = this
+
         rootView.spinnerDesignation!!.adapter = designation
         rootView.spinnerDesignation.onItemSelectedListener = this
 
@@ -126,6 +135,7 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
             R.id.spinnerCompanionDesignation -> { spinnerRshpValue = rootView.spinnerCompanionDesignation.selectedItem.toString() }
             R.id.spinnerDesignation -> { spinnerDesignationValue1 = rootView.spinnerDesignation.selectedItem.toString() }
             R.id.spinnerAlternativeDesignation -> { spinnerDesignationValue2 = rootView.spinnerAlternativeDesignation.selectedItem.toString() }
+            R.id.spinnerTransportMeans -> { spinnerTransportValue = rootView.spinnerTransportMeans.selectedItem.toString() }
 
 
             else -> {}
@@ -306,16 +316,16 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
 
         val companionName = rootView.etCompanionName.text.toString()
         val companionPhone = rootView.etCompanionPhone.text.toString()
-        val companionMeans = rootView.etTransportMeans.text.toString()
 
-        if (!TextUtils.isEmpty(companionName) && !TextUtils.isEmpty(companionMeans) && !TextUtils.isEmpty(companionPhone) && spinnerRshpValue != "") {
+        if (!TextUtils.isEmpty(companionName) &&
+            !TextUtils.isEmpty(companionPhone) && spinnerRshpValue != "" && spinnerTransportValue != "") {
 
             val companionPhoneNo = PhoneNumberValidation().getStandardPhoneNumber(companionPhone)
             if (companionPhoneNo != null){
 
                 addData("Name",companionName, DbObservationValues.COMPANION_NAME.name)
                 addData("Telephone Number",companionPhoneNo, DbObservationValues.COMPANION_NUMBER.name)
-                addData("Transport",companionMeans ,DbObservationValues.COMPANION_TRANSPORT.name)
+                addData("Transport",spinnerTransportValue ,DbObservationValues.COMPANION_TRANSPORT.name)
                 addData("Relationship",spinnerRshpValue ,DbObservationValues.COMPANION_RELATIONSHIP.name)
 
                 for (items in observationList){
@@ -341,8 +351,8 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
 
             if (TextUtils.isEmpty(companionName)) errorList.add("Companion name is required")
             if (TextUtils.isEmpty(companionPhone)) errorList.add("Companion phone number is required")
-            if (TextUtils.isEmpty(companionMeans)) errorList.add("Companion transport is required")
             if (spinnerRshpValue == "") errorList.add("Companion relationship is required")
+            if (spinnerTransportValue == "") errorList.add("Companion transport is required")
 
         }
 
@@ -486,7 +496,8 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
                             rootView.spinnerCompanionDesignation.setSelection(relationshipList.indexOf(noValue))
                         }
                         if (companionTransport.isNotEmpty()){
-                            rootView.etTransportMeans.setText(companionTransport[0].value)
+                            val noValue = formatter.getValues(companionRshp[0].value, 0)
+                            rootView.spinnerTransportMeans.setSelection(transportList.indexOf(noValue))
                         }
 
 

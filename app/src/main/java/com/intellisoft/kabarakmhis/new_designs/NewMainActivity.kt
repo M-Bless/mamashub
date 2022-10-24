@@ -1,5 +1,6 @@
 package com.intellisoft.kabarakmhis.new_designs
 
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -30,6 +31,7 @@ import com.intellisoft.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.intellisoft.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.intellisoft.kabarakmhis.new_designs.data_class.DbResourceViews
 import com.intellisoft.kabarakmhis.new_designs.new_patient.RegisterNewPatient
+import com.intellisoft.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_new_main.btnRegisterPatient
 import kotlinx.android.synthetic.main.activity_new_main.no_record
@@ -57,12 +59,14 @@ class NewMainActivity : AppCompatActivity() {
 
 
     private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private lateinit var kabarakViewModel: KabarakViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_main)
 
         title = "Client List"
+        kabarakViewModel = KabarakViewModel(applicationContext as Application)
 
         fhirEngine = FhirApplication.fhirEngine(this)
         patientDetailsViewModel = ViewModelProvider(this@NewMainActivity,
@@ -147,6 +151,7 @@ class NewMainActivity : AppCompatActivity() {
     private fun showPatients(dbPatientDetailsList: List<DbPatientDetails>) {
 
         FormatterClass().nukeEncounters(this@NewMainActivity)
+        kabarakViewModel.nukeTable()
 
         CoroutineScope(Dispatchers.Main).launch {
 

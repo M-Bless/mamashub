@@ -304,6 +304,8 @@ class FragmentCHW1 : Fragment(), AdapterView.OnItemSelectedListener {
 
             if (!isFemaleChecked) errorList.add("Please make a selection")
 
+            if (spinnerDangerSignValue == dangerSignList[0]) errorList.add("Please select a danger sign")
+
             formatter.showErrorDialog(errorList, requireContext())
 
 
