@@ -14,7 +14,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.intellisoft.kabarakmhis"
+        applicationId "com.kabarak.kabarakmhis"
         minSdk 21
         targetSdk 32
 //        versionCode 16

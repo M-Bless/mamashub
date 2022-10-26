@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">KabarakMHIS</string>
-    <string name="base_url">https://devhmis.intellisoftkenya.com/api/</string>
-    <string name="fhir_url">https://devhmis.intellisoftkenya.com/fhir/</string>
+
+<!--    Development Servers-->
+<!--    <string name="base_url">https://devhmis.intellisoftkenya.com/api/</string>-->
+<!--    <string name="fhir_url">https://devhmis.intellisoftkenya.com/fhir/</string>-->
+
+<!--    Live Servers-->
+    <string name="base_url">https://api.mamashub.co.ke/</string>
+    <string name="fhir_url">https://api.mamashub.co.ke/fhir/</string>
+
+
     <string name="action_submit">Submit</string>
     <string name="action_cancel">Cancel</string>
     <string name="submit">Submit</string>
