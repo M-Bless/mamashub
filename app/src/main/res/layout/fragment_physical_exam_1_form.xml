@@ -27,13 +27,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="General Examination"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="General Examination"/>
+
+
+                    </LinearLayout>
+
 
                     <RadioGroup
                         android:id="@+id/radioGrpGeneralExam"
@@ -104,12 +120,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Systolic BP"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Systolic BP"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                        </LinearLayout>
+
+
 
                         <EditText
                             android:inputType="numberDecimal"
@@ -128,12 +160,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Diastolic BP"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Diastolic BP"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                        </LinearLayout>
+
+
 
                         <EditText
                             android:inputType="numberDecimal"
@@ -152,12 +199,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Pulse rate"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Pulse rate"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                        </LinearLayout>
+
+
 
                         <EditText
                             android:inputType="numberDecimal"
@@ -176,12 +238,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Temperature"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Temperature"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                        </LinearLayout>
+
+
 
                         <EditText
                             android:inputType="numberDecimal"
@@ -201,13 +278,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="CVS"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="CVS"/>
+                    </LinearLayout>
+
+
 
                     <RadioGroup
                         android:id="@+id/radioGrpCVS"
@@ -263,13 +355,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Respiratory"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Respiratory"/>
+                    </LinearLayout>
+
+
 
                     <RadioGroup
                         android:id="@+id/radioGrpRespiratory"
@@ -325,13 +433,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Breast Exams"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Breast Exams"/>
+                    </LinearLayout>
+
+
 
                     <RadioGroup
                         android:id="@+id/radioGrpBreasts"
@@ -423,14 +546,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Weight Monitoring"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Weight Monitoring"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_marginTop="10dp"

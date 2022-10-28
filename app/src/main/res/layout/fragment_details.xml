@@ -125,12 +125,29 @@
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_marginStart="5dp"
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="ANC"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="*"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                 />
+
+                            <TextView
+                                android:layout_marginStart="5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="ANC"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        </LinearLayout>
+
+
 
                         <EditText
                             android:id="@+id/etAnc"
@@ -167,12 +184,27 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Client Name"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Client Name"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                 />
+
+                        </LinearLayout>
 
                         <EditText
                             android:id="@+id/etFirstName"
@@ -208,12 +240,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:textStyle="bold"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Identification"
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Identification"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
 
                         <RadioGroup
                             android:id="@+id/rgClientType"
@@ -270,6 +317,20 @@
 
                         <TableRow android:layout_marginTop="10dp">
 
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                            </LinearLayout>
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -323,12 +384,27 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:textStyle="bold"
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="If age &lt; 19yrs:"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="If age &lt; 19yrs:"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_marginTop="@dimen/_15dp"
@@ -472,12 +548,29 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Marital Status"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Marital Status"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                        </LinearLayout>
+
+
 
                         <Spinner
                             android:id="@+id/spinnerMarital"
@@ -494,11 +587,27 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <LinearLayout
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Level of Education"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Level of Education"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        </LinearLayout>
+
 
                         <Spinner
                             android:id="@+id/spinnerEducation"
@@ -520,13 +629,31 @@
                 android:background="@drawable/layout_dotted"
                 android:orientation="vertical">
 
-                <TextView
-                    android:textStyle="bold"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Clinical Information"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@android:color/holo_red_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="* "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
+
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Clinical Information"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -621,13 +748,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Last Known Menstrual Period"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black" />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Last Known Menstrual Period"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+
 
                     <CheckBox
                         android:text="Not sure"

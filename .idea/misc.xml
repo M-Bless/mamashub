@@ -104,7 +104,8 @@
         <entry key="app/src/main/res/layout/fragment_observations.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_patient_list.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_physical_exam.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_physical_exam_2.xml" value="0.49505371093750006" />
+        <entry key="app/src/main/res/layout/fragment_physical_exam_1_form.xml" value="0.2535271483539974" />
+        <entry key="app/src/main/res/layout/fragment_physical_exam_2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_physical_examination.xml" value="0.26268115942028986" />
         <entry key="app/src/main/res/layout/fragment_pmtct1.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_pmtct2.xml" value="0.33133817870884996" />
