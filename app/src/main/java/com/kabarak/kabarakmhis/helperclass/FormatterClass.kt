@@ -1318,6 +1318,12 @@ class FormatterClass {
             DbObservationValues.OBSTERIC_ULTRASOUND_1.name -> {
                 "268445003-1"
             }
+            DbObservationValues.GESTATION_BY_ULTRASOUND_1.name -> {
+                "268445113-1"
+            }
+            DbObservationValues.GESTATION_BY_ULTRASOUND_2.name -> {
+                "268445113-2"
+            }
             DbObservationValues.OBSTERIC_ULTRASOUND_1_DATE.name -> {
                 "410672004-1"
             }

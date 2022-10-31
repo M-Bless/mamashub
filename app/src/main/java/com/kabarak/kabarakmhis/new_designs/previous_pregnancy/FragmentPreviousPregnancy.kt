@@ -29,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener {
+class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val formatter = FormatterClass()
 
@@ -79,9 +79,9 @@ class FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener
         }
         rootView.checkboxLabour.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (isChecked) {
-                changeVisibility(rootView.linearLabour, true)
-            } else {
                 changeVisibility(rootView.linearLabour, false)
+            } else {
+                changeVisibility(rootView.linearLabour, true)
             }
         }
 

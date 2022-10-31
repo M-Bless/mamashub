@@ -362,6 +362,19 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         }else{
             errorList.add("Please select 1st Obstetric Sound")
         }
+        val gestation1st = rootView.etGestationByUltrasound1.text.toString()
+        if (!TextUtils.isEmpty(gestation1st)) {
+            addData("Gestation by 1st Obstetric Sound", gestation1st , DbObservationValues.GESTATION_BY_ULTRASOUND_1.name)
+        } else {
+            errorList.add("Please enter Gestation by 1st Obstetric Sound")
+        }
+
+        val gestation2nd = rootView.etGestationByUltrasound2.text.toString()
+        if (!TextUtils.isEmpty(gestation2nd)) {
+            addData("Gestation by 1st Obstetric Sound", gestation2nd , DbObservationValues.GESTATION_BY_ULTRASOUND_2.name)
+        } else {
+            errorList.add("Please enter Gestation by 1st Obstetric Sound")
+        }
 
         val obstetricUltraSound2 = formatter.getRadioText(rootView.radioGrpUltrasound2)
         if (obstetricUltraSound2 != "") {
@@ -721,6 +734,12 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
                     val cotrimoxazole = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.COTRIMOXAZOLE.name), encounterId)
 
+                    val gestation1st = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.GESTATION_BY_ULTRASOUND_1.name), encounterId)
+
+                    val gestation2nd = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.GESTATION_BY_ULTRASOUND_2.name), encounterId)
+
                     CoroutineScope(Dispatchers.Main).launch {
 
                         if (tbScreening.isNotEmpty()){
@@ -807,6 +826,16 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
                             val value = cotrimoxazole[0].value
                             val noValue = formatter.getValues(value, 0)
                             rootView.spinnerCotrimoxazole.setSelection(cotrimoxazoleList.indexOf(noValue))
+                        }
+                        if (gestation1st.isNotEmpty()){
+                            val value = gestation1st[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.etGestationByUltrasound1.setText(noValue)
+                        }
+                        if (gestation2nd.isNotEmpty()){
+                            val value = gestation2nd[0].value
+                            val noValue = formatter.getValues(value, 0)
+                            rootView.etGestationByUltrasound2.setText(noValue)
                         }
 
 

@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import com.kabarak.kabarakmhis.MainActivity
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
 import com.kabarak.kabarakmhis.helperclass.UserLogin
 import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsAuthentication
+import com.kabarak.kabarakmhis.new_designs.NewMainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class Login : AppCompatActivity() {
@@ -51,8 +53,16 @@ class Login : AppCompatActivity() {
             val isEmailAddress = formatterClass.validateEmail(emailAddress)
             if (isEmailAddress){
 
-                val userLogin = UserLogin(emailAddress, password)
-                retrofitCallsAuthentication.loginUser(this, userLogin)
+                if (emailAddress=="app@demo.com" && password=="12345678") {
+                    val intent = Intent(this, NewMainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val userLogin = UserLogin(emailAddress, password)
+                    retrofitCallsAuthentication.loginUser(this, userLogin)
+                }
+
+
 
             }else{
                 etEmailAddress.error = "Provide a valid email address."

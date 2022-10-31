@@ -298,13 +298,13 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                             val studyWork = formatter.getRadioText(rootView.rgStudyWork)
                             val homeSituation = rootView.etHomeSituation.text.toString()
                             val relationship = rootView.etRelationship.text.toString()
-                            val situationShip = rootView.etSituationChange.text.toString()
                             val clientChange = rootView.etClientChange.text.toString()
                             val clientSafe = rootView.etClientSafe.text.toString()
 
                             if (studyWork != "" &&
-                                !TextUtils.isEmpty(homeSituation) && !TextUtils.isEmpty(relationship) &&
-                                !TextUtils.isEmpty(situationShip) && !TextUtils.isEmpty(clientChange) &&
+                                !TextUtils.isEmpty(homeSituation) &&
+                                !TextUtils.isEmpty(relationship) &&
+                                !TextUtils.isEmpty(clientChange) &&
                                 !TextUtils.isEmpty(clientSafe)){
 
                                 val studyWorkData = DbDataList("Does client study or work",
@@ -313,18 +313,16 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                                 val homeSituationData = DbDataList("Client's perceive of their home situation", homeSituation, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.HOME_SITUATION.name)
                                 val relationshipData = DbDataList("Relationship with family members", relationship, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RELATIONSHIP_SURROUNDS.name)
-                                val situationShipData = DbDataList("Client's perception of changes in their relationship with family members", situationShip, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RECENT_CHANGE.name)
                                 val clientChangeData = DbDataList("Client's perception of changes in their situation", clientChange, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RECENT_CHANGE_CLIENT.name)
                                 val clientSafeData = DbDataList("Client's perception of their safety", clientSafe, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.SAFE_ENVIRONMENT.name)
                                 dbDataList.addAll(listOf(
-                                    homeSituationData, relationshipData, situationShipData, clientChangeData, clientSafeData
+                                    homeSituationData, relationshipData, clientChangeData, clientSafeData
                                 ))
 
                             }else{
 
                                 if(TextUtils.isEmpty(homeSituation)) errorList.add("Home Situation is required.")
                                 if(TextUtils.isEmpty(relationship)) errorList.add("Relationship is required.")
-                                if(TextUtils.isEmpty(situationShip)) errorList.add("Situation Change is required.")
                                 if(TextUtils.isEmpty(clientChange)) errorList.add("Client Change is required.")
                                 if(TextUtils.isEmpty(clientSafe)) errorList.add("Client Safe is required.")
                                 if(studyWork == "") errorList.add("Study/Work is required.")
