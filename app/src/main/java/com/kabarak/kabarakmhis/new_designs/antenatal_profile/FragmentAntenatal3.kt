@@ -85,9 +85,11 @@ class FragmentAntenatal3 : Fragment() {
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearTestDate, true)
                     changeVisibility(rootView.linearNo, false)
+                    changeVisibility(rootView.linearMotherHIV, true)
                 } else {
                     changeVisibility(rootView.linearTestDate, false)
                     changeVisibility(rootView.linearNo, true)
+                    changeVisibility(rootView.linearMotherHIV, false)
                 }
             }
         }
@@ -110,9 +112,11 @@ class FragmentAntenatal3 : Fragment() {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearSyphTestDate, true)
+                    changeVisibility(rootView.linearMotherSyphilis, true)
 //                    changeVisibility(rootView.linearSyphNo, false)
                 } else {
                     changeVisibility(rootView.linearSyphTestDate, false)
+                    changeVisibility(rootView.linearMotherSyphilis, false)
 //                    changeVisibility(rootView.linearSyphNo, true)
                 }
             }
@@ -124,9 +128,11 @@ class FragmentAntenatal3 : Fragment() {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
                     changeVisibility(rootView.linearHepatitis, true)
+                    changeVisibility(rootView.linearMotherHepatitis, true)
 //                    changeVisibility(rootView.linearHepaNo, false)
                 } else {
                     changeVisibility(rootView.linearHepatitis, false)
+                    changeVisibility(rootView.linearMotherHepatitis, false)
 //                    changeVisibility(rootView.linearHepaNo, true)
                 }
             }
