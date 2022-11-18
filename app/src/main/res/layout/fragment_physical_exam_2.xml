@@ -41,15 +41,30 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Abdominal Examination"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Abdominal Examination"/>
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -240,15 +255,30 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="External genitalia Examination"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="External genitalia Examination"/>
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -487,6 +517,102 @@
                             android:layout_weight="1"
                             android:background="@drawable/edit_outline_trans"
                             android:hint="" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="FGM done"/>
+
+                        <RadioGroup
+                            android:id="@+id/radioGrpFGM"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioYesFGM"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Yes" />
+
+                            <RadioButton
+                                android:id="@+id/radioNoFGM"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="No" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearFGM"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If yes, complications (select all that apply)"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TableRow>
+
+                                <CheckBox
+                                    android:id="@+id/checkboxScarring"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Scarring" />
+
+                                <CheckBox
+                                    android:id="@+id/checkboxDyspaneuria"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Dyspareunia" />
+
+                            </TableRow>
+
+                            <TableRow>
+
+                                <CheckBox
+                                    android:id="@+id/checkboxKeloids"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Keloids" />
+
+                                <CheckBox
+                                    android:id="@+id/checkboxUTI"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="UTI" />
+
+                            </TableRow>
+
+
+                        </TableLayout>
 
                     </LinearLayout>
 

@@ -6,49 +6,85 @@
     android:layout_height="match_parent"
     tools:context=".new_designs.deworming.DewormingView">
 
-    <LinearLayout
-        android:layout_marginBottom="@dimen/_50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/primary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primary"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvValue"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <include
         android:id="@+id/no_record"
         layout="@layout/no_record" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_50dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:padding="@dimen/_15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Client: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPatient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="" />
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ANC ID: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAncId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:scrollbars="vertical"
+            android:visibility="gone"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".PatientListActivity"
+            tools:listitem="@layout/observation_view" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnAddBirthPlan"
+            android:layout_marginEnd="@dimen/_5dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_gravity="end"
+            android:textAllCaps="false"
+            android:text="Add Birth Plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:gravity="center"

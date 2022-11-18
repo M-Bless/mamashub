@@ -14,6 +14,9 @@
     <color name="main_color_dark">#75296D</color>
     <color name="text_color">#151EEE</color>
 
+    <color name="maternal_head">#BFA6EE</color>
+    <color name="maternal_child">#6DBFA6EE</color>
+
 
     <color name="indigo_500">#3f51b5</color>
     <color name="indigo_700">#303f9f</color>
@@ -25,7 +28,7 @@
 
     <color name="primary">@color/main_color</color>
     <color name="primary_dark">@color/main_color_dark</color>
-    <color name="accent">#BFA6EE</color>
+    <color name="accent">#DFD2F6</color>
 
     <color name="low_risk">#388e3c</color>
     <color name="low_risk_background">#e8f5e9</color>
@@ -40,6 +43,7 @@
 
     <color name="inactive1">#34C4C4C4</color>
     <color name="display">#FFB1A2</color>
+    <color name="summary">#EFE8E8</color>
 
     <color name="save">#BF3ACC6C</color>
     <color name="cancel">#D9D9D9</color>
@@ -48,6 +52,7 @@
     <color name="headerColor">@color/black</color>
     <color name="contentColor">@color/black</color>
 
+    <color name="textColor_light">@color/black</color>
 
 
 

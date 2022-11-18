@@ -3,13 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_item_1"
+        android:title="Mama's hub"
+        android:icon="@mipmap/ic_icon_launch1"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/log_out"
         android:title="Log out"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/account"
-        android:title="Account"
-        app:showAsAction="never" />
+
 
 </menu>

@@ -36,21 +36,37 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/linearHiv"
                     android:background="@drawable/layout_dotted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="HIV testing"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="HIV testing"/>
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -136,6 +152,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearMotherHIV"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -216,15 +234,29 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Syphilis Testing"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Syphilis Testing"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -310,6 +342,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearMotherSyphilis"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -364,15 +398,29 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Hepatitis B Testing"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Hepatitis B Testing"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -458,6 +506,8 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearMotherHepatitis"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

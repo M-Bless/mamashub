@@ -42,15 +42,30 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:gravity="center|start"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Couple Counselling and Testing"/>
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Couple Counselling and Testing"/>
+
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -94,12 +109,12 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:gravity="center|start"
-                            android:layout_weight="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:text="Partner HIV Status"/>
+                            android:layout_weight="1"
+                            android:gravity="center|start"
+                            android:text="Partner HIV Testing"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                         <RadioGroup
                             android:id="@+id/radioGrpHIVStatus"
@@ -120,6 +135,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Non Reactive" />
+
+                            <RadioButton
+                                android:id="@+id/radioInconclusiveHIVStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Inconclusive" />
 
 
                         </RadioGroup>
@@ -163,30 +185,32 @@
 
                         </RadioGroup>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearReferral"
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/linearReferral"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Referral Date"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tvHivTestDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint=""
-                            android:textColor="@color/black"
-                            app:drawableEndCompat="@drawable/ic_action_date" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Referral Date"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                            <TextView
+                                android:id="@+id/tvHivTestDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint=""
+                                android:textColor="@color/black"
+                                app:drawableEndCompat="@drawable/ic_action_date" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 

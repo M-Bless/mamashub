@@ -35,6 +35,19 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@android:color/holo_red_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="* "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -43,12 +56,16 @@
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
+            </LinearLayout>
+
+
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Specify gynaecological procedure"
+                    android:text="Specify past gynaecological procedure"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <LinearLayout

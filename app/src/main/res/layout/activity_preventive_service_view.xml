@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        app:layoutManager="LinearLayoutManager"
-        tools:context=".PatientListActivity"
-        tools:listitem="@layout/observation_view" />
+    <include
+        android:id="@+id/no_record"
+        layout="@layout/no_record" />
 
     <LinearLayout
+        android:padding="@dimen/_15dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,8 +22,9 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold"
-                android:text="Patient: "
+                android:text="Client: "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -40,6 +36,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold"
                 android:text="ANC ID: "
                 android:layout_width="wrap_content"
@@ -54,52 +51,37 @@
 
         </LinearLayout>
 
-        <Button
+        <androidx.recyclerview.widget.RecyclerView
             android:visibility="gone"
-            android:id="@+id/btnAdd"
-            android:layout_marginEnd="@dimen/_5dp"
-            android:layout_marginTop="@dimen/_5dp"
-            android:layout_gravity="end"
-            android:textAllCaps="false"
-            android:text="Add Maternal Serology"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <View
-            android:layout_marginTop="10dp"
-            android:background="@color/primary"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <LinearLayout
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:textStyle="bold"
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primary" />
-
-            <TextView
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:text=""
-                android:id="@+id/tvValue"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager"
+            tools:context=".PatientListActivity"
+            tools:listitem="@layout/observation_view" />
 
     </LinearLayout>
 
-    <include
-        android:id="@+id/no_record"
-        layout="@layout/no_record" />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_marginEnd="@dimen/_5dp"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:text="Edit TT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

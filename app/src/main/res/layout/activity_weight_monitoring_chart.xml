@@ -8,131 +8,142 @@
     tools:context=".new_designs.weight_monitoring.WeightMonitoringChart">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:background="@drawable/layout_dotted"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textStyle="bold"
-                    android:text="Patient Name: "
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="Client Name: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvPatientName"
-                    android:text=" "
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text=" " />
 
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textStyle="bold"
-                    android:text="ANC ID: "
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="ANC ID: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvAncId"
-                    android:text=" "
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text=" " />
 
             </LinearLayout>
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textStyle="bold"
-                    android:text="Age: "
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="Age: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvAge"
-                    android:text=" "
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text=" " />
 
             </LinearLayout>
 
         </LinearLayout>
 
         <View
-            android:layout_marginTop="@dimen/_15dp"
-            android:background="@color/background"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_15dp"
+            android:background="@color/background" />
 
         <TextView
-            android:textStyle="bold"
-            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_50dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:gravity="center"
             android:text="Mother's weight Monitoring Chart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvYaxis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-60dp"
-                android:layout_marginTop="@dimen/_100dp"
-                android:rotation="270"
-                android:text="Mothers weight (kg)"
-                android:textColor="@color/black" />
-
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:orientation="vertical">
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="500dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvXaxis"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvYaxis"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_5dp"
-                    android:gravity="center"
-                    android:text="Gestation weeks"
+                    android:layout_marginStart="-60dp"
+                    android:layout_marginTop="@dimen/_100dp"
+                    android:rotation="270"
+                    android:text="Mothers weight (kg)"
                     android:textColor="@color/black" />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:orientation="vertical">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp" />
+
+                    <TextView
+
+                        android:id="@+id/tvXaxis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:gravity="center"
+                        android:text="Gestation weeks"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
 
 
-        </FrameLayout>
+            </FrameLayout>
+
+        </ScrollView>
+
 
 
     </LinearLayout>

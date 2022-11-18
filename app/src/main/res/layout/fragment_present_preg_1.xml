@@ -46,14 +46,28 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Current Pregnancy Details"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                         />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Current Pregnancy Details"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -90,6 +104,7 @@
                              />
 
                         <TextView
+                            android:enabled="false"
                             app:drawableEndCompat="@drawable/ic_action_date"
                             android:id="@+id/tvDate"
                             android:layout_width="match_parent"
@@ -199,14 +214,29 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Blood Pressure (mmHg)"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                         />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Blood Pressure (mmHg)"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_marginTop="@dimen/_5dp"
@@ -264,14 +294,28 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Hb test"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                         />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Hb test"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_marginTop="@dimen/_5dp"
@@ -280,6 +324,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:layout_weight="1"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:text="Hb test done"
                             android:gravity="start|center"
@@ -289,7 +334,7 @@
                         <RadioGroup
                             android:layout_marginStart="@dimen/_5dp"
                             android:id="@+id/radioGrpHb"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
@@ -349,29 +394,26 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:text="Pallor"
                             android:gravity="start|center"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"/>
 
                         <RadioGroup
-                            android:layout_weight="1"
                             android:layout_marginStart="@dimen/_5dp"
-                            android:id="@+id/radioGrpOutcome"
-                            android:layout_width="match_parent"
+                            android:id="@+id/radioGrpPallor"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/radioDeadOutcome"
-                                android:layout_width="match_parent"
+                                android:id="@+id/radioPallorYes"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:text="Yes" />
 
                             <RadioButton
-                                android:id="@+id/radioAliveOutcome"
-                                android:layout_width="match_parent"
+                                android:id="@+id/radioPallorNo"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:text="No" />
 
 

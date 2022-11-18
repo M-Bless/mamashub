@@ -15,57 +15,71 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:gravity="end"
+            android:layout_gravity="end"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:textColor="@color/headerColor"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:text="Patient List"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
-                android:text="Register New Patient"
+                android:text="Register New Client"
                 android:id="@+id/btnRegisterPatient"
+                android:layout_gravity="end"
+                android:gravity="end"
                 android:textAllCaps="false"
                 app:icon="@drawable/ic_action_add"
                 android:layout_height="wrap_content"/>
 
 
-
         </LinearLayout>
 
+
+
         <LinearLayout
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/mySpinner"
+            <RadioGroup
+                android:orientation="horizontal"
+                android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
-                android:spinnerMode="dialog"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/clients_records"
+                    android:id="@+id/radioBtnClientsRecords"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <RadioButton
+                    android:layout_weight="1"
+                    android:text="@string/referrals_to_facility"
+                    android:id="@+id/radioBtnReferrals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RadioGroup>
+
+            <androidx.appcompat.widget.SearchView
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                app:queryBackground="@android:color/transparent"
+                android:background="@drawable/search_round"
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconifiedByDefault="false"
+                app:queryHint="@string/query_hint_patient_search" />
 
         </LinearLayout>
 
-        <androidx.appcompat.widget.SearchView
-            android:layout_marginTop="10dp"
-            app:queryBackground="@android:color/transparent"
-            android:background="@drawable/search_round"
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:iconifiedByDefault="false"
-            app:queryHint="@string/query_hint_patient_search" />
-
         <include
+            android:visibility="gone"
             android:id="@+id/no_record"
             layout="@layout/no_record" />
 
@@ -83,6 +97,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0 Patients" />
+
+            <LinearLayout
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="#"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_marginStart="15dp"
+                    android:text="Client name"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="Next Appointment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/patient_list"

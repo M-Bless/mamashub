@@ -41,14 +41,29 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Medical History"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                        />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Medical History"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -174,7 +189,7 @@
 
                         <CheckBox
                             android:id="@+id/checkBoxMalariaPregnancy"
-                            android:text="Malaria in Pregnancy"
+                            android:text="Malaria in pregnancy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -210,6 +225,44 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Blood Transfusion"/>
+
+                        <RadioGroup
+                            android:id="@+id/radioGrpBloodTransfusion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioYesBloodTransfusion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Yes" />
+
+                            <RadioButton
+                                android:id="@+id/radioNoBloodTransfusion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="No" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearBloodTransfusionReaction"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -261,7 +314,7 @@
                             />
 
                         <EditText
-                            android:id="@+id/etClientName"
+                            android:id="@+id/etBloodTransReaction"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -321,14 +374,29 @@
                     android:layout_marginTop="@dimen/_15dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Drug Allergies"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                        />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Drug Allergies"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:orientation="horizontal"
@@ -362,6 +430,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="No" />
+
+                            <RadioButton
+                                android:id="@+id/radioNoUnknown"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Unknown" />
 
                         </RadioGroup>
 

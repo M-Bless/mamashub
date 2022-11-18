@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".new_designs.chw.referral.ReferralAdd">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:background="@drawable/layout_dotted"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="@dimen/_50dp"
+                android:layout_height="@dimen/_50dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/profile"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="0dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Client Name  "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/textColor"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/textColor"
+                            android:text=":"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:singleLine="false"
+                            android:ellipsize="end"
+                            android:maxLines="4"
+                            android:id="@+id/tvName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/textColor" />
+
+                    </TableRow>
+                    <TableRow
+                        >
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/textColor"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:text="ANC ID  "
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/textColor"
+                            android:text=":"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvANCID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColor" />
+
+                    </TableRow>
+                    <TableRow>
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/textColor"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:text="Age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/textColor"
+                            android:text=":"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/textColor" />
+
+                    </TableRow>
+                    <TableRow
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/textColor"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:text="Edd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:textColor="@color/textColor"
+                            android:text=":"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tvEdd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Jane Doe"
+                            android:textColor="@color/textColor" />
+
+                    </TableRow>
+
+
+
+                </TableLayout>
+
+                <View
+                    android:layout_margin="@dimen/_5dp"
+                    android:background="@color/primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <LinearLayout
+                    android:id="@+id/linearCall"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:textColor="@color/textColor"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:text="Next of Kin Details:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvKinName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text=" Name"
+                                android:textColor="@color/textColor" />
+
+
+                            <TextView
+                                android:id="@+id/tvKinDetails"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="10dp"
+                                android:text=" Number"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                android:textColor="@color/textColor" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/imgViewCall"
+                                android:background="@drawable/ic_action_call"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_50dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Referral Officer Details"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Name of referring officer"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:inputType="textPersonName"
+                            android:id="@+id/etOfficerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile number"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:inputType="phone"
+                            android:id="@+id/etMobileNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="+254XXXXXX" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Name of receiving Community Health Volunteer (CHV)"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:inputType="textPersonName"
+                            android:id="@+id/etCHVName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile number"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:inputType="phone"
+                            android:id="@+id/etCHVNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="+254XXXXXX" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Name of the community health unit"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:id="@+id/etCommunityHealthUnit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Referral Details"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:gravity="center|start"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Call made by referring officer:"/>
+
+                        <RadioGroup
+                            android:id="@+id/radioGrpReferringOfficer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/radioYesHiv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Yes" />
+
+                            <RadioButton
+                                android:id="@+id/radioNoHiv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="No" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Describe the services that CHV should provide for the client"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <EditText
+                            android:id="@+id/etDescribe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <CheckBox
+                            android:id="@+id/checkbox"
+                            android:text="I confirm that the information provided is correct."
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
+
+</RelativeLayout>

@@ -9,9 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/progress_bar"
-            layout="@layout/progress_bar" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/userView"
+                layout="@layout/user_details" />
+
+            <include
+                android:id="@+id/progress_bar"
+                layout="@layout/progress_bar" />
+
+        </LinearLayout>
 
         <ScrollView
             android:layout_marginBottom="55dp"
@@ -30,20 +41,38 @@
                     android:background="@drawable/layout_dotted"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Residential Information"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                         />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Residential Information"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
+
 
                     <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <TableRow android:layout_marginTop="10dp">
+
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -126,6 +155,7 @@
                                  />
 
                             <EditText
+                                android:inputType="text"
                                 android:id="@+id/etTown"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -146,6 +176,7 @@
                                  />
 
                             <EditText
+                                android:inputType="text"
                                 android:id="@+id/etAddress"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -165,6 +196,7 @@
                                  />
 
                             <EditText
+                                android:inputType="text"
                                 android:id="@+id/etEstate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -189,14 +221,29 @@
                     android:background="@drawable/layout_dotted"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Contact Details"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                         />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Contact Details"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_marginTop="@dimen/_5dp"
@@ -236,14 +283,30 @@
                     android:background="@drawable/layout_dotted"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:textStyle="bold"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Next of Kin"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"
-                         />
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Next of Kin"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
 
                     <TableLayout
                         android:layout_width="match_parent"
