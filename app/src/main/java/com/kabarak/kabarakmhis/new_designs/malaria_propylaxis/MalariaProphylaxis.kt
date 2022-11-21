@@ -267,8 +267,9 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             monthDate = "0$monthDate"
         }
 
-        val date = StringBuilder().append(year).append("-")
-            .append(monthDate).append("-").append(dayDate)
+        var date = StringBuilder().append(year).append("-").append(monthDate).append("-").append(dayDate)
+
+//        var date = "2022-11-02"
 
         return date.toString()
 

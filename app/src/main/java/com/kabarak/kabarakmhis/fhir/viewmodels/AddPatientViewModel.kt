@@ -162,6 +162,14 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     identifier.value = ancCode
                     identifierList.add(identifier)
 
+                    //Get the KMFL CODE from the shared preferences
+                    val kmhflCode = FormatterClass().retrieveSharedPreference(getApplication(), "kmhflCode")
+
+                    val identifierKmflCode = Identifier()
+                    identifier.id = "KMHFL_CODE"
+                    identifier.value = kmhflCode
+                    identifierList.add(identifierKmflCode)
+
                     patient.identifier = identifierList
 
                     fhirEngine.create(patient)

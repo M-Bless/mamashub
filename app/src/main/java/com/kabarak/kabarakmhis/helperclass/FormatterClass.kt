@@ -1,12 +1,14 @@
 package com.kabarak.kabarakmhis.helperclass
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -192,11 +194,35 @@ class FormatterClass {
         val dob = if (hasBirthDate()) birthDate else ""
         val dobDate = convertFhirDate(dob.toString()) ?: ""
 
+        var kmflCode = ""
+        if (hasIdentifier()){
+
+            val identifierList = identifier
+            identifierList.forEach {
+
+                val id = it.id
+                val value = it.value
+
+                if (id == "KMHFL_CODE"){
+                    kmflCode = value
+                }else{
+                    if (id == "ANC_NUMBER"){
+                        //Get the digits before '-'
+                        kmflCode = value.substringBefore('-')
+                    }
+                }
+
+            }
+
+        }
+
+
         return DbPatientDetails(
             id = patientId,
             name = name,
             lastUpdated = lastUpdated,
             dob = dobDate,
+            kmflCode = kmflCode,
         )
     }
 

@@ -59,7 +59,6 @@ class FragmentPhysicalExam1 : Fragment() {
         )[PatientDetailsViewModel::class.java]
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-
         formatter.saveCurrentPage("1", requireContext())
 
         tabLayout = rootView.findViewById(R.id.tabLayout)
@@ -72,7 +71,7 @@ class FragmentPhysicalExam1 : Fragment() {
     private fun initTabLayout() {
 
         tabLayout.addTab(tabLayout.newTab().setText("Physical Examination"))
-        tabLayout.addTab(tabLayout.newTab().setText("BP Monitoring"))
+//        tabLayout.addTab(tabLayout.newTab().setText("BP Monitoring"))
 
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         val adapter = MyAdapter(requireContext(), parentFragmentManager, tabLayout.tabCount)
@@ -95,6 +94,8 @@ class FragmentPhysicalExam1 : Fragment() {
         initTabLayout()
         getPageDetails()
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun getPageDetails() {

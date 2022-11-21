@@ -182,7 +182,7 @@ class FragmentPhysicalExam2 : Fragment() {
         rootView.navigation.btnPrevious.text = "Previous"
 
         rootView.navigation.btnNext.setOnClickListener { saveData() }
-        rootView.navigation.btnPrevious.setOnClickListener { activity?.onBackPressed() }
+        rootView.navigation.btnPrevious.setOnClickListener { fragmentManager?.popBackStack() }
 
     }
 

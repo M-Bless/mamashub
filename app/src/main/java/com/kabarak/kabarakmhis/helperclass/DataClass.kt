@@ -50,7 +50,8 @@ data class DbPatientDetails(
     val id : String,
     val name : String,
     val lastUpdated: String,
-    val dob: String = ""
+    val dob: String = "",
+    val kmflCode: String? = null
 )
 data class DbChwPatientData(
     val id : String,
