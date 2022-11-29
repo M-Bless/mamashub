@@ -11,9 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -164,9 +162,37 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
         })
 
+        rootView.rgClientType.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "No Id") {
+                    changeVisibility(rootView.etNationalId, true)
+                } else {
+                    changeVisibility(rootView.etNationalId, false)
+                }
+
+            }
+        }
+
         handleNavigation()
 
         return rootView
+    }
+
+    private fun changeVisibility(editText: EditText, showLinear: Boolean){
+
+        /**
+         * TODO: REMOVE VALIDATION ON THE NATIONAL ID
+         */
+
+        if (showLinear){
+            editText.visibility = View.VISIBLE
+        }else{
+            editText.visibility = View.GONE
+        }
+
     }
 
     private fun handleNavigation() {
@@ -200,25 +226,31 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         val dob = rootView.etDoB.text.toString()
         val lmp = rootView.etLmp.text.toString()
         val edd = rootView.etEdd.text.toString()
-        val nationalID = rootView.etNationalId.text.toString()
 
-
+        val nationality = formatter.getRadioText(rootView.radioGroupNationality)
 
         if (
             !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(kmhflCode) &&
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(gravida) &&
             !TextUtils.isEmpty(parity) && !TextUtils.isEmpty(height) &&
             !TextUtils.isEmpty(weight) && !TextUtils.isEmpty(dob) &&
-            !TextUtils.isEmpty(nationalID) &&
             spinnerMaritalValue != "" && educationLevelValue != "") {
 
             val isWeight = formatter.validateWeight(weight)
             val isHeight = formatter.validateHeight(height)
             val parityGravidaPair = formatter.validateParityGravida(parity, gravida)
             val isParityGravida = parityGravidaPair.first
+            var ancNationalID = ""
+            if (rootView.etNationalId.visibility == View.VISIBLE){
+                val nationalID = rootView.etNationalId.text.toString()
+                if (!TextUtils.isEmpty(nationalID)){
+                    ancNationalID = nationalID
+                }else{
+                    rootView.etNationalId.error = "Field cannot be empty."
+                }
+            }
 
-
-            if (isWeight && isHeight && isParityGravida){
+                if (isWeight && isHeight && isParityGravida){
 
                 if (TextUtils.isEmpty(anc) && TextUtils.isEmpty(pnc)) {
 
@@ -262,6 +294,12 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                             formatter.generateUuid()
                         }
 
+                        if (ancNationalID == "") {
+                            ancNationalID = ancCodeValue
+                        }
+
+
+
                         val dbDataList = ArrayList<DbDataList>()
 
                         val dbDataFacName = DbDataList("Facility Name", facilityName, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.FACILITY_NAME.name)
@@ -269,11 +307,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
 
                         val educationLevel = DbDataList("Level of Education", educationLevelValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.EDUCATION_LEVEL.name)
-
+                        val nationalIDValue = DbDataList("National Identification", ancNationalID, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.NATIONAL_ID.name )
                         val nameClient = DbDataList("Client Name", clientName, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.CLIENT_NAME.name)
                         val dateOfBirth = DbDataList("Date Of Birth", dob, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.DATE_OF_BIRTH.name)
                         val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.MARITAL_STATUS.name )
-                        val nationalIDValue = DbDataList("National Identification", nationalID, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.NATIONAL_ID.name )
+                        val nationalityData = DbDataList("Nationality", nationality, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name,DbObservationValues.NATIONALITY.name)
 
                         val gravidaData = DbDataList("Gravida", gravida, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.GRAVIDA.name)
                         val parityData = DbDataList("Parity", parity, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.PARITY.name)
@@ -332,7 +370,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                         }
 
                         dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
-                            gravidaData, parityData, heightData, weightData, nameClient, dateOfBirth, statusMarriage, nationalIDValue))
+                            gravidaData, parityData, heightData, weightData, nameClient, dateOfBirth, statusMarriage, nationalIDValue, nationalityData))
 
                         val dbDataDetailsList = ArrayList<DbDataDetails>()
                         val dbDataDetails = DbDataDetails(dbDataList)
@@ -404,7 +442,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             if (TextUtils.isEmpty(rootView.etGravida.text.toString())) rootView.etGravida.error = "Please enter a valid gravida"
             if (TextUtils.isEmpty(rootView.etParity.text.toString())) rootView.etParity.error = "Please enter a valid parity"
             if (TextUtils.isEmpty(rootView.etDoB.text.toString())) rootView.etDoB.error = "Please enter a valid date of birth"
-            if (TextUtils.isEmpty(nationalID)) rootView.etNationalId.error = "Please enter an identification number"
 
             val ancCode = rootView.etAnc.text.toString()
             val pncNo = rootView.etPnc.text.toString()

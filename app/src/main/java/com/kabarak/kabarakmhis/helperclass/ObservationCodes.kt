@@ -26,6 +26,7 @@ enum class DbObservationValues{
     WEIGHT,
     LMP,
     EDD,
+    NATIONALITY,
     RELATIONSHIP,
     GESTATION,
 
