@@ -168,9 +168,9 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             if (isChecked) {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "No Id") {
-                    changeVisibility(rootView.etNationalId, true)
-                } else {
                     changeVisibility(rootView.etNationalId, false)
+                } else {
+                    changeVisibility(rootView.etNationalId, true)
                 }
 
             }

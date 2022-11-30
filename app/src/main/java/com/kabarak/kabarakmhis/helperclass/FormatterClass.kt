@@ -1240,9 +1240,8 @@ class FormatterClass {
 
 
 
-            DbObservationValues.PREGNANCY_ORDER.name -> {
-                "818602026"
-            }
+            DbObservationValues.PREGNANCY_ORDER.name -> { "818602026" }
+            DbObservationValues.PREGNANCY_OUTCOME.name -> { "818606686" }
             DbObservationValues.YEAR.name -> {
                 "258707000"
             }

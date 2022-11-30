@@ -111,6 +111,26 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         })
 
+        rootView.spinnerPresentation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, p1: View?, position: Int, p3: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+
+                if (selectedItem == "Unknown fetal presentation"){
+                    rootView.linearUnknownPalpable.visibility = View.VISIBLE
+                    rootView.linearKnownPresentation.visibility = View.GONE
+                }else{
+                    rootView.linearUnknownPalpable.visibility = View.GONE
+                    rootView.linearKnownPresentation.visibility = View.VISIBLE
+                }
+
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
         handleNavigation()
 
         return rootView

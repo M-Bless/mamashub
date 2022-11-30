@@ -113,6 +113,7 @@ enum class DbObservationValues{
     COMPLICATIONS_EXTERNAL_FGM,
 
     PREGNANCY_ORDER,
+    PREGNANCY_OUTCOME,
     YEAR,
     ANC_NO,
     CHILDBIRTH_PLACE,

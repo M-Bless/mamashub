@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,9 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
 
     var pregnancyOrderList = arrayOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
     private var spinnerPregnancyValue  = pregnancyOrderList[0]
+
+    var pregnancyOutcomeList = arrayOf("Select Pregnancy outcome","Live birth", "Miscarriage", "Abortion")
+    private var spinnerPregnancyOutCome  = pregnancyOutcomeList[0]
 
     private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
@@ -85,6 +89,27 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
             }
         }
 
+        rootView.spinnerPregOutcome.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, p1: View?, position: Int, p3: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+
+                if (selectedItem == "Live birth"){
+                    rootView.linearPregDetails.visibility = View.VISIBLE
+                    rootView.linearBabyDetails.visibility = View.VISIBLE
+                }else{
+                    rootView.linearPregDetails.visibility = View.GONE
+                    rootView.linearBabyDetails.visibility = View.GONE
+
+                }
+
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
 
         handleNavigation()
 
@@ -130,15 +155,16 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
             "0"
         }
 
-
-
         val babyWeight = rootView.etBabyWeight.text.toString()
 
+
         if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(ancTime) && !TextUtils.isEmpty(birthPlace) &&
-            !TextUtils.isEmpty(gestation) && !TextUtils.isEmpty(duration) && !TextUtils.isEmpty(babyWeight)){
+            !TextUtils.isEmpty(gestation) && !TextUtils.isEmpty(duration) &&
+            !TextUtils.isEmpty(babyWeight) && spinnerPregnancyOutCome != pregnancyOrderList[0]){
 
 
             addData("Pregnancy Order",spinnerPregnancyValue, DbObservationValues.PREGNANCY_ORDER.name)
+            addData("Pregnancy Outcome",spinnerPregnancyOutCome, DbObservationValues.PREGNANCY_OUTCOME.name)
             addData("Year",year, DbObservationValues.YEAR.name)
             addData("ANC Time",ancTime, DbObservationValues.ANC_NO.name)
             addData("Child Birth Place",birthPlace, DbObservationValues.CHILDBIRTH_PLACE.name)
@@ -223,6 +249,7 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
             if (TextUtils.isEmpty(gestation)) errorList.add("Please provide a Gestation")
             if (TextUtils.isEmpty(duration)) errorList.add("Please provide a Duration")
             if (TextUtils.isEmpty(babyWeight)) errorList.add("Please provide Baby Weight")
+            if (spinnerPregnancyOutCome == pregnancyOutcomeList[0]) errorList.add("Please select a pregnancy outcome")
         }
 
         if (errorList.size == 0) {
@@ -279,11 +306,18 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
         rootView.spinnerPregOrder.onItemSelectedListener = this
 
 
+        val pregnancyOutcome = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, pregnancyOutcomeList)
+        pregnancyOutcome.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        rootView.spinnerPregOutcome!!.adapter = pregnancyOutcome
+        rootView.spinnerPregOutcome.onItemSelectedListener = this
+
+
     }
 
     override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
         when (arg0.id) {
             R.id.spinnerRshp -> { spinnerPregnancyValue = rootView.spinnerPregOrder.selectedItem.toString() }
+            R.id.spinnerOutCome -> { spinnerPregnancyOutCome = rootView.spinnerPregOutcome.selectedItem.toString() }
             else -> {}
         }
     }
@@ -311,6 +345,9 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
 
                     val pregnancyOrder = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.PREGNANCY_ORDER.name), encounterId)
+
+                    val pregnancyOutcome = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PREGNANCY_OUTCOME.name), encounterId)
 
                     val year = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.YEAR.name), encounterId)
@@ -350,6 +387,10 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
                         if (pregnancyOrder.isNotEmpty()){
                             val value = pregnancyOrder[0].value
                             rootView.spinnerPregOrder.setSelection(pregnancyOrderList.indexOf(value))
+                        }
+                        if (pregnancyOutcome.isNotEmpty()){
+                            val value = pregnancyOutcome[0].value
+                            rootView.spinnerPregOutcome.setSelection(pregnancyOutcomeList.indexOf(value))
                         }
                         if (year.isNotEmpty()){
                             rootView.etYear.setText(year[0].value)

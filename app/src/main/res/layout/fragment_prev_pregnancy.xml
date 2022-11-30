@@ -112,56 +112,32 @@
                             android:hint="" />
 
                     </LinearLayout>
-                    
+
                     <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="No. of times ANC attended for every pregnancy."
+                            android:text="Pregnancy Outcome"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
+                            />
 
-                        <EditText
-                            android:inputType="number"
-                            android:id="@+id/etVisitTime"
+                        <Spinner
+                            android:id="@+id/spinnerPregOutcome"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:spinnerMode="dialog" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Place of birth."
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
-
-                        <EditText
-                            android:id="@+id/etPlaceOfChildBirth"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
-
-                    </LinearLayout>
-                    
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
+                        android:id="@+id/linearGestation"
+                        android:layout_marginTop="@dimen/_15dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -171,7 +147,7 @@
                             android:layout_height="wrap_content"
                             android:text="Gestation ( weeks )."
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
+                            />
 
                         <EditText
                             android:inputType="numberDecimal"
@@ -183,99 +159,155 @@
                             android:hint="" />
 
                     </LinearLayout>
-                    
+
+
                     <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
+                        android:id="@+id/linearPregDetails"
+                        android:visibility="gone"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Duration of labour (hours)"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                             />
-
-                        <CheckBox
-                            android:id="@+id/checkboxLabour"
-                            android:text="No Labour"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
                         <LinearLayout
+                            android:layout_marginTop="15dp"
                             android:orientation="vertical"
-                            android:layout_marginTop="@dimen/_5dp"
-                            android:id="@+id/linearLabour"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No. of times ANC attended for every pregnancy."
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
                             <EditText
-                                android:inputType="numberDecimal"
-                                android:id="@+id/etDuration"
+                                android:inputType="number"
+                                android:id="@+id/etVisitTime"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_outline_trans"
-                                android:hint="Duration of labour" />
+                                android:hint="" />
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Place of birth."
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etPlaceOfChildBirth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Duration of labour (hours)"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <CheckBox
+                                android:id="@+id/checkboxLabour"
+                                android:text="No Labour"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:id="@+id/linearLabour"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:inputType="numberDecimal"
+                                    android:id="@+id/etDuration"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edit_outline_trans"
+                                    android:hint="Duration of labour" />
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Mode of delivery"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioGroup
+                                android:id="@+id/deliveryMode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/radioYesVaginal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Vaginal Delivery" />
+
+                                <RadioButton
+                                    android:id="@+id/radioYesAssistedVaginal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Assisted Vaginal Delivery" />
+
+                                <RadioButton
+                                    android:id="@+id/radioNoCs"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Cesarean Section" />
+
+                            </RadioGroup>
+
+                        </LinearLayout>
 
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        
-                        <TextView
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Mode of delivery"
-                            
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <RadioGroup
-                            android:id="@+id/deliveryMode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/radioYesVaginal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Vaginal Delivery" />
-
-                            <RadioButton
-                                android:id="@+id/radioYesAssistedVaginal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Assisted Vaginal Delivery" />
-
-                            <RadioButton
-                                android:id="@+id/radioNoCs"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Cesarean Section" />
-
-                        </RadioGroup>
-                        
-                    </LinearLayout>
-
-
-
-
+                    
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearBabyDetails"
                     android:background="@drawable/layout_dotted"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
