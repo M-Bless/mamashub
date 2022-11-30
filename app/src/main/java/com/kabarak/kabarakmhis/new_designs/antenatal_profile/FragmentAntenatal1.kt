@@ -336,6 +336,14 @@ class FragmentAntenatal1 : Fragment() {
             errorList.add("Please make a selection on HB Test")
         }
 
+        val hbRemarks = rootView.etRemarks.text.toString()
+        if (!TextUtils.isEmpty(hbRemarks)){
+
+            addData("HB Remarks",hbRemarks, DbObservationValues.HB_REMARKS.name)
+
+
+        }
+
 
         val bloodGroupTest = formatter.getRadioText(rootView.radioGrpBloodGrpTest)
         if (bloodGroupTest != ""){
@@ -528,6 +536,9 @@ class FragmentAntenatal1 : Fragment() {
                     val hbTestSpecific = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.SPECIFIC_HB_TEST.name), encounterId)
 
+                    val hbRemarks = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HB_REMARKS.name), encounterId)
+
                     val bloodGrpTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.BLOOD_GROUP_TEST.name), encounterId)
 
@@ -571,6 +582,10 @@ class FragmentAntenatal1 : Fragment() {
                             val newValue = formatter.getValues(value, 7)
 
                             rootView.etHb.setText(newValue)
+                        }
+                        if (hbRemarks.isNotEmpty()){
+                            val value = hbRemarks[0].value
+                            rootView.etHb.setText(value)
                         }
 
                         if (bloodGrpTest.isNotEmpty()){

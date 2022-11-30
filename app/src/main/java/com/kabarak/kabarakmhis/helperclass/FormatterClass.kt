@@ -1280,6 +1280,9 @@ class FormatterClass {
             DbObservationValues.HB_TEST.name -> {
                 "302763003"
             }
+            DbObservationValues.HB_REMARKS.name -> {
+                "302763003-R"
+            }
             DbObservationValues.SPECIFIC_HB_TEST.name -> {
                 "302763003-S"
             }
