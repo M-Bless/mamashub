@@ -297,7 +297,7 @@ class FragmentAntenatal1 : Fragment() {
     private fun validateHB(editText: EditText, value: Int){
 
         if (value < 11){
-            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
         }else if (value in 11..13){
             editText.setBackgroundColor(resources.getColor(R.color.low_risk))
         }else {
@@ -338,10 +338,7 @@ class FragmentAntenatal1 : Fragment() {
 
         val hbRemarks = rootView.etRemarks.text.toString()
         if (!TextUtils.isEmpty(hbRemarks)){
-
             addData("HB Remarks",hbRemarks, DbObservationValues.HB_REMARKS.name)
-
-
         }
 
 
@@ -585,7 +582,7 @@ class FragmentAntenatal1 : Fragment() {
                         }
                         if (hbRemarks.isNotEmpty()){
                             val value = hbRemarks[0].value
-                            rootView.etHb.setText(value)
+                            rootView.etRemarks.setText(value)
                         }
 
                         if (bloodGrpTest.isNotEmpty()){

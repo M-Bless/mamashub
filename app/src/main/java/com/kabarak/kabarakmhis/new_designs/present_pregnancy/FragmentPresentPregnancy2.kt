@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +41,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
     private val formatter = FormatterClass()
 
-    var presentationList = arrayOf("","Unknown fetal presentation", "Cephalic fetal presentation",
+    var presentationList = arrayOf("Select a presentation","Unknown fetal presentation", "Cephalic fetal presentation",
         "Pelvic fetal presentation", "Transverse fetal presentation", "Other fetal presentation")
     private var spinnerPresentationValue  = presentationList[0]
 
@@ -123,6 +124,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
                     rootView.linearKnownPresentation.visibility = View.VISIBLE
                 }
 
+                spinnerPresentationValue = selectedItem
 
             }
 
@@ -166,8 +168,17 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         val date = tvDate.text.toString()
 
+        if(rootView.linearPalpation.visibility == View.VISIBLE){
+            val palpation = formatter.getRadioText(rootView.radioGrpPalpable)
+            if (!TextUtils.isEmpty(palpation)){
+                addData("Palpation",palpation, DbObservationValues.PALPABLE_FOETAL_MOVEMENT.name)
+            }else{
+                errorList.add("Palpation is required for foetal heart rate below 12 weeks")
+            }
+        }
+
         if (lieText != "" && foetalHeartRate != "" && !TextUtils.isEmpty(foetalMovement)
-            && !TextUtils.isEmpty(date) && spinnerPresentationValue != "") {
+            && !TextUtils.isEmpty(date) && spinnerPresentationValue != presentationList[0]) {
 
             addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
 
@@ -196,7 +207,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
             if (lieText == "") errorList.add("Lie is required")
             if (foetalHeartRate == "") errorList.add("Foetal Heart Rate is required")
             if (foetalMovement == "") errorList.add("Foetal Movement is required")
-            if (spinnerPresentationValue == "") errorList.add("Presentation is required")
+            if (spinnerPresentationValue == presentationList[0]) errorList.add("Presentation is required")
 
         }
 
@@ -253,6 +264,26 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         rootView.spinnerPresentation.onItemSelectedListener = this
 
+        //Check for gestation
+        val gestation = formatter.retrieveSharedPreference(requireContext(), "GESTATION")
+        if (gestation != null){
+
+            //Get 1 letter
+            val firstNumber = gestation[0]
+            val secondNumber = gestation[1]
+
+            if (firstNumber.toString() != "" && secondNumber.toString() != ""){
+
+                val thirdNumber = "$firstNumber$secondNumber".trim()
+
+                if (thirdNumber.toInt() < 12){
+                    rootView.linearPalpation.visibility = View.VISIBLE
+                }
+
+
+            }
+
+        }
 
     }
 

@@ -444,7 +444,7 @@
                     </TableLayout>
 
                     <LinearLayout
-
+                        android:visibility="gone"
                         android:id="@+id/linearLessAge"
                         android:layout_marginTop="@dimen/_15dp"
                         android:layout_width="match_parent"

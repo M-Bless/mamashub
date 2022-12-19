@@ -1,6 +1,7 @@
 package com.kabarak.kabarakmhis.fhir.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -10,6 +11,7 @@ import ca.uhn.fhir.context.FhirVersionEnum
 import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.mapping.ResourceMapper
 import com.kabarak.kabarakmhis.fhir.FhirApplication
+import com.kabarak.kabarakmhis.helperclass.DbFhirIdentifier
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
 import com.kabarak.kabarakmhis.helperclass.QuestionnaireHelper
 import com.kabarak.kabarakmhis.new_designs.data_class.CodingObservation
@@ -138,11 +140,23 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
 
                     patient.id = patientId
 
+                    val dbFhirIdentifierList = ArrayList<DbFhirIdentifier>()
                     val ancCode = dbPatientFhirInformation.identifier
+
                     val nationalId = dbPatientFhirInformation.nationalId
+                    //Get the KMFL CODE from the shared preferences
+                    val kmhflCode = FormatterClass().retrieveSharedPreference(getApplication(), "kmhflCode")
+
+                    dbFhirIdentifierList.addAll(
+                        listOf(
+                            DbFhirIdentifier("NATIONAL_ID", nationalId),
+                            DbFhirIdentifier("ANC_NUMBER", ancCode),
+                            DbFhirIdentifier("KMHFL_CODE", kmhflCode.toString()),
+                        )
+                    )
+
 
                     val identifierList = ArrayList<Identifier>()
-
 
                     /**
                      * TODO: Leave identifierNumber.value empty for now.
@@ -152,23 +166,18 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                      * TODO: The KMFL CODE should be Attached to the encounter as a Location
                      */
 
-                    val identifierNumber = Identifier()
-                    identifierNumber.id = "NATIONAL_ID"
-                    identifierNumber.value = nationalId
-                    identifierList.add(identifierNumber)
+                    dbFhirIdentifierList.forEach {
 
-                    val identifier = Identifier()
-                    identifier.id = "ANC_NUMBER"
-                    identifier.value = ancCode
-                    identifierList.add(identifier)
+                        val id = it.id
+                        val values = it.values
 
-                    //Get the KMFL CODE from the shared preferences
-                    val kmhflCode = FormatterClass().retrieveSharedPreference(getApplication(), "kmhflCode")
+                        val identifierNumber = Identifier()
+                        identifierNumber.id = id
+                        identifierNumber.value = values
+                        identifierList.add(identifierNumber)
 
-                    val identifierKmflCode = Identifier()
-                    identifier.id = "KMHFL_CODE"
-                    identifier.value = kmhflCode
-                    identifierList.add(identifierKmflCode)
+
+                    }
 
                     patient.identifier = identifierList
 

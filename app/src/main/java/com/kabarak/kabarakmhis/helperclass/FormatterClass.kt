@@ -836,10 +836,6 @@ class FormatterClass {
 
             /**
              * Remove spaces in parity
-             * Check if parity has atleast 3 digits
-             * Check if the first and last digits for parity are integers, and the middle digit is a '+'
-             * Check if the first digit is more than the last digit
-             * Check if summation of parity (first and last digit) is less than gravida
              */
             val parity = parityValue.replace("\\s".toRegex(), "")
 
@@ -848,48 +844,28 @@ class FormatterClass {
                     parity[2].isDigit() &&
                     parity[1] == '+'
 
-            return if (isParityValid) {
+            return if(isParityValid){
 
                 //Get the first and last digits
                 val parityFirstDigit = parity[0].toString().toInt()
-                val parityLastDigit = parity[2].toString().toInt()
 
-                if (parityFirstDigit == 0 && parityLastDigit == 0) {
+                if (gravida.toInt() > parityFirstDigit){
                     Pair(true, "")
                 }else{
-
-                    //Check if the first digit is more than the last digit
-                    if (parityFirstDigit > parityLastDigit) {
-
-                        //Check if summation of parity (first and last digit) is less than gravida
-                        if (parityFirstDigit + parityLastDigit < gravida.toInt()) {
-                            Pair(true,"")
-                        }else{
-                            Pair(false, "Summation of parity (first and last digit) is more than gravida")
-                        }
-
-                    }else{
-                        Pair(false, "The first digit should be more than the last digit")
-                    }
-
+                    Pair(false, "Parity x cannot be greater than gravida")
                 }
 
 
-            } else {
-
-                var error = ""
-                if (parity.length != 3) {
-                    error = "Parity should have 3 digits e.g. 2+1"
-                } else if (!parity[0].isDigit()) {
-                    error = "The first digit should be an integer"
-                } else if (!parity[2].isDigit()) {
-                    error = "The last digit should be an integer"
-                } else if (parity[1] != '+') {
-                    error = "The middle digit should be a '+'"
-                }
-
-                Pair(false, error)
+            }else{
+                Pair(false, "Check on the value provided")
             }
+
+
+
+
+
+
+
 
         }catch (e: Exception){
             return Pair(false, "Check on the parity and gravida value")
@@ -1538,6 +1514,9 @@ class FormatterClass {
             }
             DbObservationValues.LIE.name -> {
                 "249062004"
+            }
+            DbObservationValues.PALPABLE_FOETAL_MOVEMENT.name -> {
+                "249062004865"
             }
             DbObservationValues.FOETAL_HEART_RATE.name -> {
                 "289438002"

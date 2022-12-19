@@ -305,4 +305,7 @@ data class DbWatchRecord(
     val pulse: String,
 )
 
-
+data class DbFhirIdentifier(
+    val id: String,
+    val values: String
+)

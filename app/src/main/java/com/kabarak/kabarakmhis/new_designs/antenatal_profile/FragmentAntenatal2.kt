@@ -145,9 +145,9 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
             if (isChecked) {
                 val checkedBtn = checkedRadioButton.text.toString()
                 if (checkedBtn == "Yes") {
-                    changeVisibility(rootView.linearDate, true)
+                    changeVisibility(rootView.linearObsteric1, true)
                 } else {
-                    changeVisibility(rootView.linearDate, false)
+                    changeVisibility(rootView.linearObsteric1, false)
                 }
             }
         }
@@ -163,6 +163,7 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
                 }
             }
         }
+
 
         rootView.radioGrpMultipleBaby.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
@@ -351,40 +352,42 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
         val obstetricUltraSound1 = formatter.getRadioText(rootView.radioGrpUltrasound1)
         if (obstetricUltraSound1 != "") {
             addData("1st Obstetric Sound", obstetricUltraSound1 , DbObservationValues.OBSTERIC_ULTRASOUND_1.name)
-            if (rootView.linearDate.visibility == View.VISIBLE){
+            if (rootView.linearObsteric1.visibility == View.VISIBLE){
+
                 val text = rootView.tvUltraSound1.text.toString()
-                if (!TextUtils.isEmpty(text)) {
+                val gestation1st = rootView.etGestationByUltrasound1.text.toString()
+
+                if (!TextUtils.isEmpty(gestation1st) && !TextUtils.isEmpty(text)) {
                     addData("1st Obstetric Sound results", text , DbObservationValues.OBSTERIC_ULTRASOUND_1_DATE.name)
-                }else{
-                    errorList.add("Please enter 1st Obstetric Sound results")
+                    addData("Gestation by 1st Obstetric Sound", gestation1st , DbObservationValues.GESTATION_BY_ULTRASOUND_1.name)
+                } else {
+                    if (TextUtils.isEmpty(gestation1st)) errorList.add("Please enter Gestation by 1st Obstetric Sound")
+                    if (TextUtils.isEmpty(text)) errorList.add("Please enter 1st Obstetric Sound results")
                 }
+
             }
         }else{
             errorList.add("Please select 1st Obstetric Sound")
         }
-        val gestation1st = rootView.etGestationByUltrasound1.text.toString()
-        if (!TextUtils.isEmpty(gestation1st)) {
-            addData("Gestation by 1st Obstetric Sound", gestation1st , DbObservationValues.GESTATION_BY_ULTRASOUND_1.name)
-        } else {
-            errorList.add("Please enter Gestation by 1st Obstetric Sound")
-        }
 
-        val gestation2nd = rootView.etGestationByUltrasound2.text.toString()
-        if (!TextUtils.isEmpty(gestation2nd)) {
-            addData("Gestation by 1st Obstetric Sound", gestation2nd , DbObservationValues.GESTATION_BY_ULTRASOUND_2.name)
-        } else {
-            errorList.add("Please enter Gestation by 1st Obstetric Sound")
-        }
 
         val obstetricUltraSound2 = formatter.getRadioText(rootView.radioGrpUltrasound2)
         if (obstetricUltraSound2 != "") {
             addData("2nd Obstetric Sound", obstetricUltraSound2, DbObservationValues.OBSTERIC_ULTRASOUND_2.name)
             if (rootView.linear2ndUltra.visibility == View.VISIBLE){
+
                 val text = rootView.tvUltraSound2.text.toString()
-                if (!TextUtils.isEmpty(text)) {
+                val gestation2nd = rootView.etGestationByUltrasound2.text.toString()
+
+                if (!TextUtils.isEmpty(text) && !TextUtils.isEmpty(gestation2nd)) {
+
+                    addData("Gestation by 1st Obstetric Sound", gestation2nd , DbObservationValues.GESTATION_BY_ULTRASOUND_2.name)
                     addData("2nd Obstetric Sound results", text, DbObservationValues.OBSTERIC_ULTRASOUND_2_DATE.name)
                 }else{
-                    errorList.add("Please enter 2nd Obstetric Sound results")
+
+                    if (TextUtils.isEmpty(text)) errorList.add("Please enter 2nd Obstetric Sound results")
+                    if (TextUtils.isEmpty(gestation2nd)) errorList.add("Please enter Gestation by 1st Obstetric Sound")
+
                 }
             }
         }else{

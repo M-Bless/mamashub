@@ -409,7 +409,7 @@
                     </LinearLayout>
                     <LinearLayout
                         android:visibility="gone"
-                        android:id="@+id/linearDate"
+                        android:id="@+id/linearObsteric1"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -430,32 +430,33 @@
                             android:textColor="@color/black"
                             app:drawableEndCompat="@drawable/ic_action_date" />
 
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Gestation by 1st U/S"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:inputType="number"
+                                android:id="@+id/etGestationByUltrasound1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Gestation by 1st U/S"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
-
-                        <EditText
-                            android:inputType="number"
-                            android:id="@+id/etGestationByUltrasound1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
-
-                    </LinearLayout>
 
                     <LinearLayout
 
@@ -495,6 +496,7 @@
                         </RadioGroup>
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:visibility="gone"
                         android:id="@+id/linear2ndUltra"
@@ -518,30 +520,29 @@
                             android:textColor="@color/black"
                             app:drawableEndCompat="@drawable/ic_action_date" />
 
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Gestation by 2nd U/S"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            />
+                            android:layout_height="wrap_content">
 
-                        <EditText
-                            android:inputType="number"
-                            android:id="@+id/etGestationByUltrasound2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Gestation by 2nd U/S"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:inputType="number"
+                                android:id="@+id/etGestationByUltrasound2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
