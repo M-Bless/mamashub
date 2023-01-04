@@ -80,12 +80,26 @@ class  PatientList : AppCompatActivity() {
                 val txtSearch = newText.toString()
 
                 CoroutineScope(Dispatchers.IO).launch {
+
                     if (!TextUtils.isEmpty(txtSearch)) {
-                        patientListViewModel.searchPatientsByName(txtSearch)
+
+                        val patientList = patientListViewModel.getPatientList()
+                        //Filtering the list based on the search text
+                        val filteredList = patientList.filter {
+                            it.name.contains(txtSearch, true)
+                        }
+                        showPatients(filteredList)
                     } else {
                         val patientList = patientListViewModel.getPatientList()
                         showPatients(patientList)
                     }
+
+//                    if (!TextUtils.isEmpty(txtSearch)) {
+//                        patientListViewModel.searchPatientsByName(txtSearch)
+//                    } else {
+//                        val patientList = patientListViewModel.getPatientList()
+//                        showPatients(patientList)
+//                    }
                 }
 
                 return false
