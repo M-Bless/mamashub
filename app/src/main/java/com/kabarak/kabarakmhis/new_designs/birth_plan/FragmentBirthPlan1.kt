@@ -51,11 +51,11 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
     private  var day = 0
     private lateinit var calendar : Calendar
 
-    var designationList = arrayOf("","Midwife", "Obstetrician")
+    var designationList = arrayOf("","Midwife", "Obstetrician", "Nurse", "Medical Officer")
     private var spinnerDesignationValue1  = designationList[0]
     private var spinnerDesignationValue2  = designationList[0]
 
-    var relationshipList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
+    var relationshipList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives", "Guardian")
     private var spinnerRshpValue  = relationshipList[0]
 
     var transportList = arrayOf("","Taxi", "Matatu", "Personal vehicle", "Donkey Cart", "Ambulance", "Motorcycle")

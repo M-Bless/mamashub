@@ -3,7 +3,10 @@ package com.kabarak.kabarakmhis.new_designs.previous_pregnancy
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,14 +30,19 @@ import kotlinx.android.synthetic.main.navigation.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
+import java.time.LocalDate
 
 
 class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val formatter = FormatterClass()
 
-    var pregnancyOrderList = arrayOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
+    var pregnancyOrderList = arrayOf("Select Pregnancy Order","1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
     private var spinnerPregnancyValue  = pregnancyOrderList[0]
+
+    var pregnancyOutcomeList = arrayOf("Select Pregnancy outcome","Live birth", "Miscarriage", "Abortion")
+    private var spinnerPregnancyOutCome  = pregnancyOutcomeList[0]
 
     private var observationList = mutableMapOf<String, DbObservationLabel>()
     private lateinit var kabarakViewModel: KabarakViewModel
@@ -77,6 +85,21 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
                 }
             }
         }
+        rootView.deliveryMode.setOnCheckedChangeListener { radioGroup, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
+            val isChecked = checkedRadioButton.isChecked
+            if (isChecked) {
+                val checkedBtn = checkedRadioButton.text.toString()
+                if (checkedBtn == "Cesarean Section") {
+                    //Guide that duration of labour is 0
+                    rootView.etDuration.setText("0")
+                    rootView.etDuration.isEnabled = false
+                } else {
+                    //Guide that duration of labour is not 0
+                    rootView.etDuration.isEnabled = true
+                }
+            }
+        }
         rootView.checkboxLabour.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (isChecked) {
                 changeVisibility(rootView.linearLabour, false)
@@ -84,6 +107,45 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
                 changeVisibility(rootView.linearLabour, true)
             }
         }
+
+        rootView.spinnerPregOutcome.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, p1: View?, position: Int, p3: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+
+                if (selectedItem == "Live birth"){
+                    rootView.linearPregDetails.visibility = View.VISIBLE
+                    rootView.linearBabyDetails.visibility = View.VISIBLE
+                }else{
+                    rootView.linearPregDetails.visibility = View.GONE
+                    rootView.linearBabyDetails.visibility = View.GONE
+                }
+
+                spinnerPregnancyOutCome = selectedItem
+
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
+        rootView.etDuration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isNotEmpty()) {
+
+                    if (spinnerPregnancyOutCome == "Live birth"){
+                        if (s.toString().toInt() == 0) {
+                            rootView.etDuration.error = "Duration of labour cannot 0 hours"
+                        } else {
+                            rootView.etDuration.error = null
+                        }
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
 
         handleNavigation()
@@ -130,27 +192,19 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
             "0"
         }
 
-
-
         val babyWeight = rootView.etBabyWeight.text.toString()
 
-        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(ancTime) && !TextUtils.isEmpty(birthPlace) &&
-            !TextUtils.isEmpty(gestation) && !TextUtils.isEmpty(duration) && !TextUtils.isEmpty(babyWeight)){
+        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(gestation)
+            && spinnerPregnancyOutCome != pregnancyOutcomeList[0]
+            && spinnerPregnancyValue != pregnancyOrderList[0]
+        ){
 
+            Log.e("Pregnancy Value", spinnerPregnancyValue)
 
-            addData("Pregnancy Order",spinnerPregnancyValue, DbObservationValues.PREGNANCY_ORDER.name)
             addData("Year",year, DbObservationValues.YEAR.name)
-            addData("ANC Time",ancTime, DbObservationValues.ANC_NO.name)
-            addData("Child Birth Place",birthPlace, DbObservationValues.CHILDBIRTH_PLACE.name)
+            addData("Pregnancy Order",spinnerPregnancyValue, DbObservationValues.PREGNANCY_ORDER.name)
             addData("Gestation",gestation, DbObservationValues.GESTATION.name)
-            addData("Duration",duration, DbObservationValues.LABOUR_DURATION.name)
-
-            val deliveryMode = formatter.getRadioText(rootView.deliveryMode)
-            if (deliveryMode != ""){
-                addData("Delivery Mode",deliveryMode, DbObservationValues.DELIVERY_MODE.name)
-            }else{
-                errorList.add("Delivery Mode is required.")
-            }
+            addData("Pregnancy Outcome",spinnerPregnancyOutCome, DbObservationValues.PREGNANCY_OUTCOME.name)
 
             for (items in observationList){
 
@@ -166,63 +220,97 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
             }
 
             observationList.clear()
+        }else{
+            if (TextUtils.isEmpty(year)) errorList.add("Please provide an year")
+            if (TextUtils.isEmpty(gestation)) errorList.add("Please provide a Gestation")
+            if (spinnerPregnancyOutCome == pregnancyOutcomeList[0]) errorList.add("Please select a pregnancy outcome.")
+        }
 
-            addData("Baby Weight (grams)",babyWeight, DbObservationValues.BABY_WEIGHT.name)
+        if (rootView.linearPregDetails.visibility == View.VISIBLE){
+            if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(ancTime) && !TextUtils.isEmpty(birthPlace)  && !TextUtils.isEmpty(duration) &&
+                !TextUtils.isEmpty(babyWeight)){
 
-            val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
-            if (radioGrpBabySex != ""){
-                addData("Baby's Sex",radioGrpBabySex, DbObservationValues.BABY_SEX.name)
-            }else{
-                errorList.add("The sex of the baby is required")
-            }
+                addData("ANC Time",ancTime, DbObservationValues.ANC_NO.name)
+                addData("Child Birth Place",birthPlace, DbObservationValues.CHILDBIRTH_PLACE.name)
+                addData("Duration",duration, DbObservationValues.LABOUR_DURATION.name)
 
-            val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
-            if (radioGrpOutcome != ""){
-                addData("Outcome",radioGrpOutcome, DbObservationValues.BABY_OUTCOME.name)
-            }else{
-                errorList.add("Outcome is not selected")
-            }
+                val deliveryMode = formatter.getRadioText(rootView.deliveryMode)
+                if (deliveryMode != ""){
+                    addData("Delivery Mode",deliveryMode, DbObservationValues.DELIVERY_MODE.name)
+                }else{
+                    errorList.add("Delivery Mode is required.")
+                }
 
-            val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
-            if (radioGrpPurperium != ""){
-                addData("Puerperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
+                for (items in observationList){
 
-                if (rootView.linearPurperium.visibility == View.VISIBLE){
-                    val text = rootView.etAbnormal.text.toString()
-                    if (!TextUtils.isEmpty(text)){
-                        addData("If Puerperium is Abnormal, ",text, DbObservationValues.ABNORMAL_BABY_PURPERIUM.name)
-                    }else{
-                        errorList.add("If Puerperium is abnormal, please enter abnormal details")
-                    }
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
+
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, DbSummaryTitle.A_PREGNANCY_DETAILS.name, DbResourceType.Observation.name, label)
+                    dbDataList.add(data)
 
                 }
 
+                observationList.clear()
+
+                addData("Baby Weight (grams)",babyWeight, DbObservationValues.BABY_WEIGHT.name)
+
+                val radioGrpBabySex = formatter.getRadioText(rootView.radioGrpBabySex)
+                if (radioGrpBabySex != ""){
+                    addData("Baby's Sex",radioGrpBabySex, DbObservationValues.BABY_SEX.name)
+                }else{
+                    errorList.add("The sex of the baby is required")
+                }
+
+                val radioGrpOutcome = formatter.getRadioText(rootView.radioGrpOutcome)
+                if (radioGrpOutcome != ""){
+                    addData("Outcome",radioGrpOutcome, DbObservationValues.BABY_OUTCOME.name)
+                }else{
+                    errorList.add("Outcome is not selected")
+                }
+
+                val radioGrpPurperium = formatter.getRadioText(rootView.radioGrpPurperium)
+                if (radioGrpPurperium != ""){
+                    addData("Puerperium",radioGrpPurperium, DbObservationValues.BABY_PURPERIUM.name)
+
+                    if (rootView.linearPurperium.visibility == View.VISIBLE){
+                        val text = rootView.etAbnormal.text.toString()
+                        if (!TextUtils.isEmpty(text)){
+                            addData("If Puerperium is Abnormal, ",text, DbObservationValues.ABNORMAL_BABY_PURPERIUM.name)
+                        }else{
+                            errorList.add("If Puerperium is abnormal, please enter abnormal details")
+                        }
+
+                    }
+
+                }else{
+                    errorList.add("Please select Puerperium")
+                }
+
+                for (items in observationList){
+
+                    val key = items.key
+                    val dbObservationLabel = observationList.getValue(key)
+
+                    val value = dbObservationLabel.value
+                    val label = dbObservationLabel.label
+
+                    val data = DbDataList(key, value, DbSummaryTitle.B_BABY_DETAILS.name, DbResourceType.Observation.name, label)
+                    dbDataList.add(data)
+
+                }
+                observationList.clear()
+
             }else{
-                errorList.add("Please select Puerperium")
+
+                if (TextUtils.isEmpty(ancTime)) errorList.add("Please provide an ANC Time")
+                if (TextUtils.isEmpty(birthPlace)) errorList.add("Please provide a Birth Place")
+                if (TextUtils.isEmpty(duration)) errorList.add("Please provide a Duration")
+                if (TextUtils.isEmpty(babyWeight)) errorList.add("Please provide Baby Weight")
             }
-
-            for (items in observationList){
-
-                val key = items.key
-                val dbObservationLabel = observationList.getValue(key)
-
-                val value = dbObservationLabel.value
-                val label = dbObservationLabel.label
-
-                val data = DbDataList(key, value, DbSummaryTitle.B_BABY_DETAILS.name, DbResourceType.Observation.name, label)
-                dbDataList.add(data)
-
-            }
-            observationList.clear()
-
-        }else{
-
-            if (TextUtils.isEmpty(year)) errorList.add("Please provide an year")
-            if (TextUtils.isEmpty(ancTime)) errorList.add("Please provide an ANC Time")
-            if (TextUtils.isEmpty(birthPlace)) errorList.add("Please provide a Birth Place")
-            if (TextUtils.isEmpty(gestation)) errorList.add("Please provide a Gestation")
-            if (TextUtils.isEmpty(duration)) errorList.add("Please provide a Duration")
-            if (TextUtils.isEmpty(babyWeight)) errorList.add("Please provide Baby Weight")
         }
 
         if (errorList.size == 0) {
@@ -271,19 +359,24 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
 
     private fun initSpinner() {
 
-
         val kinRshp = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, pregnancyOrderList)
         kinRshp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         rootView.spinnerPregOrder!!.adapter = kinRshp
-
         rootView.spinnerPregOrder.onItemSelectedListener = this
+
+
+        val pregnancyOutcome = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, pregnancyOutcomeList)
+        pregnancyOutcome.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        rootView.spinnerPregOutcome!!.adapter = pregnancyOutcome
+        rootView.spinnerPregOutcome.onItemSelectedListener = this
 
 
     }
 
     override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
         when (arg0.id) {
-            R.id.spinnerRshp -> { spinnerPregnancyValue = rootView.spinnerPregOrder.selectedItem.toString() }
+            R.id.spinnerPregOrder -> { spinnerPregnancyValue = rootView.spinnerPregOrder.selectedItem.toString() }
+            R.id.spinnerPregOutcome -> { spinnerPregnancyOutCome = rootView.spinnerPregOutcome.selectedItem.toString() }
             else -> {}
         }
     }
@@ -311,6 +404,9 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
 
                     val pregnancyOrder = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.PREGNANCY_ORDER.name), encounterId)
+
+                    val pregnancyOutcome = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PREGNANCY_OUTCOME.name), encounterId)
 
                     val year = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.YEAR.name), encounterId)
@@ -350,6 +446,10 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
                         if (pregnancyOrder.isNotEmpty()){
                             val value = pregnancyOrder[0].value
                             rootView.spinnerPregOrder.setSelection(pregnancyOrderList.indexOf(value))
+                        }
+                        if (pregnancyOutcome.isNotEmpty()){
+                            val value = pregnancyOutcome[0].value
+                            rootView.spinnerPregOutcome.setSelection(pregnancyOutcomeList.indexOf(value))
                         }
                         if (year.isNotEmpty()){
                             rootView.etYear.setText(year[0].value)

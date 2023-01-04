@@ -26,6 +26,7 @@ enum class DbObservationValues{
     WEIGHT,
     LMP,
     EDD,
+    NATIONALITY,
     RELATIONSHIP,
     GESTATION,
 
@@ -112,6 +113,7 @@ enum class DbObservationValues{
     COMPLICATIONS_EXTERNAL_FGM,
 
     PREGNANCY_ORDER,
+    PREGNANCY_OUTCOME,
     YEAR,
     ANC_NO,
     CHILDBIRTH_PLACE,
@@ -125,6 +127,7 @@ enum class DbObservationValues{
     ABNORMAL_BABY_PURPERIUM,
 
     HB_TEST,
+    HB_REMARKS,
     SPECIFIC_HB_TEST,
     BLOOD_GROUP_TEST,
     SPECIFIC_BLOOD_GROUP_TEST,
@@ -230,6 +233,7 @@ enum class DbObservationValues{
     FOETAL_MOVEMENT,
     NEXT_CURRENT_VISIT,
     NEXT_VISIT_DATE,
+    PALPABLE_FOETAL_MOVEMENT,
 
     TT_PROVIDED,
     TT_RESULTS,

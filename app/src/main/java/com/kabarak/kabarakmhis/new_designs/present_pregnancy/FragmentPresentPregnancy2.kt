@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +41,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
     private val formatter = FormatterClass()
 
-    var presentationList = arrayOf("","Unknown fetal presentation", "Cephalic fetal presentation",
+    var presentationList = arrayOf("Select a presentation","Unknown fetal presentation", "Cephalic fetal presentation",
         "Pelvic fetal presentation", "Transverse fetal presentation", "Other fetal presentation")
     private var spinnerPresentationValue  = presentationList[0]
 
@@ -111,6 +112,27 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         })
 
+        rootView.spinnerPresentation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, p1: View?, position: Int, p3: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+
+                if (selectedItem == "Unknown fetal presentation"){
+                    rootView.linearUnknownPalpable.visibility = View.VISIBLE
+                    rootView.linearKnownPresentation.visibility = View.GONE
+                }else{
+                    rootView.linearUnknownPalpable.visibility = View.GONE
+                    rootView.linearKnownPresentation.visibility = View.VISIBLE
+                }
+
+                spinnerPresentationValue = selectedItem
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
         handleNavigation()
 
         return rootView
@@ -140,45 +162,77 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
         val dbDataList = ArrayList<DbDataList>()
 
         val lieText = formatter.getRadioText(rootView.radioGrpLie)
+
         val foetalMovement = formatter.getRadioText(rootView.radGrpFoetalHeartRate)
 
         val foetalHeartRate = rootView.etFoetalMovement.text.toString()
 
         val date = tvDate.text.toString()
 
-        if (lieText != "" && foetalHeartRate != "" && !TextUtils.isEmpty(foetalMovement)
-            && !TextUtils.isEmpty(date) && spinnerPresentationValue != "") {
-
-            addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
-
-            addData("Lie",lieText, DbObservationValues.LIE.name)
-            addData("Foetal Heart Rate",foetalHeartRate, DbObservationValues.FOETAL_HEART_RATE.name)
-            addData("Foetal Movement",foetalMovement, DbObservationValues.FOETAL_MOVEMENT.name)
+        //Check date
+        if (!TextUtils.isEmpty(date)) {
             addData("Next Visit",date, DbObservationValues.NEXT_VISIT_DATE.name)
+        } else {
+            errorList.add("Date is required")
+        }
 
-            for (items in observationList){
+        if(rootView.linearPalpation.visibility == View.VISIBLE){
 
-                val key = items.key
-                val dbObservationLabel = observationList.getValue(key)
+            val palpation = formatter.getRadioText(rootView.radioGroupPresentation)
 
-                val value = dbObservationLabel.value
-                val label = dbObservationLabel.label
-
-                val data = DbDataList(key, value, DbSummaryTitle.D_PRESENTATION.name, DbResourceType.Observation.name, label)
-                dbDataList.add(data)
-
+            if (palpation != ""){
+                addData("Palpation",palpation, DbObservationValues.PALPABLE_FOETAL_MOVEMENT.name)
+            }else{
+                errorList.add("Palpation is required for foetal heart rate below 12 weeks")
             }
-            observationList.clear()
+        }
 
-        }else{
+        //Check selected presentation
+        if (spinnerPresentationValue != presentationList[1] && spinnerPresentationValue != presentationList[0]){
 
-            if (TextUtils.isEmpty(date)) errorList.add("Next Visit Date is required")
-            if (lieText == "") errorList.add("Lie is required")
-            if (foetalHeartRate == "") errorList.add("Foetal Heart Rate is required")
-            if (foetalMovement == "") errorList.add("Foetal Movement is required")
-            if (spinnerPresentationValue == "") errorList.add("Presentation is required")
+            //Check lie
+            if (!TextUtils.isEmpty(lieText)) {
+                addData("Lie",lieText, DbObservationValues.LIE.name)
+            } else {
+                errorList.add("Lie is required")
+            }
+
+            //Check foetal movement
+            if (!TextUtils.isEmpty(foetalMovement)) {
+                addData("Foetal movement", foetalMovement, DbObservationValues.FOETAL_MOVEMENT.name)
+            } else {
+                errorList.add("Foetal movement is required")
+            }
+
+            //Check foetal heart rate
+            if (!TextUtils.isEmpty(foetalHeartRate)) {
+                addData("Foetal heart rate", foetalHeartRate, DbObservationValues.FOETAL_HEART_RATE.name)
+            } else {
+                errorList.add("Foetal heart rate is required")
+            }
 
         }
+
+
+        if (spinnerPresentationValue != presentationList[0] && spinnerPresentationValue == presentationList[1]){
+            addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
+        }else{
+            if (spinnerPresentationValue == presentationList[0]) errorList.add("Presentation is required")
+        }
+
+        for (items in observationList){
+
+            val key = items.key
+            val dbObservationLabel = observationList.getValue(key)
+
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, DbSummaryTitle.D_PRESENTATION.name, DbResourceType.Observation.name, label)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
 
         if (errorList.size == 0){
             val dbDataDetailsList = ArrayList<DbDataDetails>()
@@ -233,6 +287,26 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         rootView.spinnerPresentation.onItemSelectedListener = this
 
+        //Check for gestation
+        val gestation = formatter.retrieveSharedPreference(requireContext(), "GESTATION")
+        if (gestation != null){
+
+            //Get 1 letter
+            val firstNumber = gestation[0]
+            val secondNumber = gestation[1]
+
+            if (firstNumber.toString() != "" && secondNumber.toString() != ""){
+
+                val thirdNumber = "$firstNumber$secondNumber".trim()
+
+                if (thirdNumber.toInt() < 12){
+                    rootView.linearPalpation.visibility = View.VISIBLE
+                }
+
+
+            }
+
+        }
 
     }
 

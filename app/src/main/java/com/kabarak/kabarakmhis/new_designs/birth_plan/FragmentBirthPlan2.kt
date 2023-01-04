@@ -43,7 +43,7 @@ class FragmentBirthPlan2 : Fragment() , AdapterView.OnItemSelectedListener {
     private lateinit var kabarakViewModel: KabarakViewModel
 
     private lateinit var rootView: View
-    var designationList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives")
+    var designationList = arrayOf("","Spouse", "Child (B)", "Child (R)", "Parent", "Relatives", "Guardian")
     private var spinnerDesignationValue1  = designationList[0]
 
     var bloodGroupList = arrayOf("","A", "AB", "B", "O")

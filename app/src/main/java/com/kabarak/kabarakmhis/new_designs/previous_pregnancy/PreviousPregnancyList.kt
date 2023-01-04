@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,6 +15,7 @@ import com.google.android.fhir.FhirEngine
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.fhir.FhirApplication
 import com.kabarak.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.kabarak.kabarakmhis.helperclass.DbObservationValues
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
 import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.kabarak.kabarakmhis.new_designs.adapter.FhirEncounterAdapter
@@ -75,6 +77,7 @@ class PreviousPregnancyList : AppCompatActivity() {
 
             formatter.deleteSharedPreference(this@PreviousPregnancyList, DbResourceViews.PREVIOUS_PREGNANCY.name)
 
+
             val observationList = patientDetailsViewModel.getObservationFromEncounter(DbResourceViews.PREVIOUS_PREGNANCY.name)
 
             CoroutineScope(Dispatchers.Main).launch {
@@ -90,19 +93,28 @@ class PreviousPregnancyList : AppCompatActivity() {
                 val encounterList = ArrayList<DbFhirEncounter>()
                 observationList.forEachIndexed { index, encounterItem ->
 
-                    val pos = index + 1
-                    val visitNo = formatter.getNumber(pos)
+//                    val pos = index + 1
+//                    val visitNo = formatter.getNumber(pos)
 
-                    val id = encounterItem.id
-                    val encounterName = "$visitNo Pregnancy"
-                    val encounterType = encounterItem.code
+                    val encounterId = encounterItem.id
+                    //Get observation data from the encounter
+                    val observationEncounterList = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.PREGNANCY_ORDER.name), encounterId)
 
-                    val dbFhirEncounter = DbFhirEncounter(
-                        id = id,
-                        encounterName = encounterName,
-                        encounterType = encounterType
-                    )
-                    encounterList.add(dbFhirEncounter)
+                    observationEncounterList.forEach {
+
+                        val value = it.value
+                        val encounterName = "$value Pregnancy"
+                        val encounterType = encounterItem.code
+
+                        val dbFhirEncounter = DbFhirEncounter(
+                            id = encounterId,
+                            encounterName = encounterName,
+                            encounterType = encounterType
+                        )
+                        encounterList.add(dbFhirEncounter)
+
+                    }
 
                 }
 

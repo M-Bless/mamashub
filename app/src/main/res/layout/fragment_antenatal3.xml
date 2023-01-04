@@ -506,7 +506,6 @@
 
                     </LinearLayout>
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/linearMotherHepatitis"
                         android:orientation="vertical"
                         android:layout_width="match_parent"

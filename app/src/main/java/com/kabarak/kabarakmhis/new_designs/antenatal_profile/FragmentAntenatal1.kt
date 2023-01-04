@@ -297,7 +297,7 @@ class FragmentAntenatal1 : Fragment() {
     private fun validateHB(editText: EditText, value: Int){
 
         if (value < 11){
-            editText.setBackgroundColor(resources.getColor(R.color.yellow))
+            editText.setBackgroundColor(resources.getColor(R.color.moderate_risk))
         }else if (value in 11..13){
             editText.setBackgroundColor(resources.getColor(R.color.low_risk))
         }else {
@@ -334,6 +334,11 @@ class FragmentAntenatal1 : Fragment() {
             }
         }else{
             errorList.add("Please make a selection on HB Test")
+        }
+
+        val hbRemarks = rootView.etRemarks.text.toString()
+        if (!TextUtils.isEmpty(hbRemarks)){
+            addData("HB Remarks",hbRemarks, DbObservationValues.HB_REMARKS.name)
         }
 
 
@@ -528,6 +533,9 @@ class FragmentAntenatal1 : Fragment() {
                     val hbTestSpecific = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.SPECIFIC_HB_TEST.name), encounterId)
 
+                    val hbRemarks = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.HB_REMARKS.name), encounterId)
+
                     val bloodGrpTest = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.BLOOD_GROUP_TEST.name), encounterId)
 
@@ -571,6 +579,10 @@ class FragmentAntenatal1 : Fragment() {
                             val newValue = formatter.getValues(value, 7)
 
                             rootView.etHb.setText(newValue)
+                        }
+                        if (hbRemarks.isNotEmpty()){
+                            val value = hbRemarks[0].value
+                            rootView.etRemarks.setText(value)
                         }
 
                         if (bloodGrpTest.isNotEmpty()){

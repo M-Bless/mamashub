@@ -24,6 +24,7 @@ import com.kabarak.kabarakmhis.helperclass.DbSummaryTitle
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
 import com.kabarak.kabarakmhis.new_designs.data_class.*
 import com.kabarak.kabarakmhis.new_designs.roomdb.KabarakViewModel
+import kotlinx.android.synthetic.main.fragment_present_preg_1.*
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.*
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.etDiastolicBp
 import kotlinx.android.synthetic.main.fragment_present_preg_1.view.etGestation
@@ -43,7 +44,7 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
     private val formatter = FormatterClass()
 
-    var contactNumberList = arrayOf("","1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
+    var contactNumberList = arrayOf("","1st", "2nd", "3rd", "4th", "5th", "6th", "7th","8th","9th","10th","11th","12th", "13th")
     private var spinnerContactNumberValue  = contactNumberList[0]
 
     private var observationList = mutableMapOf<String, DbObservationLabel>()
@@ -298,112 +299,109 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
 
         if (!TextUtils.isEmpty(systolic) && !TextUtils.isEmpty(diastolic)
             && !TextUtils.isEmpty(fundalHeight) && !TextUtils.isEmpty(gestation)
-            && !TextUtils.isEmpty(date) && !TextUtils.isEmpty(muac) && spinnerContactNumberValue != ""){
+            && !TextUtils.isEmpty(date) && spinnerContactNumberValue != ""){
 
 
-            if (formatter.validateMuac(muac)){
+            val urineTest = formatter.getRadioText(rootView.radioGrpUrineResults)
+            if (urineTest != ""){
 
-                val urineTest = formatter.getRadioText(rootView.radioGrpUrineResults)
-                if (urineTest != ""){
+                addData("Urine Test Done",urineTest, DbObservationValues.URINALYSIS_TEST.name)
 
-                    addData("Urine Test Done",urineTest, DbObservationValues.URINALYSIS_TEST.name)
+                if (rootView.linearUrine.visibility == View.VISIBLE){
 
-                    if (rootView.linearUrine.visibility == View.VISIBLE){
-
-                        val text = rootView.etUrineResults.text.toString()
-                        if (!TextUtils.isEmpty(text)) {
-                            addData(
-                                "Urine Results",
-                                text,
-                                DbObservationValues.URINALYSIS_RESULTS.name
-                            )
-                        }else{
-                            errorList.add("You selected urine test but did not enter results")
-                        }
-
+                    val text = rootView.etUrineResults.text.toString()
+                    if (!TextUtils.isEmpty(text)) {
+                        addData(
+                            "Urine Results",
+                            text,
+                            DbObservationValues.URINALYSIS_RESULTS.name
+                        )
+                    }else{
+                        errorList.add("You selected urine test but did not enter results")
                     }
 
-                }else{
-                    errorList.add("Urine Results is required")
                 }
-
-                addData("MUAC (cm)",muac, DbObservationValues.MUAC.name)
-                addData("Pregnancy Contact",spinnerContactNumberValue, DbObservationValues.CONTACT_NUMBER.name)
-                for (items in observationList){
-
-                    val key = items.key
-                    val dbObservationLabel = observationList.getValue(key)
-
-                    val value = dbObservationLabel.value
-                    val label = dbObservationLabel.label
-
-                    val data = DbDataList(key, value, DbSummaryTitle.A_CURRENT_PREGNANCY.name, DbResourceType.Observation.name, label)
-                    dbDataList.add(data)
-
-                }
-                observationList.clear()
-
-
-                addData("Systolic Blood Pressure (mmHG)",systolic, DbObservationValues.SYSTOLIC_BP.name)
-                addData("Diastolic Blood Pressure (mmHG)",diastolic, DbObservationValues.DIASTOLIC_BP.name)
-                for (items in observationList){
-
-                    val key = items.key
-                    val dbObservationLabel = observationList.getValue(key)
-
-                    val value = dbObservationLabel.value
-                    val label = dbObservationLabel.label
-
-                    val data = DbDataList(key, value, DbSummaryTitle.B_PRESENT_BLOOD_PRESSURE.name, DbResourceType.Observation.name, label)
-                    dbDataList.add(data)
-
-                }
-                observationList.clear()
-
-                val hbTestValue = formatter.getRadioText(rootView.radioGrpHb)
-                if (hbTestValue != ""){
-
-                    addData("Hb Testing Done",hbTestValue, DbObservationValues.HB_TEST.name)
-                    if (rootView.linearHbReading.visibility == View.VISIBLE){
-
-                        val hbReading = rootView.etHbReading.text.toString()
-                        if (hbReading != ""){
-                            addData("Hb Testing Results",hbReading, DbObservationValues.SPECIFIC_HB_TEST.name)
-                        }else{
-                            errorList.add("Hb Reading is required")
-                        }
-                    }
-
-                }else{
-                    errorList.add("Please select HB test")
-                }
-                val pallor = formatter.getRadioText(rootView.radioGrpPallor)
-                if (pallor != "") {
-                    addData("Pallor", pallor, DbObservationValues.PALLOR.name)
-                }else{
-                    errorList.add("Pallor is required")
-                }
-
-                addData("Gestation (Weeks)",gestation, DbObservationValues.GESTATION.name)
-                addData("Fundal Height (cm)",fundalHeight, DbObservationValues.FUNDAL_HEIGHT.name)
-                addData("Date",date, DbObservationValues.NEXT_CURRENT_VISIT.name)
-                for (items in observationList){
-
-                    val key = items.key
-                    val dbObservationLabel = observationList.getValue(key)
-
-                    val value = dbObservationLabel.value
-                    val label = dbObservationLabel.label
-
-                    val data = DbDataList(key, value, DbSummaryTitle.C_HB_TEST.name, DbResourceType.Observation.name, label)
-                    dbDataList.add(data)
-
-                }
-                observationList.clear()
 
             }else{
-                errorList.add("MUAC is not in the range of 23 - 30 cm")
+                errorList.add("Urine Results is required")
             }
+
+            if (!TextUtils.isEmpty(muac)){
+                addData("MUAC (cm)",muac, DbObservationValues.MUAC.name)
+            }
+
+            addData("Pregnancy Contact",spinnerContactNumberValue, DbObservationValues.CONTACT_NUMBER.name)
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, DbSummaryTitle.A_CURRENT_PREGNANCY.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
+
+
+            addData("Systolic Blood Pressure (mmHG)",systolic, DbObservationValues.SYSTOLIC_BP.name)
+            addData("Diastolic Blood Pressure (mmHG)",diastolic, DbObservationValues.DIASTOLIC_BP.name)
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, DbSummaryTitle.B_PRESENT_BLOOD_PRESSURE.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
+
+            val hbTestValue = formatter.getRadioText(rootView.radioGrpHb)
+            if (hbTestValue != ""){
+
+                addData("Hb Testing Done",hbTestValue, DbObservationValues.HB_TEST.name)
+                if (rootView.linearHbReading.visibility == View.VISIBLE){
+
+                    val hbReading = rootView.etHbReading.text.toString()
+                    if (hbReading != ""){
+                        addData("Hb Testing Results",hbReading, DbObservationValues.SPECIFIC_HB_TEST.name)
+                    }else{
+                        errorList.add("Hb Reading is required")
+                    }
+                }
+
+            }else{
+                errorList.add("Please select HB test")
+            }
+            val pallor = formatter.getRadioText(rootView.radioGrpPallor)
+            if (pallor != "") {
+                addData("Pallor", pallor, DbObservationValues.PALLOR.name)
+            }else{
+                errorList.add("Pallor is required")
+            }
+
+            addData("Gestation (Weeks)",gestation, DbObservationValues.GESTATION.name)
+            addData("Fundal Height (cm)",fundalHeight, DbObservationValues.FUNDAL_HEIGHT.name)
+            addData("Date",date, DbObservationValues.NEXT_CURRENT_VISIT.name)
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, DbSummaryTitle.C_HB_TEST.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
 
 
         }else{
@@ -413,7 +411,6 @@ class FragmentPresentPregnancy1 : Fragment(), AdapterView.OnItemSelectedListener
             if (TextUtils.isEmpty(gestation)) errorList.add("Gestation is required")
             if (TextUtils.isEmpty(fundalHeight)) errorList.add("Fundal Height is required")
             if (TextUtils.isEmpty(date)) errorList.add("Date is required")
-            if (TextUtils.isEmpty(muac)) errorList.add("MUAC is required")
             if (spinnerContactNumberValue == "") errorList.add("Pregnancy Contact is required")
 
         }

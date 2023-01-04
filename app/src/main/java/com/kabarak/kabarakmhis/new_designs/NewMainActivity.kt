@@ -29,7 +29,6 @@ import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.kabarak.kabarakmhis.new_designs.adapter.PatientsListAdapter
 import com.kabarak.kabarakmhis.new_designs.new_patient.RegisterNewPatient
 import com.kabarak.kabarakmhis.new_designs.roomdb.KabarakViewModel
-import kotlinx.android.synthetic.main.activity_new_main.*
 import kotlinx.android.synthetic.main.activity_new_main.btnRegisterPatient
 import kotlinx.android.synthetic.main.activity_new_main.no_record
 import kotlinx.android.synthetic.main.activity_new_main.radioGroup
@@ -108,12 +107,26 @@ class NewMainActivity : AppCompatActivity() {
                 val txtSearch = newText.toString()
 
                 CoroutineScope(Dispatchers.IO).launch {
+
                     if (!TextUtils.isEmpty(txtSearch)) {
-                        patientListViewModel.searchPatientsByName(txtSearch)
+
+                        val patientList = patientListViewModel.getPatientList()
+                        //Filtering the list based on the search text
+                        val filteredList = patientList.filter {
+                            it.name.contains(txtSearch, true)
+                        }
+                        showPatients(filteredList)
                     } else {
                         val patientList = patientListViewModel.getPatientList()
                         showPatients(patientList)
                     }
+
+//                    if (!TextUtils.isEmpty(txtSearch)) {
+//                        patientListViewModel.searchPatientsByName(txtSearch)
+//                    } else {
+//                        val patientList = patientListViewModel.getPatientList()
+//                        showPatients(patientList)
+//                    }
                 }
 
                 return false

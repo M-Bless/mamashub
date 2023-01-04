@@ -356,33 +356,47 @@ class FragmentAntenatal3 : Fragment() {
                 errorList.add("Please enter Syphilis Further counselling")
             }
         }
-        val syphilisStatus = formatter.getRadioText(rootView.radioGrpSyphilisStatus)
-        if (syphilisStatus != "") {
-            addData("Syphilis Status", syphilisStatus , DbObservationValues.SYPHILIS_MOTHER_STATUS.name)
-        }else{
-            errorList.add("Please select Syphilis Status")
+
+        //Mother Syphilis status
+        if(rootView.linearMotherSyphilis.visibility == View.VISIBLE){
+
+            val syphilisStatus = formatter.getRadioText(rootView.radioGrpSyphilisStatus)
+            if (syphilisStatus != "") {
+                addData("Syphilis Status", syphilisStatus , DbObservationValues.SYPHILIS_MOTHER_STATUS.name)
+            }else{
+                errorList.add("Please select Syphilis Status")
+            }
+            for (items in observationList){
+
+                val key = items.key
+                val dbObservationLabel = observationList.getValue(key)
+
+                val value = dbObservationLabel.value
+                val label = dbObservationLabel.label
+
+                val data = DbDataList(key, value, DbSummaryTitle.H_SYPHILIS_TESTING.name, DbResourceType.Observation.name, label)
+                dbDataList.add(data)
+
+            }
+            observationList.clear()
+
         }
-        for (items in observationList){
 
-            val key = items.key
-            val dbObservationLabel = observationList.getValue(key)
-
-            val value = dbObservationLabel.value
-            val label = dbObservationLabel.label
-
-            val data = DbDataList(key, value, DbSummaryTitle.H_SYPHILIS_TESTING.name, DbResourceType.Observation.name, label)
-            dbDataList.add(data)
+        if(rootView.linearHepatitis.visibility == View.VISIBLE){
 
         }
-        observationList.clear()
 
-        val hepatitisB = formatter.getRadioText(rootView.radioGrpHepatitis)
-        if (hepatitisB != "") {
-            addData("Hepatitis Status", hepatitisB, DbObservationValues.HEPATITIS_TESTING.name)
-        }else{
-            errorList.add("Please select Hepatitis Status")
-        }
+
+
         if (rootView.linearHepatitis.visibility == View.VISIBLE) {
+
+            val hepatitisB = formatter.getRadioText(rootView.radioGrpHepatitis)
+            if (hepatitisB != "") {
+                addData("Hepatitis Status", hepatitisB, DbObservationValues.HEPATITIS_TESTING.name)
+            }else{
+                errorList.add("Please select Hepatitis Status")
+            }
+
             val value = rootView.tvHepatitisDate.text.toString()
             if (!TextUtils.isEmpty(value)) {
                 addData("Hepatitis Test Date", value , DbObservationValues.YES_HEPATITIS_RESULTS.name)
@@ -398,12 +412,17 @@ class FragmentAntenatal3 : Fragment() {
                 errorList.add("Please enter Hepatitis Further counselling")
             }
         }
-        val hepatitisStatus = formatter.getRadioText(rootView.radioGrpHepatitisStatus)
-        if (hepatitisStatus != "") {
-            addData("Hepatitis Status", hepatitisStatus , DbObservationValues.HEPATITIS_MOTHER_STATUS.name)
-        }else{
-            errorList.add("Please select Hepatitis Status")
+
+        if (rootView.linearMotherHepatitis.visibility == View.VISIBLE){
+            val hepatitisStatus = formatter.getRadioText(rootView.radioGrpHepatitisStatus)
+            if (hepatitisStatus != "") {
+                addData("Hepatitis Status", hepatitisStatus , DbObservationValues.HEPATITIS_MOTHER_STATUS.name)
+            }else{
+                errorList.add("Please select Hepatitis Status")
+            }
         }
+
+
         for (items in observationList){
 
             val key = items.key

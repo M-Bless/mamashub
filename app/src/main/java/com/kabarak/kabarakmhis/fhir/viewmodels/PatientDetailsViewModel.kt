@@ -520,6 +520,7 @@ class PatientDetailsViewModel(
 
     private suspend fun observationFromEncounter(encounterName: String) : List<EncounterItem>{
 
+        val formatter = FormatterClass()
         val encounter = mutableListOf<EncounterItem>()
 
         /**

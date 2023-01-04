@@ -87,112 +87,212 @@
 
                     </LinearLayout>
 
-
                     <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        
-                        <TextView
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Lie"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                        <RadioGroup
-                            android:id="@+id/radioGrpLie"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/radioLongitudinal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Longitudinal" />
-
-                            <RadioButton
-                                android:id="@+id/radioObligue"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Obligue" />
-
-                            <RadioButton
-                                android:id="@+id/radioTransverse"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Transverse" />
-
-                        </RadioGroup>
-                        
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Foetal movement"
-                            android:gravity="start|center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"/>
-
-                        <RadioGroup
-                            android:layout_marginStart="@dimen/_5dp"
-                            android:id="@+id/radGrpFoetalHeartRate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioMaleBabySex"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Present" />
-
-                            <RadioButton
-                                android:id="@+id/radioFemaleBabySex"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Absent" />
-
-
-                        </RadioGroup>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/_5dp"
+                        android:id="@+id/linearKnownPresentation"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:text="Foetal heart rate"
-                            android:gravity="start|center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"/>
-
-                        <EditText
-                            android:inputType="numberDecimal"
-                            android:id="@+id/etFoetalMovement"
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/edit_outline_trans"
-                            android:hint="" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Lie"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioGroup
+                                android:id="@+id/radioGrpLie"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/radioLongitudinal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Longitudinal" />
+
+                                <RadioButton
+                                    android:id="@+id/radioObligue"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Obligue" />
+
+                                <RadioButton
+                                    android:id="@+id/radioTransverse"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Transverse" />
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Foetal movement"
+                                android:gravity="start|center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"/>
+
+                            <RadioGroup
+                                android:layout_marginStart="@dimen/_5dp"
+                                android:id="@+id/radGrpFoetalHeartRate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/radioMaleBabySex"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Present" />
+
+                                <RadioButton
+                                    android:id="@+id/radioFemaleBabySex"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Absent" />
+
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Foetal heart rate"
+                                android:gravity="start|center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"/>
+
+                            <EditText
+                                android:inputType="numberDecimal"
+                                android:id="@+id/etFoetalMovement"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/linearPalpation"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Palpation"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioGroup
+                                android:id="@+id/radioGrpPalpable"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/radioPalpableMass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Palpable Mass" />
+
+                                <RadioButton
+                                    android:id="@+id/radioNoPalpableMass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="No Palpable Mass" />
+
+                            </RadioGroup>
+
+                        </LinearLayout>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearUnknownPalpable"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupPresentation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <RadioButton
+                                android:id="@+id/radioBtnPalpable"
+                                android:text="Palpable mass felt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioButton
+                                android:id="@+id/radioBtnNoPalpable"
+                                android:text="No palpable mass felt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                        </RadioGroup>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Remarks"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etRemarks"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint=""
+                                android:textColor="@color/black" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_marginTop="@dimen/_5dp"

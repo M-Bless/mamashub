@@ -79,6 +79,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
 
                 val id = patient.id
                 val name = patient.name
+                val kmflDbCode = patient.kmflCode
 
                 val appointmentsList = getAppointmentEncounters(id)
                 val appointment =if (appointmentsList.isNotEmpty()){
@@ -87,8 +88,13 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
                     "-"
                 }
 
-                val dbPatientDetails = DbPatientDetails(id, name, appointment)
-                clientList.add(dbPatientDetails)
+                if (kmflDbCode != null && kmflDbCode != ""){
+                    if (kmflDbCode == kmflCode){
+                        val dbPatientDetails = DbPatientDetails(id, name, appointment)
+                        clientList.add(dbPatientDetails)
+
+                    }
+                }
 
             }
 
@@ -161,7 +167,8 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
             val encounterId = encounterItem.id
             fhirEngine
                 .search<Observation> {
-                    filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"; code = formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name) })})
+                    filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct";
+                        code = formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name) })})
                     filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
                     filter(Observation.SUBJECT, {value = "Patient/$patientId"})
                     sort(Observation.DATE, Order.ASCENDING)
@@ -190,6 +197,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
         search.filter(Patient.ADDRESS_COUNTRY, { value = "KENYA-KABARAK-MHIS6" })
 
     }
+
 
     class FhirFormatterClassViewModelFactory(
         private val application: Application,

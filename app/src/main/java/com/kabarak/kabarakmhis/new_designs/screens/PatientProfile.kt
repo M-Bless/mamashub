@@ -86,9 +86,9 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalProfileChild1 = DbMaternalProfileChild(1.1,resources.getDrawable(R.drawable.register), "Maternal Profile")
         val dbMaternalProfileChild2 = DbMaternalProfileChild(1.2,resources.getDrawable(R.drawable.currentvisits), "Current Visit")
 
-        val dbMaternalProfileChild113 = DbMaternalProfileChild(1.3,resources.getDrawable(R.drawable.currentvisits), "BP Monitoring")
-        val dbMaternalProfileChild114 = DbMaternalProfileChild(1.4,resources.getDrawable(R.drawable.currentvisits), "Upcoming appointments")
-        dbMaternalClientInfoList.addAll(listOf(dbMaternalProfileChild1, dbMaternalProfileChild2, dbMaternalProfileChild113, dbMaternalProfileChild114))
+//        val dbMaternalProfileChild113 = DbMaternalProfileChild(1.3,resources.getDrawable(R.drawable.currentvisits), "BP Monitoring")
+        val dbMaternalProfileChild114 = DbMaternalProfileChild(1.4,resources.getDrawable(R.drawable.upcoming_appointment), "Upcoming appointments")
+        dbMaternalClientInfoList.addAll(listOf(dbMaternalProfileChild1, dbMaternalProfileChild2, dbMaternalProfileChild114))
 
         //History
         val dbMaternalHistoryList = ArrayList<DbMaternalProfileChild>()

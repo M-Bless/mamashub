@@ -24,6 +24,7 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         updatePatientListAndPatientCount { getChwSearchResults() }
     }
 
+
     fun searchPatientsByName(nameQuery: String) {
         updatePatientListAndPatientCount { getChwSearchResults(nameQuery) }
     }
@@ -76,10 +77,6 @@ class ChwPatientListViewModel (application: Application, private val fhirEngine:
         }.mapIndexed { index, serviceRequest ->
             FormatterClass().serviceReferralRequest(serviceRequest, index + 1)
         }.let { referralList.addAll(it) }
-
-        Log.e("---------", "-----")
-        println("searchValue $searchValue")
-        println("referralList $referralList")
 
 
         //Get id of patients from filteredReferralList and get patient details
