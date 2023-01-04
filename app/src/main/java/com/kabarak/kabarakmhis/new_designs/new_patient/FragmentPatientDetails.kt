@@ -232,11 +232,24 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
         val nationality = formatter.getRadioText(rootView.radioGroupNationality)
 
+        var weightValue = 0
+        val weight = rootView.etWeight.text.toString()
+
+
         if (
             !TextUtils.isEmpty(facilityName) && !TextUtils.isEmpty(kmhflCode) &&
             !TextUtils.isEmpty(clientName) && !TextUtils.isEmpty(gravida) &&
             !TextUtils.isEmpty(parity) && !TextUtils.isEmpty(dob) &&
-            spinnerMaritalValue != "" && educationLevelValue != "") {
+            spinnerMaritalValue != "" && educationLevelValue != "" && !TextUtils.isEmpty(weight)) {
+
+            val isWeight = formatter.validateWeight(weight)
+            if (isWeight){
+                weightValue = weight.toInt()
+            }else{
+                rootView.etWeight.error = "Weight should be between 31 and 159 kg."
+            }
+            val weightData = DbDataList("Weight (kg)", weightValue.toString(), DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.WEIGHT.name)
+
 
             val parityGravidaPair = formatter.validateParityGravida(parity, gravida)
             val isParityGravida = parityGravidaPair.first
@@ -330,19 +343,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
                             }
                             val heightData = DbDataList("Height (cm)", healthValue.toString(), DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
-
-                            var weightValue = 0
-                            val weight = rootView.etWeight.text.toString()
-                            if (!TextUtils.isEmpty(weight)){
-                                val isWeight = formatter.validateWeight(weight)
-                                if (isWeight){
-                                    weightValue = weight.toInt()
-                                }else{
-                                    errorList.add("Weight should be between 31 and 159 kg.")
-                                    rootView.etWeight.error = "Invalid weight"
-                                }
-                            }
-                            val weightData = DbDataList("Weight (kg)", weightValue.toString(), DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.WEIGHT.name)
 
                             if (!TextUtils.isEmpty(lmp)){
                                 val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
@@ -457,7 +457,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
             if (TextUtils.isEmpty(rootView.etFacilityName.text.toString())) rootView.etFacilityName.error = "Please enter a valid facility name"
             if (TextUtils.isEmpty(rootView.etKmhflCode.text.toString())) rootView.etKmhflCode.error = "Please enter a valid KMHFL code"
 //            if (TextUtils.isEmpty(rootView.etHeight.text.toString())) rootView.etHeight.error = "Please enter a valid height"
-//            if (TextUtils.isEmpty(rootView.etWeight.text.toString())) rootView.etWeight.error = "Please enter a valid weight"
+            if (TextUtils.isEmpty(rootView.etWeight.text.toString())) rootView.etWeight.error = "Please enter a valid weight"
 //            if (TextUtils.isEmpty(rootView.etLmp.text.toString())) rootView.etLmp.error = "Please enter a valid lmp"
 //            if (TextUtils.isEmpty(rootView.etEdd.text.toString())) rootView.etEdd.error = "Please enter a valid edd"
             if (TextUtils.isEmpty(rootView.etGravida.text.toString())) rootView.etGravida.error = "Please enter a valid gravida"
@@ -636,7 +636,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                                 rootView.spinnerEducation.setSelection(educationLevelList.indexOf(valueNo))
                             }
                             if (maritalStatus != ""){
-                                Log.e("maritalStatus", maritalStatus)
                                 rootView.spinnerMarital.setSelection(maritalStatusList.indexOf(maritalStatus))
                             }
                             if (dob != ""){
@@ -690,7 +689,7 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 val datePickerDialog = DatePickerDialog( requireContext(),
                     myDateDobListener, year, month, day)
 
-                val tenYearsAgo = TimeUnit.DAYS.toMillis(365 * 11)
+                val tenYearsAgo = TimeUnit.DAYS.toMillis(365 * 10)
                 val fiftyYearsAgo = TimeUnit.DAYS.toMillis(365 * 50)
 
                 datePickerDialog.datePicker.maxDate = System.currentTimeMillis().minus(tenYearsAgo)
