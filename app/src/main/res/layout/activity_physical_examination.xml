@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    tools:context=".new_designs.physical_examination.PhysicalExamination">
+
+    <FrameLayout
+        android:id="@+id/fragmentHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <ScrollView
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:background="@drawable/layout_dotted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Physical Examination"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TableLayout
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="General Examination "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etExam"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Systolic blood pressure "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etSysolicBp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Diastolic blood pressure "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etDiastolicBp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pulse rate "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etPulseRate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CVs "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etCVs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Respiratory"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etRespiratory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                        <Spinner
+                            android:visibility="gone"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:layout_weight="1"
+                            android:id="@+id/spinnerRespiratory"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edit_outline_trans"
+                            android:spinnerMode="dialog" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Oximetry "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etOximetry"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Breasts"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etBreasts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                        <Spinner
+                            android:visibility="gone"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:layout_weight="1"
+                            android:id="@+id/spinnerBreasts"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edit_outline_trans"
+                            android:spinnerMode="dialog" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Abdomen"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etAbdomen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                        <Spinner
+                            android:visibility="gone"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:layout_weight="1"
+                            android:id="@+id/spinnerAbdomen"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edit_outline_trans"
+                            android:spinnerMode="dialog" />
+
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="External genitalia "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etExternalGenitelia"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+                    <TableRow>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Discharge/genital Ulcer "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:layout_weight="1"
+                            android:id="@+id/etDischargeUlcer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </TableRow>
+
+
+                </TableLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:backgroundTint="@color/cancel"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:backgroundTint="@color/save"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_weight="1"
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

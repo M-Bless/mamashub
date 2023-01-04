@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/refreshLayout"
+    tools:context=".new_designs.chw.PatientList">
+
+    <LinearLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:text="Client Records"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btnRegisterPatient"
+                android:textAllCaps="false"
+                android:text="Record New Client"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:orientation="horizontal"
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/facility_to_facility"
+                    android:id="@+id/radioBtnToFacility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:text="@string/facility_from_facility"
+                    android:id="@+id/radioBtnSpecialist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </RadioGroup>
+
+            <androidx.appcompat.widget.SearchView
+                android:layout_marginTop="@dimen/_5dp"
+                android:id="@+id/search_round"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_round"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="@string/query_hint_patient_search" />
+
+
+        </LinearLayout>
+
+        <include
+            android:visibility="gone"
+            android:id="@+id/no_record"
+            layout="@layout/no_record" />
+
+        <LinearLayout
+            android:layout_margin="@dimen/_5dp"
+            android:background="@drawable/layout_dotted"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:visibility="gone"
+                android:gravity="center"
+                android:id="@+id/patient_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 Client" />
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_5dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:text="#"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_marginStart="15dp"
+                    android:text="Client name"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_marginEnd="@dimen/_15dp"
+                    android:layout_marginStart="15dp"
+                    android:text="DOB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginStart="15dp"
+                    android:textStyle="bold"
+                    android:text="Referral Date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/patient_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager"
+                tools:context=".PatientListActivity"
+                tools:listitem="@layout/chw_client_list" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

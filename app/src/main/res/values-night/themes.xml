@@ -1,0 +1,47 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.KabarakMHIS" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/primary_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/textColor</item>
+
+        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/black</item>
+        <item name="colorControlNormal">@android:color/black</item>
+        <item name="android:editTextColor">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="radioButtonStyle">@style/MyRadioButton</item>
+        <item name="checkboxStyle">@style/checkboxStyle</item>
+        <item name="android:datePickerDialogTheme">@style/my_dialog_theme</item>
+
+    </style>
+
+    <style name="my_dialog_theme" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>                   <!--header background-->
+        <item name="android:windowBackground">@color/white</item>     <!--calendar background-->
+        <item name="android:colorControlActivated">@color/primary</item> <!--selected day-->
+        <item name="android:textColorPrimary">@color/black</item> <!--days of the month-->
+        <item name="android:textColorSecondary">@color/black</item>    <!--days of the week-->
+    </style>
+
+
+    <style name="MyRadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+    <style name="checkboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+    <style name="searchView" parent="Base.Widget.AppCompat.SearchView">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+</resources>

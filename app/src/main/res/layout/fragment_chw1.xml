@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/_5dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_50dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                            <TextView
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Client Data:"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Name"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                 />
+
+                            <EditText
+                                android:id="@+id/etPatientName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_weight="1"
+                                android:text="Sex"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+
+                            <CheckBox
+                                android:id="@+id/checkboxNoPast"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Female" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Date of birth"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+                            <TextView
+                                app:drawableEndCompat="@drawable/ic_action_date"
+                                android:id="@+id/tvDob"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint=""
+                                android:textColor="@color/black" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textColor="@android:color/holo_red_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="* "
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Community Health Facilty Details"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Name of community health unit"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etCommunityHealthUnit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Name of link health facility"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etHealthFacility"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Reason(s) for referral"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etReferralReason"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Main Problem(s)"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etMainProblem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Danger signs and symptoms"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+
+                            <Spinner
+                                android:id="@+id/spinnerDangerSigns"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:spinnerMode="dialog" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Intervention given"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etIntervention"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Comments"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etComments"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Receiving Officer"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_marginTop="10dp"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Name of officer"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                    />
+
+                                <EditText
+                                    android:id="@+id/etOfficerName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edit_outline_trans"
+                                    android:hint="" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="10dp"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Action taken"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                    />
+
+                                <EditText
+                                    android:id="@+id/etActionTaken"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edit_outline_trans"
+                                    android:hint="" />
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
+
+</RelativeLayout>

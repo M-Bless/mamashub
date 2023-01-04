@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/_5dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/userView"
+                layout="@layout/user_details" />
+
+            <include
+                android:visibility="gone"
+                android:id="@+id/progress_bar"
+                layout="@layout/progress_bar" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_50dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pregnancy Details"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pregnancy Order"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                             />
+
+                        <Spinner
+                            android:id="@+id/spinnerPregOrder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:spinnerMode="dialog" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Year"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                             />
+
+                        <EditText
+                            android:inputType="number"
+                            android:id="@+id/etYear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pregnancy Outcome"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <Spinner
+                            android:id="@+id/spinnerPregOutcome"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:spinnerMode="dialog" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearGestation"
+                        android:layout_marginTop="@dimen/_15dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Gestation ( weeks )."
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <EditText
+                            android:inputType="numberDecimal"
+                            android:id="@+id/etGestation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linearPregDetails"
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_marginTop="15dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="No. of times ANC attended for every pregnancy."
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:inputType="number"
+                                android:id="@+id/etVisitTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Place of birth."
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <EditText
+                                android:id="@+id/etPlaceOfChildBirth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/edit_outline_trans"
+                                android:hint="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Duration of labour (hours)"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                />
+
+                            <CheckBox
+                                android:id="@+id/checkboxLabour"
+                                android:text="No Labour"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_marginTop="@dimen/_5dp"
+                                android:id="@+id/linearLabour"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:inputType="numberDecimal"
+                                    android:id="@+id/etDuration"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edit_outline_trans"
+                                    android:hint="Duration of labour" />
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5dp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Mode of delivery"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <RadioGroup
+                                android:id="@+id/deliveryMode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <RadioButton
+                                    android:id="@+id/radioYesVaginal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Vaginal Delivery" />
+
+                                <RadioButton
+                                    android:id="@+id/radioYesAssistedVaginal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Assisted Vaginal Delivery" />
+
+                                <RadioButton
+                                    android:id="@+id/radioNoCs"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Cesarean Section" />
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearBabyDetails"
+                    android:background="@drawable/layout_dotted"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@android:color/holo_red_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* "
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            />
+
+                        <TextView
+                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Baby Details"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textColor="@color/black"
+                            />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Birth Weight (grams)"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                             />
+
+                        <EditText
+                            android:inputType="number"
+                            android:id="@+id/etBabyWeight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+
+                            <TextView
+                                android:layout_weight="1"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Baby Sex"
+                                android:gravity="start|center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"/>
+
+                            <RadioGroup
+                                android:layout_marginStart="@dimen/_5dp"
+                                android:id="@+id/radioGrpBabySex"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/radioMaleBabySex"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Male" />
+
+                                <RadioButton
+                                    android:id="@+id/radioFemaleBabySex"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Female" />
+
+
+                            </RadioGroup>
+
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Outcome"
+                                android:layout_weight="1"
+                                android:gravity="start|center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                            <RadioGroup
+                                android:layout_marginStart="@dimen/_5dp"
+                                android:id="@+id/radioGrpOutcome"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/radioDeadOutcome"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Dead" />
+
+                                <RadioButton
+                                    android:id="@+id/radioAliveOutcome"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Alive" />
+
+
+                            </RadioGroup>
+
+                        </TableRow>
+
+                        <TableRow>
+
+                            <TextView
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:text="Puerperium"
+                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"/>
+
+                            <RadioGroup
+                                android:layout_marginStart="@dimen/_5dp"
+                                android:id="@+id/radioGrpPurperium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/radioNormal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Normal" />
+
+                                <RadioButton
+                                    android:id="@+id/radioAbnormal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Abnormal" />
+
+
+                            </RadioGroup>
+
+                        </TableRow>
+
+
+                    </TableLayout>
+
+
+
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/linearPurperium"
+                        android:layout_marginTop="@dimen/_5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="If abnormal, Specify"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                             />
+
+                        <EditText
+                            android:id="@+id/etAbnormal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_outline_trans"
+                            android:hint="" />
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/navigation"
+        layout="@layout/navigation" />
+
+
+
+
+</RelativeLayout>
