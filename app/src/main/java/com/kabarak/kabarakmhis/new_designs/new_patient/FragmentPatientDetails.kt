@@ -106,11 +106,16 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                     val age = s.toString().toInt()
                     if (age > 10){
 
-                        val dob = LocalDate.now().minusYears(age.toLong())
-                        //Get the year from the date
-                        val year = dob.year
-                        val approximateDob = "$year-01-01"
-                        rootView.etDoB.text = approximateDob.toString()
+                        //Check if checkboxApproximateAge is checked
+                        if (rootView.checkboxApproximateAge.isChecked){
+                            val dob = LocalDate.now().minusYears(age.toLong())
+                            //Get the year from the date
+                            val year = dob.year
+                            val approximateDob = "$year-01-01"
+                            rootView.etDoB.text = approximateDob.toString()
+                        }
+
+
 
                     }else{
                         rootView.etAge.error = "Age must be greater than 10"
@@ -705,7 +710,6 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 datePickerDialog.datePicker.minDate = System.currentTimeMillis().minus(fourtyWeeksAgo)
                 datePickerDialog.show()
 
-                datePickerDialog.show()
 
             }
             else -> null

@@ -3,7 +3,9 @@ package com.kabarak.kabarakmhis.new_designs.previous_pregnancy
 import android.app.Application
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,18 +25,20 @@ import com.kabarak.kabarakmhis.helperclass.FormatterClass
 import com.kabarak.kabarakmhis.new_designs.data_class.*
 import com.kabarak.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.*
+import kotlinx.android.synthetic.main.fragment_prev_pregnancy.view.navigation
 import kotlinx.android.synthetic.main.navigation.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
+import java.time.LocalDate
 
 
 class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val formatter = FormatterClass()
 
-    var pregnancyOrderList = arrayOf("1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
+    var pregnancyOrderList = arrayOf("Select Pregnancy Order","1st", "2nd", "3rd", "4th", "5th", "6th", "7th")
     private var spinnerPregnancyValue  = pregnancyOrderList[0]
 
     var pregnancyOutcomeList = arrayOf("Select Pregnancy outcome","Live birth", "Miscarriage", "Abortion")
@@ -126,6 +130,23 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
             }
         }
 
+        rootView.etDuration.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString().isNotEmpty()) {
+
+                    if (spinnerPregnancyOutCome == "Live birth"){
+                        if (s.toString().toInt() == 0) {
+                            rootView.etDuration.error = "Duration of labour cannot 0 hours"
+                        } else {
+                            rootView.etDuration.error = null
+                        }
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
 
         handleNavigation()
 
@@ -173,7 +194,13 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
 
         val babyWeight = rootView.etBabyWeight.text.toString()
 
-        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(gestation) && spinnerPregnancyOutCome != pregnancyOutcomeList[0]){
+        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(gestation)
+            && spinnerPregnancyOutCome != pregnancyOutcomeList[0]
+            && spinnerPregnancyValue != pregnancyOrderList[0]
+        ){
+
+            Log.e("Pregnancy Value", spinnerPregnancyValue)
+
             addData("Year",year, DbObservationValues.YEAR.name)
             addData("Pregnancy Order",spinnerPregnancyValue, DbObservationValues.PREGNANCY_ORDER.name)
             addData("Gestation",gestation, DbObservationValues.GESTATION.name)
@@ -348,7 +375,7 @@ class  FragmentPreviousPregnancy : Fragment(), AdapterView.OnItemSelectedListene
 
     override fun onItemSelected(arg0: AdapterView<*>, p1: View?, p2: Int, p3: Long) {
         when (arg0.id) {
-            R.id.spinnerRshp -> { spinnerPregnancyValue = rootView.spinnerPregOrder.selectedItem.toString() }
+            R.id.spinnerPregOrder -> { spinnerPregnancyValue = rootView.spinnerPregOrder.selectedItem.toString() }
             R.id.spinnerPregOutcome -> { spinnerPregnancyOutCome = rootView.spinnerPregOutcome.selectedItem.toString() }
             else -> {}
         }

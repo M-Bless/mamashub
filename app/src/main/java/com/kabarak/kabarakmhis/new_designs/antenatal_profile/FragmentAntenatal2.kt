@@ -127,10 +127,10 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
             val isChecked = checkedRadioButton.isChecked
             if (isChecked) {
                 val checkedBtn = checkedRadioButton.text.toString()
-                if (checkedBtn == "Positive") {
+                if (checkedBtn == "Signs") {
                     changeVisibility(rootView.linearPositive, true)
                     changeVisibility(rootView.linearNegative, false)
-                } else if (checkedBtn == "Negative")  {
+                } else if (checkedBtn == "No Signs")  {
                     changeVisibility(rootView.linearPositive, false)
                     changeVisibility(rootView.linearNegative, true)
                 }else{

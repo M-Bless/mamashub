@@ -162,54 +162,77 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
         val dbDataList = ArrayList<DbDataList>()
 
         val lieText = formatter.getRadioText(rootView.radioGrpLie)
+
         val foetalMovement = formatter.getRadioText(rootView.radGrpFoetalHeartRate)
 
         val foetalHeartRate = rootView.etFoetalMovement.text.toString()
 
         val date = tvDate.text.toString()
 
+        //Check date
+        if (!TextUtils.isEmpty(date)) {
+            addData("Next Visit",date, DbObservationValues.NEXT_VISIT_DATE.name)
+        } else {
+            errorList.add("Date is required")
+        }
+
         if(rootView.linearPalpation.visibility == View.VISIBLE){
-            val palpation = formatter.getRadioText(rootView.radioGrpPalpable)
-            if (!TextUtils.isEmpty(palpation)){
+
+            val palpation = formatter.getRadioText(rootView.radioGroupPresentation)
+
+            if (palpation != ""){
                 addData("Palpation",palpation, DbObservationValues.PALPABLE_FOETAL_MOVEMENT.name)
             }else{
                 errorList.add("Palpation is required for foetal heart rate below 12 weeks")
             }
         }
 
-        if (lieText != "" && foetalHeartRate != "" && !TextUtils.isEmpty(foetalMovement)
-            && !TextUtils.isEmpty(date) && spinnerPresentationValue != presentationList[0]) {
+        //Check selected presentation
+        if (spinnerPresentationValue != presentationList[1] && spinnerPresentationValue != presentationList[0]){
 
-            addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
-
-            addData("Lie",lieText, DbObservationValues.LIE.name)
-            addData("Foetal Heart Rate",foetalHeartRate, DbObservationValues.FOETAL_HEART_RATE.name)
-            addData("Foetal Movement",foetalMovement, DbObservationValues.FOETAL_MOVEMENT.name)
-            addData("Next Visit",date, DbObservationValues.NEXT_VISIT_DATE.name)
-
-            for (items in observationList){
-
-                val key = items.key
-                val dbObservationLabel = observationList.getValue(key)
-
-                val value = dbObservationLabel.value
-                val label = dbObservationLabel.label
-
-                val data = DbDataList(key, value, DbSummaryTitle.D_PRESENTATION.name, DbResourceType.Observation.name, label)
-                dbDataList.add(data)
-
+            //Check lie
+            if (!TextUtils.isEmpty(lieText)) {
+                addData("Lie",lieText, DbObservationValues.LIE.name)
+            } else {
+                errorList.add("Lie is required")
             }
-            observationList.clear()
 
-        }else{
+            //Check foetal movement
+            if (!TextUtils.isEmpty(foetalMovement)) {
+                addData("Foetal movement", foetalMovement, DbObservationValues.FOETAL_MOVEMENT.name)
+            } else {
+                errorList.add("Foetal movement is required")
+            }
 
-            if (TextUtils.isEmpty(date)) errorList.add("Next Visit Date is required")
-            if (lieText == "") errorList.add("Lie is required")
-            if (foetalHeartRate == "") errorList.add("Foetal Heart Rate is required")
-            if (foetalMovement == "") errorList.add("Foetal Movement is required")
-            if (spinnerPresentationValue == presentationList[0]) errorList.add("Presentation is required")
+            //Check foetal heart rate
+            if (!TextUtils.isEmpty(foetalHeartRate)) {
+                addData("Foetal heart rate", foetalHeartRate, DbObservationValues.FOETAL_HEART_RATE.name)
+            } else {
+                errorList.add("Foetal heart rate is required")
+            }
 
         }
+
+
+        if (spinnerPresentationValue != presentationList[0] && spinnerPresentationValue == presentationList[1]){
+            addData("Presentation",spinnerPresentationValue, DbObservationValues.PRESENTATION.name)
+        }else{
+            if (spinnerPresentationValue == presentationList[0]) errorList.add("Presentation is required")
+        }
+
+        for (items in observationList){
+
+            val key = items.key
+            val dbObservationLabel = observationList.getValue(key)
+
+            val value = dbObservationLabel.value
+            val label = dbObservationLabel.label
+
+            val data = DbDataList(key, value, DbSummaryTitle.D_PRESENTATION.name, DbResourceType.Observation.name, label)
+            dbDataList.add(data)
+
+        }
+        observationList.clear()
 
         if (errorList.size == 0){
             val dbDataDetailsList = ArrayList<DbDataDetails>()

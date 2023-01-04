@@ -14,6 +14,7 @@ import com.google.android.fhir.FhirEngine
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.fhir.FhirApplication
 import com.kabarak.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
+import com.kabarak.kabarakmhis.helperclass.DbObservationValues
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
 import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import com.kabarak.kabarakmhis.new_designs.adapter.FhirEncounterAdapter
@@ -91,19 +92,29 @@ class PresentPregnancyList : AppCompatActivity() {
                 val encounterList = ArrayList<DbFhirEncounter>()
                 observationList.forEachIndexed { index, encounterItem ->
 
-                    val pos = index + 1
-                    val visitNo = formatter.getNumber(pos)
+//                    val pos = index + 1
+//                    val visitNo = formatter.getNumber(pos)
 
-                    val id = encounterItem.id
-                    val encounterName = "$visitNo Contact"
-                    val encounterType = encounterItem.code
+                    val encounterId = encounterItem.id
 
-                    val dbFhirEncounter = DbFhirEncounter(
-                        id = id,
-                        encounterName = encounterName,
-                        encounterType = encounterType
-                    )
-                    encounterList.add(dbFhirEncounter)
+                    //Get observation data from the encounter
+                    val observationEncounterList = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                        formatter.getCodes(DbObservationValues.CONTACT_NUMBER.name), encounterId)
+
+                    observationEncounterList.forEach {
+
+                        val value = it.value
+                        val encounterName = "$value Contact"
+                        val encounterType = encounterItem.code
+
+                        val dbFhirEncounter = DbFhirEncounter(
+                            id = encounterId,
+                            encounterName = encounterName,
+                            encounterType = encounterType
+                        )
+                        encounterList.add(dbFhirEncounter)
+
+                    }
 
                 }
 

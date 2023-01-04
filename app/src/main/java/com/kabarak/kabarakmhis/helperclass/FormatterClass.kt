@@ -793,6 +793,8 @@ class FormatterClass {
 
     fun getRadioText(radioGroup: RadioGroup?): String {
 
+
+
         return if (radioGroup != null){
             val checkedId = radioGroup.checkedRadioButtonId
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
