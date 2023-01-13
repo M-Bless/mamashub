@@ -184,7 +184,7 @@ class WeightMonitoringChart : AppCompatActivity() {
     private fun getPersonalData() {
 
         val identifier = formatter.retrieveSharedPreference(this, "identifier")
-        val patientName = formatter.retrieveSharedPreference(this, "names")
+        val patientName = formatter.retrieveSharedPreference(this, "patientName")
         val dob = formatter.retrieveSharedPreference(this, "dob")
 
         if (identifier != null) tvAncId.text = identifier

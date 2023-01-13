@@ -208,7 +208,9 @@ class FormatterClass {
                 }else{
                     if (id == "ANC_NUMBER"){
                         //Get the digits before '-'
-                        kmflCode = value.substringBefore('-')
+                        if (value != null) {
+                            kmflCode = value.substringBefore('-')
+                        }
                     }
                 }
 

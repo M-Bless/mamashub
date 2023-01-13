@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_new_main.radioGroup
 import kotlinx.android.synthetic.main.activity_new_main.refreshLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -90,6 +91,12 @@ class NewMainActivity : AppCompatActivity() {
 
         btnRegisterPatient.setOnClickListener {
             startActivity(Intent(this, RegisterNewPatient::class.java))
+            //Clear Data
+            CoroutineScope(Dispatchers.IO).launch {
+                delay(1000)
+            }
+
+
         }
 
         etSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
