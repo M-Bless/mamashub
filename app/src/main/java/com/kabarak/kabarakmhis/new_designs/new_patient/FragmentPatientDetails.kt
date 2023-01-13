@@ -103,7 +103,8 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         rootView.etAge.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 if (s.toString().isNotEmpty()){
-                    val age = s.toString().toInt()
+
+                    val age = s.toString().trim().toInt()
                     if (age > 10){
 
                         //Check if checkboxApproximateAge is checked

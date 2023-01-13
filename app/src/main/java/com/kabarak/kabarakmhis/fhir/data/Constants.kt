@@ -5,11 +5,11 @@ import androidx.annotation.ColorInt
 
 object Constants {
 
-//    const val DEMO_API_SERVER="https://devnndak.intellisoftkenya.com/api/"
-//    const val DEMO_SERVER="https://devhmis.intellisoftkenya.com/fhir/"
+    const val DEMO_API_SERVER="https://devnndak.intellisoftkenya.com/api/"
+    const val DEMO_SERVER="https://devhmis.intellisoftkenya.com/fhir/"
 
-    const val DEMO_API_SERVER="https://api.mamashub.co.ke/"
-    const val DEMO_SERVER="https://api.mamashub.co.ke/fhir/"
+//    const val DEMO_API_SERVER="https://api.mamashub.co.ke/"
+//    const val DEMO_SERVER="https://api.mamashub.co.ke/fhir/"
 
 
     const val WELCOME = "welcome"

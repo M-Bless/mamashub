@@ -178,7 +178,7 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         if(rootView.linearPalpation.visibility == View.VISIBLE){
 
-            val palpation = formatter.getRadioText(rootView.radioGroupPresentation)
+            val palpation = formatter.getRadioText(rootView.radioGrpPalpable)
 
             if (palpation != ""){
                 addData("Palpation",palpation, DbObservationValues.PALPABLE_FOETAL_MOVEMENT.name)
