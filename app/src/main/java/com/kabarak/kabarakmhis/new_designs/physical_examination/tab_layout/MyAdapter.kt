@@ -16,7 +16,7 @@ internal class MyAdapter(
         return when (position) {
 
             0 -> { FragmentPhysicalExam1Form() }
-            1 -> { FragmentWatchReadings() }
+            //1 -> { FragmentWatchReadings() }
 
             else -> getItem(position)
         }
