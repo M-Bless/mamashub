@@ -77,6 +77,10 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
 
                 7.1 -> { context.startActivity(Intent(context, ReferralView::class.java)) }
 
+                8.1 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                8.2 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                8.3 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                8.4 -> { context.startActivity(Intent(context, ReferralView::class.java))}
 
             }
 
