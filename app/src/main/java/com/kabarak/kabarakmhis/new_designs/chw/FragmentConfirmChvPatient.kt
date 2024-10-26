@@ -272,8 +272,7 @@ class FragmentConfirmChvPatient : Fragment(){
 
     private fun addQuestionnaireFragment(){
         val fragment = QuestionnaireFragment()
-        fragment.arguments =
-            bundleOf(QuestionnaireFragment.EXTRA_QUESTIONNAIRE_JSON_STRING to viewModel.questionnaire)
+        fragment.arguments = bundleOf(QuestionnaireUtil.getExtraQuestionnaireJsonString() to viewModel.questionnaire)
         childFragmentManager.commit {
             add(R.id.add_patient_container, fragment, QUESTIONNAIRE_FRAGMENT_TAG)
         }

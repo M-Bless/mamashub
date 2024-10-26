@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.kabarak.kabarakmhis"
@@ -85,6 +85,7 @@ dependencies {
 //    implementation("com.google.android.fhir:engine:0.1.0-beta02")
     implementation("com.google.android.fhir:engine:0.1.0-beta01")
     implementation("com.google.android.fhir:data-capture:0.1.0-beta05")
+//    implementation("com.google.android.fhir:data-capture:1.0.0")
 //    implementation("com.google.android.fhir:data-capture:0.1.0-beta03")
 //    implementation 'ca.uhn.hapi.fhir:hapi-fhir-client:5.6.2'
 

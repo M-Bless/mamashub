@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
@@ -72,4 +73,12 @@ fun MaterialShapeDrawable.applyStrokeColor(): MaterialShapeDrawable {
     fillColor = ColorStateList.valueOf(FILL_COLOR)
     strokeColor = ColorStateList.valueOf(STROKE_COLOR)
     return this
+}
+
+object QuestionnaireUtil {
+    fun getExtraQuestionnaireJsonString(): String {
+        val field = QuestionnaireFragment::class.java.getDeclaredField("EXTRA_QUESTIONNAIRE_JSON_STRING")
+        field.isAccessible = true
+        return field.get(null) as String
+    }
 }

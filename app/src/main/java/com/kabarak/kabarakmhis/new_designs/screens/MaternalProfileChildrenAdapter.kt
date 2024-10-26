@@ -27,6 +27,7 @@ import com.kabarak.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyLis
 import com.kabarak.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList
 import com.kabarak.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceList
 import com.kabarak.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
+import com.kabarak.kabarakmhis.pnc.ChildBirthView
 
 
 class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternalProfileChild>,
@@ -77,7 +78,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
 
                 7.1 -> { context.startActivity(Intent(context, ReferralView::class.java)) }
 
-                8.1 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                8.1 -> { context.startActivity(Intent(context, ChildBirthView::class.java))}
                 8.2 -> { context.startActivity(Intent(context, ReferralView::class.java))}
                 8.3 -> { context.startActivity(Intent(context, ReferralView::class.java))}
                 8.4 -> { context.startActivity(Intent(context, ReferralView::class.java))}

@@ -4,10 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        tools:replace="android:allowBackup"
-        android:name="com.kabarak.kabarakmhis.fhir.FhirApplication"
+        android:name=".fhir.FhirApplication"
         android:allowBackup="false"
         android:fullBackupOnly="false"
         android:icon="@mipmap/ic_icon_logo"
@@ -16,204 +16,211 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KabarakMHIS"
         android:usesCleartextTraffic="true"
-        android:windowSoftInputMode="adjustPan">
+        android:windowSoftInputMode="adjustPan"
+        tools:replace="android:allowBackup">
         <activity
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile"
-            android:name="com.kabarak.kabarakmhis.new_designs.screens.UpcomingAppointments"
+            android:name=".pnc.ChildAdd"
             android:exported="false" />
         <activity
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile"
-            android:name="com.kabarak.kabarakmhis.new_designs.screens.BpMonitoring"
+            android:name=".pnc.ChildBirthView"
             android:exported="false" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.chw.ChwClientDetails"
+            android:name=".new_designs.screens.UpcomingAppointments"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.chw.PatientList" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.screens.Summary"
+            android:name=".new_designs.screens.BpMonitoring"
+            android:exported="false"
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
+        <activity
+            android:name=".new_designs.chw.ChwClientDetails"
+            android:exported="false"
+            android:parentActivityName=".new_designs.chw.PatientList" />
+        <activity
+            android:name=".new_designs.screens.Summary"
             android:exported="false" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.screens.PatientDetails"
+            android:name=".new_designs.screens.PatientDetails"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.chw.referral.ReferralAdd"
+            android:name=".new_designs.chw.referral.ReferralAdd"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.chw.referral.ReferralView" />
+            android:parentActivityName=".new_designs.chw.referral.ReferralView" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.chw.referral.ReferralView"
+            android:name=".new_designs.chw.referral.ReferralView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.screens.ConfirmPage"
+            android:name=".new_designs.screens.ConfirmPage"
             android:exported="false" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.counselling.CounsellingView"
+            android:name=".new_designs.counselling.CounsellingView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.counselling.Counselling"
+            android:name=".new_designs.counselling.Counselling"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.pmtct.PMTCTInterventionsView"
+            android:name=".new_designs.pmtct.PMTCTInterventionsView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.pmtct.PMTCTInterventions"
+            android:name=".new_designs.pmtct.PMTCTInterventions"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.deworming.DewormingView"
+            android:name=".new_designs.deworming.DewormingView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.deworming.Deworming"
+            android:name=".new_designs.deworming.Deworming"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.ifas.IfasView2"
+            android:name=".new_designs.ifas.IfasView2"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.ifas.Ifas"
+            android:name=".new_designs.ifas.Ifas"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.ifas.IfasList"
+            android:name=".new_designs.ifas.IfasList"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.matenal_serology.MaternalSerologyView"
+            android:name=".new_designs.matenal_serology.MaternalSerologyView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.matenal_serology.MaternalSerology"
+            android:name=".new_designs.matenal_serology.MaternalSerology"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisView"
+            android:name=".new_designs.malaria_propylaxis.MalariaProphylaxisView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxisList"
+            android:name=".new_designs.malaria_propylaxis.MalariaProphylaxisList"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.malaria_propylaxis.MalariaProphylaxis"
+            android:name=".new_designs.malaria_propylaxis.MalariaProphylaxis"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceView"
+            android:name=".new_designs.tetanus_diptheria.PreventiveServiceView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.tetanus_diptheria.PreventiveService"
+            android:name=".new_designs.tetanus_diptheria.PreventiveService"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceList"
+            android:name=".new_designs.tetanus_diptheria.PreventiveServiceList"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyList"
+            android:name=".new_designs.previous_pregnancy.PreviousPregnancyList"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart"
+            android:name=".new_designs.weight_monitoring.WeightMonitoringChart"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.physical_examination.PhysicalExaminationList"
+            android:name=".new_designs.physical_examination.PhysicalExaminationList"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyView"
+            android:name=".new_designs.present_pregnancy.PresentPregnancyView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList" />
+            android:parentActivityName=".new_designs.present_pregnancy.PresentPregnancyList" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyAdd"
+            android:name=".new_designs.present_pregnancy.PresentPregnancyAdd"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList" />
+            android:parentActivityName=".new_designs.present_pregnancy.PresentPregnancyList" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.present_pregnancy.PresentPregnancyList"
+            android:name=".new_designs.present_pregnancy.PresentPregnancyList"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.clinical_notes.ClinicalNotesView"
+            android:name=".new_designs.clinical_notes.ClinicalNotesView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList" />
+            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.clinical_notes.ClinicalNotesAdd"
+            android:name=".new_designs.clinical_notes.ClinicalNotesAdd"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList" />
+            android:parentActivityName=".new_designs.clinical_notes.ClinicalNotesList" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.clinical_notes.ClinicalNotesList"
+            android:name=".new_designs.clinical_notes.ClinicalNotesList"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile" />
+            android:parentActivityName=".new_designs.antenatal_profile.AntenatalProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.birth_plan.BirthPlanView"
+            android:name=".new_designs.birth_plan.BirthPlanView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.birth_plan.BirthPlan"
+            android:name=".new_designs.birth_plan.BirthPlan"
             android:exported="false" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.chw.CommunityHealthWorkerForm"
+            android:name=".new_designs.chw.CommunityHealthWorkerForm"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.chw.PatientList" />
+            android:parentActivityName=".new_designs.chw.PatientList" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.chw.PatientList"
+            android:name=".new_designs.chw.PatientList"
             android:exported="false" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.new_patient.PatientDetailsView"
+            android:name=".new_designs.new_patient.PatientDetailsView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.NewMainActivity" />
+            android:parentActivityName=".new_designs.NewMainActivity" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.antenatal_profile.AntenatalProfileView"
+            android:name=".new_designs.antenatal_profile.AntenatalProfileView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.NewMainActivity" />
+            android:parentActivityName=".new_designs.NewMainActivity" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.antenatal_profile.AntenatalProfile"
+            android:name=".new_designs.antenatal_profile.AntenatalProfile"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.NewMainActivity" />
+            android:parentActivityName=".new_designs.NewMainActivity" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.physical_examination.PhysicalExaminationView"
+            android:name=".new_designs.physical_examination.PhysicalExaminationView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyView"
+            android:name=".new_designs.previous_pregnancy.PreviousPregnancyView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView"
+            android:name=".new_designs.medical_history.MedicalSurgicalHistoryView"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.physical_examination.PhysicalExamination"
+            android:name=".new_designs.physical_examination.PhysicalExamination"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancy"
+            android:name=".new_designs.previous_pregnancy.PreviousPregnancy"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile" />
+            android:parentActivityName=".new_designs.screens.PatientProfile" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.medical_history.MedicalHistory"
+            android:name=".new_designs.medical_history.MedicalHistory"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.medical_history.MedicalSurgicalHistoryView" />
+            android:parentActivityName=".new_designs.medical_history.MedicalSurgicalHistoryView" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.new_patient.RegisterNewPatient"
+            android:name=".new_designs.new_patient.RegisterNewPatient"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.NewMainActivity" />
+            android:parentActivityName=".new_designs.NewMainActivity" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.screens.PatientProfile"
+            android:name=".new_designs.screens.PatientProfile"
             android:exported="false"
-            android:parentActivityName="com.kabarak.kabarakmhis.new_designs.NewMainActivity" />
+            android:parentActivityName=".new_designs.NewMainActivity" />
         <activity
-            android:name="com.kabarak.kabarakmhis.new_designs.NewMainActivity"
+            android:name=".new_designs.NewMainActivity"
             android:exported="false" />
         <activity
-            android:name="com.kabarak.kabarakmhis.Splash"
+            android:name=".Splash"
             android:exported="true"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
@@ -223,23 +230,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kabarak.kabarakmhis.auth.MyProfile"
+            android:name=".auth.MyProfile"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.kabarak.kabarakmhis.auth.PasswordReset"
+            android:name=".auth.PasswordReset"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.kabarak.kabarakmhis.auth.ForgotPassword"
+            android:name=".auth.ForgotPassword"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.kabarak.kabarakmhis.auth.Login"
+            android:name=".auth.Login"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.kabarak.kabarakmhis.MainActivity"
+            android:name=".MainActivity"
             android:exported="false" />
     </application>
 

@@ -134,10 +134,10 @@ class PatientProfile : AppCompatActivity() {
 
         // PNC Visit
         val dbMaternalPncVisitList = ArrayList<DbMaternalProfileChild>()
-        val dbMaternalProfileChild19 = DbMaternalProfileChild(8.1,resources.getDrawable(R.drawable.referral), "ChildBirth")
-        val dbMaternalProfileChild20 = DbMaternalProfileChild(8.2,resources.getDrawable(R.drawable.referral), "Postnatal Care")
-        val dbMaternalProfileChild21 = DbMaternalProfileChild(8.3,resources.getDrawable(R.drawable.referral), "Family Planning")
-        val dbMaternalProfileChild22 = DbMaternalProfileChild(8.4,resources.getDrawable(R.drawable.referral), "Child Health Monitoring")
+        val dbMaternalProfileChild19 = DbMaternalProfileChild(8.1,resources.getDrawable(R.drawable.childbirth), "ChildBirth")
+        val dbMaternalProfileChild20 = DbMaternalProfileChild(8.2,resources.getDrawable(R.drawable.postnatalcare), "Postnatal Care")
+        val dbMaternalProfileChild21 = DbMaternalProfileChild(8.3,resources.getDrawable(R.drawable.childbirth), "Family Planning")
+        val dbMaternalProfileChild22 = DbMaternalProfileChild(8.4,resources.getDrawable(R.drawable.chm), "Child Health Monitoring")
         dbMaternalPncVisitList.addAll(listOf(dbMaternalProfileChild19, dbMaternalProfileChild20, dbMaternalProfileChild21, dbMaternalProfileChild22))
 
 
