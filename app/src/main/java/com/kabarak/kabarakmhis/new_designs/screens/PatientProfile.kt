@@ -132,6 +132,14 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalProfileChild18 = DbMaternalProfileChild(7.1,resources.getDrawable(R.drawable.referral), "Referral")
         dbMaternalReferralList.addAll(listOf(dbMaternalProfileChild18))
 
+        // PNC Visit
+        val dbMaternalPncVisitList = ArrayList<DbMaternalProfileChild>()
+        val dbMaternalProfileChild19 = DbMaternalProfileChild(8.1,resources.getDrawable(R.drawable.referral), "ChildBirth")
+        val dbMaternalProfileChild20 = DbMaternalProfileChild(8.2,resources.getDrawable(R.drawable.referral), "Postnatal Care")
+        val dbMaternalProfileChild21 = DbMaternalProfileChild(8.3,resources.getDrawable(R.drawable.referral), "Family Planning")
+        val dbMaternalProfileChild22 = DbMaternalProfileChild(8.4,resources.getDrawable(R.drawable.referral), "Child Health Monitoring")
+        dbMaternalPncVisitList.addAll(listOf(dbMaternalProfileChild19, dbMaternalProfileChild20, dbMaternalProfileChild21, dbMaternalProfileChild22))
+
 
         val dbMaternalProfile = DbMaternalProfile("Client Information", dbMaternalClientInfoList, true)
         val dbMaternalMedicalHistory = DbMaternalProfile("History", dbMaternalHistoryList, isPatient)
@@ -140,10 +148,11 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalBirthPlan = DbMaternalProfile("Birth Plan", dbMaternalBirthPlanList, isPatient)
         val dbMaternalCounseling = DbMaternalProfile("Counseling", dbMaternalCounselingList, isPatient)
         val dbMaternalReferral = DbMaternalProfile("Referral to community", dbMaternalReferralList, isPatient)
+        val dbMaternalPncVisit = DbMaternalProfile("PNC Visit", dbMaternalPncVisitList, isPatient)
 
         dbMaternalProfileList.addAll(listOf(
             dbMaternalProfile,dbMaternalMedicalHistory,dbMaternalAssessment,
-            dbMaternalPreventiveServices,dbMaternalBirthPlan,dbMaternalCounseling,dbMaternalReferral))
+            dbMaternalPreventiveServices,dbMaternalBirthPlan,dbMaternalCounseling,dbMaternalReferral, dbMaternalPncVisit))
 
         val adapter = ExpandableRecyclerAdapter(dbMaternalProfileList, this)
         recyclerView.adapter = adapter

@@ -91,7 +91,8 @@ class RetrofitCallsFhir {
 
                             if (code != 500) {
 
-                                val jObjError = JSONObject(response.errorBody()?.string())
+                                val jObjError = response.errorBody()?.string()
+                                    ?.let { JSONObject(it) }
 
                                 CoroutineScope(Dispatchers.IO).launch {
 

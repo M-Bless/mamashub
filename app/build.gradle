@@ -58,8 +58,6 @@ android {
 
 dependencies {
 
-    //implementation 'com.vivekkaushik.datepicker:datePickerTimeline:0.0.4'
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
@@ -118,8 +116,6 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
-
-//    implementation 'com.github.jhonnyx2012:horizontal-picker:1.0.6'
 
 
 }

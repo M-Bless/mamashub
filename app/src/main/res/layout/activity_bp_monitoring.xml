@@ -11,18 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        <com.vivekkaushik.datepicker.DatePickerTimeline-->
-<!--            app:dateTextColor="@color/primary"-->
-<!--            android:id="@+id/datePickerTimeline"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="8dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginEnd="8dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/date_item"
+            />
 
         <TextView
             android:layout_margin="@dimen/_15dp"
