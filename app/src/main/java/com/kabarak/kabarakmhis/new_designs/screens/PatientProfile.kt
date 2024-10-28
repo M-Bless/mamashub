@@ -135,10 +135,19 @@ class PatientProfile : AppCompatActivity() {
         // PNC Visit
         val dbMaternalPncVisitList = ArrayList<DbMaternalProfileChild>()
         val dbMaternalProfileChild19 = DbMaternalProfileChild(8.1,resources.getDrawable(R.drawable.childbirth), "ChildBirth")
-        val dbMaternalProfileChild20 = DbMaternalProfileChild(8.2,resources.getDrawable(R.drawable.postnatalcare), "Postnatal Care")
-        val dbMaternalProfileChild21 = DbMaternalProfileChild(8.3,resources.getDrawable(R.drawable.childbirth), "Family Planning")
-        val dbMaternalProfileChild22 = DbMaternalProfileChild(8.4,resources.getDrawable(R.drawable.chm), "Child Health Monitoring")
-        dbMaternalPncVisitList.addAll(listOf(dbMaternalProfileChild19, dbMaternalProfileChild20, dbMaternalProfileChild21, dbMaternalProfileChild22))
+        val dbMaternalProfileChild20 = DbMaternalProfileChild(8.2,resources.getDrawable(R.drawable.postnatalcare), "Early Identification of Congenital Abnormalities")
+        val dbMaternalProfileChild21 = DbMaternalProfileChild(8.3,resources.getDrawable(R.drawable.childbirth), "Reproductive Organs Cancer Screening")
+        val dbMaternalProfileChild22 = DbMaternalProfileChild(8.4,resources.getDrawable(R.drawable.chm), "Family Planning")
+        val dbMaternalProfileChild23 = DbMaternalProfileChild(8.5, resources.getDrawable(R.drawable.chm), "POSTNATAL CARE - Mother")
+        val dbMaternalProfileChild24 = DbMaternalProfileChild(8.6, resources.getDrawable(R.drawable.chm), "POSTNATAL CARE - Child")
+
+        // Child Health Monitoring
+        val dbMaternalProfileChild25 = DbMaternalProfileChild(8.7, resources.getDrawable(R.drawable.chm), "Civil Registration")
+        val dbMaternalProfileChild26 = DbMaternalProfileChild(8.8, resources.getDrawable(R.drawable.chm), "Reason for Special Care")
+        val dbMaternalProfileChild27 = DbMaternalProfileChild(8.9, resources.getDrawable(R.drawable.chm), "Other Problems as Reported by Parent or Guardian")
+        val dbMaternalProfileChild28 = DbMaternalProfileChild(8.10, resources.getDrawable(R.drawable.chm), "Record of Baby Teeth Development")
+
+        dbMaternalPncVisitList.addAll(listOf(dbMaternalProfileChild19, dbMaternalProfileChild20, dbMaternalProfileChild21, dbMaternalProfileChild22, dbMaternalProfileChild23, dbMaternalProfileChild24, dbMaternalProfileChild25, dbMaternalProfileChild26, dbMaternalProfileChild27, dbMaternalProfileChild28))
 
 
         val dbMaternalProfile = DbMaternalProfile("Client Information", dbMaternalClientInfoList, true)
@@ -147,7 +156,7 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalPreventiveServices = DbMaternalProfile("Preventive Services", dbMaternalPreventiveServicesList, isPatient)
         val dbMaternalBirthPlan = DbMaternalProfile("Birth Plan", dbMaternalBirthPlanList, isPatient)
         val dbMaternalCounseling = DbMaternalProfile("Counseling", dbMaternalCounselingList, isPatient)
-        val dbMaternalReferral = DbMaternalProfile("Referral to community", dbMaternalReferralList, isPatient)
+        val dbMaternalReferral = DbMaternalProfile("Referral to Community", dbMaternalReferralList, isPatient)
         val dbMaternalPncVisit = DbMaternalProfile("PNC Visit", dbMaternalPncVisitList, isPatient)
 
         dbMaternalProfileList.addAll(listOf(

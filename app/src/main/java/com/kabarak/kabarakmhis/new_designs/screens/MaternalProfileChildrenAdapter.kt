@@ -78,10 +78,28 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
 
                 7.1 -> { context.startActivity(Intent(context, ReferralView::class.java)) }
 
+                // Replace ReferralView with your classView
+                // ChildBirth
                 8.1 -> { context.startActivity(Intent(context, ChildBirthView::class.java))}
-                8.2 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Early Identification of Congenital Abnormalities
+                8.2 -> { context.startActivity(Intent(context, ReferralView::class.java))} //
+                // Reproductive Organs Cancer Screening
                 8.3 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Family Planning
                 8.4 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Postnatal Care - Mother
+                8.5 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Postnatal Care - Baby
+                8.6 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Civil Registration
+                8.7 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Reasons for special care
+                8.8 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Other Problems as Reported by Parent or Guardian
+                8.9 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                // Record of Baby Teeth Development
+                8.10 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+
 
             }
 
