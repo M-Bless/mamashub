@@ -2,18 +2,26 @@ package com.kabarak.kabarakmhis.pnc
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import com.google.android.fhir.datacapture.QuestionnaireFragment
+import com.google.android.fhir.datacapture.mapping.ResourceMapper
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.helperclass.QuestionnaireUtil
+import kotlinx.coroutines.launch
+import org.hl7.fhir.r4.model.Questionnaire
 
 class ChildAdd : AppCompatActivity() {
+
+    private var questionnaireJsonString: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_child_add)
@@ -24,14 +32,17 @@ class ChildAdd : AppCompatActivity() {
         }
 
         // Configure a QuestionnaireFragment
-        val questionnaireJsonString = getStringFromAssets("new-patient-registration.json")
+        questionnaireJsonString = getStringFromAssets("new-patient-registration.json")
 
         if (savedInstanceState == null && questionnaireJsonString != null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                val fragment = QuestionnaireFragment()
-                fragment.arguments = bundleOf(QuestionnaireUtil.getExtraQuestionnaireJsonString() to questionnaireJsonString)
-                add(R.id.fragment_container_view, fragment)
+                add(
+                    R.id.fragment_container_view,
+                    QuestionnaireFragment.builder()
+                        .setQuestionnaire(questionnaireJsonString!!)
+                        .build()
+                )
             }
         } else {
             Log.e("ChildAdd", "Failed to load questionnaire JSON")
@@ -73,6 +84,11 @@ class ChildAdd : AppCompatActivity() {
         }
     }
 
+    private fun enableEdgeToEdge() {
+        window.decorView.systemUiVisibility =
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    }
+
     private fun submitQuestionnaire() {
         // Retrieve the QuestionnaireFragment
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
@@ -92,6 +108,27 @@ class ChildAdd : AppCompatActivity() {
 
             // Optionally, save the response or send it to a server
             saveQuestionnaireResponse(questionnaireResponseString)
+
+            lifecycleScope.launch {
+                try {
+                    val questionnaire =
+                        jsonParser.parseResource(questionnaireJsonString) as Questionnaire
+                    val bundle = ResourceMapper.extract(questionnaire, questionnaireResponse)
+                    Log.d("extraction result", jsonParser.encodeResourceToString(bundle))
+                    // check bundle length
+                    // with try catch block
+                    try {
+                        val bundleLength = bundle.entry.size
+                        Log.d("bundleLength", bundleLength.toString())
+                    } catch (e: Exception) {
+                        Log.e("bundleLength", "Failed to get bundle length", e)
+                    }
+
+                } catch (e: Exception){
+                    Log.e("submitQuestionnaire", "Failed to extract FHIR resources", e)
+                }
+            }
+
         } else {
             Log.e("submitQuestionnaire", "QuestionnaireFragment not found or is null")
         }
