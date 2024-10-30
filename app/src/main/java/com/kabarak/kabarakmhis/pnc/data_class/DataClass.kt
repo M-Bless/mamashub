@@ -1,4 +1,4 @@
-package com.kabarak.kabarakmhis.pnc
+package com.kabarak.kabarakmhis.pnc.data_class
 
 data class Child(
     val id: String,

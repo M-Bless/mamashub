@@ -305,6 +305,11 @@ data class DbFhirEncounter(
 
 
 
+data class Child(
+    val id: String,
+    val name: String,
+    val birthDate: String
+)
 
 
 

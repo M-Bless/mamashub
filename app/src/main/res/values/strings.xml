@@ -2,8 +2,9 @@
     <string name="app_name">KabarakMHIS</string>
 
     <!--    Development Servers-->
-    <string name="base_url">https://zkhqhwk2-5000.uks1.devtunnels.ms</string>
-    <string name="fhir_url">https://zkhqhwk2-8080.uks1.devtunnels.ms</string>
+    <string name="base_url">http://10.1.59.69:8080/fhir/</string>
+    <string name="fhir_url">http://10.1.59.69:8080/fhir/</string>
+
 
 
     <!--    Live Servers-->

@@ -19,6 +19,15 @@
         android:windowSoftInputMode="adjustPan"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".pnc.ChildViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.ChildView"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.ChildEdit"
+            android:exported="false" />
+        <activity
             android:name=".pnc.ChildAdd"
             android:exported="false" />
         <activity
