@@ -288,14 +288,21 @@ class FragmentConfirmPatient : Fragment(){
             .putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
     }
 
-    private fun addQuestionnaireFragment(){
+    private fun addQuestionnaireFragment() {
         val fragment = QuestionnaireFragment()
-        fragment.arguments =
-            bundleOf(QuestionnaireFragment.EXTRA_QUESTIONNAIRE_JSON_STRING to viewModel.questionnaire)
+
+        // Use your own key to pass the JSON string
+        val args = Bundle().apply {
+            putString("questionnaire_json_string", viewModel.questionnaire)
+        }
+
+        fragment.arguments = args
+
         childFragmentManager.commit {
             add(R.id.add_patient_container, fragment, QUESTIONNAIRE_FRAGMENT_TAG)
         }
     }
+
 
 
     private fun getConfirmDetails() {

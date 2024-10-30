@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.kabarak.kabarakmhis.R
-import kotlinx.android.synthetic.main.activity_child_birth_view.btnAdd
+
 
 class ChildBirthView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,9 +18,7 @@ class ChildBirthView : AppCompatActivity() {
             insets
         }
 
-        btnAdd.setOnClickListener {
-            val intent = Intent(this, ChildAdd::class.java)
-            startActivity(intent)
-        }
+
+
     }
 }
