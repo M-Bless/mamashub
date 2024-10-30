@@ -3,6 +3,8 @@ package com.kabarak.kabarakmhis.network_request.interfaces
 import com.kabarak.kabarakmhis.helperclass.*
 import com.kabarak.kabarakmhis.new_designs.data_class.*
 import com.kabarak.kabarakmhis.new_designs.data_class.DbPatientSuccess
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -47,6 +49,16 @@ interface Interface {
     fun getObservationDetails(
         @Path("observationId") observationId:String
     ): Call<DbEncounterDataResourceData>
+
+
+    @POST("QuestionnaireResponse")
+    @Headers("Content-Type: application/fhir+json")
+    fun submitQuestionnaireResponse(@Body body: RequestBody): Call<ResponseBody>
+    @GET("QuestionnaireResponse/{id}")
+    fun getQuestionnaireResponse(@Path("id") responseId: String): Call<ResponseBody>
+
+    @GET("QuestionnaireResponse")
+    fun getAllQuestionnaireResponses(): Call<ResponseBody>
 
 
 }
