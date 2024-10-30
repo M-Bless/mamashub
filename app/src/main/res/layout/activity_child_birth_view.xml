@@ -227,6 +227,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:layout_width="wrap_content"
+
                             android:layout_height="match_parent">
 
                             <ImageView
@@ -241,22 +242,17 @@
 
                 </LinearLayout>
 
+
             </LinearLayout>
 
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view_child"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            app:layoutManager="LinearLayoutManager"
-            tools:context=".PatientListActivity"
-            tools:listitem="@layout/observation_view" />
+            tools:listitem="@layout/item_child" />
 
 
     </LinearLayout>
@@ -264,8 +260,10 @@
     <LinearLayout
         android:gravity="center"
         android:layout_alignParentBottom="true"
+
         android:orientation="horizontal"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content">
 
         <Button
