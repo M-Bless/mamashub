@@ -155,7 +155,7 @@ class PatientProfile : AppCompatActivity() {
 
         dbMaternalPncVisitList.addAll(listOf(dbMaternalProfileChild19, dbMaternalProfileChild20, dbMaternalProfileChild21, dbMaternalProfileChild22, dbMaternalProfileChild23, dbMaternalProfileChild24, dbMaternalProfileChild25, dbMaternalProfileChild26, dbMaternalProfileChild27, dbMaternalProfileChild28, dbMaternalProfileChild29, dbMaternalProfileChild30, dbMaternalProfileChild31, dbMaternalProfileChild32, dbMaternalProfileChild33, dbMaternalProfileChild34))
 
-// Immunization
+        // Immunization
         val immunizationList = ArrayList<DbMaternalProfileChild>()
         val immunization1 = DbMaternalProfileChild(10.1, resources.getDrawable(R.drawable.chm), "BCG Vaccine")
         val immunization2 = DbMaternalProfileChild(10.2, resources.getDrawable(R.drawable.chm), "Polio vaccine")
