@@ -99,7 +99,25 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 // Other Problems as Reported by Parent or Guardian
                 8.9 -> { context.startActivity(Intent(context, ReferralView::class.java))}
                 // Record of Baby Teeth Development
-                8.10 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                9.1 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                9.2 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                9.3 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                9.4 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                9.5 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                9.6 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                9.7 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+
+                // Immunization
+                10.1 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.2 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.3 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.4 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.5 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.6 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.7 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.8 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                10.9 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                11.1 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
 
 
             }
