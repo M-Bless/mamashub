@@ -34,8 +34,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.hl7.fhir.r4.model.Reference
 
-
-class FragmentConfirmDetails : Fragment(){
+class FragmentConfirmDetails : Fragment() {
 
     private val formatter = FormatterClass()
 
@@ -52,7 +51,7 @@ class FragmentConfirmDetails : Fragment(){
 
     private lateinit var fhirEngine: FhirEngine
     private val viewModel: AddPatientDetailsViewModel by viewModels()
-    private lateinit var patientId : String
+    private lateinit var patientId: String
 
     private lateinit var btnEditDetails: Button
 
@@ -60,8 +59,6 @@ class FragmentConfirmDetails : Fragment(){
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-
 
         rootView = inflater.inflate(R.layout.frament_confirm, container, false)
 
@@ -71,20 +68,19 @@ class FragmentConfirmDetails : Fragment(){
         fhirEngine = FhirApplication.fhirEngine(requireContext())
 
         btnEditDetails.setOnClickListener {
-            //Go back to the previous activity
+            // Go back to the previous activity
             requireActivity().onBackPressed()
-
         }
 
         updateArguments()
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             addQuestionnaireFragment()
         }
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        recyclerView = rootView.findViewById(R.id.confirmList);
+        recyclerView = rootView.findViewById(R.id.confirmList)
         layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.VERTICAL,
@@ -98,9 +94,9 @@ class FragmentConfirmDetails : Fragment(){
         btnSave.setOnClickListener {
 
             val encounter = formatter.retrieveSharedPreference(requireContext(), "encounterTitle")
-            if (encounter != null){
+            if (encounter != null) {
 
-                val progressDialog= ProgressDialog(requireContext())
+                val progressDialog = ProgressDialog(requireContext())
                 progressDialog.setMessage("Saving...")
                 progressDialog.setCancelable(false)
                 progressDialog.show()
@@ -109,25 +105,23 @@ class FragmentConfirmDetails : Fragment(){
 
                     delay(1000)
 
-                    if (encounterDetailsList.isNotEmpty()){
+                    if (encounterDetailsList.isNotEmpty()) {
 
-
-                        val saveEncounterId = formatter.retrieveSharedPreference(requireContext(),
-                            "savedEncounter")
-                        var encounterId = if (saveEncounterId != null){
-                            if (saveEncounterId != ""){
-                               saveEncounterId
-                            }else{
+                        val saveEncounterId = formatter.retrieveSharedPreference(
+                            requireContext(),
+                            "savedEncounter"
+                        )
+                        var encounterId = if (saveEncounterId != null) {
+                            if (saveEncounterId != "") {
+                                saveEncounterId
+                            } else {
                                 formatter.generateUuid()
                             }
-                        }else{
+                        } else {
                             formatter.generateUuid()
                         }
 
                         Log.e("EncounterId", encounterId)
-
-//                        var encounterId = saveEncounterId ?: formatter.generateUuid()
-//                        var encounterId = formatter.generateUuid()
 
                         val patientReference = Reference("Patient/$patientId")
 
@@ -140,7 +134,7 @@ class FragmentConfirmDetails : Fragment(){
 
                         val observationList = kabarakViewModel.getAllObservations(requireContext())
 
-                        for (observation in observationList){
+                        for (observation in observationList) {
 
                             val codeLabel = observation.codeLabel
                             val value = observation.value
@@ -149,18 +143,18 @@ class FragmentConfirmDetails : Fragment(){
                             val codeValue = formatter.getCodes(codeLabel)
                             val checkObservation = formatter.checkObservations(display)
 
-                            if (checkObservation == ""){
-                                //Save as a value string
+                            if (checkObservation == "") {
+                                // Save as a value string
 
                                 val codingObservation = CodingObservation(
                                     codeValue,
                                     display,
-                                    value)
+                                    value
+                                )
                                 dataCodeList.add(codingObservation)
 
-
-                            }else{
-                                //Save as a value quantity
+                            } else {
+                                // Save as a value quantity
                                 val quantityObservation = QuantityObservation(
                                     codeValue,
                                     display,
@@ -185,7 +179,11 @@ class FragmentConfirmDetails : Fragment(){
                         delay(7000)
 
                         CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(requireContext(), "PLease wait as data is being saved.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Please wait as data is being saved.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             progressDialog.dismiss()
                         }
 
@@ -193,34 +191,31 @@ class FragmentConfirmDetails : Fragment(){
                             kabarakViewModel.deleteTitleTable(encounter, requireContext())
                         }
 
-                        if (encounter == DbResourceViews.PATIENT_INFO.name){
+                        if (encounter == DbResourceViews.PATIENT_INFO.name) {
                             val intent = Intent(requireContext(), NewMainActivity::class.java)
                             startActivity(intent)
                             activity?.finish()
 
-                        }else{
+                        } else {
 
                             val intent = Intent(requireContext(), PatientProfile::class.java)
                             startActivity(intent)
                             activity?.finish()
                         }
 
-
-                    }else{
+                    } else {
                         CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(requireContext(), "No data to save", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "No data to save", Toast.LENGTH_SHORT)
+                                .show()
                             progressDialog.dismiss()
                         }
                     }
 
                 }
 
-
-
             }
 
         }
-
 
         return rootView
     }
@@ -228,35 +223,34 @@ class FragmentConfirmDetails : Fragment(){
     override fun onStart() {
         super.onStart()
         getConfirmDetails()
-
-
     }
 
-    private fun updateArguments(){
+    private fun updateArguments() {
         requireArguments()
             .putString(QUESTIONNAIRE_FILE_PATH_KEY, "client.json")
     }
 
-    private fun addQuestionnaireFragment(){
-        val fragment = QuestionnaireFragment()
-        fragment.arguments =
-            bundleOf(QuestionnaireFragment.SUBMIT_REQUEST_KEY to viewModel.questionnaire)
+    private fun addQuestionnaireFragment() {
+        val fragment = QuestionnaireFragment.builder()
+            .setQuestionnaire(viewModel.questionnaire) // Ensure viewModel.questionnaire returns the JSON string
+            .build()
+
         childFragmentManager.commit {
+            setReorderingAllowed(true)
             add(R.id.add_patient_container, fragment, QUESTIONNAIRE_FRAGMENT_TAG)
         }
     }
 
     private fun getConfirmDetails() {
 
-        //Get the data from the previous screen
-        //Use fhirId, loggedIn User, and title
+        // Get the data from the previous screen
+        // Use fhirId, loggedIn User, and title
 
         encounterDetailsList = kabarakViewModel.getConfirmDetails(requireContext())
-        val confirmParentAdapter = ConfirmParentAdapter(encounterDetailsList,requireContext())
+        val confirmParentAdapter = ConfirmParentAdapter(encounterDetailsList, requireContext())
         recyclerView.adapter = confirmParentAdapter
 
         getUserDetails()
-
 
     }
 
