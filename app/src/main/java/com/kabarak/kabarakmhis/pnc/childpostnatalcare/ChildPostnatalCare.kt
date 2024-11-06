@@ -1,61 +1,58 @@
 package com.kabarak.kabarakmhis.pnc.childpostnatalcare
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
+import androidx.lifecycle.lifecycleScope
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
 import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.kabarak.kabarakmhis.R
-import com.kabarak.kabarakmhis.helperclass.QuestionnaireUtil
+import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsFhir
+import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
+import org.hl7.fhir.r4.model.Questionnaire
+import org.hl7.fhir.r4.model.QuestionnaireResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ChildPostnatalCare : AppCompatActivity() {
+
+    private lateinit var retrofitCallsFhir: RetrofitCallsFhir
+    private var questionnaireJsonString: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_child_postnatal_care)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        // Configure a QuestionnaireFragment
-        val questionnaireJsonString = getStringFromAssets("BabyPostnatalCare-nb-NO-vv1.0.2.json")
+        // Initialize RetrofitCallsFhir
+        retrofitCallsFhir = RetrofitCallsFhir()
+
+        // Load the questionnaire JSON
+        questionnaireJsonString = getStringFromAssets("BabyPostnatalCare-nb-NO-v1.1.json")
 
         if (savedInstanceState == null && questionnaireJsonString != null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                val fragment = QuestionnaireFragment()
-                fragment.arguments = bundleOf(QuestionnaireUtil.getExtraQuestionnaireJsonString() to questionnaireJsonString)
-                add(R.id.fragment_container_view, fragment)
+                add(
+                    R.id.fragment_container_view,
+                    QuestionnaireFragment.builder()
+                        .setQuestionnaire(questionnaireJsonString!!)
+                        .build()
+                )
             }
-        } else {
-            Log.e("ChildPostanalRecord", "Failed to load questionnaire JSON")
         }
 
-        // Get a questionnaire response
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-        if (fragment is QuestionnaireFragment) {
-            val questionnaireResponse = fragment.getQuestionnaireResponse()
-
-            // Print the response to the log
-            val jsonParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
-            val questionnaireResponseString = jsonParser.encodeResourceToString(questionnaireResponse)
-            Log.d("response", questionnaireResponseString)
-        } else {
-            Log.e("ChildPostnatalDetails", "QuestionnaireFragment not found")
-        }
-        // Submit button callback
+        // Submit button listener
         supportFragmentManager.setFragmentResultListener(
             QuestionnaireFragment.SUBMIT_REQUEST_KEY,
             this,
         ) { _, _ ->
-            Log.d("ChildPostnatalDetails", "Submit request received")
+            Log.d("ChildPostnatalCare", "Submit request received")
             submitQuestionnaire()
         }
     }
@@ -79,7 +76,7 @@ class ChildPostnatalCare : AppCompatActivity() {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (fragment is QuestionnaireFragment) {
             // Get the QuestionnaireResponse from the fragment
-            val questionnaireResponse = fragment.getQuestionnaireResponse()
+            val questionnaireResponse: QuestionnaireResponse = fragment.getQuestionnaireResponse()
 
             // Use FHIR's JSON parser to convert QuestionnaireResponse into a JSON string
             val fhirContext = FhirContext.forR4()
@@ -91,22 +88,26 @@ class ChildPostnatalCare : AppCompatActivity() {
             // Log the response (you can replace this with saving to a database or sending to a server)
             Log.d("submitQuestionnaire", questionnaireResponseString)
 
-            // Optionally, save the response or send it to a server
-            saveQuestionnaireResponse(questionnaireResponseString)
+            // Submit the QuestionnaireResponse to the server using RetrofitCallsFhir
+            retrofitCallsFhir.submitQuestionnaireResponse(questionnaireResponseString, object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@ChildPostnatalCare, "Successfully submitted!", Toast.LENGTH_SHORT).show()
+                        Log.d("ChildPostnatalCare", "Successfully submitted the questionnaire response.")
+
+                    } else {
+                        Toast.makeText(this@ChildPostnatalCare, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        Log.e("Error", "Failed to submit. Response code: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(this@ChildPostnatalCare, "Error occurred while submitting: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("Error", "Error occurred while submitting questionnaire", t)
+                }
+            })
         } else {
             Log.e("submitQuestionnaire", "QuestionnaireFragment not found or is null")
-        }
-    }
-
-    private fun saveQuestionnaireResponse(response: String) {
-        try {
-            val outputStream = openFileOutput("questionnaire_response.json", MODE_PRIVATE)
-            outputStream.write(response.toByteArray(Charsets.UTF_8))
-            outputStream.close()
-            Log.d("saveQuestionnaireResponse", "Questionnaire response saved successfully")
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.e("saveQuestionnaireResponse", "Failed to save questionnaire response")
         }
     }
 }

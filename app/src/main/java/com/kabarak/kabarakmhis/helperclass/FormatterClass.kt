@@ -74,7 +74,7 @@ class FormatterClass {
                             coding.forEach { cd ->
                                 val code = cd.code
                                 val display = cd.display
-                                val system = cd.system
+                                cd.system
 
                                 val reasonCode = DbReasonCodeData(text, code, display)
                                 referralDetailsList.add(reasonCode)
@@ -296,7 +296,7 @@ class FormatterClass {
 
         val tripleData = getDateDetails(dateStr)
         val month = tripleData.second.toString().toInt()
-        var year = tripleData.third.toString().toInt()
+        tripleData.third.toString().toInt()
 
         val cal = Calendar.getInstance()
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -521,10 +521,7 @@ class FormatterClass {
         val date2 = sdf.parse(d2)
 
         // after() will return true if and only if date1 is after date 2
-        if (date1.after(date2)) {
-            return false
-        }
-        return true
+        return !date1.after(date2)
 
     }
 
@@ -702,7 +699,7 @@ class FormatterClass {
         val parity = retrieveSharedPreference(context, DbObservationValues.PARITY.name)
         val gravida = retrieveSharedPreference(context, DbObservationValues.GRAVIDA.name)
         val height = retrieveSharedPreference(context, DbObservationValues.HEIGHT.name)
-        val weight = retrieveSharedPreference(context, DbObservationValues.WEIGHT.name)
+        retrieveSharedPreference(context, DbObservationValues.WEIGHT.name)
         val gestation = retrieveSharedPreference(context, DbObservationValues.GESTATION.name)
 
         val edd = retrieveSharedPreference(context, "edd")
@@ -783,7 +780,7 @@ class FormatterClass {
 
         for (items in dbTypeDataValueList){
 
-            val type = items.type
+            items.type
             val dbObserveValue = items.dbObserveValue
 
             dbObserveValueList.add(dbObserveValue)

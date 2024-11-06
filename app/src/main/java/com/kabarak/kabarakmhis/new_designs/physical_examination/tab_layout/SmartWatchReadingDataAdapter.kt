@@ -28,7 +28,7 @@ class SmartWatchReadingDataAdapter(private var entryList: ArrayList<DbWatchTimeD
 
         override fun onClick(p0: View) {
 
-            val pos = adapterPosition
+            adapterPosition
 
 
 

@@ -53,11 +53,11 @@ class FragmentIfas2 : Fragment() , AdapterView.OnItemSelectedListener {
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         initSpinner()
         getPageDetails()
@@ -159,7 +159,7 @@ class FragmentIfas2 : Fragment() , AdapterView.OnItemSelectedListener {
         for (items in observationList){
 
             val key = items.key
-            val value = observationList.getValue(key)
+            observationList.getValue(key)
 
 //            val data = DbDataList(key, value, "Ifas", DbResourceType.Observation.name)
 //            dbDataList.add(data)

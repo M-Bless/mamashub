@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pnc.childpostnatalcare.ChildPncView">
+    tools:context=".pnc.childpostnatalcare.ChildPncViewActivity">
 
     <include
         android:id="@+id/no_record"
@@ -227,6 +227,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:layout_width="wrap_content"
+
                             android:layout_height="match_parent">
 
                             <ImageView
@@ -241,22 +242,30 @@
 
                 </LinearLayout>
 
+
             </LinearLayout>
 
 
         </LinearLayout>
 
+
+        <TextView
+            android:id="@+id/txtPageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="CHILD POSTNATAL CARE" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view_child"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            app:layoutManager="LinearLayoutManager"
-            tools:context=".PatientListActivity"
-            tools:listitem="@layout/observation_view" />
+            tools:listitem="@layout/item_child_pnc" />
 
 
     </LinearLayout>
@@ -264,17 +273,19 @@
     <LinearLayout
         android:gravity="center"
         android:layout_alignParentBottom="true"
+
         android:orientation="horizontal"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnAdd"
             android:layout_marginEnd="@dimen/_5dp"
             android:layout_marginTop="@dimen/_5dp"
             android:layout_gravity="end"
             android:textAllCaps="false"
-            android:text="Save Info"
+            android:text="Add Visit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

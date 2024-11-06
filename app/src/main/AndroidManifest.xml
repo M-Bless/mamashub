@@ -19,6 +19,45 @@
         android:windowSoftInputMode="adjustPan"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryAdd"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryView"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryA"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.Pconjugate.PconjugateEdit"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.Pconjugate.PconjugateView"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.Pconjugate.PconjugateAdd"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.yellowfever.DoseEdit"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.yellowfever.DoseViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.yellowfever.DoseAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.childpostnatalcare.ChildPostnatalCare"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.childpostnatalcare.ChildPncViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.childpostnatalcare.ChildPncEdit"
+            android:exported="false" />
+        <activity
             android:name=".pnc.ChildViewActivity"
             android:exported="false" />
         <activity

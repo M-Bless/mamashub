@@ -372,7 +372,7 @@ class KabarakRepository(private val roomDao: RoomDao) {
         }
     }
 
-    public suspend fun getCounties(): ArrayList<County>{
+    suspend fun getCounties(): ArrayList<County>{
 
         var countyDataList = ArrayList<County>()
 
@@ -383,15 +383,15 @@ class KabarakRepository(private val roomDao: RoomDao) {
 
         return countyDataList
     }
-    public suspend fun getSubCounty(countyId: Int): List<SubCounty>{
+    suspend fun getSubCounty(countyId: Int): List<SubCounty>{
 
 
         return roomDao.getSubCounty(countyId)
     }
-    public suspend fun getWards(constituencyName: String): List<SubCounty>{
+    suspend fun getWards(constituencyName: String): List<SubCounty>{
         return roomDao.getWards(constituencyName)
     }
-    public suspend fun getCountyNameData(countyName: String): County?{
+    suspend fun getCountyNameData(countyName: String): County?{
         return roomDao.getCountyNameData(countyName)
     }
 

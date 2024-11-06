@@ -92,7 +92,7 @@ class ClinicalNotesList : AppCompatActivity() {
                 val encounterList = ArrayList<DbFhirEncounter>()
                 observationList.forEachIndexed { index, encounterItem ->
 
-                    val pos = index + 1
+                    index + 1
 
                     if (encounterItem.effective != ""){
                         val lastUpdate = formatterClass.convertFhirDate(encounterItem.effective)

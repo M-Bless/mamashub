@@ -84,7 +84,7 @@ class FragmentConfirmPatient : Fragment(){
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        recyclerView = rootView.findViewById(R.id.confirmList);
+        recyclerView = rootView.findViewById(R.id.confirmList)
         layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.VERTICAL,

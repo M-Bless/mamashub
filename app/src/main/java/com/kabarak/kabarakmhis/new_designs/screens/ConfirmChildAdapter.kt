@@ -26,7 +26,7 @@ class ConfirmChildAdapter(private var entryList: List<DbObserveValue>?,
 
         override fun onClick(p0: View) {
 
-            val pos = adapterPosition
+            adapterPosition
 
 
 

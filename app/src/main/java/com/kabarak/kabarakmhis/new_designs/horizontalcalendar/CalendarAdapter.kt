@@ -38,7 +38,7 @@ class CalendarAdapter(
             val calendarDay = binding.tvCalendarDay
             val calendarDate = binding.tvCalendarDate
             val cardView = binding.root
-           val dayOfMonth = SimpleDateFormat("d", Locale.ENGLISH).format(calendarDataModel.data)
+            SimpleDateFormat("d", Locale.ENGLISH).format(calendarDataModel.data)
 
             // Set the calendar daya and date
             calendarDay.text = calendarDataModel.calendarDay

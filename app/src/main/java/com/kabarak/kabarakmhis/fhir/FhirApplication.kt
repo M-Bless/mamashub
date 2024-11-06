@@ -34,7 +34,7 @@ class FhirApplication : Application() {
         }
         instance = this.applicationContext
 
-        sharedPreferences = this.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
+        sharedPreferences = this.getSharedPreferences(sharedPrefFile, MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
         FhirEngineProvider.init(

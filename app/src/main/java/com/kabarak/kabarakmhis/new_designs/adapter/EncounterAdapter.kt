@@ -86,7 +86,7 @@ class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
 
-        val id = entryList[position].title
+        entryList[position].title
         val appointmentDate = entryList[position].value
 
         holder.tvValue.text = appointmentDate

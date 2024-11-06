@@ -27,7 +27,7 @@ class ForgotPassword : AppCompatActivity() {
                 val isEmailAddress = formatterClass.validateEmail(emailAddress)
                 if (isEmailAddress){
 
-                    val userLogin = UserResetPassword(emailAddress)
+                    UserResetPassword(emailAddress)
 //                    retrofitCallsAuthentication.loginUser(this, userLogin)
 
                 }else{

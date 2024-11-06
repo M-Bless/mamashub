@@ -58,7 +58,7 @@ class PhysicalExaminationList : AppCompatActivity() {
 
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,

@@ -57,7 +57,7 @@ class  PatientList : AppCompatActivity() {
                 (application, fhirEngine)
         )[ChwPatientListViewModel::class.java]
 
-        recyclerView = findViewById(R.id.patient_list);
+        recyclerView = findViewById(R.id.patient_list)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,

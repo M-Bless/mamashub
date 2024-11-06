@@ -54,7 +54,7 @@ class PatientDetails : AppCompatActivity() {
         patientDetailsViewModel = ViewModelProvider(this,
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
@@ -115,7 +115,7 @@ class PatientDetails : AppCompatActivity() {
 
                     //Get Client Details
                     val clientDetails = patientDetailsViewModel.getPatientData()
-                    val id = clientDetails.id
+                    clientDetails.id
                     val name = clientDetails.name
                     val dob = clientDetails.dob
                     val phone = clientDetails.phone
