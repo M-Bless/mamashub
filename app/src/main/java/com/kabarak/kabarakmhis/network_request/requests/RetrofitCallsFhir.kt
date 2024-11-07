@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_SERVER
 import com.kabarak.kabarakmhis.fhir.data.SYNC_VALUE
 import com.kabarak.kabarakmhis.helperclass.*
 import com.kabarak.kabarakmhis.network_request.builder.RetrofitBuilder
@@ -615,7 +616,7 @@ class RetrofitCallsFhir {
 
     }
 
-    private val apiService = RetrofitBuilder.getRetrofit("http://10.1.59.69:8080/fhir/").create(Interface::class.java)
+    private val apiService = RetrofitBuilder.getRetrofit(DEMO_SERVER).create(Interface::class.java)
 
     fun submitQuestionnaireResponse(questionnaireResponseString: String, callback: Callback<ResponseBody>) {
         val mediaType = "application/fhir+json".toMediaTypeOrNull()

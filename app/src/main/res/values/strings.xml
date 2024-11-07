@@ -2,8 +2,8 @@
     <string name="app_name">KabarakMHIS</string>
 
     <!--    Development Servers-->
-    <string name="base_url">http://10.1.59.69:8080/fhir/</string>
-    <string name="fhir_url">http://10.1.59.69:8080/fhir/</string>
+    <string name="base_url">http://10.1.57.245:5000/</string>
+    <string name="fhir_url">http://10.1.57.245:8080/fhir/</string>
 
 
 
@@ -69,6 +69,8 @@
     <string name="facility_from_facility">Facility from facility referral</string>
     <string name="clients_records">Clients Records</string>
     <string name="referrals_to_facility">Referrals to Facility</string>
+    <string name="first_fragment_label">hh</string>
+    <string name="second_fragment_label">fragment 2</string>
 
     <string-array name="array_marital">
         <item>Married</item>
