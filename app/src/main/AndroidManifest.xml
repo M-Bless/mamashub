@@ -22,7 +22,22 @@
             android:name=".pnc.ChildViewActivity"
             android:exported="false" />
         <activity
-            android:name=".pnc.ChildView"
+            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineView"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccine"
+            android:exported="false" />
+        <activity
+                android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.child_civil_registration.ChildCivilRegistrationView"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.child_civil_registration.ChildCivilRegistration"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.child_civil_registration.ChildCivilRegistrationEdit"
             android:exported="false" />
         <activity
             android:name=".pnc.ChildEdit"
