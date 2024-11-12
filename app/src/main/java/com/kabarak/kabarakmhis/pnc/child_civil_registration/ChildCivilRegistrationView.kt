@@ -74,7 +74,7 @@ class ChildCivilRegistrationView: AppCompatActivity() {
             val responseId = extractResponseId(rawResponseId)
             Toast.makeText(this, "Response ID: $responseId", Toast.LENGTH_SHORT).show()
 
-            val intent = Intent(this, ChildCivilRegistrationEdit::class.java)
+            val intent = Intent(this, CivilRegistrationDetails::class.java)
             intent.putExtra("responseId", responseId)
             startActivity(intent)
         }

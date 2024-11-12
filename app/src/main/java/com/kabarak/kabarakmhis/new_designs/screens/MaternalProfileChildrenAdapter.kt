@@ -29,6 +29,7 @@ import com.kabarak.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceLi
 import com.kabarak.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
 import com.kabarak.kabarakmhis.pnc.ChildBirthView
 import com.kabarak.kabarakmhis.pnc.ChildViewActivity
+import com.kabarak.kabarakmhis.pnc.child_civil_registration.ChildCivilRegistrationView
 
 
 class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternalProfileChild>,
@@ -94,7 +95,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 8.6 -> { context.startActivity(Intent(context, ReferralView::class.java))}
 
                 // Civil Registration
-                8.7 -> { context.startActivity(Intent(context, ReferralView::class.java))}
+                8.7 -> { context.startActivity(Intent(context, ChildCivilRegistrationView::class.java))}
 
                 // Reasons for Special Care
                 8.8 -> { context.startActivity(Intent(context, ReferralView::class.java))}
