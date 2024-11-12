@@ -166,6 +166,9 @@ class ChildEdit : AppCompatActivity() {
             val jsonParser = fhirContext.newJsonParser()
             val updatedResponseString = jsonParser.encodeResourceToString(updatedQuestionnaireResponse)
 
+            // Log the response (you can replace this with saving to a database or sending to a server)
+            Log.d("submitUpdatedResponse", updatedResponseString)
+
             // Submit the updated response back to the server
             retrofitCallsFhir.updateQuestionnaireResponse(responseId, updatedResponseString, object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -185,6 +188,7 @@ class ChildEdit : AppCompatActivity() {
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     CoroutineScope(Dispatchers.Main).launch {
                         Toast.makeText(this@ChildEdit, "Error occurred while updating: ${t.message}", Toast.LENGTH_SHORT).show()
+                        Log.e("Error", "Error occurred while updating questionnaire response", t)
                     }
                 }
             })

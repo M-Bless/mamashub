@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_API_SERVER
 import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_SERVER
 import com.kabarak.kabarakmhis.fhir.data.SYNC_VALUE
 import com.kabarak.kabarakmhis.helperclass.*

@@ -61,11 +61,12 @@ interface Interface {
     fun getAllQuestionnaireResponses(): Call<ResponseBody>
 
 
-    @PUT("fhir/QuestionnaireResponse/{id}")
+    @PUT("QuestionnaireResponse/{id}")
     fun submitQuestionnaireResponse(
         @Path("id") id: String,
         @Body requestBody: RequestBody
     ): Call<ResponseBody>
+
 
 
 }

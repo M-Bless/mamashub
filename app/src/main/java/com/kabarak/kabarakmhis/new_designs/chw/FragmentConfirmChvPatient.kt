@@ -24,7 +24,6 @@ import com.kabarak.kabarakmhis.fhir.FhirApplication
 import com.kabarak.kabarakmhis.helperclass.*
 import com.kabarak.kabarakmhis.new_designs.chw.viewmodel.AddChwPatientViewModel
 import com.kabarak.kabarakmhis.new_designs.data_class.*
-import com.kabarak.kabarakmhis.new_designs.new_patient.FragmentConfirmPatient.Companion.EXTRA_QUESTIONNAIRE_JSON_STRING
 import com.kabarak.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.kabarak.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.kabarak.kabarakmhis.new_designs.screens.FragmentConfirmDetails

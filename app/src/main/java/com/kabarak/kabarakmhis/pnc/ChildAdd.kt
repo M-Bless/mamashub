@@ -32,7 +32,7 @@ class ChildAdd : AppCompatActivity() {
         retrofitCallsFhir = RetrofitCallsFhir()
 
         // Load the questionnaire JSON
-        questionnaireJsonString = getStringFromAssets("congenital_abnormalities.json")
+        questionnaireJsonString = getStringFromAssets("new-patient-registration.json")
 
         if (savedInstanceState == null && questionnaireJsonString != null) {
             supportFragmentManager.commit {
@@ -92,6 +92,7 @@ class ChildAdd : AppCompatActivity() {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
                         Toast.makeText(this@ChildAdd, "Successfully submitted!", Toast.LENGTH_SHORT).show()
+                        finish()
                         Log.d("ChildAdd", "Successfully submitted the questionnaire response.")
                     } else {
                         Toast.makeText(this@ChildAdd, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
