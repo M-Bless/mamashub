@@ -1,0 +1,430 @@
+{
+  "resourceType": "Questionnaire",
+  "title": "Child Health Monitoring",
+  "language": "nb-NO",
+  "id": "5489ab36-18ce-4ab2-aca3-dc9af9b1a7b2",
+  "status": "draft",
+  "publisher": "David Saruni (nsaruni@kabarak.ac.ke)",
+  "meta": {
+    "profile": [
+      "http://ehelse.no/fhir/StructureDefinition/sdf-Questionnaire"
+    ],
+    "tag": [
+      {
+        "system": "urn:ietf:bcp:47",
+        "code": "nb-NO",
+        "display": "Bokmål"
+      }
+    ],
+    "security": [
+      {
+        "code": "3",
+        "display": "Helsehjelp (Full)",
+        "system": "urn:oid:2.16.578.1.12.4.1.1.7618"
+      }
+    ]
+  },
+  "subjectType": [
+    "Patient"
+  ],
+  "item": [
+    {
+      "linkId": "01a49934-19be-4e25-807a-76e0f56f9fb1",
+      "type": "group",
+      "text": "A. Particulars of the Child",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Patient",
+            "name": "patient"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "a6bb3331-f838-4704-8d25-1b16f82e10b2",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name",
+          "text": "Name of Child",
+          "item": [
+            {
+              "linkId": "a6bb3331-1",
+              "type": "string",
+              "text": "First Name",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.given",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.given",
+                    "name": "childGivenName"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "a6bb3331-2",
+              "type": "string",
+              "text": "Last Name",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.family",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.family",
+                    "name": "childFamilyName"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "0c2657aa-b3cf-4d56-8297-71e00c437776",
+          "type": "choice",
+          "text": "Sex of Child",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.gender",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "male",
+                "display": "Male",
+                "system": "http://snomed.info/sct"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "female",
+                "display": "Female",
+                "system": "http://snomed.info/sct"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "unknown",
+                "display": "Unknown",
+                "system": "http://snomed.info/sct"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "other",
+                "display": "Other",
+                "system": "http://snomed.info/sct"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "a40daa32-c972-4330-8e89-125056db33ba",
+          "type": "date",
+          "text": "Date of Birth",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.birthDate",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "Patient.birthDate",
+                "name": "childBirthDate"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "2.1.0",
+      "type": "group",
+      "required": true,
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "gestationWeeks"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "1.1.0",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+          "item": [
+            {
+              "text": "Gestation at Birth (in weeks)",
+              "type": "decimal",
+              "linkId": "1.1.1",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                  "valueDecimal": 20
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                  "valueDecimal": 50
+                }
+              ]
+            },
+            {
+              "linkId": "1.1.2",
+              "type": "string",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "initial": [
+                {
+                  "valueString": "weeks"
+                }
+              ]
+            },
+            {
+              "linkId": "1.1.3",
+              "type": "string",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "initial": [
+                {
+                  "valueString": "http://unitsofmeasure.org"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "1.2.0",
+          "type": "choice",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [
+            {
+              "valueCoding": {
+                "code": "1156738004",
+                "display": "Gestation at Birth (in weeks)",
+                "system": "http://snomed.info/sct"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "2.2.0",
+      "type": "group",
+      "required": true,
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "birthWeight"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "1.1.0",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+          "item": [
+            {
+              "text": "Birth Weight (gms)",
+              "type": "decimal",
+              "linkId": "1.1.1",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                  "valueDecimal": 500
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                  "valueDecimal": 5000
+                }
+              ]
+            },
+            {
+              "linkId": "1.1.2",
+              "type": "string",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "initial": [
+                {
+                  "valueString": "grams"
+                }
+              ]
+            },
+            {
+              "linkId": "1.1.3",
+              "type": "string",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "initial": [
+                {
+                  "valueString": "http://unitsofmeasure.org"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "1.2.0",
+          "type": "choice",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [
+            {
+              "valueCoding": {
+                "code": "364589006",
+                "display": "Birth Weight (gms)",
+                "system": "http://snomed.info/sct"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "2.3.0",
+      "type": "group",
+      "required": true,
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "birthLength"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "1.1.0",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+          "item": [
+            {
+              "text": "Birth Length (cm)",
+              "type": "decimal",
+              "linkId": "1.1.1",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                  "valueDecimal": 20
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                  "valueDecimal": 100
+                }
+              ]
+            },
+            {
+              "linkId": "1.1.2",
+              "type": "string",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "initial": [
+                {
+                  "valueString": "centimetres"
+                }
+              ]
+            },
+            {
+              "linkId": "1.1.3",
+              "type": "string",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "initial": [
+                {
+                  "valueString": "http://unitsofmeasure.org"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "1.2.0",
+          "type": "choice",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [
+            {
+              "valueCoding": {
+                "code": "169886007",
+                "display": "Birth Length (cm)",
+                "system": "http://snomed.info/sct"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
