@@ -253,7 +253,7 @@ class ChildCivilRegistrationView: AppCompatActivity() {
                     "0c2657aa-b3cf-4d56-8297-71e00c437776" -> {
                         sexOfChild = item.answer.firstOrNull()?.let { answer ->
                             when {
-                                answer.hasValueStringType() -> answer.valueStringType.value
+                                answer.hasValueCoding() -> answer.valueCoding.display
                                 else -> null
                             }
                         }

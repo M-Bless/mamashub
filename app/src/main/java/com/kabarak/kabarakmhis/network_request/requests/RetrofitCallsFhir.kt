@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import ca.uhn.fhir.context.FhirContext
 import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_API_SERVER
 import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_SERVER
 import com.kabarak.kabarakmhis.fhir.data.SYNC_VALUE
@@ -16,6 +17,7 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import org.hl7.fhir.r4.model.Bundle
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -639,6 +641,14 @@ class RetrofitCallsFhir {
     }
     fun fetchAllQuestionnaireResponses(callback: Callback<ResponseBody>) {
         val call = apiService.getAllQuestionnaireResponses()
+        call.enqueue(callback)
+    }
+    fun submitExtractedBundle(bundleJson: String, callback: Callback<ResponseBody>) {
+        val mediaType = "application/fhir+json".toMediaTypeOrNull()
+        val requestBody = RequestBody.create(mediaType, bundleJson)
+
+        // Use the base URL (e.g., /fhir) without adding "/Bundle"
+        val call = apiService.submitBundleToBaseUrl(requestBody)
         call.enqueue(callback)
     }
 }

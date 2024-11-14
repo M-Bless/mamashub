@@ -67,6 +67,6 @@ interface Interface {
         @Body requestBody: RequestBody
     ): Call<ResponseBody>
 
-
-
+    @POST(".")
+    fun submitBundleToBaseUrl(@Body bundle: RequestBody): Call<ResponseBody>
 }

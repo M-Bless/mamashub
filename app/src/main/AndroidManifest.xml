@@ -40,6 +40,9 @@
             android:name=".pnc.child_civil_registration.ChildCivilRegistrationEdit"
             android:exported="false" />
         <activity
+            android:name=".pnc.child_civil_registration.CivilRegistrationDetails"
+            android:exported="false"/>
+        <activity
             android:name=".pnc.ChildEdit"
             android:exported="false" />
         <activity
