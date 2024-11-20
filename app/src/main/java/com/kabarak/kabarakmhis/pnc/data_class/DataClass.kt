@@ -28,3 +28,17 @@ data class QuestionnaireDetails(
     val detailAnswer: String,
 )
 
+
+data class CancerScreening(
+    val id: String,
+    val type: String,
+    val date: String,
+    val responseId: String,
+
+)
+
+data class EyeProblems(
+    val id: String,
+    val VisitType: String,
+    val VisitDate: String,
+)

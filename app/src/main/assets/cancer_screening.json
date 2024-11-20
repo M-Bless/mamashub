@@ -1,0 +1,776 @@
+{
+  "resourceType": "Questionnaire",
+  "language": "nb-NO",
+  "id": "e5846386-30a5-45d2-9393-d4ef6ceabf06",
+  "status": "draft",
+  "publisher": "NHN",
+  "meta": {
+    "profile": [
+      "http://ehelse.no/fhir/StructureDefinition/sdf-Questionnaire"
+    ],
+    "tag": [
+      {
+        "system": "urn:ietf:bcp:47",
+        "code": "nb-NO",
+        "display": "Bokmål"
+      }
+    ],
+    "security": [
+      {
+        "code": "3",
+        "display": "Helsehjelp (Full)",
+        "system": "urn:oid:2.16.578.1.12.4.1.1.7618"
+      }
+    ]
+  },
+  "contact": [
+    {
+      "name": "http://www.nhn.no"
+    }
+  ],
+  "subjectType": [
+    "Patient"
+  ],
+  "extension": [
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-sidebar",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-sidebar",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-information-message",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-information-message",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefintion/sdf-itemControl-visibility",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-help",
+            "display": "Hide help texts"
+          },
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-sublabel",
+            "display": "Hide sublabel texts"
+          }
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "linkId": "ff18b0c1-f12b-410b-f6c5-4df23dfcc764",
+      "type": "date",
+      "text": "Date",
+      "required": true
+    },
+    {
+      "linkId": "394b61c6-6505-463b-88c7-84401139aeec",
+      "type": "choice",
+      "required": true,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "id": "e20e9e3f-6b79-4742-81c4-8affa97cc857",
+            "code": "cervix",
+            "system": "urn:uuid:c1fee41a-21d8-4e08-8fb9-3d5f4458acdf",
+            "display": "Cervix"
+          }
+        },
+        {
+          "valueCoding": {
+            "id": "00717eb9-af38-4d5c-ec82-e64b0263712d",
+            "code": "breast",
+            "system": "urn:uuid:c1fee41a-21d8-4e08-8fb9-3d5f4458acdf",
+            "display": "Breast"
+          }
+        }
+      ],
+      "text": "Exam",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                "code": "check-box"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "e0fb12d8-5566-4091-a214-a8017765fcd0",
+      "type": "group",
+      "text": "Tests and Treatment",
+      "required": false,
+      "item": [
+        {
+          "linkId": "f05c2383-980c-41ec-816d-0ee07e06a855",
+          "type": "choice",
+          "text": "HPV",
+          "required": true,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "508fbddb-0052-4046-ebc7-d052626f9648",
+                "code": "negative",
+                "system": "urn:uuid:753e0332-56c8-4ec4-ee68-aac3d8fe0d11",
+                "display": "Negative"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "8141afa8-cde0-4e7d-8f31-9c722cdd1581",
+                "code": "positive",
+                "system": "urn:uuid:753e0332-56c8-4ec4-ee68-aac3d8fe0d11",
+                "display": "Positive"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "540d953d-ef00-4ae8-8568-0422019365d3",
+                "code": "suspicious-for-cancer",
+                "system": "urn:uuid:753e0332-56c8-4ec4-ee68-aac3d8fe0d11",
+                "display": "Suspicious for cancer"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "394b61c6-6505-463b-88c7-84401139aeec",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:c1fee41a-21d8-4e08-8fb9-3d5f4458acdf",
+                "code": "cervix"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "749c9567-5cf5-4cbf-c494-e96666109a2a",
+          "type": "choice",
+          "text": "Treatment",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "7f6af8d6-fbb5-4de0-a84e-0538ac4cd3ee",
+                "code": "refered",
+                "system": "urn:uuid:fd92d27a-9f76-47b8-892d-52105c436f36",
+                "display": "Refered"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "784334c6-c78c-4e0b-97e2-99b1c6428f2a",
+                "system": "urn:uuid:fd92d27a-9f76-47b8-892d-52105c436f36"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "f05c2383-980c-41ec-816d-0ee07e06a855",
+              "operator": "!=",
+              "answerCoding": {
+                "system": "urn:uuid:753e0332-56c8-4ec4-ee68-aac3d8fe0d11",
+                "code": "negative"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "a43630af-a8c3-4e52-80d0-67c7f751fad7",
+          "type": "choice",
+          "text": "VIA",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "7a38f21c-4f93-4154-f0c4-d847503f2e17",
+                "code": "negative",
+                "system": "urn:uuid:cb042112-7d0c-40ce-8fcd-8cf37dd09558",
+                "display": "Negative"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "91c256bd-8edf-4d9b-b901-cdc131d045fe",
+                "code": "positive",
+                "system": "urn:uuid:cb042112-7d0c-40ce-8fcd-8cf37dd09558",
+                "display": "Positive"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "ea622b8a-a713-4494-d86a-1b41b659aaa8",
+                "code": "suspicious-for-cancer",
+                "system": "urn:uuid:cb042112-7d0c-40ce-8fcd-8cf37dd09558",
+                "display": "Suspicious for cancer"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "394b61c6-6505-463b-88c7-84401139aeec",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:c1fee41a-21d8-4e08-8fb9-3d5f4458acdf",
+                "code": "cervix"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "57aaa265-a38e-4e55-b43e-b862ea11ef7a",
+          "type": "choice",
+          "text": "Treatment",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "be966ffa-88e7-44fd-8456-59489e17574e",
+                "code": "cyro",
+                "system": "urn:uuid:9357f635-62c0-4a74-8215-c067ab950af8",
+                "display": "Cyro"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "41c31e31-c9a2-452f-8c56-a5664a08ac97",
+                "code": "thermoablation",
+                "system": "urn:uuid:9357f635-62c0-4a74-8215-c067ab950af8",
+                "display": "Thermoablation"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "c4a220f5-28fc-4472-c1e8-c5408d813d46",
+                "code": "leep",
+                "system": "urn:uuid:9357f635-62c0-4a74-8215-c067ab950af8",
+                "display": "LEEP"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "1df8078c-34a6-4a46-c74f-dafd13ec1001",
+                "code": "refered",
+                "system": "urn:uuid:9357f635-62c0-4a74-8215-c067ab950af8",
+                "display": "Refered"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "a43630af-a8c3-4e52-80d0-67c7f751fad7",
+              "operator": "!=",
+              "answerCoding": {
+                "system": "urn:uuid:cb042112-7d0c-40ce-8fcd-8cf37dd09558",
+                "code": "negative"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "49afd076-6a51-482d-9d1a-f791b8b1900a",
+          "type": "choice",
+          "text": "VIA/VILI",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "9934d0cb-a9ea-4edb-a868-4889d3e082a5",
+                "code": "negative",
+                "system": "urn:uuid:215a7003-d14c-4a78-cc12-7e9d29204ce9",
+                "display": "Negative"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "e98fd723-3df3-4baa-8221-2fd307ec01de",
+                "code": "positive",
+                "system": "urn:uuid:215a7003-d14c-4a78-cc12-7e9d29204ce9",
+                "display": "Positive"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "4e74e46b-080c-49db-bea4-2356292aba81",
+                "code": "suspicious-for-cancer",
+                "system": "urn:uuid:215a7003-d14c-4a78-cc12-7e9d29204ce9",
+                "display": "Suspicious for cancer"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "394b61c6-6505-463b-88c7-84401139aeec",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:c1fee41a-21d8-4e08-8fb9-3d5f4458acdf",
+                "code": "cervix"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "eb00ed6f-e872-4a28-8694-066fd4ef7ef5",
+          "type": "choice",
+          "text": "Treatment",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "bfa0de67-a1db-4ab0-f201-1829d961c3f4",
+                "code": "cyro",
+                "system": "urn:uuid:67e61666-1ebf-47c2-8945-3867f5e9a258",
+                "display": "Cyro"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "c258916c-2437-43ae-8ff4-309c4892761d",
+                "code": "thermoablation",
+                "system": "urn:uuid:67e61666-1ebf-47c2-8945-3867f5e9a258",
+                "display": "Thermoablation"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "be56fd6c-5aaa-4d31-d916-f2ad1c56b203",
+                "code": "leep",
+                "system": "urn:uuid:67e61666-1ebf-47c2-8945-3867f5e9a258",
+                "display": "LEEP"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "8a053e6a-4e7f-48f9-c2d5-808aec137f80",
+                "code": "refered",
+                "system": "urn:uuid:67e61666-1ebf-47c2-8945-3867f5e9a258",
+                "display": "Refered"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "49afd076-6a51-482d-9d1a-f791b8b1900a",
+              "operator": "!=",
+              "answerCoding": {
+                "system": "urn:uuid:215a7003-d14c-4a78-cc12-7e9d29204ce9",
+                "code": "negative"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "22f86f11-861a-4301-8771-55e6cd0cc14a",
+          "type": "choice",
+          "text": "Pap Smear",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "acd99c14-beac-4f43-8ffe-4db126f95ca3",
+                "code": "normal",
+                "system": "urn:uuid:2abe6fe1-1ced-4692-c6da-73622ad92622",
+                "display": "Normal"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "b71ad32a-06fc-4485-86b2-6878641383eb",
+                "code": "ascus-or-greater*",
+                "system": "urn:uuid:2abe6fe1-1ced-4692-c6da-73622ad92622",
+                "display": "ASCUS or greater*"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "d5b4b2a5-3628-45d6-9377-8d38488e0901",
+                "code": "suspicious-for-cancer",
+                "system": "urn:uuid:2abe6fe1-1ced-4692-c6da-73622ad92622",
+                "display": "Suspicious for cancer"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "394b61c6-6505-463b-88c7-84401139aeec",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:c1fee41a-21d8-4e08-8fb9-3d5f4458acdf",
+                "code": "cervix"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "65cc7028-aa59-4626-d885-99a625849186",
+          "type": "choice",
+          "text": "Treatment",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "858b6ae0-f265-4a23-d3fb-31e3487879e8",
+                "code": "cyro",
+                "system": "urn:uuid:8b212644-305c-4ba6-8a59-3dd28e214d52",
+                "display": "Cyro"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "65e5c98e-4e9c-4e11-fcec-912c4e89ade9",
+                "code": "thermoablation",
+                "system": "urn:uuid:8b212644-305c-4ba6-8a59-3dd28e214d52",
+                "display": "Thermoablation"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "13f02a52-033a-4484-f2d7-0d3dc0959cee",
+                "code": "leep",
+                "system": "urn:uuid:8b212644-305c-4ba6-8a59-3dd28e214d52",
+                "display": "LEEP"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "aba90070-be5c-49af-da0b-420adf59c896",
+                "code": "refered",
+                "system": "urn:uuid:8b212644-305c-4ba6-8a59-3dd28e214d52",
+                "display": "Refered"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "22f86f11-861a-4301-8771-55e6cd0cc14a",
+              "operator": "!=",
+              "answerCoding": {
+                "system": "urn:uuid:2abe6fe1-1ced-4692-c6da-73622ad92622",
+                "code": "normal"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "b0e38add-321b-4cfd-f8ac-a7427384774f",
+          "type": "choice",
+          "text": "CBE",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "c242d6f2-0830-4d43-ddf1-4924d3c85c52",
+                "code": "normal",
+                "system": "urn:uuid:d1faecda-a3fe-452e-8739-d01dfecddcee",
+                "display": "Normal"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "2e1c1e53-3530-4be8-e2b8-a632bf9aa4a0",
+                "code": "benign-lump",
+                "system": "urn:uuid:d1faecda-a3fe-452e-8739-d01dfecddcee",
+                "display": "Benign Lump"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "d34ce3e4-ccfd-4200-c058-3da8c8f75f65",
+                "code": "suspicious-lump",
+                "system": "urn:uuid:d1faecda-a3fe-452e-8739-d01dfecddcee",
+                "display": "Suspicious lump"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "394b61c6-6505-463b-88c7-84401139aeec",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:c1fee41a-21d8-4e08-8fb9-3d5f4458acdf",
+                "code": "breast"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "8c610751-ff1e-4672-e4be-e575349edc2c",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "97be24f0-493a-44f3-8e2e-532ff18bd3ea",
+                "code": "fna",
+                "system": "urn:uuid:beda7f95-79e1-4f65-f5b1-697660315fdd",
+                "display": "FNA"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "04216ab4-9640-4c63-8f76-6e3fa3bbf0a9",
+                "code": "excision",
+                "system": "urn:uuid:beda7f95-79e1-4f65-f5b1-697660315fdd",
+                "display": "Excision"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "258504e3-bff8-4642-ff7c-736443ee21b8",
+                "code": "others",
+                "system": "urn:uuid:beda7f95-79e1-4f65-f5b1-697660315fdd",
+                "display": "Others"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "2abf51b2-6a25-4827-d276-3e70d86f99fb",
+                "code": "refered",
+                "system": "urn:uuid:beda7f95-79e1-4f65-f5b1-697660315fdd",
+                "display": "Refered"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "b0e38add-321b-4cfd-f8ac-a7427384774f",
+              "operator": "!=",
+              "answerCoding": {
+                "system": "urn:uuid:d1faecda-a3fe-452e-8739-d01dfecddcee",
+                "code": "normal"
+              }
+            }
+          ],
+          "text": "Treatment"
+        },
+        {
+          "linkId": "df4aae6a-d397-436a-811d-256479eddc57",
+          "type": "string",
+          "text": "If others , specify",
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "8c610751-ff1e-4672-e4be-e575349edc2c",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:beda7f95-79e1-4f65-f5b1-697660315fdd",
+                "code": "others"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "e58ac3b5-3894-4601-8406-db01b57aa6a3",
+          "type": "choice",
+          "text": "Ultrasound",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "f91dfe38-433c-45f6-d17a-69ae99380e0d",
+                "code": "normal",
+                "system": "urn:uuid:9c5cdc20-9133-462e-8664-83973d715ff9",
+                "display": "Normal"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "a192d234-7ad4-40e5-87a7-a8ee3eff7e47",
+                "code": "abnormal",
+                "system": "urn:uuid:9c5cdc20-9133-462e-8664-83973d715ff9",
+                "display": "Abnormal"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "b0e38add-321b-4cfd-f8ac-a7427384774f",
+              "operator": "!=",
+              "answerCoding": {
+                "system": "urn:uuid:d1faecda-a3fe-452e-8739-d01dfecddcee",
+                "code": "normal"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "2bae2b4b-9a92-4f2e-8983-3fac3761e8c6",
+          "type": "choice",
+          "text": "Treatment",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "94cf0a81-10e1-4f8e-bb6c-ff01b829e921",
+                "code": "diagnosis-/-treatment-indicate",
+                "system": "urn:uuid:2a7c2bd0-f6a4-4f7d-ddf3-98f830f8d12c",
+                "display": "Diagnosis / treatment indicate"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "264a0c8b-cf97-454f-8389-01d8aa3aee90",
+                "code": "refered",
+                "system": "urn:uuid:2a7c2bd0-f6a4-4f7d-ddf3-98f830f8d12c",
+                "display": "Refered"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "e58ac3b5-3894-4601-8406-db01b57aa6a3",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:9c5cdc20-9133-462e-8664-83973d715ff9",
+                "code": "abnormal"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
