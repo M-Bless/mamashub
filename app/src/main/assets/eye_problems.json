@@ -1,0 +1,404 @@
+{
+  "resourceType": "Questionnaire",
+  "language": "nb-NO",
+  "status": "draft",
+  "publisher": "NHN",
+  "meta": {
+    "profile": [
+      "http://ehelse.no/fhir/StructureDefinition/sdf-Questionnaire"
+    ],
+    "tag": [
+      {
+        "system": "urn:ietf:bcp:47",
+        "code": "nb-NO",
+        "display": "Bokmål"
+      }
+    ],
+    "security": [
+      {
+        "code": "3",
+        "display": "Helsehjelp (Full)",
+        "system": "urn:oid:2.16.578.1.12.4.1.1.7618"
+      }
+    ]
+  },
+  "contact": [
+    {
+      "name": "http://www.nhn.no"
+    }
+  ],
+  "subjectType": [
+    "Patient"
+  ],
+  "extension": [
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-sidebar",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-sidebar",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-information-message",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-information-message",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefintion/sdf-itemControl-visibility",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-help",
+            "display": "Hide help texts"
+          },
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-sublabel",
+            "display": "Hide sublabel texts"
+          }
+        ]
+      }
+    }
+  ],
+  "id": "241bff22-3ec2-4572-cd85-90666c9ec4a0",
+  "item": [
+    {
+      "linkId": "29a02644-7512-4dfd-8677-12752af96c8e",
+      "type": "string",
+      "text": "First Name",
+      "required": false
+    },
+    {
+      "linkId": "3343ec83-6e7a-48c6-fddb-92282b273400",
+      "type": "string",
+      "text": "Second Name",
+      "required": false
+    },
+    {
+      "linkId": "a0faf44a-aa7c-442c-aaa4-922894cbe60a",
+      "type": "date",
+      "text": "Date",
+      "required": false
+    },
+    {
+      "linkId": "fc352a37-796d-40b9-a06f-272d626b4a4d",
+      "type": "choice",
+      "required": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "id": "e44d41a9-b7f5-4bd1-8bb2-7300aea9c4d6",
+            "code": "at-birth",
+            "system": "urn:uuid:58cf38ef-b51e-4722-82a8-059b77aed544",
+            "display": "At Birth"
+          }
+        },
+        {
+          "valueCoding": {
+            "id": "0c6e7cb2-23ea-4642-878c-b7de22d80a79",
+            "code": "at-6-months",
+            "system": "urn:uuid:58cf38ef-b51e-4722-82a8-059b77aed544",
+            "display": "At 6 months"
+          }
+        },
+        {
+          "valueCoding": {
+            "id": "a4622ede-1fd1-4dba-87a3-e01406a76845",
+            "code": "at-9-months",
+            "system": "urn:uuid:58cf38ef-b51e-4722-82a8-059b77aed544",
+            "display": "At 9 months"
+          }
+        },
+        {
+          "valueCoding": {
+            "id": "eb36f933-a38d-4e38-8857-e18614b9bd02",
+            "code": "at-18-months",
+            "system": "urn:uuid:58cf38ef-b51e-4722-82a8-059b77aed544",
+            "display": "At 18 months"
+          }
+        }
+      ],
+      "text": "Visits",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                "code": "check-box"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "2b1796ac-fb8c-4532-809c-10e40e953936",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "6fd3f60c-d20d-4b60-8178-88a01d14ad47",
+          "type": "choice",
+          "text": "Was TETRACYCLINE EYE OINTMENT (TEO) given?",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "d5c0fd50-9976-454b-8f56-77f9adcf15bb",
+                "code": "yes",
+                "system": "urn:uuid:f20c1286-db57-4083-83d5-7c4a38986623",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "f4247c13-1f44-47bb-8db7-cd91325a652b",
+                "code": "no",
+                "system": "urn:uuid:f20c1286-db57-4083-83d5-7c4a38986623",
+                "display": "No"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "fc352a37-796d-40b9-a06f-272d626b4a4d",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:58cf38ef-b51e-4722-82a8-059b77aed544",
+                "code": "at-birth"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "9830f2bb-36af-479e-e588-f7a5d4f13219",
+          "type": "choice",
+          "text": "Pupil",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "9cb161d3-e4e2-4b21-8f7f-e7f6bb31302b",
+                "code": "black",
+                "system": "urn:uuid:b2a9969b-51bf-455f-f621-7448631d84c8",
+                "display": "Black"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "0c3370f5-9e10-463d-e55a-45add9efcb72",
+                "code": "white",
+                "system": "urn:uuid:b2a9969b-51bf-455f-f621-7448631d84c8",
+                "display": "White"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "30a2c4a6-e5b8-46de-e48f-ac77567901d6",
+          "type": "string",
+          "text": "If white , get a referral",
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "9830f2bb-36af-479e-e588-f7a5d4f13219",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:b2a9969b-51bf-455f-f621-7448631d84c8",
+                "code": "white"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "a09387aa-3440-4dcc-d4a1-7f3e981c58b4",
+          "type": "choice",
+          "text": "Sight",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "5df84f05-7564-4726-9788-bd659bd454f1",
+                "code": "following-objects",
+                "system": "urn:uuid:6f827b40-37c8-4455-efd7-b6f0c8b19aef",
+                "display": "Following objects"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "93bf4183-09cc-40c0-8f8f-2277be1b5485",
+                "code": "not-following-objects",
+                "system": "urn:uuid:6f827b40-37c8-4455-efd7-b6f0c8b19aef",
+                "display": "Not following objects"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "fc352a37-796d-40b9-a06f-272d626b4a4d",
+              "operator": "!=",
+              "answerCoding": {
+                "system": "urn:uuid:58cf38ef-b51e-4722-82a8-059b77aed544",
+                "code": "at-birth"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "de570b0e-c289-4e48-8b44-f3ecc040f0b9",
+          "type": "string",
+          "text": "If not following objects , refer",
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "a09387aa-3440-4dcc-d4a1-7f3e981c58b4",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:6f827b40-37c8-4455-efd7-b6f0c8b19aef",
+                "code": "not-following-objects"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "4b8da925-9b74-4bff-8499-a4b84d582536",
+          "type": "choice",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "7edde53c-4e5c-4f1e-dbbf-3973a95258a7",
+                "code": "squint",
+                "system": "urn:uuid:4ac090ad-2383-4117-acff-5f724a6dc514",
+                "display": "Squint"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "f57970bd-4a01-44bf-846a-bdacb82d7ebf",
+                "code": "no-squint",
+                "system": "urn:uuid:4ac090ad-2383-4117-acff-5f724a6dc514",
+                "display": "No squint"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "text": "Squint(crossed eyes)"
+        },
+        {
+          "linkId": "f34c7a75-a251-411f-f1d3-94a3c8954ba2",
+          "type": "string",
+          "text": "If squint , refer",
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "4b8da925-9b74-4bff-8499-a4b84d582536",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:4ac090ad-2383-4117-acff-5f724a6dc514",
+                "code": "squint"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "690210f3-209a-4b2c-821d-4fa2a573d4b7",
+          "type": "choice",
+          "text": "Any other problem",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "41f2fbdc-fc84-4266-8290-6aa982e63eb1",
+                "code": "yes",
+                "system": "urn:uuid:7d5e6e03-fa84-44f3-c83e-41120500d3f4",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "c064c069-9fee-4d74-9735-67397eb2fdfa",
+                "code": "no",
+                "system": "urn:uuid:7d5e6e03-fa84-44f3-c83e-41120500d3f4",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "ef961c85-0ef9-40fd-fcbf-d79947d945ae",
+          "type": "string",
+          "text": "If yes , refer",
+          "required": false,
+          "enableWhen": [
+            {
+              "question": "690210f3-209a-4b2c-821d-4fa2a573d4b7",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:7d5e6e03-fa84-44f3-c83e-41120500d3f4",
+                "code": "yes"
+              }
+            }
+          ]
+        }
+      ],
+      "required": false,
+      "text": "ASSESSMENTS"
+    }
+  ]
+}
