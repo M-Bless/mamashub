@@ -37,18 +37,15 @@ class ChildListViewModel(
     private suspend fun getPatients(): List<ChildItem> {
         val children: MutableList<ChildItem> = mutableListOf()
         try {
-            // Fetching all patients and filter them manually based on the identifier
+            // Fetch all patients without filtering by the identifier
             val patients = fhirEngine.search<Patient> {
                 // Fetch all patients, no need to apply a filter in the search itself
                 count = 100  // Adjust the count as per requirement
                 from = 0
             }
 
-            // Manually filter patients whose ID contains the identifier
-            val filteredPatients = patients.filter { it.id.contains(identifier, ignoreCase = true) }
-
             // Map patients to ChildItem
-            filteredPatients.mapIndexed { index, fhirPatient ->
+            patients.mapIndexed { index, fhirPatient ->
                 children.add(fhirPatient.toChildItem(index + 1)) // Using toChildItem to map Patient to ChildItem
             }
         } catch (e: Exception) {
@@ -56,6 +53,7 @@ class ChildListViewModel(
         }
         return children
     }
+
 
     data class ChildItem(
         val id: String,
