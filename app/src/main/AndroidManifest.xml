@@ -19,20 +19,77 @@
         android:windowSoftInputMode="adjustPan"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".pnc.ChildViewActivity"
+            android:name=".pnc.ImmunizationAdd"
             android:exported="false" />
         <activity
-            android:name=".pnc.ChildView"
+            android:name=".pnc.ChildProfileActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".pnc.bcgvacination.BcgAddActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".pnc.measlesimmunization.MeaslesImmunizationEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.measlesimmunization.MeaslesImmunizationDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.measlesimmunization.MeaslesImmunizationAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.measlesimmunization.MeaslesImmunizationViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.poliovacination.PolioVaccinationEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.poliovacination.PolioVaccinationDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.poliovacination.PolioAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.poliovacination.PolioVaccinationViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.bcgvacination.BcgVaccinationEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.bcgvacination.BcgVaccinationDetailsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".pnc.bcgvacination.BcgVaccinationViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.congenitalabnormalities.CongenitalAbnormalitiesDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.congenitalabnormalities.CongenitalAbnormalitiesEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.congenitalabnormalities.CongenitalAbnormalitiesViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.congenitalabnormalities.CongenitalAbnormalitiesAdd"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.ChildDetailsActivity"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".pnc.ChildViewActivity"
+            android:exported="true" />
         <activity
             android:name=".pnc.ChildEdit"
             android:exported="false" />
         <activity
             android:name=".pnc.ChildAdd"
-            android:exported="false" />
-        <activity
-            android:name=".pnc.ChildBirthView"
-            android:exported="false" />
+            android:exported="true" />
+
         <activity
             android:name=".new_designs.screens.UpcomingAppointments"
             android:exported="false"

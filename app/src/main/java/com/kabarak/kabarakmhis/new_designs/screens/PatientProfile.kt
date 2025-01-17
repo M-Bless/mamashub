@@ -136,6 +136,8 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalPncVisitList = ArrayList<DbMaternalProfileChild>()
         val dbMaternalProfileChild19 = DbMaternalProfileChild(8.1,resources.getDrawable(R.drawable.childbirth), "ChildBirth")
         val dbMaternalProfileChild20 = DbMaternalProfileChild(8.2,resources.getDrawable(R.drawable.postnatalcare), "Early Identification of Congenital Abnormalities")
+
+
         val dbMaternalProfileChild21 = DbMaternalProfileChild(8.3,resources.getDrawable(R.drawable.childbirth), "Reproductive Organs Cancer Screening")
         val dbMaternalProfileChild22 = DbMaternalProfileChild(8.4,resources.getDrawable(R.drawable.chm), "Family Planning")
         val dbMaternalProfileChild23 = DbMaternalProfileChild(8.5, resources.getDrawable(R.drawable.chm), "POSTNATAL CARE - Mother")

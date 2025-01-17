@@ -2,9 +2,8 @@
     <string name="app_name">KabarakMHIS</string>
 
     <!--    Development Servers-->
-    <string name="base_url">http://10.1.59.69:8080/fhir/</string>
-    <string name="fhir_url">http://10.1.59.69:8080/fhir/</string>
-
+    <string name="base_url">https://zkhqhwk2-5000.uks1.devtunnels.ms</string>
+    <string name="fhir_url">http://41.89.93.172/fhir/</string>
 
 
     <!--    Live Servers-->
@@ -17,7 +16,7 @@
     <string name="submit">Submit</string>
     <string name="add_patient">Add Client</string>
     <string name="view"><u>View</u></string>
-    <string name="title_patient_list">Registered Clients</string>
+
     <string-array name="birds">
         <item>Filter By:</item>
         <item>Patient Name</item>
@@ -77,5 +76,8 @@
         <item>Divorced</item>
         <item>Separated</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bcg_vaccination">bcg</string>
 
 </resources>

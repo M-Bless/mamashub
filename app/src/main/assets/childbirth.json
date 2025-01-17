@@ -1,0 +1,245 @@
+{
+  "resourceType": "Questionnaire",
+  "title": "Child Health Monitoring",
+  "language": "nb-NO",
+  "id": "5489ab36-18ce-4ab2-aca3-dc9af9b1a7b2",
+  "status": "draft",
+  "publisher": "David Saruni (nsaruni@kabarak.ac.ke)",
+  "subjectType": ["Encounter"],
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+      "valueExpression": {
+        "language": "application/x-fhir-query",
+        "expression": "Encounter",
+        "name": "encounter"
+      }
+    }
+  ],
+  "item": [
+    {
+      "linkId": "7f5cf013-35a9-4c99-84ef-be578fcfa376",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "gestationAtBirth"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "gestationWeeks",
+          "type": "integer",
+          "text": "Gestation at Birth (in weeks)",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+              "valueInteger": 20
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueInteger": 50
+            }
+          ]
+        },
+        {
+          "linkId": "1.1.2",
+          "type": "string",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [{"valueString": "weeks"}]
+        },
+        {
+          "linkId": "1.1.3",
+          "type": "string",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [{"valueString": "http://unitsofmeasure.org"}]
+        }
+      ]
+    },
+    {
+      "linkId": "8a3cc5cb-61b9-4f0a-82cf-6c82a70a435b",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "birthWeight"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "birthWeight",
+          "type": "integer",
+          "text": "Birth Weight (gms)",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+              "valueInteger": 500
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueInteger": 5000
+            }
+          ]
+        },
+        {
+          "linkId": "1.1.2",
+          "type": "string",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [{"valueString": "gms"}]
+        },
+        {
+          "linkId": "1.1.3",
+          "type": "string",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [{"valueString": "http://unitsofmeasure.org"}]
+        }
+      ]
+    },
+    {
+      "linkId": "46c6f0cf-1ffb-4cd0-dfa4-b97cecac5de4",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "birthLength"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "birthLength",
+          "type": "integer",
+          "text": "Birth Length (cm)",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+              "valueInteger": 20
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueInteger": 70
+            }
+          ]
+        },
+        {
+          "linkId": "1.1.2",
+          "type": "string",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [{"valueString": "cm"}]
+        },
+        {
+          "linkId": "1.1.3",
+          "type": "string",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ],
+          "initial": [{"valueString": "http://unitsofmeasure.org"}]
+        }
+      ]
+    },
+    {
+      "linkId": "37842b6d-79cf-49fe-8966-1e3c424a2375",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "birthCharacteristics"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "otherCharacteristics",
+          "type": "string",
+          "text": "Other Birth Characteristics",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.note.text",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "0cba1f41-ad8b-4a51-8327-fef08af8a2bd",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "birthOrder"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "birthOrder",
+          "type": "string",
+          "text": "Birth Order in family (e.g., 1st, 2nd, 3rd born)",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueString",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
