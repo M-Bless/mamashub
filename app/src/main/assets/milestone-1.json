@@ -1,0 +1,854 @@
+{
+  "resourceType": "Questionnaire",
+  "language": "nb-NO",
+  "status": "draft",
+  "publisher": "NHN",
+  "meta": {
+    "profile": [
+      "http://ehelse.no/fhir/StructureDefinition/sdf-Questionnaire"
+    ],
+    "tag": [
+      {
+        "system": "urn:ietf:bcp:47",
+        "code": "nb-NO",
+        "display": "Bokmål"
+      }
+    ],
+    "security": [
+      {
+        "code": "3",
+        "display": "Helsehjelp (Full)",
+        "system": "urn:oid:2.16.578.1.12.4.1.1.7618"
+      }
+    ]
+  },
+  "contact": [
+    {
+      "name": "http://www.nhn.no"
+    }
+  ],
+  "subjectType": [
+    "Patient"
+  ],
+  "extension": [
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-sidebar",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-sidebar",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-information-message",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-information-message",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefintion/sdf-itemControl-visibility",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-help",
+            "display": "Hide help texts"
+          },
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-sublabel",
+            "display": "Hide sublabel texts"
+          }
+        ]
+      }
+    }
+  ],
+  "id": "e3a3a45c-92d7-4c8d-e716-1c2df6d888fe",
+  "item": [
+    {
+      "linkId": "78bb5435-e38b-412f-8434-a007373053a5",
+      "type": "group",
+      "text": "Developmental Milestones\t",
+      "item": [
+        {
+          "linkId": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+          "type": "choice",
+          "text": "Visits",
+          "required": true,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "57983137-735b-4588-816b-0535998490c8",
+                "code": "1st-visit(0-2-months)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "1st Visit(0-2 months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "91aa03a9-f460-41c2-d480-230e15b20829",
+                "code": "2nd-visit(2-4months)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "2nd Visit(2-4months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "7d838099-bef1-4e0d-85ff-f71df4ff3a4f",
+                "code": "3rd-visit(4-6-months)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "3rd Visit(4-6 months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "2a3311f2-8afc-4296-9756-78bd97580525",
+                "code": "4th-visit(6-9-months)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "4th Visit(6-9 months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "b2a811bb-3ea3-4cc2-d418-12f0b053ccb2",
+                "code": "5th-visit(9-12-months)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "5th Visit(9-12 months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "0eceb1c7-6bc1-446a-bbaa-e262cfecc537",
+                "code": "6th-visit(12-18-months)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "6th Visit(12-18 months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "e5680c06-dd2c-4ed4-c412-f24d6eaf5711",
+                "code": "7th-visit(18-24-months)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "7th Visit(18-24 months)"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "09f6f957-f6d5-43c7-f85b-d5b6082e66c4",
+                "code": "8th-visit(24-months-and-older)",
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "display": "8th Visit(24 months and Older)"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "drop-down"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "cb763ec8-d1b9-4b14-ad03-822a37ab9161",
+          "type": "group",
+          "text": "Social smile/follows a colourful object dangled before their eyes",
+          "item": [
+            {
+              "linkId": "c470e52b-5814-4897-cf5e-3821d9798ae1",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true
+            },
+            {
+              "linkId": "ff0e59b5-13ca-4ce7-9899-bfa4495586e2",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n"
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Social smile/follows a colourful object dangled before their eyes**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "1st-visit(0-2-months)"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "8fab7061-93aa-447c-c528-3643ecef52c1",
+          "type": "group",
+          "text": "Holds the head upright / follows the object or face with their eyes / turns the head or responds in any other way to sound / smiles when you speak",
+          "item": [
+            {
+              "linkId": "abf6fb60-d7a6-4c12-e9b8-fae30bd50a12",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true,
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "2nd-visit(2-4months)"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "90013af0-4d77-4833-be2b-026303adbf4d",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n",
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "2nd-visit(2-4months)"
+                  }
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Holds the head upright / follows the object or face with their eyes / turns the head or responds in any other way to sound / smiles when you speak**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "2nd-visit(2-4months)"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "f0c96adf-b0d1-4f85-9223-4bf90a53a43c",
+          "type": "group",
+          "text": "Rolls over / reaches for and grasps objects with hand / takes objects to her mouth / babbles (makes sounds)",
+          "item": [
+            {
+              "linkId": "3bef4c4c-0a79-415f-9958-5407a0898a7c",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true,
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "3rd-visit(4-6-months)"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "61c70430-da71-4a80-81ec-a45a6dacfe6d",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n",
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "3rd-visit(4-6-months)"
+                  }
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Rolls over / reaches for and grasps objects with hand / takes objects to her mouth / babbles (makes sounds)**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "3rd-visit(4-6-months)"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "0eb13eaf-ad5d-44f0-8c99-d9e4990404a6",
+          "type": "group",
+          "text": "Sits without support / moves object from one hand to the other/ repeats syllables (bababa, mamama)",
+          "item": [
+            {
+              "linkId": "4d4c2e7f-a037-4cef-8b2a-3fd477a89306",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true,
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "4th-visit(6-9-months)"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "0bedeacd-5af7-47a8-a069-3ed6adc5ad4f",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n",
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "4th-visit(6-9-months)"
+                  }
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Sits without support / moves object from one hand to the other/ repeats syllables (bababa, mamama)**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "4th-visit(6-9-months)"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "c21908af-2a59-4400-d273-a9d6780115c7",
+          "type": "group",
+          "text": "Takes steps with support / picks up small object or string with 2 fingers / says 2-3 words / imitates simple gestures (claps hands, bye)",
+          "item": [
+            {
+              "linkId": "9a0e373d-0e8d-4b30-82b6-fdc4de49d891",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true,
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "5th-visit(9-12-months)"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "6d630e50-eefd-4e4c-8074-036b573305d4",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n",
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "5th-visit(9-12-months)"
+                  }
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Takes steps with support / picks up small object or string with 2 fingers / says 2-3**  \n**words / imitates simple gestures (claps**  \n**hands, bye)**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "5th-visit(9-12-months)"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "70aa20c3-2340-410a-8f83-861d83df1413",
+          "type": "group",
+          "text": "Walks without support / drinks from a cup / says 7-10 words / points to some body parts on request",
+          "item": [
+            {
+              "linkId": "c6df25d9-3d2e-47eb-88e6-25bddc095403",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true,
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "6th-visit(12-18-months)"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "4182748e-dd58-4422-932b-97a9a45129e7",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n",
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "6th-visit(12-18-months)"
+                  }
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Walks without support / drinks from a cup / says 7-10 words / points to some body parts on request**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "6th-visit(12-18-months)"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "e3802e7d-6874-4b0c-a834-2ec7cd473460",
+          "type": "group",
+          "text": "Kicks a ball / builds tower with 3 blocks or small boxes / points at pictures on request / speaks in short sentences",
+          "item": [
+            {
+              "linkId": "95845e66-3964-47f7-8b15-45a86a43e032",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true,
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "7th-visit(18-24-months)"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "93c50a96-f3be-406a-89f0-029eb4a38cf4",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n",
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "7th-visit(18-24-months)"
+                  }
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Kicks a ball / builds tower with 3 blocks or small boxes / points at pictures on request / speaks in short sentences**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "7th-visit(18-24-months)"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "86bb9431-e687-4bd6-a500-ba4b966313c0",
+          "type": "group",
+          "text": "Jumps/ undresses and dresses themselves / says name, tells short story/ interested in playing with other children",
+          "item": [
+            {
+              "linkId": "d7fdc869-120f-4611-9091-7272a4201d6e",
+              "type": "integer",
+              "text": "Age \n",
+              "required": true,
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "8th-visit(24-months-and-older)"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "b5b6aa98-9d65-4938-92d8-46fafd204a8d",
+              "type": "choice",
+              "required": true,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "ae005925-2049-4e28-e69b-257b644b468b",
+                    "code": "within-time",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Within Time"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "0fd4c6b5-c3a4-4017-8353-d1e87de871f3",
+                    "code": "delayed",
+                    "system": "urn:uuid:3a1bdd8d-d55c-43f1-8c9f-cd6fe08eb7ae",
+                    "display": "Delayed"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "text": "Age Achived\n",
+              "enableWhen": [
+                {
+                  "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+                  "operator": "=",
+                  "answerCoding": {
+                    "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                    "code": "8th-visit(24-months-and-older)"
+                  }
+                }
+              ]
+            }
+          ],
+          "required": false,
+          "_text": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+                "valueMarkdown": "### **Jumps/ undresses and dresses themselves / says name, tells short story/ interested in playing with other**  \n**children**"
+              }
+            ]
+          },
+          "enableWhen": [
+            {
+              "question": "4b735f95-8e24-42ff-9259-c1b8d92a5efb",
+              "operator": "=",
+              "answerCoding": {
+                "system": "urn:uuid:888da6f1-aeee-4a09-f13e-7f77a2b00a12",
+                "code": "8th-visit(24-months-and-older)"
+              }
+            }
+          ]
+        }
+      ],
+      "required": false
+    }
+  ]
+}

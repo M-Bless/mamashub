@@ -1,0 +1,128 @@
+{
+  "resourceType": "Questionnaire",
+  "language": "nb-NO",
+  "status": "draft",
+  "publisher": "NHN",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/Observation"
+    ],
+    "tag": [
+      {
+        "system": "urn:ietf:bcp:47",
+        "code": "nb-NO",
+        "display": "Bokmål"
+      }
+    ],
+    "security": [
+      {
+        "code": "3",
+        "display": "Helsehjelp (Full)",
+        "system": "urn:oid:2.16.578.1.12.4.1.1.7618"
+      }
+    ]
+  },
+  "contact": [
+    {
+      "name": "http://www.nhn.no"
+    }
+  ],
+  "subjectType": [
+    "Observation"
+  ],
+  "extension": [
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-sidebar",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-sidebar",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-information-message",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-information-message",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefintion/sdf-itemControl-visibility",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-help",
+            "display": "Hide help texts"
+          },
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-sublabel",
+            "display": "Hide sublabel texts"
+          }
+        ]
+      }
+    }
+  ],
+  "id": "6678cc8b-cbf6-4588-8133-6b88b22fa332",
+  "item": [
+    {
+      "linkId": "1f49fd5b-3957-401b-92e1-721ca1893de9",
+      "type": "group",
+      "text": "Family Planning\n",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "family-planning"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "33701d8e-d1af-42c1-d48b-542048c79933",
+          "type": "date",
+          "text": "Date",
+
+          "required": true
+        },
+        {
+          "linkId": "43bb2c66-a1bb-43d0-8e3b-51c7c3ba8fcf",
+          "type": "string",
+          "text": "Family Planning Method",
+          "required": true
+        },
+        {
+          "linkId": "479197ea-d3f3-4411-9810-0b0c64a85a8e",
+          "type": "quantity",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+              "valueCoding": {
+                "code": "kg",
+                "display": "kilo",
+                "system": "http://unitsofmeasure.org"
+              }
+            }
+          ],
+          "required": true,
+          "text": "Weight"
+        },
+        {
+          "linkId": "a9ec0bc3-bb22-4c21-865b-c716b05263b1",
+          "type": "string",
+          "text": "Blood Pressure",
+          "required": true
+        },
+        {
+          "linkId": "71ff27f2-a22d-4765-8079-e2e6f46490bf",
+          "type": "string",
+          "text": "Remarks",
+          "required": true
+        }
+      ],
+      "required": false
+    }
+  ]
+}

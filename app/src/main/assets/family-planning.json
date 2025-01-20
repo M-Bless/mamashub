@@ -1,0 +1,174 @@
+{
+  "resourceType": "Questionnaire",
+  "language": "en",
+  "status": "draft",
+  "publisher": "David Saruni (nsaruni@kabarak.ac.ke)",
+  "subjectType": [
+    "Observation"
+  ],
+  "item": [
+    {
+      "linkId": "1f49fd5b-3957-401b-92e1-721ca1893de9",
+      "type": "group",
+      "text": "Family Planning",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "family-planning"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "33701d8e-d1af-42c1-d48b-542048c79933",
+          "type": "dateTime",
+          "text": "Date",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation.valueDateTime"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "103540001",
+                    "display": "Date of procedure"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "43bb2c66-a1bb-43d0-8e3b-51c7c3ba8fcf",
+          "type": "string",
+          "text": "Family Planning Method",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation.method.text"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "738206007",
+                    "display": "Family planning method"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "479197ea-d3f3-4411-9810-0b0c64a85a8e",
+          "type": "quantity",
+          "text": "Weight",
+          "required": true,
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation.value",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation.valueQuantity"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unit",
+              "valueCoding": {
+                "code": "kg",
+                "display": "Kilogram",
+                "system": "http://unitsofmeasure.org"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "27113001",
+                    "display": "Body weight"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "a9ec0bc3-bb22-4c21-865b-c716b05263b1",
+          "type": "string",
+          "text": "Blood Pressure",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation.component.code"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "75367002",
+                    "display": "Blood pressure measurement"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "71ff27f2-a22d-4765-8079-e2e6f46490bf",
+          "type": "string",
+          "text": "Remarks",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation.note.text"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "281296001",
+                    "display": "Observation comment"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
