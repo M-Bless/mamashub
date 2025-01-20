@@ -114,7 +114,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 9.3 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
 
                 // Developmental Milestones
-                9.4 -> { context.startActivity(Intent(context, DiphtheriaView::class.java))}
+                9.4 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
 
                 // Identification of Early Eye Problems in an Infant
                 9.5 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
@@ -129,7 +129,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 10.1 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // BCG vaccine
                 10.2 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Polio vaccine
                 10.3 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // IPV (Inactivated Polio Vaccine)
-                10.4 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Diphtheria/Pertussis/Tetanus/Hepatitis B/Haemophilus Influenza Type B
+                10.4 -> { context.startActivity(Intent(context, DiphtheriaView::class.java))} // Diphtheria/Pertussis/Tetanus/Hepatitis B/Haemophilus Influenza Type B
                 10.5 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Pneumococcal Conjugate Vaccine
                 10.6 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Rotavirus vaccine
                 10.7 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Measles vaccine (MR)
