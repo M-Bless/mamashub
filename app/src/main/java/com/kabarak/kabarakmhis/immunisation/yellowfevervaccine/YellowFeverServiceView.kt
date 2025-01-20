@@ -86,7 +86,7 @@ class YellowFeverServiceView : AppCompatActivity() {
 
                 val text1 = DbObservationFhirData(
                     DbSummaryTitle.A_YELLOW_FEVER.name,
-                    listOf())
+                    listOf("871717007","67308009"))
                 val text1List = formatter.getObservationList(patientDetailsViewModel, text1, encounterId)
                 val observationDataList = text1List
 
