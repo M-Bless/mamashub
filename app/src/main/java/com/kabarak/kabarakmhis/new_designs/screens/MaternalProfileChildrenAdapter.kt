@@ -30,6 +30,7 @@ import com.kabarak.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringCha
 import com.kabarak.kabarakmhis.pnc.ChildBirthView
 import com.kabarak.kabarakmhis.pnc.ChildViewActivity
 import com.kabarak.kabarakmhis.pnc.child_civil_registration.ChildCivilRegistrationView
+import com.kabarak.kabarakmhis.pnc.diphtheria.DiphtheriaView
 
 
 class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternalProfileChild>,
@@ -113,7 +114,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 9.3 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
 
                 // Developmental Milestones
-                9.4 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}
+                9.4 -> { context.startActivity(Intent(context, DiphtheriaView::class.java))}
 
                 // Identification of Early Eye Problems in an Infant
                 9.5 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))}

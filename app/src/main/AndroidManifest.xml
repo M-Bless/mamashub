@@ -21,15 +21,23 @@
         <activity
             android:name=".pnc.ChildViewActivity"
             android:exported="false" />
-        <activity
-            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineView"
+        <activity android:name=".pnc.diphtheria.DiphtheriaView"
             android:exported="false" />
-        <activity
-            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccine"
+        <activity android:name=".pnc.diphtheria.DiphtheriaAdd"
             android:exported="false" />
-        <activity
-                android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineEdit"
+        <activity android:name=".pnc.diphtheria.DiphtheriaDetails"
             android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaEdit"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineView"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccine"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--                android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineEdit"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".pnc.child_civil_registration.ChildCivilRegistrationView"
             android:exported="false" />
