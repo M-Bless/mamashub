@@ -1,20 +1,15 @@
-package com.kabarak.kabarakmhis.pnc.vitamin_a_supplimentary
+package com.kabarak.kabarakmhis.immunisation.vitamin_a_supplimentary
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
-import androidx.lifecycle.lifecycleScope
 import ca.uhn.fhir.context.FhirContext
-import ca.uhn.fhir.context.FhirVersionEnum
 import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
-import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import retrofit2.Call
 import retrofit2.Callback

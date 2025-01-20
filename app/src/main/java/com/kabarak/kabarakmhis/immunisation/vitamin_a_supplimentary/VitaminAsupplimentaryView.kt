@@ -1,4 +1,4 @@
-package com.kabarak.kabarakmhis.pnc.vitamin_a_supplimentary
+package com.kabarak.kabarakmhis.immunisation.vitamin_a_supplimentary
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -26,9 +26,6 @@ import retrofit2.Response
 import ca.uhn.fhir.context.FhirContext
 import com.google.android.fhir.FhirEngine
 import com.kabarak.kabarakmhis.pnc.data_class.VitaminASup
-import com.kabarak.kabarakmhis.pnc.vitamin_a_supplimentary.VitaminASupplimentaryAdapter
-import com.kabarak.kabarakmhis.pnc.vitamin_a_supplimentary.VitaminAsupplimentaryAdd
-import com.kabarak.kabarakmhis.pnc.vitamin_a_supplimentary.VitaminAsupplimentaryEdit
 import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsFhir
 import kotlinx.android.synthetic.main.activity_vitamin_asupplimentary_view.*
 import org.hl7.fhir.r4.model.QuestionnaireResponse
