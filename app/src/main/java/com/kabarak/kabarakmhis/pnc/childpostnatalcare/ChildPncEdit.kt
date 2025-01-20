@@ -31,8 +31,10 @@ class ChildPncEdit: AppCompatActivity() {
         // Initialize RetrofitCallsFhir
         retrofitCallsFhir = RetrofitCallsFhir()
 
+        title = "Edit Child PNC Visit"
+
         // Load the questionnaire JSON
-        questionnaireJsonString = getStringFromAssets("BabyPostnatalCare-nb-NO-v1.1.json")
+        questionnaireJsonString = getStringFromAssets("baby-postnatal-care.json")
 
         // Assign questionnaireResponseId to responseId
         responseId = intent.getStringExtra("responseId") ?: ""
@@ -84,6 +86,7 @@ class ChildPncEdit: AppCompatActivity() {
     }
 
     private suspend fun fetchAndPopulateQuestionnaireResponse(responseId: String) {
+
         // Fetch QuestionnaireResponse from the FHIR server
         retrofitCallsFhir.fetchQuestionnaireResponse(responseId, object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

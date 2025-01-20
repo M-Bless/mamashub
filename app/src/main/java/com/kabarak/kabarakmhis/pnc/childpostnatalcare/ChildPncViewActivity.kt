@@ -2,6 +2,7 @@ package com.kabarak.kabarakmhis.pnc.childpostnatalcare
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,11 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.fhir.FhirApplication
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
-import com.kabarak.kabarakmhis.pnc.data_class.ChildPnc
 import com.kabarak.kabarakmhis.fhir.viewmodels.PatientDetailsViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -27,116 +26,76 @@ import retrofit2.Response
 import ca.uhn.fhir.context.FhirContext
 import com.google.android.fhir.FhirEngine
 import com.kabarak.kabarakmhis.network_request.requests.RetrofitCallsFhir
-import kotlinx.android.synthetic.main.activity_child_postnatal_view.*
+import com.kabarak.kabarakmhis.pnc.data_class.ChildPncData
 import kotlinx.android.synthetic.main.activity_child_pnc_view.*
+import kotlinx.android.synthetic.main.pnc_navigator.view.*
 import org.hl7.fhir.r4.model.QuestionnaireResponse
+import java.text.ParseException
+import java.util.Locale
 
 class ChildPncViewActivity : AppCompatActivity() {
 
-    private lateinit var childPncRecyclerView: RecyclerView
-    private lateinit var childPncAdapter: ChildPncAdapter
-    private var patients: MutableList<ChildPnc> = mutableListOf()
     private lateinit var retrofitCallsFhir: RetrofitCallsFhir
-    private lateinit var noRecordView: View
-
-    // For fetching patient data
     private lateinit var fhirEngine: FhirEngine
     private lateinit var formatter: FormatterClass
     private lateinit var patientId: String
     private lateinit var patientDetailsViewModel: PatientDetailsViewModel
+    private val patients = mutableListOf<ChildPncData>()
+    private lateinit var responseId: String // Define responseId globally
+    private lateinit var currentId: String // Define responseId globally
+    // Define the input format of the received date string
+    private val inputDateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.getDefault())
+    // Define the desired output format
+    private val outputDateFormat = SimpleDateFormat("EEE dd MMM yyyy", Locale.getDefault())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Initialize UI components
         setContentView(R.layout.activity_child_pnc_view)
-        noRecordView = findViewById(R.id.no_record)
 
 
-        /// Initialize FHIR engine and formatter
+
+        title = "Child Postnatal Care Details"
+
         formatter = FormatterClass()
         fhirEngine = FhirApplication.fhirEngine(this)
-
-        // Retrieve patient ID from shared preferences
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
+        // Assign questionnaireResponseId to responseId
+        responseId = intent.getStringExtra("responseId") ?: ""
 
-        // Initialize ViewModel
         patientDetailsViewModel = ViewModelProvider(
             this,
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application, fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        btnAdd.setOnClickListener {
-            val intent = Intent(this, ChildPostnatalCare::class.java)
-            startActivity(intent)
-        }
-
-        // Initialize RecyclerView
-        childPncRecyclerView = findViewById(R.id.recycler_view_child)
-        childPncRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        childPncAdapter = ChildPncAdapter(patients) { rawResponseId ->
-            val responseId = extractResponseId(rawResponseId)
-            Toast.makeText(this, "Response ID: $responseId", Toast.LENGTH_SHORT).show()
-
-            val intent = Intent(this, ChildPncEdit::class.java)
-            intent.putExtra("responseId", responseId)
-            startActivity(intent)
-        }
-        childPncRecyclerView.adapter = childPncAdapter
-
-        // Initialize noRecordView (the include layout for "no records found")
-        noRecordView = findViewById(R.id.no_record)
-
-        // Initialize RetrofitCallsFhir
         retrofitCallsFhir = RetrofitCallsFhir()
-
-        // Fetch child data from FHIR server
         fetchChildrenFromFHIR()
-
-        // Fetch patient data
         fetchPatientData()
+        handleNavigation()
     }
+
 
     private fun fetchPatientData() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val patientLocalName = formatter.retrieveSharedPreference(this@ChildPncViewActivity, "patientName")
-                val patientLocalDob = formatter.retrieveSharedPreference(this@ChildPncViewActivity, "dob")
-                val patientLocalIdentifier = formatter.retrieveSharedPreference(this@ChildPncViewActivity, "identifier")
+                val patientName = formatter.retrieveSharedPreference(this@ChildPncViewActivity, "patientName") ?: ""
+                val dob = formatter.retrieveSharedPreference(this@ChildPncViewActivity, "dob") ?: ""
+                val identifier = formatter.retrieveSharedPreference(this@ChildPncViewActivity, "identifier") ?: ""
 
-                if (patientLocalName.isNullOrEmpty()) {
+                if (patientName.isEmpty()) {
                     CoroutineScope(Dispatchers.Main).launch {
                         val progressDialog = ProgressDialog(this@ChildPncViewActivity)
                         progressDialog.setTitle("Please wait...")
                         progressDialog.setMessage("Fetching patient details...")
                         progressDialog.show()
 
-                        var patientName: String = ""
-                        var dob: String = ""
-                        var identifier: String = ""
-
-                        val job = Job()
-                        CoroutineScope(Dispatchers.IO + job).launch {
-                            val patientData = getPatientDataFromFhirEngine()
-                            patientName = patientData.first
-                            dob = patientData.second
-
-                            formatter.saveSharedPreference(this@ChildPncViewActivity, "patientName", patientName)
-                            formatter.saveSharedPreference(this@ChildPncViewActivity, "dob", dob)
-
-                            if (identifier.isNotEmpty()) {
-                                formatter.saveSharedPreference(this@ChildPncViewActivity, "identifier", identifier)
-                            }
-                        }.join()
-
-                        showPatientDetails(patientName, dob, identifier)
+                        val patientData = getPatientDataFromFhirEngine()
+                        showPatientDetails(patientData.first, patientData.second, identifier)
 
                         progressDialog.dismiss()
                     }
                 } else {
-                    // Display the data from local storage
-                    showPatientDetails(patientLocalName, patientLocalDob, patientLocalIdentifier)
+                    showPatientDetails(patientName, dob, identifier)
                 }
             } catch (e: Exception) {
                 Log.e("ChildPncViewActivity", "Error fetching patient data: ${e.message}")
@@ -145,146 +104,133 @@ class ChildPncViewActivity : AppCompatActivity() {
     }
 
     private fun showPatientDetails(patientName: String, dob: String?, identifier: String?) {
-        tvName.text = patientName
-        if (!identifier.isNullOrEmpty()) tvANCID.text = identifier
-        if (!dob.isNullOrEmpty()) tvAge.text = "${formatter.calculateAge(dob)} years"
+        tvPatient.text = patientName
+        tvANCID.text = identifier
+        //tvAge.text = dob?.let { "${formatter.calculateAge(it)} years" } ?: "N/A"
     }
 
     private fun getPatientDataFromFhirEngine(): Pair<String, String> {
-        // Use FHIR engine to fetch patient data, then return the name and date of birth
         val patientData = patientDetailsViewModel.getPatientData()
-        val patientName = patientData.name
-        val dob = patientData.dob
-
-        return Pair(patientName, dob)
+        return Pair(patientData.name, patientData.dob)
     }
 
     private fun fetchChildrenFromFHIR() {
         lifecycleScope.launch(Dispatchers.IO) {
-            retrofitCallsFhir.fetchAllQuestionnaireResponses(object : Callback<ResponseBody> {
+            retrofitCallsFhir.fetchQuestionnaireResponse(responseId, object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
                         response.body()?.let { responseBody ->
                             val rawResponse = responseBody.string()
                             Log.d("ChildPncViewActivity", "Raw Response body: $rawResponse")
 
-                            if (rawResponse.isNotEmpty()) {
-                                try {
-                                    val fhirContext = FhirContext.forR4()
-                                    val parser = fhirContext.newJsonParser()
-                                    val bundle = parser.parseResource(org.hl7.fhir.r4.model.Bundle::class.java, rawResponse)
-
-                                    // Clear list before adding new items
-                                    patients.clear()
-
-                                    // Extract child data from the bundle
-                                    extractChildrenPncFromBundle(bundle)
-
-                                    // Show/hide views based on the presence of children
-                                    runOnUiThread { toggleViews() }
-                                } catch (e: Exception) {
-                                    Log.e("ChildPncViewActivity", "Error parsing response", e)
-                                    runOnUiThread {
-                                        Toast.makeText(this@ChildPncViewActivity, "Failed to parse response", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            } else {
-                                runOnUiThread {
-                                    Toast.makeText(this@ChildPncViewActivity, "Received an empty response", Toast.LENGTH_SHORT).show()
-                                    toggleViews()
-                                }
+                            try {
+                                val fhirContext = FhirContext.forR4()
+                                val parser = fhirContext.newJsonParser()
+                                val questionnaireResponse = parser.parseResource(QuestionnaireResponse::class.java, rawResponse)
+                                patients.clear()
+                                extractChildrenPncFromQuestionnaire(questionnaireResponse)
+                            } catch (e: Exception) {
+                                showToast("Failed to parse response")
+                                Log.e("ChildPncViewActivity", "Error parsing response", e)
                             }
                         }
                     } else {
-                        runOnUiThread {
-                            Toast.makeText(this@ChildPncViewActivity, "Failed to fetch data: ${response.message()}", Toast.LENGTH_SHORT).show()
-                            toggleViews()
-                        }
+                        showToast("Failed to fetch data: ${response.message()}")
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    runOnUiThread {
-                        Log.e("ChildPncViewActivity", "Error occurred while fetching data", t)
-                        Toast.makeText(this@ChildPncViewActivity, "Error occurred: ${t.message}", Toast.LENGTH_SHORT).show()
-                        toggleViews()
-                    }
+                    showToast("Error occurred: ${t.message}")
+                    Log.e("ChildPncViewActivity", "Error occurred while fetching data", t)
                 }
             })
         }
     }
 
-    private fun extractChildrenPncFromBundle(bundle: org.hl7.fhir.r4.model.Bundle) {
-        for (entry in bundle.entry) {
-            val resource = entry.resource
-            if (resource is QuestionnaireResponse) {
-                extractChildrenPncFromQuestionnaire(resource)
-            }
-        }
-
-        // Notify the adapter to update the UI with the new children data
-        runOnUiThread {
-            childPncAdapter.notifyDataSetChanged()
-        }
-
-    }
-
     private fun extractChildrenPncFromQuestionnaire(questionnaireResponse: QuestionnaireResponse) {
         val responseId = questionnaireResponse.id
+        if (patients.any { it.id == responseId }) return
 
-        if (patients.any { it.visitTime == responseId }) {
-            Log.d("ChildPncViewActivity", "ChildPnc with ID $responseId already exists. Skipping duplicate.")
-            return
-        }
-
-        var condition: String? = null
-        var nextVisit: String? = null
-        var visit: String? = null
+        var timeOfVisit: String? = null
+        var generalCondition: String? = null
+        var temperature: String? = null
+        var breathsPerMinute: String? = null
+        var feedingMethod: String? = null
+        var umbilicalCordStatus: String? = null
+        var clinicalNotes: String? = null
+        var nextVisitDate: String? = null
 
         for (item in questionnaireResponse.item) {
-            when(item.linkId) {
-                // Visit
-                "aa7fb496-8d17-4370-bc88-ddd0316eabf1" -> {
-                    visit = item.answer.firstOrNull()?.valueCoding?.display.toString()
-                }
-                // General Condition
-                "0590985e-8105-49ed-875b-3ca1c4807702" -> {
-                    condition = item.answer.firstOrNull()?.valueCoding?.display.toString()
-                }
-                // Next Visit
-                "03e1ed67-5a2e-4829-f0f0-22eb4a294b8b" -> {
-                    nextVisit = item.answer.firstOrNull()?.valueDateType?.toString()
-                }
+            when (item.linkId) {
+                "aa7fb496-8d17-4370-bc88-ddd0316eabf1" -> timeOfVisit = item.answer.firstOrNull()?.valueCoding?.display
+                "0590985e-8105-49ed-875b-3ca1c4807702" -> generalCondition = item.answer.firstOrNull()?.valueCoding?.display
+                "d7bdda54-477e-43f5-85e6-6ab779382d42" -> temperature = item.answer.firstOrNull()?.valueIntegerType?.value.toString()
+                "3e8437b9-1c69-4872-8636-efd095112fed" -> breathsPerMinute = item.answer.firstOrNull()?.valueIntegerType?.value.toString()
+                "ace828ee-6239-4751-88fc-5d9ca2b16806" -> feedingMethod = item.answer.firstOrNull()?.valueCoding?.display
+                "2b083308-eff3-4205-fa6a-002ffe78bc8f" -> umbilicalCordStatus = item.answer.firstOrNull()?.valueCoding?.display
+                "9994db80-2095-4829-81f0-0d199dcfeb5d" -> clinicalNotes = item.answer.firstOrNull()?.valueStringType?.value
+                "03e1ed67-5a2e-4829-f0f0-22eb4a294b8b" -> nextVisitDate = item.answer.firstOrNull()?.valueDateType?.value.toString()
             }
         }
 
-        // Add the entry to patients list if required fields are present
-        if (!condition.isNullOrEmpty() && !nextVisit.isNullOrEmpty()) {
-            val childPnc = ChildPnc(
-                id = responseId,
-                visitTime = visit.toString(),
-                generalCondition = condition.toString(),
-                nextVisitDate = nextVisit.toString()
+        if (!generalCondition.isNullOrEmpty() && !nextVisitDate.isNullOrEmpty()) {
+            patients.add(
+                ChildPncData(
+                    id = responseId,
+                    visitTime = timeOfVisit ?: "N/A",
+                    generalCondition = generalCondition,
+                    temperature = temperature ?: "N/A",
+                    breathsPerMinute = breathsPerMinute ?: "N/A",
+                    feedingMethod = feedingMethod ?: "N/A",
+                    umbilicalCordStatus = umbilicalCordStatus ?: "N/A",
+                    clinicalNotes = clinicalNotes ?: "N/A",
+                    nextVisitDate = nextVisitDate ?: "N/A"
+                )
             )
-            patients.add(childPnc)
-            Log.d("ChildPncViewActivity", "Added PNC visit: $visit, General Condition: $condition, Next Visit: $nextVisit")
         }
+
+        runOnUiThread { displayQuestionnaireData() }
     }
 
-    private fun extractResponseId(rawResponseId: String): String {
-        val regex = Regex("QuestionnaireResponse/(\\d+)")
-        val matchResult = regex.find(rawResponseId)
-        return matchResult?.groupValues?.get(1) ?: rawResponseId
+    private fun displayQuestionnaireData() {
+        // Retrieve the latest entry in the patients list
+        val latestEntry = patients.lastOrNull() ?: return
+        currentId = latestEntry.id
+        // Display the details in the respective TextViews
+        tvCondition.text = latestEntry.generalCondition ?: "N/A"
+        tvTimeOfVisit.text = latestEntry.visitTime ?: "N/A"
+        tvTemperature.text = latestEntry.temperature ?: "N/A"
+        tvBreathsPerMinute.text = latestEntry.breathsPerMinute ?: "N/A"
+        tvFeedingMethod.text = latestEntry.feedingMethod ?: "N/A"
+        tvUmbilicalCordStatus.text = latestEntry.umbilicalCordStatus ?: "N/A"
+        tvClinicalNotes.text = latestEntry.clinicalNotes ?: "N/A"
+        // Parse and reformat the date
+        tvNextVisitDate.text = try {
+            val parsedDate = inputDateFormat.parse(latestEntry.nextVisitDate )
+            "${outputDateFormat.format(parsedDate)}"
+        } catch (e: ParseException) {
+            "N/A"
+        }
+
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
-    private fun toggleViews() {
-        if (patients.isEmpty()) {
-            childPncRecyclerView.visibility = View.GONE
-            noRecordView.visibility = View.VISIBLE
-        } else {
-            childPncRecyclerView.visibility = View.VISIBLE
-            noRecordView.visibility = View.GONE
+    private fun handleNavigation() {
+        pnc_navigator.btnEdit.text = "Edit Visit"
+        pnc_navigator.btnCancel.text = "Cancel"
+
+        pnc_navigator.btnEdit.setOnClickListener {
+            val intent = Intent(this, ChildPncEdit::class.java)
+            intent.putExtra("responseId", responseId)
+            startActivity(intent)
+
+        }
+        pnc_navigator.btnCancel.setOnClickListener {
+            startActivity(Intent(this, ChildPncList::class.java))
+            finish()
         }
     }
 }
