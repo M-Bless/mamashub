@@ -38,6 +38,25 @@
 <!--        <activity-->
 <!--                android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineEdit"-->
 <!--            android:exported="false" />-->
+
+        <activity
+            android:name=".pnc.milestone.MilestoneDetailsAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneDetails"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneView"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneAdd"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneAdapter"
+            android:exported="false" />
         <activity
             android:name=".pnc.child_civil_registration.ChildCivilRegistrationView"
             android:exported="false" />
