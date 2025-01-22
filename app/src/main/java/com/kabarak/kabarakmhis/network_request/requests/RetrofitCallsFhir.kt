@@ -4,12 +4,20 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import ca.uhn.fhir.context.FhirContext
+import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_API_SERVER
+import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_SERVER
 import com.kabarak.kabarakmhis.fhir.data.SYNC_VALUE
 import com.kabarak.kabarakmhis.helperclass.*
 import com.kabarak.kabarakmhis.network_request.builder.RetrofitBuilder
 import com.kabarak.kabarakmhis.network_request.interfaces.Interface
 import com.kabarak.kabarakmhis.new_designs.data_class.*
 import kotlinx.coroutines.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import org.hl7.fhir.r4.model.Bundle
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -611,4 +619,36 @@ class RetrofitCallsFhir {
 
     }
 
+    private val apiService = RetrofitBuilder.getRetrofit(DEMO_SERVER).create(Interface::class.java)
+
+    fun submitQuestionnaireResponse(questionnaireResponseString: String, callback: Callback<ResponseBody>) {
+        val mediaType = "application/fhir+json".toMediaTypeOrNull()
+        val requestBody = RequestBody.create(mediaType, questionnaireResponseString)
+        val call = apiService.submitQuestionnaireResponse(requestBody)
+        call.enqueue(callback)
+    }
+    fun updateQuestionnaireResponse(responseId: String, questionnaireResponseString: String, callback: Callback<ResponseBody>) {
+        val mediaType = "application/fhir+json".toMediaTypeOrNull()  // Ensure correct media type for FHIR JSON
+        val requestBody = RequestBody.create(mediaType, questionnaireResponseString)  // Create request body
+
+        // Make the API call to submit the updated QuestionnaireResponse
+        val call = apiService.submitQuestionnaireResponse(responseId, requestBody)
+        call.enqueue(callback)  // Enqueue the call to run asynchronously
+    }
+
+    fun fetchQuestionnaireResponse(responseId: String, callback: Callback<ResponseBody>) {
+        apiService.getQuestionnaireResponse(responseId).enqueue(callback)
+    }
+    fun fetchAllQuestionnaireResponses(callback: Callback<ResponseBody>) {
+        val call = apiService.getAllQuestionnaireResponses()
+        call.enqueue(callback)
+    }
+    fun submitExtractedBundle(bundleJson: String, callback: Callback<ResponseBody>) {
+        val mediaType = "application/fhir+json".toMediaTypeOrNull()
+        val requestBody = RequestBody.create(mediaType, bundleJson)
+
+        // Use the base URL (e.g., /fhir) without adding "/Bundle"
+        val call = apiService.submitBundleToBaseUrl(requestBody)
+        call.enqueue(callback)
+    }
 }

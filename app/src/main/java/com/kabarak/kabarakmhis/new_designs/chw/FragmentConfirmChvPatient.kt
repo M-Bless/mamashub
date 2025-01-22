@@ -16,6 +16,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ca.uhn.fhir.context.FhirContext
 import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.kabarak.kabarakmhis.R
@@ -27,6 +28,7 @@ import com.kabarak.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.kabarak.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.kabarak.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import kotlinx.coroutines.*
+import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 
 
@@ -270,10 +272,13 @@ class FragmentConfirmChvPatient : Fragment(){
             .putString(FragmentConfirmDetails.QUESTIONNAIRE_FILE_PATH_KEY, "patient.json")
     }
 
-    private fun addQuestionnaireFragment(){
-        val fragment = QuestionnaireFragment()
-        fragment.arguments = bundleOf(QuestionnaireUtil.getExtraQuestionnaireJsonString() to viewModel.questionnaire)
+    private fun addQuestionnaireFragment() {
+        val fragment = QuestionnaireFragment.builder()
+            .setQuestionnaire(viewModel.questionnaire) // Ensure viewModel.questionnaire returns the JSON string
+            .build()
+
         childFragmentManager.commit {
+            setReorderingAllowed(true)
             add(R.id.add_patient_container, fragment, QUESTIONNAIRE_FRAGMENT_TAG)
         }
     }
@@ -296,6 +301,7 @@ class FragmentConfirmChvPatient : Fragment(){
     companion object {
         const val QUESTIONNAIRE_FILE_PATH_KEY = "questionnaire-file-path-key"
         const val QUESTIONNAIRE_FRAGMENT_TAG = "questionnaire-fragment-tag"
+        const val EXTRA_QUESTIONNAIRE_JSON_STRING = "questionnaire_json_string"
     }
 
 }

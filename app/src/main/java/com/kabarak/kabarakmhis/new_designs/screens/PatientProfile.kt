@@ -145,9 +145,31 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalProfileChild25 = DbMaternalProfileChild(8.7, resources.getDrawable(R.drawable.chm), "Civil Registration")
         val dbMaternalProfileChild26 = DbMaternalProfileChild(8.8, resources.getDrawable(R.drawable.chm), "Reason for Special Care")
         val dbMaternalProfileChild27 = DbMaternalProfileChild(8.9, resources.getDrawable(R.drawable.chm), "Other Problems as Reported by Parent or Guardian")
-        val dbMaternalProfileChild28 = DbMaternalProfileChild(8.10, resources.getDrawable(R.drawable.chm), "Record of Baby Teeth Development")
+        val dbMaternalProfileChild28 = DbMaternalProfileChild(9.1, resources.getDrawable(R.drawable.chm), "Record of Baby Teeth Development")
+        val dbMaternalProfileChild29 = DbMaternalProfileChild(9.2, resources.getDrawable(R.drawable.chm), "Broad clinical review at first contact below 6 months")
+        val dbMaternalProfileChild30 = DbMaternalProfileChild(9.3, resources.getDrawable(R.drawable.chm), "Feeding information from parent/guardian")
+        val dbMaternalProfileChild31 = DbMaternalProfileChild(9.4, resources.getDrawable(R.drawable.chm), "Developmental Milestones")
+        val dbMaternalProfileChild32 = DbMaternalProfileChild(9.5, resources.getDrawable(R.drawable.chm), "Identification of early eye problems in an infant")
+        val dbMaternalProfileChild33 = DbMaternalProfileChild(9.6, resources.getDrawable(R.drawable.chm), "Record of baby’s teeth development")
+        val dbMaternalProfileChild34 = DbMaternalProfileChild(9.7, resources.getDrawable(R.drawable.chm), "Reason for Special Care")
 
-        dbMaternalPncVisitList.addAll(listOf(dbMaternalProfileChild19, dbMaternalProfileChild20, dbMaternalProfileChild21, dbMaternalProfileChild22, dbMaternalProfileChild23, dbMaternalProfileChild24, dbMaternalProfileChild25, dbMaternalProfileChild26, dbMaternalProfileChild27, dbMaternalProfileChild28))
+        dbMaternalPncVisitList.addAll(listOf(dbMaternalProfileChild19, dbMaternalProfileChild20, dbMaternalProfileChild21, dbMaternalProfileChild22, dbMaternalProfileChild23, dbMaternalProfileChild24, dbMaternalProfileChild25, dbMaternalProfileChild26, dbMaternalProfileChild27, dbMaternalProfileChild28, dbMaternalProfileChild29, dbMaternalProfileChild30, dbMaternalProfileChild31, dbMaternalProfileChild32, dbMaternalProfileChild33, dbMaternalProfileChild34))
+
+        // Immunization
+        val immunizationList = ArrayList<DbMaternalProfileChild>()
+        val immunization1 = DbMaternalProfileChild(10.1, resources.getDrawable(R.drawable.chm), "BCG Vaccine")
+        val immunization2 = DbMaternalProfileChild(10.2, resources.getDrawable(R.drawable.chm), "Polio vaccine")
+        val immunization3 = DbMaternalProfileChild(10.3, resources.getDrawable(R.drawable.chm), "IPV (Inactivated Polio Vaccine)")
+        val immunization4 = DbMaternalProfileChild(10.4, resources.getDrawable(R.drawable.chm), "Diphtheria/Pertussis/Tetanus/Hepatitis\n" +
+                "B/Haemophilus Influenza Type B")
+        val immunization5 = DbMaternalProfileChild(10.5, resources.getDrawable(R.drawable.chm), "Pneumococcal Conjugate Vaccine")
+        val immunization6 = DbMaternalProfileChild(10.6, resources.getDrawable(R.drawable.chm), "Rotavirus Vaccine")
+        val immunization7 = DbMaternalProfileChild(10.7, resources.getDrawable(R.drawable.chm), "Measles Vaccine (MR)")
+        val immunization8 = DbMaternalProfileChild(10.8, resources.getDrawable(R.drawable.chm), "Yellow Fever Vaccine")
+        val immunization9 = DbMaternalProfileChild(10.9, resources.getDrawable(R.drawable.chm), "Meningococcal Vaccine")
+        val immunization10 = DbMaternalProfileChild(11.1, resources.getDrawable(R.drawable.chm), "Other Vaccines")
+        immunizationList.addAll(listOf(immunization1, immunization2, immunization3, immunization4, immunization5, immunization6, immunization7, immunization8, immunization9, immunization10))
+
 
 
         val dbMaternalProfile = DbMaternalProfile("Client Information", dbMaternalClientInfoList, true)
@@ -158,10 +180,11 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalCounseling = DbMaternalProfile("Counseling", dbMaternalCounselingList, isPatient)
         val dbMaternalReferral = DbMaternalProfile("Referral to Community", dbMaternalReferralList, isPatient)
         val dbMaternalPncVisit = DbMaternalProfile("PNC Visit", dbMaternalPncVisitList, isPatient)
+        val dbImmunization = DbMaternalProfile("Immunization", immunizationList, isPatient)
 
         dbMaternalProfileList.addAll(listOf(
             dbMaternalProfile,dbMaternalMedicalHistory,dbMaternalAssessment,
-            dbMaternalPreventiveServices,dbMaternalBirthPlan,dbMaternalCounseling,dbMaternalReferral, dbMaternalPncVisit))
+            dbMaternalPreventiveServices,dbMaternalBirthPlan,dbMaternalCounseling,dbMaternalReferral, dbMaternalPncVisit, dbImmunization))
 
         val adapter = ExpandableRecyclerAdapter(dbMaternalProfileList, this)
         recyclerView.adapter = adapter
