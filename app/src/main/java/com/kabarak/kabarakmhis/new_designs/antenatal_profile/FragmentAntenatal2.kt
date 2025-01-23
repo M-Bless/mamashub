@@ -85,11 +85,11 @@ class FragmentAntenatal2 : Fragment() , AdapterView.OnItemSelectedListener {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         rootView.radioGrpHIVStatus.setOnCheckedChangeListener { radioGroup, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)

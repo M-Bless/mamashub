@@ -31,7 +31,7 @@ class AppointmentAdapter(private var entryList: ArrayList<DbAppointments>,
         override fun onClick(p0: View) {
 
             val pos = adapterPosition
-            val id = entryList[pos].id
+            entryList[pos].id
 
 
         }
@@ -55,7 +55,7 @@ class AppointmentAdapter(private var entryList: ArrayList<DbAppointments>,
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
 
-        val id = entryList[position].id
+        entryList[position].id
         val appointmentDate = entryList[position].date
         val title = entryList[position].title
 

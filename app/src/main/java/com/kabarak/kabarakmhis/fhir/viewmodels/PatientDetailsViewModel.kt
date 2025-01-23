@@ -98,7 +98,7 @@ class PatientDetailsViewModel(
 
     private suspend fun getPatient(): DbPatientRecord? {
 
-        val patient = getPatientResource()
+        getPatientResource()
 
         return null
 //        return FormatterClass().patientData(patient, 0)
@@ -260,7 +260,7 @@ class PatientDetailsViewModel(
 
                 val tetanusNo = "TT${index + 1}"
                 val encounterId = dbFhirEncounter.id
-                val encounterName = dbFhirEncounter.encounterName
+                dbFhirEncounter.encounterName
                 val encounterType = dbFhirEncounter.encounterType
                 val encounterDate = dbFhirEncounter.encounterDate
 
@@ -315,7 +315,7 @@ class PatientDetailsViewModel(
                 }
 
                 val encounterId = dbFhirEncounter.id
-                val encounterName = dbFhirEncounter.encounterName
+                dbFhirEncounter.encounterName
                 val encounterType = dbFhirEncounter.encounterType
                 val encounterDate = dbFhirEncounter.encounterDate
 
@@ -367,7 +367,7 @@ class PatientDetailsViewModel(
                 }
 
                 val encounterId = dbFhirEncounter.id
-                val encounterName = dbFhirEncounter.encounterName
+                dbFhirEncounter.encounterName
                 val encounterType = dbFhirEncounter.encounterType
                 val encounterDate = dbFhirEncounter.encounterDate
 
@@ -418,7 +418,7 @@ class PatientDetailsViewModel(
                 }
 
                 val encounterId = dbFhirEncounter.id
-                val encounterName = dbFhirEncounter.encounterName
+                dbFhirEncounter.encounterName
                 val encounterType = dbFhirEncounter.encounterType
                 val encounterDate = dbFhirEncounter.encounterDate
 
@@ -439,7 +439,7 @@ class PatientDetailsViewModel(
                 val encounterNameDetail = "ANC Contact ${index + 1}"
 
                 val encounterId = dbFhirEncounter.id
-                val encounterName = dbFhirEncounter.encounterName
+                dbFhirEncounter.encounterName
                 val encounterType = dbFhirEncounter.encounterType
                 val encounterDate = dbFhirEncounter.encounterDate
 
@@ -464,7 +464,7 @@ class PatientDetailsViewModel(
                 }
 
                 val encounterId = dbFhirEncounter.id
-                val encounterName = dbFhirEncounter.encounterName
+                dbFhirEncounter.encounterName
                 val encounterType = dbFhirEncounter.encounterType
                 val encounterDate = dbFhirEncounter.encounterDate
 
@@ -482,7 +482,7 @@ class PatientDetailsViewModel(
                 val encounterNameDetail = "Clinical Note ${index + 1}"
 
                 val encounterId = dbFhirEncounter.id
-                val encounterName = dbFhirEncounter.encounterName
+                dbFhirEncounter.encounterName
                 val encounterType = dbFhirEncounter.encounterType
                 val encounterDate = dbFhirEncounter.encounterDate
 
@@ -520,7 +520,7 @@ class PatientDetailsViewModel(
 
     private suspend fun observationFromEncounter(encounterName: String) : List<EncounterItem>{
 
-        val formatter = FormatterClass()
+        FormatterClass()
         val encounter = mutableListOf<EncounterItem>()
 
         /**

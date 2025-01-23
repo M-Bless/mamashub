@@ -28,7 +28,7 @@ class RegimenPmtctAdapter(private var entryList: List<DbPMTCTRegimen>?,
 
         override fun onClick(p0: View) {
 
-            val pos = adapterPosition
+            adapterPosition
 
 
 

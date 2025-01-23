@@ -57,11 +57,11 @@ class MaternalSerology : AppCompatActivity() {
         setContentView(R.layout.activity_maternal_serology)
 
         title = "Maternal Serology Repeat Testing"
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
         kabarakViewModel = KabarakViewModel(application)
 
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()

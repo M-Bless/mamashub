@@ -69,10 +69,10 @@ class FragmentAntenatal3 : Fragment() {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
+        month = calendar.get(Calendar.MONTH)
         day = calendar.get(Calendar.DAY_OF_MONTH)
 
 
