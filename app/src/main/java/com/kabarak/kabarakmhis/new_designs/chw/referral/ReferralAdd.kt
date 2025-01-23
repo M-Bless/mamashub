@@ -195,7 +195,7 @@ class ReferralAdd : AppCompatActivity() {
             tvAge.text = age
         }
 
-        val edd = formatter.retrieveSharedPreference(this, "edd")
+        formatter.retrieveSharedPreference(this, "edd")
 
 
 

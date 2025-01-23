@@ -59,7 +59,7 @@ class ChwPatientsListAdapter(private var entryList: List<DbChwPatientData>,
 
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
-        val id = entryList[position].id
+        entryList[position].id
         val name = entryList[position].name
         val dob = entryList[position].dob
         val date = entryList[position].referralDate

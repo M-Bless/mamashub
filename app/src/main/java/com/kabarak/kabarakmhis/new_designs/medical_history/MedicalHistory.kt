@@ -107,7 +107,7 @@ class MedicalHistory : AppCompatActivity() {
             dbObservationValueList.add(dbObservationData)
         }
 
-        val dbObservationValue = DbObservationValue(dbObservationValueList)
+        DbObservationValue(dbObservationValueList)
 
 
 //        retrofitCallsFhir.createFhirEncounter(this, dbObservationValue, DbResourceViews.MEDICAL_HISTORY.name)

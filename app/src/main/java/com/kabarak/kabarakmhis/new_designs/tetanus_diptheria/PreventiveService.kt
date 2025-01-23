@@ -54,12 +54,12 @@ class PreventiveService : AppCompatActivity() {
         setContentView(R.layout.activity_preventive_service)
 
         title = "Tetanus Diphtheria"
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
         kabarakViewModel = KabarakViewModel(application)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
         fhirEngine = FhirApplication.fhirEngine(this)

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/rounded_textview.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Set the solid background color, e.g., white or transparent -->
+    <solid android:color="#FFFFFF" /> <!-- Adjust background color as needed -->
+
+    <!-- Define the corner radius to make it rounded -->
+    <corners android:radius="20dp" /> <!-- Adjust corner radius as needed -->
+
+    <!-- Define the stroke (border) with a width of 1px and black color -->
+    <stroke
+        android:width="1.5dp"
+
+        android:color="#000000" /> <!-- 1px black border -->
+</shape>

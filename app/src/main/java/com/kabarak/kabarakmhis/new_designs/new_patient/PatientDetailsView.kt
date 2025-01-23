@@ -27,7 +27,7 @@ class PatientDetailsView : AppCompatActivity() {
 
         kabarakViewModel = KabarakViewModel(this.applicationContext as Application)
 
-        recyclerView = findViewById(R.id.patient_list);
+        recyclerView = findViewById(R.id.patient_list)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,

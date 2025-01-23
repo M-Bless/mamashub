@@ -101,11 +101,11 @@ class MalariaProphylaxis : AppCompatActivity(), AdapterView.OnItemSelectedListen
             }
         }
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         tvDose.setOnClickListener { createDialog(999) }
         tvTDInjection.setOnClickListener { createDialog(998) }

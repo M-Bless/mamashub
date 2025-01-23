@@ -13,7 +13,6 @@ import com.kabarak.kabarakmhis.network_request.builder.RetrofitBuilder
 import com.kabarak.kabarakmhis.network_request.interfaces.Interface
 import com.kabarak.kabarakmhis.new_designs.data_class.*
 import kotlinx.coroutines.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -56,7 +55,7 @@ class RetrofitCallsFhir {
             val job = Job()
             CoroutineScope(Dispatchers.IO + job).launch {
 
-                var formatter = FormatterClass()
+                FormatterClass()
 
                 val baseUrl = context.getString(UrlData.FHIR_URL.message)
 
@@ -95,11 +94,11 @@ class RetrofitCallsFhir {
                             progressDialog.dismiss()
 
                             val code = response.code()
-                            val message = response.errorBody().toString()
+                            response.errorBody().toString()
 
                             if (code != 500) {
 
-                                val jObjError = response.errorBody()?.string()
+                                response.errorBody()?.string()
                                     ?.let { JSONObject(it) }
 
                                 CoroutineScope(Dispatchers.IO).launch {
@@ -247,7 +246,7 @@ class RetrofitCallsFhir {
                     } else {
 
                         val code = response.code()
-                        val message = response.errorBody().toString()
+                        response.errorBody().toString()
                         Log.e("***2 ", response.toString())
 
                         if (code != 500) {
@@ -412,7 +411,7 @@ class RetrofitCallsFhir {
 
             val id = observations.resource.id
             val code = observations.resource.code
-            val resourceType = observations.resource.resourceType
+            observations.resource.resourceType
 
             if (code != null) {
 

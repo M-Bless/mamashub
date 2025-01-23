@@ -150,7 +150,7 @@ class FragmentFamily : Fragment() , AdapterView.OnItemSelectedListener{
                     val householdLiving = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.FAMILY_LIVING_HOUSEHOLD.name), encounterId)
 
-                    val tbScreening = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                    patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.FAMILIY_TB_SCREENING.name), encounterId)
 
                     CoroutineScope(Dispatchers.Main).launch {
