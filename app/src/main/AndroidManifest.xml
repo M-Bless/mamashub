@@ -60,6 +60,14 @@
         <activity
             android:name=".pnc.ChildViewActivity"
             android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaView"
+            android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaAdd"
+            android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaDetails"
+            android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaEdit"
+            android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineView"-->
 <!--            android:exported="false" />-->
