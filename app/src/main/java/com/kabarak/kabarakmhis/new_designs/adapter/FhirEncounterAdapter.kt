@@ -86,7 +86,7 @@ class FhirEncounterAdapter(private var entryList: ArrayList<DbFhirEncounter>,
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
 
-        val id = entryList[position].encounterName
+        entryList[position].encounterName
         val appointmentDate = entryList[position].encounterName
 
         holder.tvValue.text = appointmentDate

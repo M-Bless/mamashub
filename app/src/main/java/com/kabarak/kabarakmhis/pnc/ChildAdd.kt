@@ -52,7 +52,9 @@ class ChildAdd : AppCompatActivity() {
         viewModel = ChildAddViewModel(application, savedStateHandle)
 
         // Load the questionnaire JSON
-        questionnaireJsonString = readFileFromAssets("new-patient-registration.json")
+
+        questionnaireJsonString = getStringFromAssets("new-patient-registration.json")
+
 
         if (savedInstanceState == null && questionnaireJsonString != null) {
             supportFragmentManager.commit {
@@ -91,19 +93,35 @@ class ChildAdd : AppCompatActivity() {
         if (fragment is QuestionnaireFragment) {
             val questionnaireResponse: QuestionnaireResponse = fragment.getQuestionnaireResponse()
 
-            // Convert the QuestionnaireResponse to JSON using Gson
-            val gson = Gson()
-            val jsonResponse = gson.toJson(questionnaireResponse)
+            // Use FHIR's JSON parser to convert QuestionnaireResponse into a JSON string
+            val fhirContext = FhirContext.forR4()
+            val jsonParser = fhirContext.newJsonParser()
 
-            // Log the JSON response
-            Log.d("ChildAdd", "QuestionnaireResponse (JSON): $jsonResponse")
+            // Serialize the response to a JSON string
+            val questionnaireResponseString = jsonParser.encodeResourceToString(questionnaireResponse)
 
-            // Optionally, display the JSON response in a Toast or TextView
-            Toast.makeText(this, "QuestionnaireResponse (JSON): $jsonResponse", Toast.LENGTH_LONG).show()
+            // Log the response (you can replace this with saving to a database or sending to a server)
+            Log.d("submitQuestionnaire", questionnaireResponseString)
 
+            // Submit the QuestionnaireResponse to the server using RetrofitCallsFhir
+            retrofitCallsFhir.submitQuestionnaireResponse(questionnaireResponseString, object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@ChildAdd, "Successfully submitted!", Toast.LENGTH_SHORT).show()
+                        finish()
+                        Log.d("ChildAdd", "Successfully submitted the questionnaire response.")
+                    } else {
+                        Toast.makeText(this@ChildAdd, "Submission failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        Log.e("Error", "Failed to submit. Response code: ${response.code()}")
+                    }
+                }
 
-            // Send the response to the ViewModel for further processing
-            viewModel.saveChild(questionnaireResponse)
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Toast.makeText(this@ChildAdd, "Error occurred while submitting: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("Error", "Error occurred while submitting questionnaire", t)
+                }
+            })
+
         } else {
             Log.e("ChildAdd", "QuestionnaireFragment not found or is null")
         }

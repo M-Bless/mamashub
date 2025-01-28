@@ -60,28 +60,13 @@ interface Interface {
     @GET("QuestionnaireResponse")
     fun getAllQuestionnaireResponses(): Call<ResponseBody>
 
-
-    // ApiService.kt
     @PUT("QuestionnaireResponse/{id}")
-    fun updateQuestionnaireResponse(
+    fun submitQuestionnaireResponse(
         @Path("id") id: String,
         @Body body: RequestBody
     ): Call<ResponseBody>
 
 
-    @POST("fhir/Resource")
-    fun submitResource(
-        @Body resource: Resource
-    ): Call<ResponseBody>
-    @POST("Patient")
-    @Headers("Content-Type: application/fhir+json")
-    fun createPatient(@Body patient: Patient): Call<Patient>
-
-    @POST("Encounter")
-    fun uploadResource(@Body resource: String): Call<org.hl7.fhir.r4.model.Resource>
-
-    @POST("Immunization")
-    suspend fun saveResource(@Body resource: Immunization): retrofit2.Response<Immunization>
-
-
+    @POST(".")
+    fun submitBundleToBaseUrl(@Body bundle: RequestBody): Call<ResponseBody>
 }

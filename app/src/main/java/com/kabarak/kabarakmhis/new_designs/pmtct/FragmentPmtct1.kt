@@ -70,8 +70,8 @@ class FragmentPmtct1 : Fragment() {
         rootView = inflater.inflate(R.layout.fragment_pmtct1, container, false)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
         patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
         fhirEngine = FhirApplication.fhirEngine(requireContext())
@@ -80,8 +80,8 @@ class FragmentPmtct1 : Fragment() {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(requireContext().applicationContext as Application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()

@@ -19,14 +19,100 @@
         android:windowSoftInputMode="adjustPan"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".pnc.ImmunizationAdd"
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryAdd"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryView"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryA"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.Pconjugate.PconjugateEdit"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.Pconjugate.PconjugateView"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.Pconjugate.PconjugateAdd"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.yellowfever.DoseEdit"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.yellowfever.DoseViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".immunisation.yellowfever.DoseAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.childpostnatalcare.ChildPostnatalCare"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.childpostnatalcare.ChildPncViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.childpostnatalcare.ChildPncEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.ChildViewActivity"
+            android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaView"
+            android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaAdd"
+            android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaDetails"
+            android:exported="false" />
+        <activity android:name=".pnc.diphtheria.DiphtheriaEdit"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineView"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccine"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--                android:name=".pnc.inactivated_polio_vaccine.InactivatedPolioVaccineEdit"-->
+<!--            android:exported="false" />-->
+
+        <activity
+            android:name=".pnc.milestone.MilestoneDetailsAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneDetails"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneView"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneAdd"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.milestone.MilestoneAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.child_civil_registration.ChildCivilRegistrationView"
             android:exported="false" />
         <activity
             android:name=".pnc.ChildProfileActivity"
+            android:name=".pnc.child_civil_registration.ChildCivilRegistration"
             android:exported="false" />
 
         <activity
             android:name=".pnc.bcgvacination.BcgAddActivity"
+            android:name=".pnc.child_civil_registration.ChildCivilRegistrationEdit"
+            android:exported="false" />
+        <activity
+            android:name=".pnc.child_civil_registration.CivilRegistrationDetails"
+            android:exported="false"/>
+        <activity
+            android:name=".pnc.ChildEdit"
             android:exported="false" />
 
         <activity

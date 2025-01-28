@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/rounded_textview"
+    android:paddingHorizontal="30dp"
+    android:layout_marginHorizontal="5dp"
+    android:paddingVertical="16dp">
+
+
+    <TextView
+        android:id="@+id/tvVisitTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Within 48 hours"
+        android:textStyle="bold"
+        android:textSize="16sp"
+         />
+
+    <TextView
+        android:id="@+id/tvGeneralCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Well"
+        android:textSize="14sp"
+        />
+
+</LinearLayout>

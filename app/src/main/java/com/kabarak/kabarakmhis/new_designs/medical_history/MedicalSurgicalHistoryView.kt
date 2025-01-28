@@ -65,7 +65,7 @@ class MedicalSurgicalHistoryView : AppCompatActivity() {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,

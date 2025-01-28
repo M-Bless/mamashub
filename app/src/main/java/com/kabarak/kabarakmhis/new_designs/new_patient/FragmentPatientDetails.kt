@@ -75,11 +75,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         rootView.etDoB.setOnClickListener {
             onCreateDialog(999)

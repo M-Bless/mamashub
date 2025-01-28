@@ -744,7 +744,7 @@
         },
         {
           "type": "string",
-          "linkId": "129708558821",
+          "linkId": "129708558821<<<<<<< feature/childbirth",
           "text": "Remarks"
         }
       ],
@@ -1129,7 +1129,6 @@
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
               "valueCodeableConcept": {
                 "coding": [
-                  {
                     "system": "http://hl7.org/fhir/questionnaire-item-control",
                     "code": "drop-down",
                     "display": "Drop down"
@@ -1168,6 +1167,5 @@
       "linkId": "5872260133687",
       "text": "List any abnormal findings (not captured previously):"
     }
-
   ]
 }

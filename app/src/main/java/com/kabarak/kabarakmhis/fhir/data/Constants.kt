@@ -6,6 +6,7 @@ import androidx.annotation.ColorInt
 object Constants {
 
     const val DEMO_API_SERVER="https://zkhqhwk2-5000.uks1.devtunnels.ms"
+
     const val DEMO_SERVER="http://41.89.93.172/fhir/"
 
 //    const val DEMO_API_SERVER="https://api.mamashub.co.ke/"

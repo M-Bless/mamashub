@@ -64,7 +64,7 @@ class IfasView2 : AppCompatActivity() {
         )[PatientDetailsViewModel::class.java]
 
 
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,

@@ -4,6 +4,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import ca.uhn.fhir.context.FhirContext
+import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_API_SERVER
 import com.kabarak.kabarakmhis.fhir.data.Constants.DEMO_SERVER
 import com.kabarak.kabarakmhis.fhir.data.SYNC_VALUE
 import com.kabarak.kabarakmhis.helperclass.*
@@ -16,6 +18,7 @@ import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.hl7.fhir.r4.model.Immunization
 import org.hl7.fhir.r4.model.QuestionnaireResponse
+import org.hl7.fhir.r4.model.Bundle
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -56,7 +59,7 @@ class RetrofitCallsFhir {
             val job = Job()
             CoroutineScope(Dispatchers.IO + job).launch {
 
-                var formatter = FormatterClass()
+                FormatterClass()
 
                 val baseUrl = context.getString(UrlData.FHIR_URL.message)
 
@@ -95,11 +98,11 @@ class RetrofitCallsFhir {
                             progressDialog.dismiss()
 
                             val code = response.code()
-                            val message = response.errorBody().toString()
+                            response.errorBody().toString()
 
                             if (code != 500) {
 
-                                val jObjError = response.errorBody()?.string()
+                                response.errorBody()?.string()
                                     ?.let { JSONObject(it) }
 
                                 CoroutineScope(Dispatchers.IO).launch {
@@ -247,7 +250,7 @@ class RetrofitCallsFhir {
                     } else {
 
                         val code = response.code()
-                        val message = response.errorBody().toString()
+                        response.errorBody().toString()
                         Log.e("***2 ", response.toString())
 
                         if (code != 500) {
@@ -412,7 +415,7 @@ class RetrofitCallsFhir {
 
             val id = observations.resource.id
             val code = observations.resource.code
-            val resourceType = observations.resource.resourceType
+            observations.resource.resourceType
 
             if (code != null) {
 
@@ -660,7 +663,6 @@ class RetrofitCallsFhir {
             .addConverterFactory(GsonConverterFactory.create()) // Gson converter for JSON parsing
             .build()
     }
-    // Function to save Immunization data
     suspend fun saveImmunization(immunization: Immunization): Response<Immunization> {
         return try {
             // Call the saveResource function in the Interface to save the immunization resource
@@ -671,4 +673,12 @@ class RetrofitCallsFhir {
         }
     }
 
+    fun submitExtractedBundle(bundleJson: String, callback: Callback<ResponseBody>) {
+        val mediaType = "application/fhir+json".toMediaTypeOrNull()
+        val requestBody = RequestBody.create(mediaType, bundleJson)
+
+        // Use the base URL (e.g., /fhir) without adding "/Bundle"
+        val call = apiService.submitBundleToBaseUrl(requestBody)
+        call.enqueue(callback)
+    }
 }

@@ -26,7 +26,7 @@ class SmartWatchReadingAdapter(private var entryList: ArrayList<DbWatchData>,
 
         override fun onClick(p0: View) {
 
-            val pos = adapterPosition
+            adapterPosition
 
 
 
@@ -51,7 +51,7 @@ class SmartWatchReadingAdapter(private var entryList: ArrayList<DbWatchData>,
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
         val appointmentDate = entryList[position].date
-        val readingsList = entryList[position].readings
+        entryList[position].readings
 
         holder.tvReadingDate.text = appointmentDate
 

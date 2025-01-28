@@ -26,7 +26,7 @@ class ObservationAdapter(private var entryList: ArrayList<DbCodingData>,
 
         override fun onClick(p0: View) {
 
-            val pos = adapterPosition
+            adapterPosition
 
         }
 

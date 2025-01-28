@@ -61,7 +61,7 @@ class ReferralView : AppCompatActivity() {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
@@ -207,7 +207,7 @@ class ReferralView : AppCompatActivity() {
             tvAge.text = age
         }
 
-        val edd = formatter.retrieveSharedPreference(this, "edd")
+        formatter.retrieveSharedPreference(this, "edd")
 
 
 

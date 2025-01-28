@@ -68,6 +68,14 @@
     <string name="facility_from_facility">Facility from facility referral</string>
     <string name="clients_records">Clients Records</string>
     <string name="referrals_to_facility">Referrals to Facility</string>
+    <string name="add_child">add child</string>
+    <string name="child_added_success">add child success</string>
+    <string name="child_saved_success">save child success</string>
+    <string name="child_saved_failed">save child failed</string>
+    <string name="child_deleted_success">delete child success</string>
+    <string name="child_deleted_failed">delete child failed</string>
+    <string name="child_updated_success">update child success</string>
+    <string name="child_updated_failed">update child failed</string>
 
     <string-array name="array_marital">
         <item>Married</item>

@@ -129,7 +129,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
 
                 val patientId = dbPatientDetailsData.id
                 val patientName = dbPatientDetailsData.name
-                val dob = dbPatientDetailsData.dob
+                dbPatientDetailsData.dob
 
                 val dbPatientDetails = DbPatientDetails(patientId, patientName, "-")
                 clientList.add(dbPatientDetails)
@@ -167,7 +167,7 @@ class PatientListViewModel (application: Application, private val fhirEngine: Fh
             val encounterId = encounterItem.id
             fhirEngine
                 .search<Observation> {
-                    filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct";
+                    filter(Observation.CODE, {value = of(Coding().apply { system = "http://snomed.info/sct"
                         code = formatter.getCodes(DbObservationValues.NEXT_VISIT_DATE.name) })})
                     filter(Observation.ENCOUNTER, {value = "Encounter/$encounterId"})
                     filter(Observation.SUBJECT, {value = "Patient/$patientId"})

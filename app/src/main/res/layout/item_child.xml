@@ -3,6 +3,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
+    android:layout_marginTop="5dp"
+    android:background="@drawable/rounded_textview"
+    android:paddingHorizontal="30dp"
+    android:layout_marginHorizontal="5dp"
+    android:paddingVertical="16dp">
 
     <TextView
         android:id="@+id/text_name"

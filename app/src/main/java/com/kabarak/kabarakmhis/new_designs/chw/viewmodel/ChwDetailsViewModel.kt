@@ -61,8 +61,8 @@ class ChwDetailsViewModel(
         val patient = getPatientResource()
         val patientData = FormatterClass().patientData(patient, 1)
 
-        val name = patientData.name
-        val dob = patientData.dob
+        patientData.name
+        patientData.dob
         val id = patientData.id
 
         return getChwDetails(id)

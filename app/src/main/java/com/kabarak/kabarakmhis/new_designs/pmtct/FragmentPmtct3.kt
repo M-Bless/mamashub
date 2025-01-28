@@ -52,11 +52,11 @@ class FragmentPmtct3 : Fragment() {
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
         formatter.saveCurrentPage("2", requireContext())
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         getPageDetails()
 

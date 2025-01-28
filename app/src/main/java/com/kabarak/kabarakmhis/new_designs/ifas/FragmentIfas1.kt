@@ -82,11 +82,11 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
 
         formatter.saveCurrentPage("1", requireContext())
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         initSpinner()
 
@@ -484,9 +484,9 @@ class FragmentIfas1 : Fragment(), AdapterView.OnItemSelectedListener {
                         formatter.getCodes(DbObservationValues.OTHER_SUPPLIMENTS.name), encounterId)
                     val contactTiming = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.CONTACT_TIMING.name), encounterId)
-                    val ancContact = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                    patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.ANC_CONTACT.name), encounterId)
-                    val tabletNo = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
+                    patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.TABLET_NUMBER.name), encounterId)
                     val dosageAmnt = patientDetailsViewModel.getObservationsPerCodeFromEncounter(
                         formatter.getCodes(DbObservationValues.DOSAGE_AMOUNT.name), encounterId)
