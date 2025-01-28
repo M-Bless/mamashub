@@ -1,0 +1,239 @@
+{
+  "resourceType": "Questionnaire",
+  "title": "measles immunisation",
+  "status": "draft",
+  "item": [
+    {
+      "type": "boolean",
+      "linkId": "6259636200345",
+      "text": "First visit"
+    },
+    {
+      "type": "display",
+      "linkId": "6789947394655",
+      "text": "MEASLES RUBELLA VACCINE (MR) at 6 months; in the event of a mea-sles rubella outbreak or HIV Exposed Infant (HEI)",
+      "enableWhen": [
+        {
+          "question": "6259636200345",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ],
+      "readOnly": true
+    },
+    {
+      "type": "dateTime",
+      "linkId": "60988109926",
+      "text": "Dose 0.5ml, deep subcutaneous injection into the right upper arm deltoidmuscle.",
+      "enableWhen": [
+        {
+          "question": "6259636200345",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "linkId": "569312377188",
+      "text": "Batch number",
+      "enableWhen": [
+        {
+          "question": "6259636200345",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "linkId": "599388053875",
+      "text": "Lot number",
+      "enableWhen": [
+        {
+          "question": "6259636200345",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "linkId": "923654467044",
+      "text": "Manufacturer",
+      "enableWhen": [
+        {
+          "question": "6259636200345",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "date",
+      "linkId": "166721069969",
+      "text": "Date of expiry",
+      "enableWhen": [
+        {
+          "question": "6259636200345",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "linkId": "9694630322132",
+      "text": "second visit"
+    },
+    {
+      "type": "display",
+      "linkId": "1942511568271",
+      "text": "MEASLES RUBELLA VACCINE (MR) at 9 months",
+      "enableWhen": [
+        {
+          "question": "9694630322132",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "date",
+      "linkId": "6184776280869",
+      "text": "Dose 0.5ml, deep subcutaneous injection into the right upper arm deltoidmuscle.",
+      "enableWhen": [
+        {
+          "question": "9694630322132",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "linkId": "557799244191",
+      "text": "Batch number",
+      "enableWhen": [
+        {
+          "question": "9694630322132",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "linkId": "201859749617",
+      "text": "Lot number",
+      "enableWhen": [
+        {
+          "question": "9694630322132",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "linkId": "929192660261",
+      "text": "Manufacturer",
+      "enableWhen": [
+        {
+          "question": "9694630322132",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "date",
+      "linkId": "755329901443",
+      "text": "Date of expiry",
+      "enableWhen": [
+        {
+          "question": "9694630322132",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "linkId": "849372647831",
+      "text": "third visit"
+    },
+    {
+      "type": "display",
+      "linkId": "8161771435188",
+      "text": "MEASLES RUBELLA VACCINE (MR) at 18 Months",
+      "enableWhen": [
+        {
+          "question": "849372647831",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "dateTime",
+      "linkId": "1638969131380",
+      "text": "Dose 0.5ml, deep subcutaneous injection, over the deltoid muscle, upperright arm.",
+      "enableWhen": [
+        {
+          "question": "849372647831",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "linkId": "291165611963",
+      "text": "Batch number",
+      "enableWhen": [
+        {
+          "question": "849372647831",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "integer",
+      "linkId": "926727766768",
+      "text": "Lot number",
+      "enableWhen": [
+        {
+          "question": "849372647831",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "linkId": "686337560440",
+      "text": "Manufacturer",
+      "enableWhen": [
+        {
+          "question": "849372647831",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    },
+    {
+      "type": "date",
+      "linkId": "199557186190",
+      "text": "Date of expiry",
+      "enableWhen": [
+        {
+          "question": "849372647831",
+          "operator": "!=",
+          "answerBoolean": false
+        }
+      ]
+    }
+  ]
+}

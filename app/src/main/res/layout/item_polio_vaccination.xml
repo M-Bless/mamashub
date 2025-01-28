@@ -1,0 +1,32 @@
+<!-- res/layout/item_polio_vaccination.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dose" />
+
+    <TextView
+        android:id="@+id/tvDateGiven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date Given" />
+
+    <TextView
+        android:id="@+id/tvDateNextVisit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Next Visit" />
+</LinearLayout>

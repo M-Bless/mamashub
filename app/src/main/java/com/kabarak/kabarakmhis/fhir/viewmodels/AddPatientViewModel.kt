@@ -41,7 +41,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
         dbPatientFhirInformation: DbPatientFhirInformation,
         questionnaireResponse: QuestionnaireResponse,
         encounterId: String
-        ){
+    ){
 
         viewModelScope.launch {
 

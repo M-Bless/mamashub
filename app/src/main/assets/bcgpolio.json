@@ -1,0 +1,115 @@
+{
+  "resourceType": "Questionnaire",
+  "title": "Immunization Questionnaire",
+  "status": "active",
+  "version": "1.0.0",
+  "publisher": "Kabarak MHIS",
+  "subjectType": ["Patient"],
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+      "valueExpression": {
+        "language": "application/x-fhir-query",
+        "expression": "Immunization",
+        "name": "immunization"
+      }
+    }
+  ],
+  "item": [
+    {
+      "text": "Immunization Details",
+      "linkId": "1.0.0",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Immunization",
+            "name": "immunization"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "1.1.0",
+          "type": "date",
+          "text": "Date of Immunization",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#occurrenceDateTime",
+          "required": true
+        },
+        {
+          "linkId": "1.2.0",
+          "type": "group",
+          "text": "BCG Vaccine",
+          "item": [
+            {
+              "linkId": "1.2.1",
+              "type": "date",
+              "text": "Date Given",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#dateGiven"
+            },
+            {
+              "linkId": "1.2.2",
+              "type": "date",
+              "text": "Date of Next Visit",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#dateNextVisit"
+            },
+            {
+              "linkId": "1.2.3",
+              "type": "decimal",
+              "text": "Dose (ml)",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#dose",
+              "item": [
+                {
+                  "linkId": "1.2.3.1",
+                  "type": "decimal",
+                  "text": "Dose (0.05ml for child below 1 year)",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#doseBelow1Year"
+                },
+                {
+                  "linkId": "1.2.3.2",
+                  "type": "decimal",
+                  "text": "Dose (0.1ml for child above 1 year)",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#doseAbove1Year"
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.4",
+              "type": "choice",
+              "text": "BCG Scar Checked",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#scarChecked",
+              "answerOption": [
+                {
+                  "valueString": "Present"
+                },
+                {
+                  "valueString": "Absent"
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.5",
+              "type": "date",
+              "text": "Date Scar Checked",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#scarCheckedDate"
+            },
+            {
+              "linkId": "1.2.6",
+              "type": "date",
+              "text": "Date Vaccine Repeated (if needed)",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#vaccineRepeatedDate"
+            },
+            {
+              "linkId": "1.2.7",
+              "type": "string",
+              "text": "Batch Number",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Immunization#batchNumber"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

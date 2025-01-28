@@ -16,11 +16,15 @@ import kotlinx.coroutines.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import org.hl7.fhir.r4.model.Immunization
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Bundle
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RetrofitCallsFhir {
@@ -620,28 +624,55 @@ class RetrofitCallsFhir {
 
     private val apiService = RetrofitBuilder.getRetrofit(DEMO_SERVER).create(Interface::class.java)
 
-    fun submitQuestionnaireResponse(questionnaireResponseString: String, callback: Callback<ResponseBody>) {
+
+
+    // RetrofitCallsFhir.kt
+
+    fun updateQuestionnaireResponse(responseId: String, updatedResponse: String, callback: Callback<ResponseBody>) {
+        // Define the media type for FHIR JSON
         val mediaType = "application/fhir+json".toMediaTypeOrNull()
-        val requestBody = RequestBody.create(mediaType, questionnaireResponseString)
-        val call = apiService.submitQuestionnaireResponse(requestBody)
-        call.enqueue(callback)
-    }
-    fun updateQuestionnaireResponse(responseId: String, questionnaireResponseString: String, callback: Callback<ResponseBody>) {
-        val mediaType = "application/fhir+json".toMediaTypeOrNull()  // Ensure correct media type for FHIR JSON
-        val requestBody = RequestBody.create(mediaType, questionnaireResponseString)  // Create request body
+        // Create RequestBody using the updated response string
+        val requestBody = RequestBody.create(mediaType, updatedResponse)
 
-        // Make the API call to submit the updated QuestionnaireResponse
-        val call = apiService.submitQuestionnaireResponse(responseId, requestBody)
-        call.enqueue(callback)  // Enqueue the call to run asynchronously
+        // Call the update method on the Retrofit API service
+        apiService.updateQuestionnaireResponse(responseId, requestBody).enqueue(callback)
     }
 
-    fun fetchQuestionnaireResponse(responseId: String, callback: Callback<ResponseBody>) {
-        apiService.getQuestionnaireResponse(responseId).enqueue(callback)
-    }
+
+
     fun fetchAllQuestionnaireResponses(callback: Callback<ResponseBody>) {
         val call = apiService.getAllQuestionnaireResponses()
         call.enqueue(callback)
     }
+    fun fetchQuestionnaireResponse(responseId: String, callback: Callback<ResponseBody>) {
+        apiService.getQuestionnaireResponse(responseId).enqueue(callback)
+    }
+
+    fun submitQuestionnaireResponse(questionnaireResponseString: String, callback: Callback<ResponseBody>) {
+        val mediaType = "application/fhir+json".toMediaTypeOrNull()
+        val requestBody = RequestBody.create(mediaType, questionnaireResponseString)
+
+        // Assuming `apiService.submitQuestionnaireResponse` is the method that sends the data to your server
+        val call = apiService.submitQuestionnaireResponse(requestBody)
+        call.enqueue(callback)
+
+    }
+    fun getRetrofit(baseUrl: String = DEMO_SERVER): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(baseUrl) // Base URL for the FHIR server
+            .addConverterFactory(GsonConverterFactory.create()) // Gson converter for JSON parsing
+            .build()
+    }
+    suspend fun saveImmunization(immunization: Immunization): Response<Immunization> {
+        return try {
+            // Call the saveResource function in the Interface to save the immunization resource
+            apiService.saveResource(immunization)
+        } catch (e: Exception) {
+            Log.e("RetrofitCallsFhir", "Error saving immunization", e)
+            Response.error(500, ResponseBody.create(null, "Error saving immunization"))
+        }
+    }
+
     fun submitExtractedBundle(bundleJson: String, callback: Callback<ResponseBody>) {
         val mediaType = "application/fhir+json".toMediaTypeOrNull()
         val requestBody = RequestBody.create(mediaType, bundleJson)
