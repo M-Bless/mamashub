@@ -86,7 +86,7 @@ class PnemococalConjugateServiceView : AppCompatActivity() {
 
                 val text1 = DbObservationFhirData(
                     DbSummaryTitle.A_PNEUMOCOCCAL_CONJUGATE.name,
-                    listOf("1052328007","1052330009","1252708008","1252709000","1119368005"))
+                    listOf("1052328007","1052328007-R",""))
                 val text1List = formatter.getObservationList(patientDetailsViewModel, text1, encounterId)
                 val observationDataList = text1List
 
