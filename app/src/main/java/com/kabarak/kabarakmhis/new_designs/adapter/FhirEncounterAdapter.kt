@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
+import com.kabarak.kabarakmhis.immunisation.pnemococal_conjugate_vaccine.PnemococalConjugateServiceView
+import com.kabarak.kabarakmhis.immunisation.yellowfevervaccine.YellowFeverServiceView
 import com.kabarak.kabarakmhis.new_designs.clinical_notes.ClinicalNotesView
 import com.kabarak.kabarakmhis.new_designs.data_class.DbFhirEncounter
 import com.kabarak.kabarakmhis.new_designs.data_class.DbResourceViews
@@ -60,6 +62,15 @@ class FhirEncounterAdapter(private var entryList: ArrayList<DbFhirEncounter>,
             if (encounterType == DbResourceViews.IFAS.name){
                 context.startActivity(Intent(context, IfasView2::class.java))
             }
+
+            if (encounterType == DbResourceViews.YELLOW_FEVER.name){
+                context.startActivity(Intent(context, YellowFeverServiceView::class.java))
+            }
+
+            if (encounterType == DbResourceViews.PNEUMOCOCCAL_CONJUGATE.name){
+                context.startActivity(Intent(context, PnemococalConjugateServiceView::class.java))
+            }
+
             FormatterClass().saveSharedPreference(context, encounterType, id)
             FormatterClass().saveSharedPreference(context, "savedEncounter", id)
 
