@@ -181,6 +181,8 @@ enum class DbResourceViews {
 
     TETENUS_DIPTHERIA,
 
+    VAS,
+
     IFAS,
     IFAS1,
     IFAS2,
@@ -229,6 +231,9 @@ enum class DbResourceViews {
     COMMUNITY_REFERRAL,
 
     COMMUNITY_REFERRAL_WORKER,
+    CHILD_POSTNATAL_CARE,
+    YELLOW_FEVER,
+    PNEUMOCOCCAL_CONJUGATE,
 }
 
 data class DbObservationFhirData(
@@ -309,6 +314,13 @@ data class Child(
     val id: String,
     val name: String,
     val birthDate: String
+)
+
+
+data class PostnatalCareVisit(
+    val visitType: String, // "First Visit", "Second Visit", etc.
+    val visitDate: String, // Date of visit
+    val observations: List<String> // Observations for this visit
 )
 
 
