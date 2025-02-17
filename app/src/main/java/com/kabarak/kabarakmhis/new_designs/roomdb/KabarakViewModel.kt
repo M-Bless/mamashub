@@ -64,6 +64,7 @@ class KabarakViewModel(application: Application) : AndroidViewModel(application)
     fun getCounties() = runBlocking {
         repository.getCounties()
     }
+
     fun getSubCounty(countyId: Int) = runBlocking {
         repository.getSubCounty(countyId)
     }

@@ -1,0 +1,135 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDiphtheriaDoselabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Dose : "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDiphtheriaDose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Dose"
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDiphtheriaDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Date : "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDiphtheriaDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Date"
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDiphtheriaNextDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria NextDate: "
+
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDiphtheriaNextDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Time"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDiphtheriaBatchLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Batch No: "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDiphtheriaBatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Batch No"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDiphtheriaLotNumberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Lot No: "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDiphtheriaLotNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Time"
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDiphtheriaManufacturerLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Manufacturer: "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDiphtheriaManufacturer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Manufacturer"
+           />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDiphtheriaExpiryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Expiry: "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDiphtheriaExpiryDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diphtheria Expiry"
+            />
+    </LinearLayout>
+
+</LinearLayout>

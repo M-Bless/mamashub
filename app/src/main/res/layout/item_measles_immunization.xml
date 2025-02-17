@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Visit TextView -->
+    <TextView
+        android:id="@+id/tvVisit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visit"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
+
+    <!-- Dose TextView -->
+    <TextView
+        android:id="@+id/tvDose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dose"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Batch Number TextView -->
+    <TextView
+        android:id="@+id/tvBatchNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Batch Number"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Lot Number TextView -->
+    <TextView
+        android:id="@+id/tvLotNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lot Number"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Manufacturer TextView -->
+    <TextView
+        android:id="@+id/tvManufacturer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manufacturer"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+
+    <!-- Date of Expiry TextView -->
+    <TextView
+        android:id="@+id/tvDateOfExpiry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Expiry"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray" />
+
+</LinearLayout>

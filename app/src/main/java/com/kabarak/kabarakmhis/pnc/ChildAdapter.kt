@@ -35,11 +35,9 @@ class ChildAdapter(
 
     class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.tvChildName)
-        private val birthDateTextView: TextView = itemView.findViewById(R.id.tvBirthDate)
 
         fun bind(child: Child) {
             nameTextView.text = child.name
-            birthDateTextView.text = child.birthDate
         }
     }
 }

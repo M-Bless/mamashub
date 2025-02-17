@@ -1,5 +1,7 @@
 package com.kabarak.kabarakmhis.new_designs.data_class
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.kabarak.kabarakmhis.helperclass.ObservationItem
 
 data class DbPatient(
@@ -145,6 +147,7 @@ data class DbSimpleEncounter(
 )
 
 data class DbPatientData(
+
     val title: String,
     val data : List<DbDataDetails>
 )
@@ -315,6 +318,28 @@ data class Child(
     val name: String,
     val birthDate: String
 )
+data class DbChildData(
+    @PrimaryKey val id: String,
+    val name: String,
+    val birthDate: String
+)
+@Entity(tableName = "patients")
+data class PatientEntity(
+    @PrimaryKey
+    val id: String,
+    val name: String,
+    val gender: String,
+    val birthDate: String
+)
+
+@Entity(tableName = "observations")
+data class ObservationEntity(
+    @PrimaryKey val id: String,
+    val status: String,
+    val code: String,
+    val value: String
+)
+
 
 
 data class PostnatalCareVisit(

@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
+import org.hl7.fhir.r4.model.Meta
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +23,7 @@ class ChildEdit : AppCompatActivity() {
 
     private lateinit var retrofitCallsFhir: RetrofitCallsFhir
     private var questionnaireJsonString: String? = null
-    private lateinit var responseId: String // Define responseId globally
+    private lateinit var responseId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +34,10 @@ class ChildEdit : AppCompatActivity() {
 
         // Load the questionnaire JSON
         questionnaireJsonString = getStringFromAssets("new-patient-registration.json")
-
-        // Assign questionnaireResponseId to responseId
         responseId = intent.getStringExtra("responseId") ?: ""
 
         if (savedInstanceState == null && questionnaireJsonString != null) {
-            // Render the questionnaire
+            // Render the initial questionnaire
             renderInitialQuestionnaire()
 
             // Fetch and populate the questionnaire response with the assigned responseId
@@ -50,29 +49,24 @@ class ChildEdit : AppCompatActivity() {
         // Listen for the submit request from the QuestionnaireFragment
         supportFragmentManager.setFragmentResultListener(
             QuestionnaireFragment.SUBMIT_REQUEST_KEY,
-            this,
+            this
         ) { _, _ ->
             Log.d("ChildEdit", "Submit request received")
-            submitUpdatedResponse()  // Call submission function when the form is submitted
+            updateQuestionnaireResponse() // Update function when the form is submitted
         }
     }
 
     private fun getStringFromAssets(fileName: String): String? {
         return try {
-            val inputStream = assets.open(fileName)
-            val size = inputStream.available()
-            val buffer = ByteArray(size)
-            inputStream.read(buffer)
-            inputStream.close()
-            String(buffer, Charsets.UTF_8)
+            assets.open(fileName).bufferedReader().use { it.readText() }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("ChildEdit", "Error reading JSON from assets", e)
             null
         }
     }
 
     private fun renderInitialQuestionnaire() {
-        // Render the empty questionnaire from the JSON file
+        // Render the questionnaire from the JSON file
         val questionnaireFragment = QuestionnaireFragment.builder()
             .setQuestionnaire(questionnaireJsonString!!)
             .build()
@@ -84,45 +78,34 @@ class ChildEdit : AppCompatActivity() {
     }
 
     private suspend fun fetchAndPopulateQuestionnaireResponse(responseId: String) {
-        // Fetch QuestionnaireResponse from the FHIR server
         retrofitCallsFhir.fetchQuestionnaireResponse(responseId, object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    val questionnaireResponseString = response.body()?.string()
-
-                    if (questionnaireResponseString != null) {
-                        CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (response.isSuccessful) {
+                        response.body()?.string()?.let { questionnaireResponseString ->
                             try {
-                                // Parse the response into a FHIR QuestionnaireResponse object
                                 val fhirContext = FhirContext.forR4()
                                 val jsonParser = fhirContext.newJsonParser()
                                 val questionnaireResponse = jsonParser.parseResource(QuestionnaireResponse::class.java, questionnaireResponseString)
-
-                                // Populate the questionnaire with the retrieved response
                                 populateQuestionnaireFragment(questionnaireResponse)
-
                             } catch (e: Exception) {
-                                Log.e("ChildEdit", "Error populating questionnaire", e)
+                                Log.e("ChildEdit", "Error parsing questionnaire response", e)
                                 Toast.makeText(this@ChildEdit, "Error populating questionnaire", Toast.LENGTH_SHORT).show()
                             }
-                        }
-                    } else {
-                        CoroutineScope(Dispatchers.Main).launch {
+                        } ?: run {
                             Toast.makeText(this@ChildEdit, "Failed to retrieve the response data.", Toast.LENGTH_SHORT).show()
                         }
-                    }
-                } else {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        Toast.makeText(this@ChildEdit, "Failed to fetch the questionnaire response: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    } else {
                         Log.e("ChildEdit", "Failed to fetch response. Response code: ${response.code()}")
+                        Toast.makeText(this@ChildEdit, "Failed to fetch the questionnaire response: ${response.message()}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    Toast.makeText(this@ChildEdit, "Error occurred while fetching: ${t.message}", Toast.LENGTH_SHORT).show()
                     Log.e("Error", "Error occurred while fetching questionnaire response", t)
+                    Toast.makeText(this@ChildEdit, "Error occurred while fetching: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -130,18 +113,15 @@ class ChildEdit : AppCompatActivity() {
 
     private fun populateQuestionnaireFragment(questionnaireResponse: QuestionnaireResponse) {
         try {
-            // Convert the QuestionnaireResponse back into a JSON string
             val fhirContext = FhirContext.forR4()
             val jsonParser = fhirContext.newJsonParser()
             val questionnaireResponseString = jsonParser.encodeResourceToString(questionnaireResponse)
 
-            // Prepare the bundle with both the Questionnaire and QuestionnaireResponse
             val questionnaireFragment = QuestionnaireFragment.builder()
-                .setQuestionnaire(questionnaireJsonString!!)  // Your Questionnaire JSON
-                .setQuestionnaireResponse(questionnaireResponseString)  // The populated QuestionnaireResponse JSON
+                .setQuestionnaire(questionnaireJsonString!!)
+                .setQuestionnaireResponse(questionnaireResponseString)
                 .build()
 
-            // Load the QuestionnaireFragment with the response
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace(R.id.fragment_container_view, questionnaireFragment, "populated-questionnaire-fragment")
@@ -149,38 +129,42 @@ class ChildEdit : AppCompatActivity() {
 
             Log.d("ChildEdit", "Questionnaire response populated successfully.")
         } catch (e: Exception) {
-            Log.e("ChildEdit", "Error initializing the questionnaire fragment or ViewModel", e)
+            Log.e("ChildEdit", "Error initializing the questionnaire fragment", e)
             Toast.makeText(this, "Error initializing questionnaire", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Submit updated data
-    private fun submitUpdatedResponse() {
-        // Retrieve the updated QuestionnaireResponse from the fragment
-        val fragment = supportFragmentManager.findFragmentByTag("populated-questionnaire-fragment") as? QuestionnaireFragment
-        val updatedQuestionnaireResponse = fragment?.getQuestionnaireResponse()
-
-        if (updatedQuestionnaireResponse != null) {
-            // Convert the updated QuestionnaireResponse into a JSON string
+    private fun updateQuestionnaireResponse() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+        if (fragment is QuestionnaireFragment) {
+            val questionnaireResponse: QuestionnaireResponse = fragment.getQuestionnaireResponse()
             val fhirContext = FhirContext.forR4()
             val jsonParser = fhirContext.newJsonParser()
-            val updatedResponseString = jsonParser.encodeResourceToString(updatedQuestionnaireResponse)
 
+            // Initialize meta and increment versionId
+            questionnaireResponse.meta = questionnaireResponse.meta ?: Meta()
+            val currentVersionId = questionnaireResponse.meta.versionId?.toIntOrNull() ?: 0
+            questionnaireResponse.meta.versionId = (currentVersionId + 1).toString()
+            questionnaireResponse.id = responseId // Set the ID to responseId
+
+            // Serialize the response to a JSON string
+            val questionnaireResponseString = jsonParser.encodeResourceToString(questionnaireResponse)
+            
             // Log the response (you can replace this with saving to a database or sending to a server)
             Log.d("submitUpdatedResponse", updatedResponseString)
 
             // Submit the updated response back to the server
             retrofitCallsFhir.updateQuestionnaireResponse(responseId, updatedResponseString, object : Callback<ResponseBody> {
+
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    if (response.isSuccessful) {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(this@ChildEdit, "Data updated successfully.", Toast.LENGTH_SHORT).show()
-                            // End the activity after successful submission
-                            finish()
-                        }
-                    } else {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(this@ChildEdit, "Failed to update data: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@ChildEdit, "Successfully updated!", Toast.LENGTH_SHORT).show()
+                            Log.d("ChildEdit", "Successfully updated the questionnaire response.")
+                        } else {
+                            val errorBody = response.errorBody()?.string() ?: "No error body"
+                            Log.e("Error", "Failed to update. Response code: ${response.code()}, Body: $errorBody")
+                            Toast.makeText(this@ChildEdit, "Update failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -193,7 +177,9 @@ class ChildEdit : AppCompatActivity() {
                 }
             })
         } else {
-            Toast.makeText(this, "Failed to retrieve updated response", Toast.LENGTH_SHORT).show()
+            Log.e("updateQuestionnaireResponse", "QuestionnaireFragment not found or is null")
         }
     }
+
+
 }

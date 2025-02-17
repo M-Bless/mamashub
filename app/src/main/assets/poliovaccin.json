@@ -1,0 +1,87 @@
+{
+  "resourceType": "Questionnaire",
+  "title": "Polio Immunization Questionnaire",
+  "status": "active",
+  "version": "1.0.0",
+  "publisher": "Kabarak MHIS",
+  "subjectType": ["Patient"],
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+      "valueExpression": {
+        "language": "application/x-fhir-query",
+        "expression": "Immunization",
+        "name": "immunization"
+      }
+    }
+  ],
+  "item": [
+    {
+      "text": "Polio Vaccine Details",
+      "linkId": "1.0.0",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Immunization",
+            "name": "immunization"
+          }
+        }
+      ],
+      "item": [
+        {
+          "text": "Batch Number",
+          "linkId": "1.0.1",
+          "type": "string",
+          "required": true
+        },
+        {
+          "text": "Date Given",
+          "linkId": "1.0.2",
+          "type": "date",
+          "required": true
+        },
+        {
+          "text": "Date of Next Visit",
+          "linkId": "1.0.3",
+          "type": "date"
+        },
+        {
+          "text": "Dose Details",
+          "linkId": "1.0.4",
+          "type": "group",
+          "item": [
+            {
+              "text": "Birth Dose (at birth or within 2 weeks)",
+              "linkId": "1.0.4.1",
+              "type": "boolean"
+            },
+            {
+              "text": "1st Dose (6 weeks)",
+              "linkId": "1.0.4.2",
+              "type": "boolean"
+            },
+            {
+              "text": "2nd Dose (10 weeks)",
+              "linkId": "1.0.4.3",
+              "type": "boolean"
+            },
+            {
+              "text": "3rd Dose (14 weeks)",
+              "linkId": "1.0.4.4",
+              "type": "boolean"
+            }
+          ]
+        },
+        {
+          "text": "Administration Method",
+          "linkId": "1.0.5",
+          "type": "string",
+          "answerValueSet": "2 drops orally"
+        }
+      ]
+    }
+  ]
+}
