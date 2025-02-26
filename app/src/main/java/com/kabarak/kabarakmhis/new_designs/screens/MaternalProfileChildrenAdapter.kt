@@ -30,10 +30,6 @@ import com.kabarak.kabarakmhis.new_designs.previous_pregnancy.PreviousPregnancyL
 import com.kabarak.kabarakmhis.new_designs.tetanus_diptheria.PreventiveServiceList
 import com.kabarak.kabarakmhis.new_designs.weight_monitoring.WeightMonitoringChart
 import com.kabarak.kabarakmhis.pnc.ChildViewActivity
-import com.kabarak.kabarakmhis.pnc.child_civil_registration.ChildCivilRegistrationView
-import com.kabarak.kabarakmhis.pnc.childpostnatalcare.ChildPncList
-import com.kabarak.kabarakmhis.immunisation.vitamin_a_supplimentary.VitaminAsupplimentaryView
-
 import com.kabarak.kabarakmhis.pnc.ImmunizationAdd
 import com.kabarak.kabarakmhis.pnc.bcgvacination.BcgAddActivity
 import com.kabarak.kabarakmhis.pnc.bcgvacination.BcgVaccinationViewActivity
@@ -43,10 +39,13 @@ import com.kabarak.kabarakmhis.pnc.measlesimmunization.MeaslesImmunizationAddAct
 import com.kabarak.kabarakmhis.pnc.measlesimmunization.MeaslesImmunizationViewActivity
 import com.kabarak.kabarakmhis.pnc.poliovacination.PolioAddActivity
 import com.kabarak.kabarakmhis.pnc.poliovacination.PolioVaccinationViewActivity
+
 import com.kabarak.kabarakmhis.pnc.child_civil_registration.ChildCivilRegistrationView
 // <<<<<<< features/diphtheria
 import com.kabarak.kabarakmhis.pnc.diphtheria.DiphtheriaView
 
+import com.kabarak.kabarakmhis.pnc.childpostnatalcare.ChildPncViewActivity
+import com.kabarak.kabarakmhis.immunisation.vitamin_a_supplimentary.VitaminAsupplimentaryView
 
 
 
@@ -114,7 +113,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 // Postnatal Care - Mother
                 8.5 -> { context.startActivity(Intent(context, ReferralView::class.java))}
                 // Postnatal Care - Baby
-                8.6 -> { context.startActivity(Intent(context, ChildPncList::class.java))}
+                8.6 -> { context.startActivity(Intent(context, ChildPncViewActivity::class.java))}
 
                 // Civil Registration
                 8.7 -> { context.startActivity(Intent(context, ChildCivilRegistrationView::class.java))}
@@ -153,6 +152,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 10.4 -> { context.startActivity(Intent(context, DiphtheriaView::class.java))} // Diphtheria/Pertussis/Tetanus/Hepatitis B/Haemophilus Influenza Type B
                 10.5 -> { context.startActivity(Intent(context, PnemococalConjugateServiceList::class.java))} // Pneumococcal Conjugate Vaccine
                 10.6 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Rotavirus vaccine
+
                 10.7 -> { context.startActivity(Intent(context, MeaslesImmunizationViewActivity::class.java))} // Measles vaccine (MR)
                 10.8 -> { context.startActivity(Intent(context, YellowFeverServiceList::class.java))} // Yellow fever vaccine
                 10.9 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Meningococcal vaccine

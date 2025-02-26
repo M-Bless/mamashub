@@ -19,34 +19,13 @@
         android:windowSoftInputMode="adjustPan"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryAdd"
+            android:name=".immunisation.vitamin_a_supplimentary.VitaminAsupplimentaryAdd"
             android:exported="false" />
         <activity
-            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryEdit"
+            android:name=".immunisation.vitamin_a_supplimentary.VitaminAsupplimentaryEdit"
             android:exported="false" />
         <activity
-            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryView"
-            android:exported="false" />
-        <activity
-            android:name=".pnc.vitamin_a_supplimentary.VitaminAsupplimentaryA"
-            android:exported="false" />
-        <activity
-            android:name=".immunisation.Pconjugate.PconjugateEdit"
-            android:exported="false" />
-        <activity
-            android:name=".immunisation.Pconjugate.PconjugateView"
-            android:exported="false" />
-        <activity
-            android:name=".immunisation.Pconjugate.PconjugateAdd"
-            android:exported="false" />
-        <activity
-            android:name=".immunisation.yellowfever.DoseEdit"
-            android:exported="false" />
-        <activity
-            android:name=".immunisation.yellowfever.DoseViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".immunisation.yellowfever.DoseAddActivity"
+            android:name=".immunisation.vitamin_a_supplimentary.VitaminAsupplimentaryView"
             android:exported="false" />
         <activity
             android:name=".pnc.childpostnatalcare.ChildPostnatalCare"
@@ -101,11 +80,15 @@
             android:exported="false" />
         <activity
             android:name=".pnc.ChildProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".pnc.child_civil_registration.ChildCivilRegistration"
             android:exported="false" />
 
         <activity
             android:name=".pnc.bcgvacination.BcgAddActivity"
+            android:exported="false" />
+        <activity
             android:name=".pnc.child_civil_registration.ChildCivilRegistrationEdit"
             android:exported="false" />
         <activity
@@ -165,13 +148,6 @@
             android:name=".pnc.ChildDetailsActivity"
             android:exported="false" />
 
-
-        <activity
-            android:name=".pnc.ChildViewActivity"
-            android:exported="true" />
-        <activity
-            android:name=".pnc.ChildEdit"
-            android:exported="false" />
         <activity
             android:name=".pnc.ChildAdd"
             android:exported="true" />

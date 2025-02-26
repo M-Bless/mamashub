@@ -91,6 +91,13 @@ data class Diphtheria(
     val manufacturer: String?,
     val expiryDate: String?
 )
+data class Milestone(
+    val id: String,
+    val visit: String,
+    val age: String,
+    val time: String
+)
+
 data class QuestionnaireDetails(
     val detailQuestion: String,
     val detailAnswer: String,
