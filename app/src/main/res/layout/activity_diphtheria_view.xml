@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    tools:context=".pnc.broad_clinical.BroadViewActivity">
+    tools:context=".pnc.diphtheria.DiphtheriaView">
 
     <include
         android:id="@+id/no_record"
@@ -38,7 +38,6 @@
                     app:civ_border_color="#FF000000"
                     app:civ_border_width="0dp" />
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -54,8 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TableRow
-                        >
+                    <TableRow>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -84,8 +82,7 @@
                             android:textColor="@color/textColor" />
 
                     </TableRow>
-                    <TableRow
-                        >
+                    <TableRow>
 
                         <TextView
                             android:textStyle="bold"
@@ -137,8 +134,7 @@
 
                     </TableRow>
                     <TableRow
-                        android:visibility="gone"
-                        >
+                        android:visibility="gone">
 
                         <TextView
                             android:textStyle="bold"
@@ -164,8 +160,6 @@
                             android:textColor="@color/textColor" />
 
                     </TableRow>
-
-
 
                 </TableLayout>
 
@@ -209,7 +203,6 @@
                                 android:text=" Name"
                                 android:textColor="@color/textColor" />
 
-
                             <TextView
                                 android:id="@+id/tvKinDetails"
                                 android:layout_width="match_parent"
@@ -219,7 +212,6 @@
                                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                                 android:textColor="@color/textColor" />
 
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -227,7 +219,6 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:layout_width="wrap_content"
-
                             android:layout_height="match_parent">
 
                             <ImageView
@@ -242,31 +233,16 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
 
-
         </LinearLayout>
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="horizontal">-->
-        <!--            <TextView-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:text="Broad Clinical Review"-->
-        <!--                android:textStyle="bold"-->
-        <!--                android:textSize="25sp"-->
-        <!--                android:textAlignment="center"-->
-        <!--                />-->
 
-        <!--        </LinearLayout>-->
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_child"
+            android:id="@+id/recycler_view_diphtheria"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_broad_clinical" />
+            tools:listitem="@layout/item_diphtheria" />
 
 
     </LinearLayout>
@@ -274,10 +250,8 @@
     <LinearLayout
         android:gravity="center"
         android:layout_alignParentBottom="true"
-
         android:orientation="horizontal"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content">
 
         <Button
@@ -286,7 +260,7 @@
             android:layout_marginTop="@dimen/_5dp"
             android:layout_gravity="end"
             android:textAllCaps="false"
-            android:text="Add Broad Clinical Review "
+            android:text="Add Visit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
