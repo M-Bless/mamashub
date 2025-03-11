@@ -1,0 +1,649 @@
+{
+  "resourceType": "Questionnaire",
+  "language": "nb-NO",
+  "id": "30c13034-5795-4b71-a894-2f6597594daa",
+  "status": "draft",
+  "publisher": "NHN",
+  "meta": {
+    "profile": [
+      "http://ehelse.no/fhir/StructureDefinition/sdf-Questionnaire"
+    ],
+    "tag": [
+      {
+        "system": "urn:ietf:bcp:47",
+        "code": "nb-NO",
+        "display": "Bokmål"
+      }
+    ],
+    "security": [
+      {
+        "code": "3",
+        "display": "Helsehjelp (Full)",
+        "system": "urn:oid:2.16.578.1.12.4.1.1.7618"
+      }
+    ]
+  },
+  "contact": [
+    {
+      "name": "http://www.nhn.no"
+    }
+  ],
+  "subjectType": [
+    "Patient"
+  ],
+  "extension": [
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-sidebar",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-sidebar",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-information-message",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-information-message",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefintion/sdf-itemControl-visibility",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-help",
+            "display": "Hide help texts"
+          },
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-sublabel",
+            "display": "Hide sublabel texts"
+          }
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "linkId": "b9dd593a-733a-411b-d712-fdd732009ab7",
+      "type": "group",
+      "required": false,
+      "text": "CHILD BIRTH ",
+      "item": [
+        {
+          "linkId": "45fa0395-7045-4c08-823d-281d6a92ce4e",
+          "type": "integer",
+          "text": "Duration of pregnancy in weeks ",
+          "required": false
+        },
+        {
+          "linkId": "1e245f34-46f4-40d6-8bdd-ac9e8745a990",
+          "type": "choice",
+          "text": "HIV tested?",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "1fbbd08b-9930-4377-dfcc-b2670cbc891d",
+                "code": "yes",
+                "system": "urn:uuid:fe7eac0d-0053-42e2-9753-e931c943f2b7",
+                "display": "yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "ec3d88c3-f5f7-4b05-8426-43e299d67e5f",
+                "code": "no",
+                "system": "urn:uuid:fe7eac0d-0053-42e2-9753-e931c943f2b7",
+                "display": "no"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "c82b58d2-5d3b-4558-fb1c-4b9104ef1a4b",
+              "type": "choice",
+              "required": false,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "1db3963a-96f1-4855-8e83-a8380140bd89",
+                    "code": "reactive-",
+                    "system": "urn:uuid:8d78033a-6ea9-4b0d-c720-9daadeac3d0e",
+                    "display": "Reactive "
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "e6ae7a2b-ef15-4ac1-f1af-258cd101de8e",
+                    "code": "nr",
+                    "system": "urn:uuid:8d78033a-6ea9-4b0d-c720-9daadeac3d0e",
+                    "display": "NR"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "c7d6b59a-c52c-439b-8a34-904c2ef9d209",
+                    "code": "not-tested",
+                    "system": "urn:uuid:8d78033a-6ea9-4b0d-c720-9daadeac3d0e",
+                    "display": "Not Tested"
+                  }
+                }
+              ],
+              "text": "If HIV test not done or Negative at ANC, counsel and test:",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "radio-button"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "230bb940-0dd2-492a-ad04-46bcf5933117",
+          "type": "string",
+          "text": "Mode of Delivery ",
+          "required": false,
+          "item": [
+            {
+              "linkId": "fddd4e90-78ac-4d3a-8dee-b36dae0b9ff4",
+              "type": "dateTime",
+              "text": "Date:",
+              "required": false
+            }
+          ]
+        },
+        {
+          "linkId": "cf52441c-9cda-4d8c-8f54-20aa84e06acc",
+          "type": "choice",
+          "text": "Place baby on the mother's abdomen immediately the baby is born ",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "fafa4116-45a2-4837-837b-1ea52991ae43",
+                "code": "yes",
+                "system": "urn:uuid:5dd3e969-0c7f-4f2f-9c46-9a41db0962a2",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "dd34a569-7a55-44fe-9f1f-fae634584101",
+                "code": "no",
+                "system": "urn:uuid:5dd3e969-0c7f-4f2f-9c46-9a41db0962a2",
+                "display": "No"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "80386f59-d7e4-46bf-f179-406a73ff089e",
+          "type": "group",
+          "text": "Apgar Score:",
+          "item": [
+            {
+              "linkId": "09249265-35c8-4e76-8375-c57496775b7c",
+              "type": "string",
+              "text": "1 min",
+              "required": false
+            },
+            {
+              "linkId": "ef005e50-a22a-44ef-97bc-45a1cfb5b509",
+              "type": "string",
+              "text": "5 min",
+              "required": false
+            },
+            {
+              "linkId": "b4844d41-73dd-4a21-80e5-ff3bf88f8e1a",
+              "type": "string",
+              "text": "10 min",
+              "required": false
+            }
+          ],
+          "required": false
+        },
+        {
+          "linkId": "6b267b78-c742-415f-88ff-afa59a53e1e2",
+          "type": "choice",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "2a16fedc-0bcc-4ee8-d70e-bea844621343",
+                "code": "yes",
+                "system": "urn:uuid:6c85571c-9121-43ef-9f06-1f934cdd7c78",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "0627a977-3659-4393-dd52-677520a7011c",
+                "code": "no",
+                "system": "urn:uuid:6c85571c-9121-43ef-9f06-1f934cdd7c78",
+                "display": "No"
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ],
+          "text": "Resuscitation done"
+        },
+        {
+          "linkId": "245a3705-1e0b-444e-d5ec-0047e451e6f9",
+          "type": "integer",
+          "text": "Blood Loss in milliliters (ml)",
+          "required": false
+        },
+        {
+          "linkId": "357ab24e-96e3-4ccb-8e9a-9bcdebea3888",
+          "type": "choice",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "1f31623f-216b-4e99-8fff-e03d0ea3a083",
+                "code": "pre-eclampsia:",
+                "system": "urn:uuid:5dae7b79-9098-4805-805a-e0c9d25982f4",
+                "display": "Pre-eclampsia:"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "3a056225-d14a-4dde-8fcc-f0737fd49a48",
+                "code": "-eclampsia:-",
+                "system": "urn:uuid:5dae7b79-9098-4805-805a-e0c9d25982f4",
+                "display": " Eclampsia: "
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "1f2c6089-58f3-4105-e760-52e72b70e06a",
+                "code": "pph:-",
+                "system": "urn:uuid:5dae7b79-9098-4805-805a-e0c9d25982f4",
+                "display": "PPH: "
+              }
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "1fe90135-e160-4976-88e6-2ae5fc7a2b8f",
+          "type": "choice",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "d8ab6a31-33e9-47f0-8d1c-bd2625207aa3",
+                "code": "yes-",
+                "system": "urn:uuid:ddd297d7-f28a-496e-a9a4-3b48860648a7",
+                "display": "Yes "
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "16353f62-6767-4812-b608-f51515b1a88e",
+                "code": "no",
+                "system": "urn:uuid:ddd297d7-f28a-496e-a9a4-3b48860648a7",
+                "display": "No"
+              }
+            }
+          ],
+          "text": "Obstructed labour ",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "eceabdff-ffd7-4631-804f-18b656108333",
+          "type": "string",
+          "required": false,
+          "text": "Condition of mother:"
+        },
+        {
+          "linkId": "57b9e20f-5ad4-48ee-8f2c-5ba3fca1777b",
+          "type": "choice",
+          "required": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "id": "8fa9115d-050c-43cd-8da7-1a75e4f0bbfd",
+                "code": "nurse-",
+                "system": "urn:uuid:63d999a8-9ded-42a7-8ccf-a66285a30915",
+                "display": "Nurse "
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "d2991c16-d1a7-4d7d-8fcd-a846a988733d",
+                "code": "midwife-",
+                "system": "urn:uuid:63d999a8-9ded-42a7-8ccf-a66285a30915",
+                "display": "Midwife "
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "cc126aac-d855-43dc-c49f-330dd086459c",
+                "code": "clinical-officer:",
+                "system": "urn:uuid:63d999a8-9ded-42a7-8ccf-a66285a30915",
+                "display": "Clinical Officer:"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "764482d5-1489-4115-e33a-2618643ea1ac",
+                "code": "doctor-",
+                "system": "urn:uuid:63d999a8-9ded-42a7-8ccf-a66285a30915",
+                "display": "Doctor "
+              }
+            }
+          ],
+          "text": "Meconium stained liquor (grade) 0, 1, 2, 3,",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                    "code": "radio-button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-sublabel",
+              "valueMarkdown": "Conducted by:"
+            }
+          ]
+        },
+        {
+          "linkId": "8479ae2e-71a8-45b9-980b-cd61f7801a8b",
+          "type": "group",
+          "required": false,
+          "text": "Drugs administered at childbirth:",
+          "item": [
+            {
+              "linkId": "1338dea1-4513-4010-c611-4d4e20724097",
+              "type": "display",
+              "text": "Mother: Oxytocin/Misoprostol/Heat stable carbetocin",
+              "required": false
+            },
+            {
+              "linkId": "ca6d0e9b-bb0c-4330-dfe7-9dff1ba6b003",
+              "type": "choice",
+              "text": "HIV status",
+              "required": false,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "1424d05d-99e8-491c-8f01-82fbf1636422",
+                    "code": "positive",
+                    "system": "urn:uuid:62c817e7-8e32-4ecf-cc61-d612aaa98b85",
+                    "display": "positive"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "ef9d44d5-521d-4b72-8a37-dbf4fe33496c",
+                    "code": "negative",
+                    "system": "urn:uuid:62c817e7-8e32-4ecf-cc61-d612aaa98b85",
+                    "display": "negative"
+                  }
+                }
+              ],
+              "item": [
+                {
+                  "linkId": "aaefa0dd-31b9-4f19-88ed-d5f3b1089d21",
+                  "type": "string",
+                  "required": false,
+                  "text": "(HAART Highly Active Antiretroviral Therapy). Specify regimen",
+                  "enableWhen": [
+                    {
+                      "question": "ca6d0e9b-bb0c-4330-dfe7-9dff1ba6b003",
+                      "operator": "=",
+                      "answerCoding": {
+                        "system": "urn:uuid:62c817e7-8e32-4ecf-cc61-d612aaa98b85",
+                        "code": "positive"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "linkId": "7d82f2ce-dbdf-4795-e1f5-97f09a4a6d8a",
+                  "type": "string",
+                  "text": "Other drugs specify:",
+                  "required": false,
+                  "enableWhen": [
+                    {
+                      "question": "ca6d0e9b-bb0c-4330-dfe7-9dff1ba6b003",
+                      "operator": "=",
+                      "answerCoding": {
+                        "system": "urn:uuid:62c817e7-8e32-4ecf-cc61-d612aaa98b85",
+                        "code": "positive"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "0eb7fba7-c755-453a-a23c-1cdd7e23f9f1",
+              "type": "choice",
+              "required": false,
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "id": "f8a95c9b-23a5-454b-ef7e-adf0afd80134",
+                    "code": "chx-7.1%-",
+                    "system": "urn:uuid:29d4b248-7b70-4977-d5e9-b342698626aa",
+                    "display": "CHX 7.1% "
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "f5c080ef-6368-48d2-8c6d-fb5c74426a49",
+                    "code": "vit-k",
+                    "system": "urn:uuid:29d4b248-7b70-4977-d5e9-b342698626aa",
+                    "display": "Vit K"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "id": "7b4e3bb8-e467-4441-8d42-8eb4e749e07b",
+                    "code": "teo",
+                    "system": "urn:uuid:29d4b248-7b70-4977-d5e9-b342698626aa",
+                    "display": "TEO"
+                  }
+                }
+              ],
+              "text": "Baby:",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                        "code": "check-box"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "item": [
+                {
+                  "linkId": "a9b898b7-90b6-4ef9-89a0-4ca038bbcd92",
+                  "type": "display",
+                  "required": false,
+                  "text": "Cord care: Apply Chlorhexidine digluconate gel (CHX 7.1%) once daily for 7 days. Stop\napplication if cord drops off before 7 days. NB: DO NOT APPLY CHX ON EYES."
+                },
+                {
+                  "linkId": "ef158c58-425f-49e7-c89a-8069d529ef32",
+                  "type": "string",
+                  "text": "Baby HIV exposed: Specify ART prophylaxis given ",
+                  "required": false
+                },
+                {
+                  "linkId": "4f60b79b-7379-4529-d64f-ce7ec25f80a3",
+                  "type": "string",
+                  "text": "Other drugs specify: ",
+                  "required": false
+                },
+                {
+                  "linkId": "6fb50618-8ae9-4c03-834f-78016f750990",
+                  "type": "string",
+                  "required": false,
+                  "text": "Baby’s condition"
+                },
+                {
+                  "linkId": "2a18c18c-9ddc-4a56-f0b9-e0b65d1615e7",
+                  "type": "string",
+                  "required": false,
+                  "text": "Birth Weight gms: "
+                },
+                {
+                  "linkId": "b94f10cb-c65a-4467-81ad-a019703f4283",
+                  "type": "string",
+                  "required": false,
+                  "text": "Birth Length cm: "
+                },
+                {
+                  "linkId": "565721d5-932d-491a-d423-038e2e388c8f",
+                  "type": "string",
+                  "required": false,
+                  "text": "Head circumference cm:",
+                  "item": [
+                    {
+                      "linkId": "b8602540-f84e-468e-8c84-718be2c610f9",
+                      "type": "choice",
+                      "required": false,
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "id": "47163307-9cd6-45e4-aa5f-c8fdb5c7649e",
+                            "code": "health-facility-",
+                            "system": "urn:uuid:33ae34e5-6bb9-4975-8f73-489c8e5401cd",
+                            "display": "Health Facility "
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "id": "c278176e-39cc-4fbf-8f7b-70ee47b86428",
+                            "code": "home-",
+                            "system": "urn:uuid:33ae34e5-6bb9-4975-8f73-489c8e5401cd",
+                            "display": "Home "
+                          }
+                        }
+                      ],
+                      "text": "Place of childbirth: ",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/ValueSet/questionnaire-item-control",
+                                "code": "radio-button"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "8151bdc3-d950-4d13-cd5d-3d5d4b7424e4",
+                      "type": "string",
+                      "required": false,
+                      "text": " Other (Specify): "
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "b5f929dc-cae2-44b4-84d2-a6fdebae0fb0",
+              "type": "string",
+              "text": "Early initiation of breastfeeding within 1 hour after childbirth",
+              "required": false
+            }
+          ]
+        },
+        {
+          "linkId": "6a0feaa6-76b0-4d6c-b2e9-f5e42f01be0b",
+          "type": "display",
+          "required": false,
+          "text": "Note:\n• Keep the baby warm, uninterrupted skin to skin for at least one hour immediately after\nchildbirth\n• Delay bathing the baby for at least 24 hours after birth\n• If preterm or low birth weight less than 2500gms, initiate kangaroo mother care at least\n18 hours per day"
+        }
+      ]
+    }
+  ]
+}
