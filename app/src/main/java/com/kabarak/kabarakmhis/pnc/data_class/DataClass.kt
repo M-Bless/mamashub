@@ -103,3 +103,23 @@ data class QuestionnaireDetails(
     val detailAnswer: String,
 )
 
+data class BroadClinical(
+    val id: String,
+    val age: String,
+    val weight: String,
+    val length: String
+
+)
+
+data class OtherProblems(
+    val id: String,
+    val sleepingProblems: String,
+    val irritability: String,
+    val othersSpecify: String,
+)
+
+data class Vaccines(
+    val id: String,
+    val VaccineName: String,
+    val VaccineDate: String,
+)
