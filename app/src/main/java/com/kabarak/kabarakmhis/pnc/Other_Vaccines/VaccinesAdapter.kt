@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kabarak.kabarakmhis.R
-
 import com.kabarak.kabarakmhis.pnc.data_class.Vaccines
 
 class VaccinesAdapter(

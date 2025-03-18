@@ -46,7 +46,7 @@ import com.kabarak.kabarakmhis.pnc.diphtheria.DiphtheriaView
 
 import com.kabarak.kabarakmhis.pnc.childpostnatalcare.ChildPncViewActivity
 import com.kabarak.kabarakmhis.immunisation.vitamin_a_supplimentary.VitaminAsupplimentaryView
-
+import com.kabarak.kabarakmhis.pnc.Other_Vaccines.VaccinesViewActivity
 
 
 class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternalProfileChild>,
@@ -156,7 +156,7 @@ class MaternalProfileChildrenAdapter(private var entryList: ArrayList<DbMaternal
                 10.7 -> { context.startActivity(Intent(context, MeaslesImmunizationViewActivity::class.java))} // Measles vaccine (MR)
                 10.8 -> { context.startActivity(Intent(context, YellowFeverServiceList::class.java))} // Yellow fever vaccine
                 10.9 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Meningococcal vaccine
-                11.1 -> { context.startActivity(Intent(context, PMTCTInterventionsView::class.java))} // Other vaccines as applicable
+                11.1 -> { context.startActivity(Intent(context, VaccinesViewActivity::class.java))} // Other vaccines as applicable
                 11.2 -> { context.startActivity(Intent(context, VitaminAsupplimentaryView::class.java))} // vitamin A
 
 
