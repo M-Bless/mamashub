@@ -635,7 +635,7 @@ class RetrofitCallsFhir {
         val requestBody = RequestBody.create(mediaType, updatedResponse)
 
         // Call the update method on the Retrofit API service
-        apiService.updateQuestionnaireResponse(responseId, requestBody).enqueue(callback)
+        apiService.submitQuestionnaireResponse(responseId, requestBody).enqueue(callback)
     }
 
 
@@ -663,15 +663,7 @@ class RetrofitCallsFhir {
             .addConverterFactory(GsonConverterFactory.create()) // Gson converter for JSON parsing
             .build()
     }
-    suspend fun saveImmunization(immunization: Immunization): Response<Immunization> {
-        return try {
-            // Call the saveResource function in the Interface to save the immunization resource
-            apiService.saveResource(immunization)
-        } catch (e: Exception) {
-            Log.e("RetrofitCallsFhir", "Error saving immunization", e)
-            Response.error(500, ResponseBody.create(null, "Error saving immunization"))
-        }
-    }
+
 
     fun submitExtractedBundle(bundleJson: String, callback: Callback<ResponseBody>) {
         val mediaType = "application/fhir+json".toMediaTypeOrNull()
