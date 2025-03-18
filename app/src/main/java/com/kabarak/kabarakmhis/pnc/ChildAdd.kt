@@ -23,6 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 class ChildAdd : AppCompatActivity() {
 
+    private lateinit var retrofitCallsFhir: RetrofitCallsFhir
     private lateinit var viewModel: ChildAddViewModel
     private var questionnaireJsonString: String? = null
     private var identifier: String? = null // Store the identifier
@@ -124,6 +125,20 @@ class ChildAdd : AppCompatActivity() {
 
         } else {
             Log.e("ChildAdd", "QuestionnaireFragment not found or is null")
+        }
+    }
+
+    private fun getStringFromAssets(fileName: String): String? {
+        return try {
+            val inputStream = assets.open(fileName)
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+            String(buffer, Charsets.UTF_8)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
     }
 

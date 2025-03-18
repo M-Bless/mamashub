@@ -151,10 +151,10 @@ class ChildEdit : AppCompatActivity() {
             val questionnaireResponseString = jsonParser.encodeResourceToString(questionnaireResponse)
             
             // Log the response (you can replace this with saving to a database or sending to a server)
-            Log.d("submitUpdatedResponse", updatedResponseString)
+            Log.d("submitUpdatedResponse", questionnaireResponseString)
 
             // Submit the updated response back to the server
-            retrofitCallsFhir.updateQuestionnaireResponse(responseId, updatedResponseString, object : Callback<ResponseBody> {
+            retrofitCallsFhir.updateQuestionnaireResponse(responseId, questionnaireResponseString, object : Callback<ResponseBody> {
 
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     CoroutineScope(Dispatchers.Main).launch {
