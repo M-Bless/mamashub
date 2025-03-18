@@ -34,12 +34,12 @@ class ChildAdapter(
     }
 
     class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameTextView: TextView = itemView.findViewById(R.id.tvApgarValue)
-        private val birthDateTextView: TextView = itemView.findViewById(R.id.tvMotherCondition)
+        private val nameTextView: TextView = itemView.findViewById(R.id.tvName)
+        private val birthDateTextView: TextView = itemView.findViewById(R.id.tvBirthDate)
 
         fun bind(child: Child) {
-            nameTextView.text = child.apgarValue
-            birthDateTextView.text = child.motherCondition
+            nameTextView.text = child.name
+            birthDateTextView.text = child.birthDate
         }
     }
 }

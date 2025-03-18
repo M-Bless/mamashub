@@ -233,18 +233,18 @@ class ChildViewActivity : AppCompatActivity() {
             return
         }
 
-        var apgar: String? = null
-        var condition: String? = null
+        var name: String? = null
+        var birthDate: String? = null
 
         for (item in questionnaireResponse.item) {
             if (item.linkId == "b9dd593a-733a-411b-d712-fdd732009ab7") {
                 for (subItem in item.item) {
                     when (subItem.linkId) {
                         "45fa0395-7045-4c08-823d-281d6a92ce4e" -> {
-                            apgar = subItem.answer.firstOrNull()?.valueIntegerType?.value.toString()
+                            name = subItem.answer.firstOrNull()?.valueIntegerType?.value.toString()
                         }
                         "230bb940-0dd2-492a-ad04-46bcf5933117" -> {
-                            condition = subItem.answer.firstOrNull()?.valueStringType?.value.toString()
+                            birthDate = subItem.answer.firstOrNull()?.valueStringType?.value.toString()
                         }
 
                     }
@@ -261,10 +261,10 @@ class ChildViewActivity : AppCompatActivity() {
 //        }
 
         // Add the child if both name and birth date are available
-        if (!apgar.isNullOrEmpty() && !condition.isNullOrEmpty()) {
-            val child = Child(id = responseId, apgarValue = apgar,  motherCondition= condition)
+        if (!name.isNullOrEmpty() && !birthDate.isNullOrEmpty()) {
+            val child = Child(id = responseId, name = name,  birthDate= birthDate)
             children.add(child)
-            Log.d("ChildViewActivity", "Added child: $apgar, condition: $condition, Response ID: $responseId")
+            Log.d("ChildViewActivity", "Added child: $name, dob: $birthDate, Response ID: $responseId")
         }
     }
 
