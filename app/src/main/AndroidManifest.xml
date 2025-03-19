@@ -153,6 +153,18 @@
             android:exported="true" />
 
         <activity
+            android:name=".pnc.Other_Vaccines.VaccinesViewActivity"
+            android:exported="true"/>
+
+        <activity
+            android:name=".pnc.Other_Vaccines.VaccinesAdd"
+            android:exported="true"/>
+
+        <activity
+            android:name=".pnc.Other_Vaccines.VaccinesEdit"
+            android:exported="true"/>
+
+        <activity
             android:name=".new_designs.screens.UpcomingAppointments"
             android:exported="false"
             android:parentActivityName=".new_designs.screens.PatientProfile" />
