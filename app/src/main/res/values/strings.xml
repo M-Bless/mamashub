@@ -2,7 +2,7 @@
     <string name="app_name">KabarakMHIS</string>
 
     <!--    Development Servers-->
-    <string name="base_url">https://zkhqhwk2-5000.uks1.devtunnels.ms</string>
+    <string name="base_url">https://z55fzdhc-5000.inc1.devtunnels.ms/</string>
     <string name="fhir_url">http://41.89.93.172/fhir/</string>
 
 
