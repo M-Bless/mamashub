@@ -27,7 +27,7 @@ class ConfirmParentAdapter(private var entryList: List<DbConfirmDetails>?,
 
         override fun onClick(p0: View) {
 
-            val pos = adapterPosition
+            adapterPosition
 
 
 

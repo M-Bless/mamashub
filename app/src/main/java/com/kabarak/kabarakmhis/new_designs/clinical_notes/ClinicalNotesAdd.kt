@@ -28,7 +28,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ClinicalNotesAdd : AppCompatActivity() {
 
@@ -50,8 +49,8 @@ class ClinicalNotesAdd : AppCompatActivity() {
 
         title = "Add Clinical Notes"
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
         kabarakViewModel = KabarakViewModel(application)
 
         patientId = formatter.retrieveSharedPreference(this, "patientId").toString()
@@ -61,9 +60,9 @@ class ClinicalNotesAdd : AppCompatActivity() {
             PatientDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
         )[PatientDetailsViewModel::class.java]
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+
         handleNavigation()
 
         tvNextVisit.setOnClickListener { createDialog(999) }

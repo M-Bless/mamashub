@@ -42,7 +42,7 @@ class AddChwPatientViewModel(application: Application, private val state: SavedS
 
         viewModelScope.launch {
 
-            val entry = ResourceMapper.extract(questionnaireResource, questionnaireResponse).entryFirstRep
+            ResourceMapper.extract(questionnaireResource, questionnaireResponse).entryFirstRep
 
             CoroutineScope(Dispatchers.IO).launch {
 

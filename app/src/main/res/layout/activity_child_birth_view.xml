@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    tools:context=".pnc.ChildBirthView">
+    tools:context=".pnc.">
 
     <include
         android:id="@+id/no_record"
@@ -248,11 +248,13 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_child"
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_child" />
+            android:layout_height="wrap_content"
+            android:padding="8dp" />
 
 
     </LinearLayout>
@@ -265,6 +267,8 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content">
+
+
 
         <Button
             android:id="@+id/btnAdd"

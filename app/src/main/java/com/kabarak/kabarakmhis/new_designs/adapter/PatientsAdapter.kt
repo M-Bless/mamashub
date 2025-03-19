@@ -95,9 +95,9 @@ class PatientsAdapter(private var entryList: List<DBEntry>,
 
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
-        val id = entryList[position].resource.id
+        entryList[position].resource.id
         val name = entryList[position].resource.name
-        val birthDate = entryList[position].resource.birthDate
+        entryList[position].resource.birthDate
 
         val pos = "${position + 1}"
 

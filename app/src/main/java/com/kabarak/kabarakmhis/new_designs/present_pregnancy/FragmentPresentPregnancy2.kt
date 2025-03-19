@@ -82,12 +82,12 @@ class FragmentPresentPregnancy2 : Fragment(), AdapterView.OnItemSelectedListener
 
         initSpinner()
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+
         rootView.tvDate.setOnClickListener { createDialog(999) }
 
         rootView.etFoetalMovement.addTextChangedListener(object : TextWatcher {

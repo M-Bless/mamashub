@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kabarak.kabarakmhis.R
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
+import com.kabarak.kabarakmhis.immunisation.pnemococal_conjugate_vaccine.PnemococalConjugateServiceView
+import com.kabarak.kabarakmhis.immunisation.yellowfevervaccine.YellowFeverServiceView
 import com.kabarak.kabarakmhis.new_designs.clinical_notes.ClinicalNotesView
 import com.kabarak.kabarakmhis.new_designs.data_class.DbObserveValue
 import com.kabarak.kabarakmhis.new_designs.data_class.DbResourceViews
@@ -64,6 +66,14 @@ class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
             }
 
 
+            if (encounterType == DbResourceViews.YELLOW_FEVER.name){
+                context.startActivity(Intent(context, YellowFeverServiceView::class.java))
+            }
+
+            if (encounterType == DbResourceViews.PNEUMOCOCCAL_CONJUGATE.name){
+                context.startActivity(Intent(context, PnemococalConjugateServiceView::class.java))
+            }
+
 
         }
 
@@ -86,7 +96,7 @@ class EncounterAdapter(private var entryList: ArrayList<DbObserveValue>,
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
 
-        val id = entryList[position].title
+        entryList[position].title
         val appointmentDate = entryList[position].value
 
         holder.tvValue.text = appointmentDate

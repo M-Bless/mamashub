@@ -58,7 +58,7 @@ class PatientsListAdapter(private var entryList: List<DbPatientDetails>,
 
     override fun onBindViewHolder(holder: Pager2ViewHolder, position: Int) {
 
-        val id = entryList[position].id
+        entryList[position].id
         val name = entryList[position].name
         val date = entryList[position].lastUpdated
 

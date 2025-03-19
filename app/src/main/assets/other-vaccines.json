@@ -1,0 +1,103 @@
+{
+  "resourceType": "Questionnaire",
+  "language": "nb-NO",
+  "status": "draft",
+  "publisher": "NHN",
+  "meta": {
+    "profile": [
+      "http://ehelse.no/fhir/StructureDefinition/sdf-Questionnaire"
+    ],
+    "tag": [
+      {
+        "system": "urn:ietf:bcp:47",
+        "code": "nb-NO",
+        "display": "Bokmål"
+      }
+    ],
+    "security": [
+      {
+        "code": "3",
+        "display": "Helsehjelp (Full)",
+        "system": "urn:oid:2.16.578.1.12.4.1.1.7618"
+      }
+    ]
+  },
+  "contact": [
+    {
+      "name": "http://www.nhn.no"
+    }
+  ],
+  "subjectType": [
+    "Patient"
+  ],
+  "extension": [
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-sidebar",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-sidebar",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefinition/sdf-information-message",
+      "valueCoding": {
+        "system": "http://helsenorge.no/fhir/ValueSet/sdf-information-message",
+        "code": "1"
+      }
+    },
+    {
+      "url": "http://helsenorge.no/fhir/StructureDefintion/sdf-itemControl-visibility",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-help",
+            "display": "Hide help texts"
+          },
+          {
+            "system": "http://helsenorge.no/fhir/CodeSystem/AttachmentRenderOptions",
+            "code": "hide-sublabel",
+            "display": "Hide sublabel texts"
+          }
+        ]
+      }
+    }
+  ],
+  "id": "3aeff558-9f41-40f1-8648-801d833ff6d1",
+  "item": [
+    {
+      "linkId": "87730dc0-fab6-4d13-8375-01fb4c42c06e",
+      "type": "group",
+      "item": [
+        {
+          "linkId": "1663e533-f166-4c7c-8a58-798c65009c56",
+          "type": "string",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
+              "valueString": "Vaccines "
+            }
+          ],
+          "text": "Vaccine Name"
+        },
+        {
+          "linkId": "8b975eb5-3897-4663-9eb6-42d647bb1bd0",
+          "type": "date",
+          "text": "Date Given:",
+          "required": false
+        }
+      ],
+      "required": false,
+      "text": "Other Vaccines",
+      "_text": {
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/rendering-markdown",
+            "valueMarkdown": "## Other Vaccines"
+          }
+        ]
+      }
+    }
+  ]
+}

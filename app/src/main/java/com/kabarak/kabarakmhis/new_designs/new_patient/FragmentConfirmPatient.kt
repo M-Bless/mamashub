@@ -16,7 +16,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ca.uhn.fhir.context.FhirContext
 import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.kabarak.kabarakmhis.R
@@ -25,15 +24,12 @@ import com.kabarak.kabarakmhis.fhir.viewmodels.AddPatientViewModel
 import com.kabarak.kabarakmhis.helperclass.DbObservationValues
 import com.kabarak.kabarakmhis.helperclass.FormatterClass
 import com.kabarak.kabarakmhis.new_designs.NewMainActivity
-import com.kabarak.kabarakmhis.new_designs.chw.FragmentConfirmChvPatient
-import com.kabarak.kabarakmhis.new_designs.chw.FragmentConfirmChvPatient.Companion
 import com.kabarak.kabarakmhis.new_designs.data_class.*
 import com.kabarak.kabarakmhis.new_designs.roomdb.KabarakViewModel
 import com.kabarak.kabarakmhis.new_designs.screens.ConfirmParentAdapter
 import com.kabarak.kabarakmhis.new_designs.screens.FragmentConfirmDetails
 import kotlinx.android.synthetic.main.activity_antenatal_profile_view.*
 import kotlinx.coroutines.*
-import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 
 
@@ -84,7 +80,7 @@ class FragmentConfirmPatient : Fragment(){
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
 
-        recyclerView = rootView.findViewById(R.id.confirmList);
+        recyclerView = rootView.findViewById(R.id.confirmList)
         layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.VERTICAL,
@@ -303,6 +299,7 @@ class FragmentConfirmPatient : Fragment(){
         }
     }
 
+
     private fun getConfirmDetails() {
 
         //Get the data from the previous screen
@@ -333,7 +330,6 @@ class FragmentConfirmPatient : Fragment(){
     companion object {
         const val QUESTIONNAIRE_FILE_PATH_KEY = "questionnaire-file-path-key"
         const val QUESTIONNAIRE_FRAGMENT_TAG = "questionnaire-fragment-tag"
-        const val EXTRA_QUESTIONNAIRE_JSON_STRING = "questionnaire_json_string"
     }
 
 }

@@ -1,0 +1,2492 @@
+{
+  "title": "Child Health Monitoring",
+  "status": "active",
+  "version": "1.0.1",
+  "publisher": "David Saruni (nsaruni@kabarak.ac.ke)",
+  "resourceType": "Questionnaire",
+  "subjectType": [
+    "Patient"
+  ],
+  "item": [
+    {
+      "linkId": "01a49934-19be-4e25-807a-76e0f56f9fb1",
+      "type": "group",
+      "text": "A. Particulars of the Child",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Patient",
+            "name": "patient"
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "observation"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "a6bb3331-f838-4704-8d25-1b16f82e10b2",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name",
+          "text": "Name of Child",
+          "item": [
+            {
+              "linkId": "a6bb3331-1",
+              "type": "string",
+              "text": "First Name",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.given",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.given",
+                    "name": "childGivenName"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "a6bb3331-2",
+              "type": "string",
+              "text": "Last Name",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.family",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.family",
+                    "name": "childFamilyName"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "0c2657aa-b3cf-4d56-8297-71e00c437776",
+          "type": "choice",
+          "text": "Sex of Child",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.gender",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "drop-down"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "male",
+                "display": "Male",
+                "system": "http://snomed.info/sct"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "female",
+                "display": "Female",
+                "system": "http://snomed.info/sct"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "unknown",
+                "display": "Unknown",
+                "system": "http://snomed.info/sct"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "other",
+                "display": "Other",
+                "system": "http://snomed.info/sct"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "a40daa32-c972-4330-8e89-125056db33ba",
+          "type": "date",
+          "text": "Date of Birth",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.birthDate",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "Patient.birthDate",
+                "name": "childBirthDate"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "2.1.0",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "gestationWeeks"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+              "item": [
+                {
+                  "text": "Gestation at Birth (in weeks)",
+                  "type": "decimal",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                      "valueDecimal": 20
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                      "valueDecimal": 50
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.2",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "weeks"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.3",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "http://unitsofmeasure.org"
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "1156738004",
+                    "display": "Gestation at Birth (in weeks)",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "2.2.0",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "birthWeight"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+              "item": [
+                {
+                  "text": "Birth Weight (gms)",
+                  "type": "decimal",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                      "valueDecimal": 500
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                      "valueDecimal": 5000
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.2",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "grams"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.3",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "http://unitsofmeasure.org"
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "364589006",
+                    "display": "Birth Weight (gms)",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "2.3.0",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "birthLength"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity",
+              "item": [
+                {
+                  "text": "Birth Length (cm)",
+                  "type": "decimal",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.value",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minValue",
+                      "valueDecimal": 20
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                      "valueDecimal": 100
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.2",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.code",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "centimetres"
+                    }
+                  ]
+                },
+                {
+                  "linkId": "1.1.3",
+                  "type": "string",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueQuantity.system",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ],
+                  "initial": [
+                    {
+                      "valueString": "http://unitsofmeasure.org"
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "169886007",
+                    "display": "Birth Length (cm)",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "2.4.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "otherBirthCharacteristics"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Other Birth Characteristics",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "360300001",
+                    "display": "Other Birth Characteristics",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "2.5.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "BirthOrderinfamily"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Birth Order in family",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 30
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "722250005",
+                    "display": "Birth Order in family",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "2.6.0",
+          "type": "date",
+          "text": "Date First Seen",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.dateFirstSeen",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "Patient.dateFirstSeen",
+                "name": "dateFirstSeen"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "c8e3b9ad-004c-41d5-8542-a48bf0661083",
+      "type": "group",
+      "text": "B. Health Record of Child",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "observation"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "2.7.0",
+          "type": "group",
+          "text": "Place of Birth",
+          "item": [
+            {
+              "linkId": "location",
+              "type": "choice",
+              "text": "Select Location",
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "home",
+                    "display": "Home"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "health-facility",
+                    "display": "Health Facility"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "others",
+                    "display": "Others"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "location-details",
+              "type": "string",
+              "text": "Specify location details",
+              "enableWhen": [
+                {
+                  "question": "location",
+                  "operator": "=",
+                  "answerCoding": {
+                    "code": "others"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "2.7.2",
+              "type": "string",
+              "text": "Specify Other Place of Birth",
+              "enableWhen": [
+                {
+                  "question": "2.7.1",
+                  "operator": "=",
+                  "answerCoding": {
+                    "code": "74964007",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 100
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "5bd87bfc-9eac-4a17-817f-3ccebab8313e",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "birthNotificationNumber"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "integer",
+              "text": "Birth Notification Number",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueString",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 0
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 100
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "3950001",
+                    "display": "Birth Notification Number",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "1.3.0",
+          "type": "date",
+          "text": "Date of Birth Notification",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+              "valueInteger": 0
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+              "valueInteger": 10
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "3.0.0",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "ImmunizationpermanentregisterNo"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "integer",
+              "text": "Immunization permanent register No",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueString",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 0
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 10000
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "925701000000102",
+                    "display": "Immunization permanent register No",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "3.1.0",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "ChildWelfareClinic(CWC)No"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "integer",
+              "text": "Child Welfare Clinic (CWC) No",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 0
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 10000
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "925701000000102",
+                    "display": "Child Welfare Clinic (CWC) No",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "3.2.0",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Healthfacilityname:"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Health facility name:",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "257622000",
+                    "display": "Health facility name:",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "3.3.0",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Masterfacility list(KMHFL)Code:"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "string",
+              "text": "Master facility list (KMHFL) Code:",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 1
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 50
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "925701000000102",
+                    "display": "Master facility list (KMHFL) Code:",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "31f85295-f921-41ea-8214-970e9f3c757c",
+      "type": "group",
+      "text": "C. Civil Registration",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "observation"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "a6ee5065-a572-4679-be59-9c065ffda809",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "BirthCertificateNo"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "integer",
+              "text": "Birth Certificate No",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueInteger",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 0
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 100
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "444561001",
+                    "display": "Birth Certificate No",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "1.3.0",
+          "type": "date",
+          "text": "Date of Registration",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+              "valueInteger": 0
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+              "valueInteger": 10
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "106a871a-a554-4bf7-8694-451840d0199b",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Placeofregistration:"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Place of registration",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueString",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "184047000",
+                    "display": "Place of registration",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "95a42f12-eb5d-479d-d0c9-de7e6bc54fe3",
+          "type": "group",
+          "required": false,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Anycongenitalabnormalities"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Any congenital abnormalities (cleft lip, club foot).. etc",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueString",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "276654001",
+                    "display": "Any congenital abnormalities (cleft lip, club foot).. etc",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "27b2752e-ac90-4bca-8273-56f3c4f06f48",
+      "type": "group",
+      "text": "D. Civil Registration",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+          "valueExpression": {
+            "language": "application/x-fhir-query",
+            "expression": "Observation",
+            "name": "observation"
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "3.8.0",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name",
+          "item": [
+            {
+              "linkId": "a6bb3331-1",
+              "type": "string",
+              "text": "Father's Name",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.text",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.text",
+                    "name": "father'sname"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "3.9.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Father'sNUmber"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "string",
+              "text": "Father's Number",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueString",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 7
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 15
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": " 359993007",
+                    "display": "Father's Number",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "4.0.0",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name",
+          "item": [
+            {
+              "linkId": "a6bb3331-1",
+              "type": "string",
+              "text": "Mother's Name",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.text",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.text",
+                    "name": "mother'sname"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "4.1.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Mother'sNumber"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "string",
+              "text": "Mother's Number",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueString",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 7
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 15
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "359993007",
+                    "display": "Mother's Number",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "4.2.0",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name",
+          "item": [
+            {
+              "linkId": "a6bb3331-1",
+              "type": "string",
+              "text": "Guardian's Name",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.text",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "Patient.name.text",
+                    "name": "guardian'sname"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            }
+          ],
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "4.3.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Residenceofchild"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Residence of Child",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept.text",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "432407003",
+                    "display": "Residence of child",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "4.4.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Division"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Division",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept.text",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "432407003",
+                    "display": "division",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "4.5.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Town/TradingCenter/Ward"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Town/Trading center/Ward",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept.text",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "288521009",
+                    "display": "Town/Tradingcenter/Ward",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "4.6.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "Estate&HouseNo./Village"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Estate &  House No./Village",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept.text",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "257630004",
+                    "display": "Estate&HouseNo./Village",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "4.7.0",
+          "type": "group",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "PostalAddress"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Observation",
+                "name": "observation"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "1.1.0",
+              "type": "group",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept",
+              "item": [
+                {
+                  "text": "Postal Address",
+                  "type": "string",
+                  "linkId": "1.1.1",
+                  "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.valueCodeableConcept.text",
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                      "valueInteger": 1
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                      "valueInteger": 255
+                    },
+                    {
+                      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                      "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Observation",
+                        "name": "observation"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "1.2.0",
+              "type": "choice",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Observation#Observation.code",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+                  "valueExpression": {
+                    "language": "application/x-fhir-query",
+                    "expression": "Observation",
+                    "name": "observation"
+                  }
+                }
+              ],
+              "initial": [
+                {
+                  "valueCoding": {
+                    "code": "397635003",
+                    "display": "PostalAddress",
+                    "system": "http://snomed.info/sct"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

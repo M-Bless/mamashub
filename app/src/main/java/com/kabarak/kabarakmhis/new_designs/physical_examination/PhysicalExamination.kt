@@ -112,7 +112,7 @@ class PhysicalExamination : AppCompatActivity() {
             hashSet.add(externalGenetaliaData)
             hashSet.add(genitalUlcerData)
 
-            val dbObservationValue = DbObservationValue(hashSet)
+            DbObservationValue(hashSet)
 //
 //            retrofitCallsFhir.createFhirEncounter(this, dbObservationValue,
 //                DbResourceViews.PHYSICAL_EXAMINATION.name)

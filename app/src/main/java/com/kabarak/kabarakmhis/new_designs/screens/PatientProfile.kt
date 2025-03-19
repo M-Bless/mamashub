@@ -136,6 +136,8 @@ class PatientProfile : AppCompatActivity() {
         val dbMaternalPncVisitList = ArrayList<DbMaternalProfileChild>()
         val dbMaternalProfileChild19 = DbMaternalProfileChild(8.1,resources.getDrawable(R.drawable.childbirth), "ChildBirth")
         val dbMaternalProfileChild20 = DbMaternalProfileChild(8.2,resources.getDrawable(R.drawable.postnatalcare), "Early Identification of Congenital Abnormalities")
+
+
         val dbMaternalProfileChild21 = DbMaternalProfileChild(8.3,resources.getDrawable(R.drawable.childbirth), "Reproductive Organs Cancer Screening")
         val dbMaternalProfileChild22 = DbMaternalProfileChild(8.4,resources.getDrawable(R.drawable.chm), "Family Planning")
         val dbMaternalProfileChild23 = DbMaternalProfileChild(8.5, resources.getDrawable(R.drawable.chm), "POSTNATAL CARE - Mother")
@@ -168,7 +170,8 @@ class PatientProfile : AppCompatActivity() {
         val immunization8 = DbMaternalProfileChild(10.8, resources.getDrawable(R.drawable.chm), "Yellow Fever Vaccine")
         val immunization9 = DbMaternalProfileChild(10.9, resources.getDrawable(R.drawable.chm), "Meningococcal Vaccine")
         val immunization10 = DbMaternalProfileChild(11.1, resources.getDrawable(R.drawable.chm), "Other Vaccines")
-        immunizationList.addAll(listOf(immunization1, immunization2, immunization3, immunization4, immunization5, immunization6, immunization7, immunization8, immunization9, immunization10))
+        val immunization11 = DbMaternalProfileChild(11.2, resources.getDrawable(R.drawable.chm), "Vitamin A")
+        immunizationList.addAll(listOf(immunization1, immunization2, immunization3, immunization4, immunization5, immunization6, immunization7, immunization8, immunization9, immunization10, immunization11))
 
 
 

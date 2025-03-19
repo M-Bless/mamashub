@@ -1,0 +1,206 @@
+{
+  "resourceType": "Questionnaire",
+  "title": "DIPHTHERIA/PERTUSSIS/TETANUS/HEPATITIS B/HAEMOPHILUS INFLUENZA Type b",
+  "status": "draft",
+  "item": [
+    {
+      "type": "choice",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "drop-down",
+                "display": "Drop down"
+              }
+            ]
+          }
+        }
+      ],
+      "linkId": "7245469372851",
+      "text": "Dose",
+      "required": true,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://example.org/fhir/dose",
+            "code": "dose1",
+            "display": "1st Dose at 6 weeks"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://example.org/fhir/dose",
+            "code": "dose2",
+            "display": "2nd Dose at 10 weeks"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://example.org/fhir/dose",
+            "code": "dose3",
+            "display": "3rd Dose at 14 weeks"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "linkId": "943612448961",
+      "text": "1st Dose at 6 weeks",
+      "enableWhen": [
+        {
+          "question": "7245469372851",
+          "operator": "=",
+          "answerCoding": {
+            "system": "http://example.org/fhir/dose",
+            "code": "dose1"
+          }
+        }
+      ],
+      "enableBehavior": "any",
+      "item": [
+        {
+          "type": "date",
+          "linkId": "1706243778715",
+          "text": "Date given",
+          "required": true
+        },
+        {
+          "type": "date",
+          "linkId": "837211414406",
+          "text": "Date of next visit",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "623710444302",
+          "text": "Batch number",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "5130109776129",
+          "text": "Lot number",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "5096787115259",
+          "text": "Manufacturer",
+          "required": true
+        },
+        {
+          "type": "date",
+          "linkId": "130764843510",
+          "text": "Date of expiry",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "linkId": "162208982104",
+      "text": "2nd Dose at 10 weeks",
+      "enableWhen": [
+        {
+          "question": "7245469372851",
+          "operator": "=",
+          "answerCoding": {
+            "system": "http://example.org/fhir/dose",
+            "code": "dose2"
+          }
+        }
+      ],
+      "enableBehavior": "any",
+      "item": [
+        {
+          "type": "date",
+          "linkId": "326494514561",
+          "text": "Date given",
+          "required": true
+        },
+        {
+          "type": "date",
+          "linkId": "217550121148",
+          "text": "Date of next visit",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "670034935729",
+          "text": "Batch number",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "149322105195",
+          "text": "Lot number",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "427047554544",
+          "text": "Manufacturer",
+          "required": true
+        },
+        {
+          "type": "date",
+          "linkId": "989835392078",
+          "text": "Date of expiry",
+          "required": true
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "linkId": "927694432011",
+      "text": "3rd Dose at 14 weeks",
+      "enableWhen": [
+        {
+          "question": "7245469372851",
+          "operator": "=",
+          "answerCoding": {
+            "system": "http://example.org/fhir/dose",
+            "code": "dose3"
+          }
+        }
+      ],
+      "enableBehavior": "any",
+      "item": [
+        {
+          "type": "date",
+          "linkId": "964674084101",
+          "text": "Date given",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "988275944803",
+          "text": "Batch number",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "766906389085",
+          "text": "Lot number",
+          "required": true
+        },
+        {
+          "type": "string",
+          "linkId": "561522366666",
+          "text": "Manufacturer",
+          "required": true
+        },
+        {
+          "type": "date",
+          "linkId": "939052861601",
+          "text": "Date of expiry",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

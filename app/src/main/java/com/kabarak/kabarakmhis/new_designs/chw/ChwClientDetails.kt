@@ -43,7 +43,7 @@ class ChwClientDetails : AppCompatActivity() {
         patientDetailsViewModel = ViewModelProvider(this,
             ChwDetailsViewModel.PatientDetailsViewModelFactory(application,fhirEngine, patientId)
         )[ChwDetailsViewModel::class.java]
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,

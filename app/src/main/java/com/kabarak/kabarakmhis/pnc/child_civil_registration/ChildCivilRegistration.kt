@@ -31,7 +31,7 @@ class ChildCivilRegistration: AppCompatActivity() {
         retrofitCallsFhir = RetrofitCallsFhir()
 
         // Load questionnaire JSON
-        questionnaireJsonString = getStringFromAssets("child-health-monitoring.json")
+        questionnaireJsonString = getStringFromAssets("civil-registration.json")
 
         // Load the QuestionnaireFragment
         if (savedInstanceState == null && questionnaireJsonString != null) {

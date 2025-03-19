@@ -78,7 +78,7 @@ class NewMainActivity : AppCompatActivity() {
             PatientListViewModel.FhirFormatterClassViewModelFactory
                 (application, fhirEngine)
         )[PatientListViewModel::class.java]
-        recyclerView = findViewById(R.id.patient_list);
+        recyclerView = findViewById(R.id.patient_list)
         layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,

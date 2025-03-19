@@ -75,11 +75,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         rootView.etDoB.setOnClickListener {
             onCreateDialog(999)
@@ -136,11 +136,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
 
         rootView.etAnc.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                
+
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -153,11 +153,11 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
         })
         rootView.etPnc.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                
+
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -264,178 +264,178 @@ class FragmentPatientDetails : Fragment() , AdapterView.OnItemSelectedListener{
                 }
             }
 
-                if (isParityGravida){
+            if (isParityGravida){
 
-                    if (TextUtils.isEmpty(anc) && TextUtils.isEmpty(pnc)) {
+                if (TextUtils.isEmpty(anc) && TextUtils.isEmpty(pnc)) {
 
-                        Toast.makeText(requireContext(), "Please enter anc or pnc", Toast.LENGTH_SHORT)
-                            .show()
-                    }else{
+                    Toast.makeText(requireContext(), "Please enter anc or pnc", Toast.LENGTH_SHORT)
+                        .show()
+                }else{
 
-                        if (anc.length == 4){
+                    if (anc.length == 4){
 
-                            val kmflCode = formatter.retrieveSharedPreference(requireContext(), "kmhflCode")
-                            var ancCodeValue = ""
-                            if (isAnc){
+                        val kmflCode = formatter.retrieveSharedPreference(requireContext(), "kmhflCode")
+                        var ancCodeValue = ""
+                        if (isAnc){
 
-                                //Get current year
-                                val currentYear = LocalDate.now().year
-                                //Get current month
-                                val currentMonth = LocalDate.now().monthValue
+                            //Get current year
+                            val currentYear = LocalDate.now().year
+                            //Get current month
+                            val currentMonth = LocalDate.now().monthValue
 
-                                /**
-                                 * GET YEAR AND MONTH FROM System.currentTimeMillis()
-                                 */
-                                ancCodeValue = "$kmflCode-$currentYear-$currentMonth-${anc}"
-                            }
-
-
-                            val ancCode = DbDataList("ANC Code", ancCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name,
-                                DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
-
-                            var pncCodeValue = ""
-                            if (!isAnc){
-                                pncCodeValue = pnc
-                            }
-                            val pncNo =  DbDataList("PNC Code", pncCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
-
-                            var patientId = ""
-
-                            val patientSavedId = formatter.retrieveSharedPreference(requireContext(), "FHIRID")
-                            patientId = if (patientSavedId != null){
-                                patientSavedId
-                            }else{
-                                formatter.generateUuid()
-                            }
-
-                            if (ancNationalID == "") {
-                                ancNationalID = ancCodeValue
-                            }
-
-
-                            val errorList = ArrayList<String>()
-
-                            val dbDataList = ArrayList<DbDataList>()
-
-                            val dbDataFacName = DbDataList("Facility Name", facilityName, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.FACILITY_NAME.name)
-                            val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.KMHFL_CODE.name)
-
-
-                            val educationLevel = DbDataList("Level of Education", educationLevelValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.EDUCATION_LEVEL.name)
-                            val nationalIDValue = DbDataList("National Identification", ancNationalID, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.NATIONAL_ID.name )
-                            val nameClient = DbDataList("Client Name", clientName, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.CLIENT_NAME.name)
-                            val dateOfBirth = DbDataList("Date Of Birth", dob, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.DATE_OF_BIRTH.name)
-                            val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.MARITAL_STATUS.name )
-                            val nationalityData = DbDataList("Nationality", nationality, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name,DbObservationValues.NATIONALITY.name)
-
-                            val gravidaData = DbDataList("Gravida", gravida, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.GRAVIDA.name)
-                            val parityData = DbDataList("Parity", parity, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.PARITY.name)
-
-                            var healthValue = 0
-                            val height = rootView.etHeight.text.toString()
-                            if (!TextUtils.isEmpty(height)){
-                                val isHeight = formatter.validateHeight(height)
-                                if (isHeight){
-                                    healthValue = height.toInt()
-                                }else{
-                                    errorList.add("Height should be between 101 and 199 cm.")
-                                    rootView.etHeight.error = "Invalid height"
-                                }
-
-                            }
-                            val heightData = DbDataList("Height (cm)", healthValue.toString(), DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
-
-                            if (!TextUtils.isEmpty(lmp)){
-                                val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
-                                dbDataList.add(lmpData)
-                            }
-                            if (!TextUtils.isEmpty(edd)){
-                                val eddData = DbDataList("Expected Date of Delivery", edd, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.EDD.name)
-                                dbDataList.add(eddData)
-                            }
-
-                            if (rootView.linearLessAge.visibility == View.VISIBLE){
-
-
-                                val studyWork = formatter.getRadioText(rootView.rgStudyWork)
-                                val homeSituation = rootView.etHomeSituation.text.toString()
-                                val relationship = rootView.etRelationship.text.toString()
-                                val clientChange = rootView.etClientChange.text.toString()
-                                val clientSafe = rootView.etClientSafe.text.toString()
-
-                                if (studyWork != "" &&
-                                    !TextUtils.isEmpty(homeSituation) &&
-                                    !TextUtils.isEmpty(relationship) &&
-                                    !TextUtils.isEmpty(clientChange) &&
-                                    !TextUtils.isEmpty(clientSafe)){
-
-                                    val studyWorkData = DbDataList("Does client study or work",
-                                        studyWork, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.STUDY_WORK.name)
-                                    dbDataList.add(studyWorkData)
-
-                                    val homeSituationData = DbDataList("Client's perceive of their home situation", homeSituation, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.HOME_SITUATION.name)
-                                    val relationshipData = DbDataList("Relationship with family members", relationship, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RELATIONSHIP_SURROUNDS.name)
-                                    val clientChangeData = DbDataList("Client's perception of changes in their situation", clientChange, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RECENT_CHANGE_CLIENT.name)
-                                    val clientSafeData = DbDataList("Client's perception of their safety", clientSafe, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.SAFE_ENVIRONMENT.name)
-                                    dbDataList.addAll(listOf(
-                                        homeSituationData, relationshipData, clientChangeData, clientSafeData
-                                    ))
-
-                                }else{
-
-                                    if(TextUtils.isEmpty(homeSituation)) errorList.add("Home Situation is required.")
-                                    if(TextUtils.isEmpty(relationship)) errorList.add("Relationship is required.")
-                                    if(TextUtils.isEmpty(clientChange)) errorList.add("Client Change is required.")
-                                    if(TextUtils.isEmpty(clientSafe)) errorList.add("Client Safe is required.")
-                                    if(studyWork == "") errorList.add("Study/Work is required.")
-                                }
-
-
-                            }
-
-                            dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
-                                gravidaData, parityData, heightData, weightData, nameClient, dateOfBirth, statusMarriage, nationalIDValue, nationalityData))
-
-                            val dbDataDetailsList = ArrayList<DbDataDetails>()
-                            val dbDataDetails = DbDataDetails(dbDataList)
-                            dbDataDetailsList.add(dbDataDetails)
-                            val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
-
-                            formatter.saveSharedPreference(requireContext(), "dob", dob)
-                            formatter.saveSharedPreference(requireContext(), "clientName", clientName)
-                            formatter.saveSharedPreference(requireContext(), "FHIRID", patientId)
-                            formatter.saveSharedPreference(requireContext(), "patientId", patientId)
-                            formatter.saveSharedPreference(requireContext(), "maritalStatus", spinnerMaritalValue)
-
-                            formatter.saveSharedPreference(requireContext(), "dob", dob)
-                            formatter.saveSharedPreference(requireContext(), "LMP", lmp)
-
-                            formatter.saveSharedPreference(requireContext(), "patientName", clientName)
-                            formatter.saveSharedPreference(requireContext(), "identifier", ancCodeValue)
-
-                            if (errorList.isEmpty()){
-
-                                kabarakViewModel.insertInfo(requireContext(), dbPatientData)
-
-                                val ft = requireActivity().supportFragmentManager.beginTransaction()
-                                ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
-                                ft.addToBackStack(null)
-                                ft.commit()
-
-                            }else{
-
-                                formatter.showErrorDialog(errorList, requireContext())
-                            }
-
-
-
-                        }else{
-                            Toast.makeText(requireContext(), "Please enter a valid anc", Toast.LENGTH_SHORT)
-                                .show()
+                            /**
+                             * GET YEAR AND MONTH FROM System.currentTimeMillis()
+                             */
+                            ancCodeValue = "$kmflCode-$currentYear-$currentMonth-${anc}"
                         }
 
 
+                        val ancCode = DbDataList("ANC Code", ancCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name,
+                            DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
+
+                        var pncCodeValue = ""
+                        if (!isAnc){
+                            pncCodeValue = pnc
+                        }
+                        val pncNo =  DbDataList("PNC Code", pncCodeValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.ANC_PNC_CODE.name)
+
+                        var patientId = ""
+
+                        val patientSavedId = formatter.retrieveSharedPreference(requireContext(), "FHIRID")
+                        patientId = if (patientSavedId != null){
+                            patientSavedId
+                        }else{
+                            formatter.generateUuid()
+                        }
+
+                        if (ancNationalID == "") {
+                            ancNationalID = ancCodeValue
+                        }
+
+
+                        val errorList = ArrayList<String>()
+
+                        val dbDataList = ArrayList<DbDataList>()
+
+                        val dbDataFacName = DbDataList("Facility Name", facilityName, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.FACILITY_NAME.name)
+                        val dbDataKmhfl = DbDataList("KMHFL Code", kmhflCode, DbSummaryTitle.A_FACILITY_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.KMHFL_CODE.name)
+
+
+                        val educationLevel = DbDataList("Level of Education", educationLevelValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name, DbObservationValues.EDUCATION_LEVEL.name)
+                        val nationalIDValue = DbDataList("National Identification", ancNationalID, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.NATIONAL_ID.name )
+                        val nameClient = DbDataList("Client Name", clientName, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.CLIENT_NAME.name)
+                        val dateOfBirth = DbDataList("Date Of Birth", dob, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name, DbObservationValues.DATE_OF_BIRTH.name)
+                        val statusMarriage = DbDataList("Marital Status", spinnerMaritalValue, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Patient.name,DbObservationValues.MARITAL_STATUS.name )
+                        val nationalityData = DbDataList("Nationality", nationality, DbSummaryTitle.B_PATIENT_DETAILS.name, DbResourceType.Observation.name,DbObservationValues.NATIONALITY.name)
+
+                        val gravidaData = DbDataList("Gravida", gravida, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.GRAVIDA.name)
+                        val parityData = DbDataList("Parity", parity, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.PARITY.name)
+
+                        var healthValue = 0
+                        val height = rootView.etHeight.text.toString()
+                        if (!TextUtils.isEmpty(height)){
+                            val isHeight = formatter.validateHeight(height)
+                            if (isHeight){
+                                healthValue = height.toInt()
+                            }else{
+                                errorList.add("Height should be between 101 and 199 cm.")
+                                rootView.etHeight.error = "Invalid height"
+                            }
+
+                        }
+                        val heightData = DbDataList("Height (cm)", healthValue.toString(), DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.HEIGHT.name)
+
+                        if (!TextUtils.isEmpty(lmp)){
+                            val lmpData = DbDataList("Last Menstrual Date", lmp, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name, DbObservationValues.LMP.name)
+                            dbDataList.add(lmpData)
+                        }
+                        if (!TextUtils.isEmpty(edd)){
+                            val eddData = DbDataList("Expected Date of Delivery", edd, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.EDD.name)
+                            dbDataList.add(eddData)
+                        }
+
+                        if (rootView.linearLessAge.visibility == View.VISIBLE){
+
+
+                            val studyWork = formatter.getRadioText(rootView.rgStudyWork)
+                            val homeSituation = rootView.etHomeSituation.text.toString()
+                            val relationship = rootView.etRelationship.text.toString()
+                            val clientChange = rootView.etClientChange.text.toString()
+                            val clientSafe = rootView.etClientSafe.text.toString()
+
+                            if (studyWork != "" &&
+                                !TextUtils.isEmpty(homeSituation) &&
+                                !TextUtils.isEmpty(relationship) &&
+                                !TextUtils.isEmpty(clientChange) &&
+                                !TextUtils.isEmpty(clientSafe)){
+
+                                val studyWorkData = DbDataList("Does client study or work",
+                                    studyWork, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.STUDY_WORK.name)
+                                dbDataList.add(studyWorkData)
+
+                                val homeSituationData = DbDataList("Client's perceive of their home situation", homeSituation, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.HOME_SITUATION.name)
+                                val relationshipData = DbDataList("Relationship with family members", relationship, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RELATIONSHIP_SURROUNDS.name)
+                                val clientChangeData = DbDataList("Client's perception of changes in their situation", clientChange, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.RECENT_CHANGE_CLIENT.name)
+                                val clientSafeData = DbDataList("Client's perception of their safety", clientSafe, DbSummaryTitle.C_CLINICAL_INFORMATION.name, DbResourceType.Observation.name,DbObservationValues.SAFE_ENVIRONMENT.name)
+                                dbDataList.addAll(listOf(
+                                    homeSituationData, relationshipData, clientChangeData, clientSafeData
+                                ))
+
+                            }else{
+
+                                if(TextUtils.isEmpty(homeSituation)) errorList.add("Home Situation is required.")
+                                if(TextUtils.isEmpty(relationship)) errorList.add("Relationship is required.")
+                                if(TextUtils.isEmpty(clientChange)) errorList.add("Client Change is required.")
+                                if(TextUtils.isEmpty(clientSafe)) errorList.add("Client Safe is required.")
+                                if(studyWork == "") errorList.add("Study/Work is required.")
+                            }
+
+
+                        }
+
+                        dbDataList.addAll(listOf(dbDataFacName, dbDataKmhfl, ancCode, pncNo, educationLevel,
+                            gravidaData, parityData, heightData, weightData, nameClient, dateOfBirth, statusMarriage, nationalIDValue, nationalityData))
+
+                        val dbDataDetailsList = ArrayList<DbDataDetails>()
+                        val dbDataDetails = DbDataDetails(dbDataList)
+                        dbDataDetailsList.add(dbDataDetails)
+                        val dbPatientData = DbPatientData(DbResourceViews.PATIENT_INFO.name, dbDataDetailsList)
+
+                        formatter.saveSharedPreference(requireContext(), "dob", dob)
+                        formatter.saveSharedPreference(requireContext(), "clientName", clientName)
+                        formatter.saveSharedPreference(requireContext(), "FHIRID", patientId)
+                        formatter.saveSharedPreference(requireContext(), "patientId", patientId)
+                        formatter.saveSharedPreference(requireContext(), "maritalStatus", spinnerMaritalValue)
+
+                        formatter.saveSharedPreference(requireContext(), "dob", dob)
+                        formatter.saveSharedPreference(requireContext(), "LMP", lmp)
+
+                        formatter.saveSharedPreference(requireContext(), "patientName", clientName)
+                        formatter.saveSharedPreference(requireContext(), "identifier", ancCodeValue)
+
+                        if (errorList.isEmpty()){
+
+                            kabarakViewModel.insertInfo(requireContext(), dbPatientData)
+
+                            val ft = requireActivity().supportFragmentManager.beginTransaction()
+                            ft.replace(R.id.fragmentHolder, FragmentPatientInfo())
+                            ft.addToBackStack(null)
+                            ft.commit()
+
+                        }else{
+
+                            formatter.showErrorDialog(errorList, requireContext())
+                        }
+
+
+
+                    }else{
+                        Toast.makeText(requireContext(), "Please enter a valid anc", Toast.LENGTH_SHORT)
+                            .show()
                     }
+
+
+                }
 
 
 

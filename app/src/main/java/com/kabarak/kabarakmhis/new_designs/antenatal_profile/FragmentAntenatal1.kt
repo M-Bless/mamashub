@@ -61,11 +61,11 @@ class FragmentAntenatal1 : Fragment() {
         formatter.saveCurrentPage("1", requireContext())
         getPageDetails()
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
         patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
@@ -109,7 +109,7 @@ class FragmentAntenatal1 : Fragment() {
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
             val isChecked = checkedRadioButton.isChecked
             if (isChecked) {
-                val checkedBtn = checkedRadioButton.text.toString()
+                checkedRadioButton.text.toString()
 //                addData(checkedBtn, "Blood Group Test")
 
             }
@@ -130,7 +130,7 @@ class FragmentAntenatal1 : Fragment() {
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(checkedId)
             val isChecked = checkedRadioButton.isChecked
             if (isChecked) {
-                val checkedBtn = checkedRadioButton.text.toString()
+                checkedRadioButton.text.toString()
 //                addData(checkedBtn, "Rhesus Test")
             }
         }

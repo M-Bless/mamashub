@@ -74,7 +74,7 @@ class FormatterClass {
                             coding.forEach { cd ->
                                 val code = cd.code
                                 val display = cd.display
-                                val system = cd.system
+                                cd.system
 
                                 val reasonCode = DbReasonCodeData(text, code, display)
                                 referralDetailsList.add(reasonCode)
@@ -296,7 +296,7 @@ class FormatterClass {
 
         val tripleData = getDateDetails(dateStr)
         val month = tripleData.second.toString().toInt()
-        var year = tripleData.third.toString().toInt()
+        tripleData.third.toString().toInt()
 
         val cal = Calendar.getInstance()
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -521,10 +521,7 @@ class FormatterClass {
         val date2 = sdf.parse(d2)
 
         // after() will return true if and only if date1 is after date 2
-        if (date1.after(date2)) {
-            return false
-        }
-        return true
+        return !date1.after(date2)
 
     }
 
@@ -615,6 +612,8 @@ class FormatterClass {
             DbResourceViews.PATIENT_INFO.name,
             DbResourceViews.DEWORMING.name,
             DbResourceViews.IFAS.name,
+            DbResourceViews.PNEUMOCOCCAL_CONJUGATE.name,
+            DbResourceViews.YELLOW_FEVER.name,
 
             DbObservationValues.COUNTY_NAME.name,
             DbObservationValues.SUB_COUNTY_NAME.name,
@@ -628,6 +627,7 @@ class FormatterClass {
             DbObservationValues.COMPANION_NAME.name,
             DbObservationValues.GESTATION.name,
 
+
             "dob", "LMP","kinName","edd","patientId",
             "FHIRID","kinPhone","saveEncounterId","pageConfirmDetails",
             "hivStatus","savedEncounter","GRAVIDA","HEIGHT","PARITY","WEIGHT","clientName",
@@ -636,7 +636,9 @@ class FormatterClass {
             "${DbResourceViews.PRESENT_PREGNANCY.name}_SUMMARY",
             "${DbResourceViews.TETENUS_DIPTHERIA.name}_SUMMARY",
             "${DbResourceViews.MALARIA_PROPHYLAXIS.name}_SUMMARY",
-            "${DbResourceViews.IFAS.name}_SUMMARY"
+            "${DbResourceViews.IFAS.name}_SUMMARY",
+            "${DbResourceViews.PNEUMOCOCCAL_CONJUGATE.name}_SUMMARY",
+            "${DbResourceViews.YELLOW_FEVER.name}_SUMMARY"
 
             ))
 
@@ -702,7 +704,7 @@ class FormatterClass {
         val parity = retrieveSharedPreference(context, DbObservationValues.PARITY.name)
         val gravida = retrieveSharedPreference(context, DbObservationValues.GRAVIDA.name)
         val height = retrieveSharedPreference(context, DbObservationValues.HEIGHT.name)
-        val weight = retrieveSharedPreference(context, DbObservationValues.WEIGHT.name)
+        retrieveSharedPreference(context, DbObservationValues.WEIGHT.name)
         val gestation = retrieveSharedPreference(context, DbObservationValues.GESTATION.name)
 
         val edd = retrieveSharedPreference(context, "edd")
@@ -783,7 +785,7 @@ class FormatterClass {
 
         for (items in dbTypeDataValueList){
 
-            val type = items.type
+            items.type
             val dbObserveValue = items.dbObserveValue
 
             dbObserveValueList.add(dbObserveValue)
@@ -1548,6 +1550,18 @@ class FormatterClass {
             }
             DbObservationValues.TT_RESULTS.name -> {
                 "73152006-R"
+            }
+            DbObservationValues.PMC_PROVIDED.name -> {
+                "1052328007"
+            }
+            DbObservationValues.PMC_RESULTS.name -> {
+                "1052328007-R"
+            }
+            DbObservationValues.YF_PROVIDED.name -> {
+                "871717007"
+            }
+            DbObservationValues.YF_RESULTS.name -> {
+                "871717007-R"
             }
             DbObservationValues.LLITN_GIVEN.name -> {
                 "412894909"

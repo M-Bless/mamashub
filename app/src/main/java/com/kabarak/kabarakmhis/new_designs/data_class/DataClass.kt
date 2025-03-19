@@ -1,5 +1,7 @@
 package com.kabarak.kabarakmhis.new_designs.data_class
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.kabarak.kabarakmhis.helperclass.ObservationItem
 
 data class DbPatient(
@@ -145,6 +147,7 @@ data class DbSimpleEncounter(
 )
 
 data class DbPatientData(
+
     val title: String,
     val data : List<DbDataDetails>
 )
@@ -180,6 +183,8 @@ enum class DbResourceViews {
     WEIGHT_MONITORING,
 
     TETENUS_DIPTHERIA,
+
+    VAS,
 
     IFAS,
     IFAS1,
@@ -229,6 +234,9 @@ enum class DbResourceViews {
     COMMUNITY_REFERRAL,
 
     COMMUNITY_REFERRAL_WORKER,
+    CHILD_POSTNATAL_CARE,
+    YELLOW_FEVER,
+    PNEUMOCOCCAL_CONJUGATE,
 }
 
 data class DbObservationFhirData(
@@ -309,6 +317,35 @@ data class Child(
     val id: String,
     val name: String,
     val birthDate: String
+)
+data class DbChildData(
+    @PrimaryKey val id: String,
+    val name: String,
+    val birthDate: String
+)
+@Entity(tableName = "patients")
+data class PatientEntity(
+    @PrimaryKey
+    val id: String,
+    val name: String,
+    val gender: String,
+    val birthDate: String
+)
+
+@Entity(tableName = "observations")
+data class ObservationEntity(
+    @PrimaryKey val id: String,
+    val status: String,
+    val code: String,
+    val value: String
+)
+
+
+
+data class PostnatalCareVisit(
+    val visitType: String, // "First Visit", "Second Visit", etc.
+    val visitDate: String, // Date of visit
+    val observations: List<String> // Observations for this visit
 )
 
 

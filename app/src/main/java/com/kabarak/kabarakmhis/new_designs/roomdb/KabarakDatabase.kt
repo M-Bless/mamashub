@@ -19,7 +19,7 @@ import com.kabarak.kabarakmhis.new_designs.roomdb.tables.SubCounty
         ],
         version = 3,
         exportSchema = false)
-public abstract class KabarakDatabase : RoomDatabase() {
+abstract class KabarakDatabase : RoomDatabase() {
 
     abstract fun roomDao() : RoomDao
 

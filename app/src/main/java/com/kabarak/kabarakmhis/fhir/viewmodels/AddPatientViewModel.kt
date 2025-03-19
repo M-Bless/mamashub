@@ -41,7 +41,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
         dbPatientFhirInformation: DbPatientFhirInformation,
         questionnaireResponse: QuestionnaireResponse,
         encounterId: String
-        ){
+    ){
 
         viewModelScope.launch {
 
@@ -70,7 +70,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     dbAddressList.forEach {
 
                         val text = it.text
-                        val line = it.line
+                        it.line
                         val city = it.city
                         val district = it.district
                         val state = it.state

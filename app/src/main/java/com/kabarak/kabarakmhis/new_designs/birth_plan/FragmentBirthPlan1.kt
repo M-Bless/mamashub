@@ -75,8 +75,8 @@ class FragmentBirthPlan1 : Fragment(), AdapterView.OnItemSelectedListener {
         initSpinner()
 
         kabarakViewModel = KabarakViewModel(requireContext().applicationContext as Application)
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
+        calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
 
         patientId = formatter.retrieveSharedPreference(requireContext(), "patientId").toString()
         fhirEngine = FhirApplication.fhirEngine(requireContext())

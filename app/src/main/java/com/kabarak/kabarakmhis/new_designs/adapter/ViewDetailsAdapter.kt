@@ -26,7 +26,7 @@ class ViewDetailsAdapter(private var entryList: ArrayList<DbTypeDataValue>,
 
         override fun onClick(p0: View) {
 
-            val pos = adapterPosition
+            adapterPosition
 
         }
 

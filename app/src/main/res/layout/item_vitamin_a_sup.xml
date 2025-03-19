@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/rounded_textview"
+    android:orientation="vertical"
+    android:paddingHorizontal="30dp"
+    android:layout_marginHorizontal="5dp"
+    android:paddingVertical="16dp">
+
+    <TextView
+        android:id="@+id/tvDoses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Doses"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/tvAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Given at: Age years/months"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:id="@+id/tvDateGiven"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Given on : date"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:id="@+id/tvNextVisit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NextVisit"
+        android:textSize="14sp"
+        />
+
+
+</LinearLayout>
